@@ -28,6 +28,18 @@ const Artist = db.define(
   {
     tableName: 'artists',
     underscored: true,
+
+    classMethods: {
+      associate: function(models) {
+        Artist.hasMany(models.Album, {
+          as: 'albums',
+          foreignKey: {
+            allowNull: false
+          },
+          onDelete: 'CASCADE'
+        });
+      }
+    }
   }
 );
 
