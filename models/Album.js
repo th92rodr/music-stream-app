@@ -21,7 +21,27 @@ const Album = db.define(
   },
   {
     tableName: 'albums',
-    underscored: true
+    underscored: true,
+
+    classMethods: {
+      associate: function(models) {
+        Album.hasMany(models.Music, {
+          as: 'tracks',
+          foreignKey: {
+            allowNull: false
+          },
+          onDelete: 'CASCADE'
+        });
+      },
+      associate: function(models) {
+        Album.belongsTo(models.Artist, {
+          foreignKey: {
+            allowNull: false
+          },
+          onDelete: 'CASCADE'
+        });
+      }
+    }
   }
 );
 
