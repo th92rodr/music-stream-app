@@ -20,7 +20,18 @@ const Music = db.define(
   },
   {
     tableName: 'musics',
-    underscored: true
+    underscored: true,
+
+    classMethods: {
+      associate: function(models) {
+        Music.belongsTo(models.Album, {
+          foreignKey: {
+            allowNull: false
+          },
+          onDelete: 'CASCADE'
+        });
+      }
+    }
   }
 );
 
