@@ -1,7 +1,16 @@
 const express = require('express');
+const handlebars = require('express-handlebars');
+const path = require('path');
 const routes = require('./routes/index');
 
 const app = express();
+
+// Handlebars Template Engine configuration
+app.engine('handlebars', handlebars({ defaultLayout: 'main' }));
+app.set('view engine', 'handlebars');
+
+// Set static files folder
+app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
 
