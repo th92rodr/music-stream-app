@@ -15,5 +15,16 @@ module.exports = {
     } catch (error) {
       return res.status(500).json({ message: error.message });
     }
-  }
+  },
+  async show(req, res) {
+    try {
+      const { music_id } = req.params;
+
+      const music = await Music.findByPk(music_id);
+
+      return res.status(200).json({ music });
+    } catch (error) {
+      return res.status(500).json({ message: error.message });
+    }
+  },
 };
