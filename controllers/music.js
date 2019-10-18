@@ -1,5 +1,9 @@
+const fs = require('fs');
+
 const Music = require('../models/Music');
 const Album = require('../models/Album');
+
+const getStat = require('util').promisify(fs.stat);
 
 module.exports = {
   async index(req, res) {
@@ -66,5 +70,37 @@ module.exports = {
     } catch (error) {
       return res.status(500).json({ message: error.message });
     }
+  },
+
+  async stream(req, res) {
+    const { id } = req.params;
+
+    const music = await Music.findByPk(id);
+
+    const stat = await getStat(music.file);
+    //console.log(stat);
+
+    // informações sobre o tipo do conteúdo e o tamanho do arquivo
+    res.writeHead(200, {
+      'Content-Type': 'audio/mp3',
+      'Content-Length': stat.size
+    });
+
+    const stream = fs.createReadStream(music.file);
+
+    // faz streaming do audio
+    stream.pipe(res);
+
+    /*
+    stream.on('data', (chunk) => {
+        res.write(chunk);
+    });
+    stream.on('error', () => {
+        res.status(404).end();
+    });
+    stream.on('end', () => {
+        res.end();
+    });
+    */
   }
 };
