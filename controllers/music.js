@@ -1,7 +1,6 @@
 const Music = require('../models/Music');
 const Album = require('../models/Album');
 
-
 module.exports = {
   async index(req, res) {
     try {
@@ -27,4 +26,18 @@ module.exports = {
       return res.status(500).json({ message: error.message });
     }
   },
+  async store(req, res) {
+    try {
+      const music = await Music.create({
+        title: req.body.title,
+        duration: req.body.duration,
+        file: req.body.file,
+        album_id: req.params.album_id
+      });
+
+      return res.status(201).json({ music });
+    } catch (error) {
+      return res.status(500).json({ message: error.message });
+    }
+  }
 };
