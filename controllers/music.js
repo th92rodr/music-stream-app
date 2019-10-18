@@ -55,5 +55,16 @@ module.exports = {
     } catch (error) {
       return res.status(500).json({ message: error.message });
     }
+  },
+  async delete(req, res) {
+    try {
+      await Music.destroy({
+        where: { id: req.params.id }
+      });
+
+      return res.status(204).end();
+    } catch (error) {
+      return res.status(500).json({ message: error.message });
+    }
   }
 };
