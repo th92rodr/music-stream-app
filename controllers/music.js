@@ -39,5 +39,21 @@ module.exports = {
     } catch (error) {
       return res.status(500).json({ message: error.message });
     }
+  },
+  async update(req, res) {
+    try {
+      await Music.update(
+        {
+          title: req.body.title,
+          duration: req.body.duration,
+          file: req.body.file
+        },
+        { where: { id: req.params.id } }
+      );
+
+      return res.status(204).end();
+    } catch (error) {
+      return res.status(500).json({ message: error.message });
+    }
   }
 };
