@@ -1,5 +1,5 @@
 const Sequelize = require('sequelize');
-const db = require('../database');
+const db = require('../database/database');
 
 const Album = db.define(
   'album',
@@ -11,6 +11,8 @@ const Album = db.define(
     year: {
       type: Sequelize.DATE,
       allowNull: false,
+      // in the JS code, this property will be refered as
+      // `year`, but in the db, the column name will be `release_year`.
       field: 'release_year'
     },
     cover: {
@@ -20,24 +22,24 @@ const Album = db.define(
     }
   },
   {
+    // explicitly tell Sequelize that this model is linked
+    // to a table named 'albums' instead of having Sequelize
+    // automatically determine table names, which can be error prone.
     tableName: 'albums',
     underscored: true,
 
     classMethods: {
       associate: function(models) {
         Album.hasMany(models.Music, {
+          foreignKey: 'album_id',
           as: 'tracks',
-          foreignKey: {
-            allowNull: false
-          },
           onDelete: 'CASCADE'
         });
       },
       associate: function(models) {
         Album.belongsTo(models.Artist, {
-          foreignKey: {
-            allowNull: false
-          },
+          foreignKey: 'artist_id',
+          as: 'artist',
           onDelete: 'CASCADE'
         });
       }
