@@ -1,5 +1,5 @@
 const Sequelize = require('sequelize');
-const db = require('../database');
+const db = require('../database/database');
 
 const Artist = db.define(
   'artist',
@@ -26,16 +26,17 @@ const Artist = db.define(
     }
   },
   {
+    // explicitly tell Sequelize that this model is linked
+    // to a table named 'artists' instead of having Sequelize
+    // automatically determine table names, which can be error prone
     tableName: 'artists',
     underscored: true,
 
     classMethods: {
       associate: function(models) {
         Artist.hasMany(models.Album, {
+          foreignKey: 'artist_id',
           as: 'albums',
-          foreignKey: {
-            allowNull: false
-          },
           onDelete: 'CASCADE'
         });
       }
