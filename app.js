@@ -1,12 +1,15 @@
 const express = require('express');
 const handlebars = require('express-handlebars');
 const path = require('path');
+
 const routes = require('./routes/index');
 
+// initialize an express app
 const app = express();
 
 // Handlebars Template Engine configuration
 app.engine('handlebars', handlebars({ defaultLayout: 'main' }));
+app.set('views', path.join(__dirname, '/views'));
 app.set('view engine', 'handlebars');
 
 // Set static files folder
