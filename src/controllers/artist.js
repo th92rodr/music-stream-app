@@ -61,4 +61,34 @@ module.exports = {
       return res.status(500).json({ message: error.message });
     }
   },
+
+  async filterByGenre(req, res) {
+    try {
+      const { genre } = req.params;
+
+      const artists = await Artist.find({ where: { genre } });
+
+      return res.status(200).json({ artists });
+    } catch (error) {
+      return res.status(500).json({ message: error.message });
+    }
+  },
+
+  async getCover(req, res) {
+    try {
+      const { id } = req.params;
+
+      const artist = await Artist.findByPk(id);
+
+      const cover = fs.readFileSync(artist.cover);
+      res.writeHead(200, {
+        'Content-Type': 'image/jpeg'
+      });
+      res.end(cover, 'binary');
+
+    } catch (error) {
+      return res.status(500).json({ message: error.message });
+    }
+  }
+
 };
