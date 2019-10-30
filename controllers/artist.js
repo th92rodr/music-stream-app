@@ -34,4 +34,20 @@ module.exports = {
       return res.status(500).json({ message: error.message });
     }
   },
+  async update(req, res) {
+    try {
+      await Artist.update(
+        {
+          name: req.body.name,
+          genre: req.body.genre,
+          description: req.body.description
+        },
+        { where: { id: req.params.id } }
+      );
+
+      return res.status(204).end();
+    } catch (error) {
+      return res.status(500).json({ message: error.message });
+    }
+  },
 };
