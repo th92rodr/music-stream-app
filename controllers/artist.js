@@ -21,4 +21,17 @@ module.exports = {
       return res.status(500).json({ message: error.message });
     }
   },
+  async store(req, res) {
+    try {
+      const artist = await Artist.create({
+        name: req.body.name,
+        genre: req.body.genre,
+        description: req.body.description
+      });
+
+      return res.status(201).json({ artist });
+    } catch (error) {
+      return res.status(500).json({ message: error.message });
+    }
+  },
 };
