@@ -1,4 +1,4 @@
-const Artist = require('../models/Artist');
+const { Artist } = require('../models/index');
 
 module.exports = {
   async index(req, res) {
@@ -10,6 +10,7 @@ module.exports = {
       return res.status(500).json({ message: error.message });
     }
   },
+
   async show(req, res) {
     try {
       const { id } = req.params;
@@ -21,6 +22,7 @@ module.exports = {
       return res.status(500).json({ message: error.message });
     }
   },
+
   async store(req, res) {
     try {
       const artist = await Artist.create({
@@ -34,6 +36,7 @@ module.exports = {
       return res.status(500).json({ message: error.message });
     }
   },
+
   async update(req, res) {
     try {
       await Artist.update(
@@ -50,6 +53,7 @@ module.exports = {
       return res.status(500).json({ message: error.message });
     }
   },
+
   async delete(req, res) {
     try {
       await Artist.destroy({
@@ -85,10 +89,8 @@ module.exports = {
         'Content-Type': 'image/jpeg'
       });
       res.end(cover, 'binary');
-
     } catch (error) {
       return res.status(500).json({ message: error.message });
     }
   }
-
 };
