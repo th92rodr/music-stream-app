@@ -1,7 +1,6 @@
 const fs = require('fs');
 
-const Music = require('../models/Music');
-const Album = require('../models/Album');
+const { Album, Music } = require('../models/index');
 
 const getStat = require('util').promisify(fs.stat);
 
@@ -19,6 +18,7 @@ module.exports = {
       return res.status(500).json({ message: error.message });
     }
   },
+
   async show(req, res) {
     try {
       const { music_id } = req.params;
@@ -30,6 +30,7 @@ module.exports = {
       return res.status(500).json({ message: error.message });
     }
   },
+
   async store(req, res) {
     try {
       const music = await Music.create({
@@ -44,6 +45,7 @@ module.exports = {
       return res.status(500).json({ message: error.message });
     }
   },
+
   async update(req, res) {
     try {
       await Music.update(
@@ -60,6 +62,7 @@ module.exports = {
       return res.status(500).json({ message: error.message });
     }
   },
+
   async delete(req, res) {
     try {
       await Music.destroy({
