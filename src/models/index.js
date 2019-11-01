@@ -1,3 +1,7 @@
+// Any code that needs access to our models should import
+// them from this module, not from the individual models files.
+// Otherwise, the models won't have their relations applied.
+
 const Artist = require('./Artist');
 const Album = require('./Album');
 const Music = require('./Music');
