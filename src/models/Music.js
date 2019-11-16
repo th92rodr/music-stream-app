@@ -6,7 +6,15 @@ const Music = db.define(
   {
     title: {
       type: Sequelize.STRING,
-      allowNull: false
+      allowNull: false,
+      validate: {
+        notEmpty: {
+          msg: 'This field cannot be empty.'
+        },
+        len: {
+          msg: ''
+        }
+      }
     },
     duration: {
       type: Sequelize.INTEGER,
@@ -23,8 +31,11 @@ const Music = db.define(
     // to a table named 'musics' instead of having Sequelize
     // automatically determine table names, which can be error prone
     tableName: 'musics',
+
+    // column names will use snake_case instead of camelCased
     underscored: true,
 
+    // declare model relationships
     classMethods: {
       associate: function(models) {
         Music.belongsTo(models.Album, {
@@ -32,17 +43,6 @@ const Music = db.define(
           as: 'album',
           onDelete: 'CASCADE'
         });
-      }
-    },
-
-    instanceMethods: {
-      standardRes: () => {
-        return {
-          id: this.id,
-          title: this.title,
-          duration: this.duration,
-          file: this.file
-        };
       }
     }
   }
