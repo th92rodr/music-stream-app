@@ -30,8 +30,11 @@ const Artist = db.define(
     // to a table named 'artists' instead of having Sequelize
     // automatically determine table names, which can be error prone
     tableName: 'artists',
+
+    // column names will use snake_case instead of camelCased
     underscored: true,
 
+    // declare model relationships
     classMethods: {
       associate: function(models) {
         Artist.hasMany(models.Album, {
