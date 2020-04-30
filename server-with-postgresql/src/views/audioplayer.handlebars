@@ -1,0 +1,28 @@
+<div id='bg'>
+    <div id='blackLayer'></div>
+    <img src='/cover'/>
+</div>
+
+<div id='main'>
+    <div id='image'>
+        <img src='/cover'/>
+    </div>
+    <div id='player'>
+        <div id='songTitle'>{{coverImage}}</div>
+        <div id='buttons'>
+            <button id='pre' onclick='pre()'><img src='/imgs/Pre.png' height='90%' width='90%'/></button>
+            <button id='play' onclick='playOrPauseSong()'><img src='/imgs/Pause.png'/></button>
+            <button id='next' onclick='next()'><img src='/imgs/Next.png' height='90%' width='90%'/></button>
+        </div>
+
+        <div id='seek-bar'>
+            <div id='fill'></div>
+            <div id='handle'></div>
+        </div>
+
+        <audio id='music-player'>
+            <source src='/audio' type='audio/mp3'>
+        </audio>
+
+    </div>
+</div>
