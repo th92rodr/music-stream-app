@@ -1,0 +1,155 @@
+<div class="wrapper">
+
+  <!--- LEFT SIDEBAR --->
+  <aside class="sidebar">
+    <ul class="sidebar__main">
+      <!--<li><i class="fa fa-list-alt"></i>Browse</li>-->
+      <li>Browse</li>
+      <li>Radio</li>
+    </ul>
+    <ul class="sidebar__music">
+      <h2 class="sidebar__header">Your Music</h2>
+      <li>Your Daily Mix</li>
+      <li>Songs</li>
+      <li>Albums</li>
+      <li>Artists</li>
+      <li>Stations</li>
+      <li>Local Files</li>
+    </ul>
+    <ul class="sidebar__playlists">
+      <h2 class="sidebar__header">Playlists</h2>
+      <li>Liked from Radio</li>
+      <li>Indie Pop</li>
+      <li>Roadtrip</li>
+      <li>Release Radar</li>
+      <li>Focus</li>
+      <li>Piano Mood</li>
+      <li>Your Summer Rewind</li>
+      <li>Inspire</li>
+      <li>Alternative Faves</li>
+    </ul>
+  </aside>
+
+  <main>
+    <header class="main__header">
+      <h1>Browse</h1>
+    </header>
+
+    <nav class="main__nav">
+      <a class="link is-active" href="#">Overview</a>
+      <a class="link" href="#">Charts</a>
+      <a class="link" href="#">Genres and Moods</a>
+      <a class="link" href="#">New Releases</a>
+      <a class="link" href="#">Discover</a>
+      <a class="link" href="#">More</a>
+    </nav>
+
+    <section class="main__content">
+
+      <div class="album__info">
+        <div class="album__info__art">
+          <img src="/album/{{album.id}}/cover" alt="{{album.name}}" />
+        </div>
+
+        <div class="album__info__meta">
+          <div class="album__year">{{album.year}}</div>
+          <div class="album__name">{{album.name}}</div>
+        </div>
+      </div>
+
+      <div class="album__tracks">
+        <div class="tracks">
+          <div class="tracks__heading">
+            <div class="tracks__heading__number">#</div>
+            <div class="tracks__heading__title">Song</div>
+            <div class="tracks__heading__length">
+              <i class="ion-ios-stopwatch-outline"></i>
+            </div>
+            <div class="tracks__heading__popularity">
+              <i class="ion-thumbsup"></i>
+            </div>
+          </div>
+
+          {{#each album.tracks}}
+          <div class="track" id={{id}} onclick="onclickMusic(this.id)">
+            <div class="track__number">{{number}}</div>
+            <div class="track__added">
+              <i class="ion-checkmark-round added"></i>
+            </div>
+            <div class="track__title">{{title}}</div>
+            <div class="track__length">{{duration}}</div>
+            <div class="track__popularity">
+              <i class="ion-arrow-graph-up-right"></i>
+            </div>
+          </div>
+          {{/each}}
+
+        </div>
+      </div>
+
+    </section>
+  </main>
+
+  <!-- SIDEBAR RIGHT -->
+  <aside class="activity">
+    <h2>Friend Activity</h2>
+    <button class="button">Find Friends</button>
+  </aside>
+</div>
+
+<div class="music-box">
+
+  <div class="album">
+    <div class="photo">
+      <img src="/album/{{album.id}}/cover" alt="{{album.name}}" />
+    </div>
+    <div class="infos">
+      <div class="song"><span>Music</span><small>{{album.name}}</small></div>
+    </div>
+  </div>
+
+  <div class="dashboard">
+    <div class="list">
+      <div class="list-btn"><span></span></div>
+    </div>
+
+    <div class="player">
+      <div class="time"><small class="current">0:00</small> / <small class="duration">3:30</small></div>
+      <div class="time-rail">
+        <div class="thumb"></div>
+        <div class="track"></div>
+      </div>
+    </div>
+
+    <div class="action-button">
+      <a class="random"><i class="fa fa-random"></i></a>
+      <a class="prev"><i class="fa fa-step-backward"></i></a>
+      <a class="play-pause"><i class="fa fa-play"></i></a>
+      <a class="next"><i class="fa fa-step-forward"></i></a>
+      <a class="stop"><i class="fa fa-stop"></i></a>
+      <a class="repeat"><i class="fa fa-repeat"></i></a>
+      <a class="volume"><i class="fa fa-volume-up"></i></a>
+    </div>
+
+    <audio id="audio-tag">
+      <source src="/audio/{{id}}">
+    </audio>
+  </div>
+
+  <div class="lists">
+    <div class="label">MENU</div>
+    <div class="box"></div>
+    <ul>
+      <li><span>Famingo<small>Oliver Heldens</small></span><em>3:04</em></li>
+      <li><span>Famingo<small>Oliver Heldens</small></span><em>3:04</em></li>
+      <li><span>Famingo<small>Oliver Heldens</small></span><em>3:04</em></li>
+      <li><span>Famingo<small>Oliver Heldens</small></span><em>3:04</em></li>
+      <li><span>Famingo<small>Oliver Heldens</small></span><em>3:04</em></li>
+      <li><span>Famingo<small>Oliver Heldens</small></span><em>3:04</em></li>
+      <li><span>Famingo<small>Oliver Heldens</small></span><em>3:04</em></li>
+      <li><span>Famingo<small>Oliver Heldens</small></span><em>3:04</em></li>
+      <li><span>Famingo<small>Oliver Heldens</small></span><em>3:04</em></li>
+      <li><span>Famingo<small>Oliver Heldens</small></span><em>3:04</em></li>
+    </ul>
+  </div>
+</div>
