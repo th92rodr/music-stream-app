@@ -1,18 +1,15 @@
 {
   "name": "music-app",
   "version": "1.0.0",
-  "description": "",
+  "author": "Thiago Rodrigues",
+  "license": "",
   "main": "app.js",
   "scripts": {
     "start": "node bin/www",
     "dev": "nodemon bin/www",
-    "format": "npx prettier --config .prettierrc.js --write '**/*.js'",
-    "lint": "npx eslint '**/*.js'",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "format": "prettier --config .prettierrc.js --write '**/*.js'",
+    "lint": "eslint '**/*.js'"
   },
-  "author": "Thiago Rodrigues",
-  "license": "ISC",
-  "keywords": [],
   "engines": {
     "npm": "6.13.7",
     "node": "12.10.0"
@@ -25,6 +22,8 @@
     "mongoose": "^5.7.1"
   },
   "devDependencies": {
-    "nodemon": "^1.19.4"
+    "eslint": "^7.2.0",
+    "nodemon": "^1.19.4",
+    "prettier": "^2.0.5"
   }
 }
