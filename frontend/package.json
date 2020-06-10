@@ -1,7 +1,7 @@
 {
-  "name": "frontend",
-  "version": "0.1.0",
-  "private": true,
+  "name": "music-app-web",
+  "version": "1.0.0",
+  "author": "Thiago Rodrigues",
   "dependencies": {
     "react": "^16.13.0",
     "react-dom": "^16.13.0",
