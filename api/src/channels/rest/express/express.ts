@@ -1,6 +1,7 @@
 import cors from 'cors';
 import express, { Router } from 'express';
 
+import Config from '../../../config';
 import RestChannel from '../interface';
 
 export default class Express implements RestChannel {
@@ -14,8 +15,8 @@ export default class Express implements RestChannel {
     this.initRouter();
     this.initMiddlewares();
 
-    const PORT = 8080;
-    const HOST = '0.0.0.0';
+    const PORT = Config.channels.rest.port;
+    const HOST = Config.channels.rest.host;
 
     this.express.listen(PORT, HOST, () => {
       console.log(`Server is running on port ${PORT}`);
