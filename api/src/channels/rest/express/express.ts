@@ -1,3 +1,4 @@
+import cors from 'cors';
 import express, { Router } from 'express';
 
 import RestChannel from '../interface';
@@ -22,6 +23,7 @@ export default class Express implements RestChannel {
   }
 
   private initMiddlewares() {
+    this.express.use(cors());
     this.express.use(express.json());
   }
 
