@@ -3,12 +3,17 @@ import express, { Router } from 'express';
 
 import Config from '../../../config';
 import RestChannel from '../interface';
+import UsersController from './controllers/UsersController';
 
 export default class Express implements RestChannel {
   private express: express.Express;
 
+  private usersController: UsersController;
+
   constructor() {
     this.express = express();
+
+    this.usersController = new UsersController();
   }
 
   public start() {
@@ -31,7 +36,10 @@ export default class Express implements RestChannel {
   private initRouter() {
     const router = Router();
 
-    router.use('/', () => {});
+    router.get('/', this.usersController.show);
+    router.post('/', this.usersController.create);
+    router.patch('/', this.usersController.update);
+    router.delete('/', this.usersController.delete);
 
     this.express.use(router);
   }
