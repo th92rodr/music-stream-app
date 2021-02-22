@@ -1,18 +1,21 @@
 import cors from 'cors';
-import express, { Router } from 'express';
+import express, { NextFunction, Request, Response, Router } from 'express';
 
 import Config from '../../../config';
 import RestChannel from '../interface';
+import Authentication from '../middlewares/Authentication';
 import UsersController from './controllers/UsersController';
 
 export default class Express implements RestChannel {
   private express: express.Express;
 
+  private authenticationProvider: Authentication;
   private usersController: UsersController;
 
   constructor() {
     this.express = express();
 
+    this.authenticationProvider = new Authentication();
     this.usersController = new UsersController();
   }
 
@@ -43,5 +46,23 @@ export default class Express implements RestChannel {
     router.delete('/', this.usersController.delete.bind(this.usersController));
 
     this.express.use(router);
+  }
+
+  private checkAccess(
+    request: Request,
+    response: Response,
+    next: NextFunction,
+  ): void {
+    const authenticationHeader = request.headers.authorization;
+
+    if (!authenticationHeader) {
+      throw new Error();
+    }
+
+    const id = this.authenticationProvider.authentication(authenticationHeader);
+
+    request.user.id = id;
+
+    return next();
   }
 }
