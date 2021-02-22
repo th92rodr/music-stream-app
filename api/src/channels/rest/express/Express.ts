@@ -17,8 +17,9 @@ export default class Express implements RestChannel {
   }
 
   public start() {
-    this.initRouter();
     this.initMiddlewares();
+
+    this.initRouter();
 
     const PORT = Config.channels.rest.port;
     const HOST = Config.channels.rest.host;
@@ -36,10 +37,10 @@ export default class Express implements RestChannel {
   private initRouter() {
     const router = Router();
 
-    router.get('/', this.usersController.show);
-    router.post('/', this.usersController.create);
-    router.patch('/', this.usersController.update);
-    router.delete('/', this.usersController.delete);
+    router.get('/', this.usersController.show.bind(this.usersController));
+    router.post('/', this.usersController.create.bind(this.usersController));
+    router.patch('/', this.usersController.update.bind(this.usersController));
+    router.delete('/', this.usersController.delete.bind(this.usersController));
 
     this.express.use(router);
   }
