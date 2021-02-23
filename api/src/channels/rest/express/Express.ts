@@ -84,7 +84,7 @@ export default class Express implements RestChannel {
 
     const id = this.authenticationProvider.authentication(authenticationHeader);
 
-    request.user.id = id;
+    request.userId = id;
 
     return next();
   }
