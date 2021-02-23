@@ -5,18 +5,21 @@ import Config from '../../../config';
 import RestChannel from '../interface';
 import Authentication from '../middlewares/Authentication';
 import UsersController from './controllers/UsersController';
+import TokensController from './controllers/TokensController';
 
 export default class Express implements RestChannel {
   private express: express.Express;
 
   private authenticationProvider: Authentication;
   private usersController: UsersController;
+  private tokensController: TokensController;
 
   constructor() {
     this.express = express();
 
     this.authenticationProvider = new Authentication();
     this.usersController = new UsersController();
+    this.tokensController = new TokensController();
   }
 
   public start() {
@@ -58,6 +61,11 @@ export default class Express implements RestChannel {
       '/',
       this.checkAccess.bind(this),
       this.usersController.delete.bind(this.usersController),
+    );
+
+    router.post(
+      '/token',
+      this.tokensController.create.bind(this.tokensController),
     );
 
     this.express.use(router);
