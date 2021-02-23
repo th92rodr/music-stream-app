@@ -40,10 +40,25 @@ export default class Express implements RestChannel {
   private initRouter() {
     const router = Router();
 
-    router.get('/', this.usersController.show.bind(this.usersController));
+    router.get(
+      '/',
+      this.checkAccess.bind(this),
+      this.usersController.show.bind(this.usersController),
+    );
+
     router.post('/', this.usersController.create.bind(this.usersController));
-    router.patch('/', this.usersController.update.bind(this.usersController));
-    router.delete('/', this.usersController.delete.bind(this.usersController));
+
+    router.patch(
+      '/',
+      this.checkAccess.bind(this),
+      this.usersController.update.bind(this.usersController),
+    );
+
+    router.delete(
+      '/',
+      this.checkAccess.bind(this),
+      this.usersController.delete.bind(this.usersController),
+    );
 
     this.express.use(router);
   }
