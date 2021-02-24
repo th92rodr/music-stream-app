@@ -6,8 +6,11 @@
   "scripts": {
     "build": "tsc",
     "start": "ts-node src/main.ts",
-    "dev:server": "ts-node-dev -r tsconfig-paths/register --inspect --transpile-only --ignore-watch node_modules src/main.ts",
-    "dev": "ts-node-dev --transpile-only --ignore-watch node_modules src/main.ts"
+    "dev": "ts-node-dev -r tsconfig-paths/register --inspect --transpile-only --ignore-watch node_modules src/main.ts",
+
+    "knex:migrate": "knex --knexfile knexfile.ts migrate:latest",
+    "knex:migrate:rollback": "knex --knexfile knexfile.ts migrate:rollback",
+    "knex:seed": "knex --knexfile knexfile.ts seed:run"
   },
   "dependencies": {
     "cors": "^2.8.5",
