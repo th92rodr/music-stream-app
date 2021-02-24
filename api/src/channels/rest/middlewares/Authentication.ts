@@ -1,6 +1,6 @@
 import { verify } from 'jsonwebtoken';
 
-import Config from '../../../config';
+import Config from '@config';
 
 interface TokenPayload {
   iat: number;
@@ -9,7 +9,7 @@ interface TokenPayload {
 }
 
 export default class Authentication {
-  authentication(authenticationHeader: string): string {
+  public authentication(authenticationHeader: string): string {
     const [, token] = authenticationHeader.split(' ');
 
     try {
