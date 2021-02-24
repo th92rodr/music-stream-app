@@ -13,7 +13,7 @@ export default class Authentication {
     const [, token] = authenticationHeader.split(' ');
 
     try {
-      const decodedToken = verify(token, Config.jwt.secret);
+      const decodedToken = verify(token, Config.authentication.secret);
 
       const { sub } = decodedToken as TokenPayload;
 

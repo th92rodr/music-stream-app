@@ -5,4 +5,9 @@ export default {
       port: Number(process.env.PORT) || 8080,
     },
   },
+
+  authentication: {
+    secret: process.env.SECRET || 'top-secret',
+    expiresIn: '1d',
+  },
 };
