@@ -1,7 +1,7 @@
 import cors from 'cors';
 import express, { NextFunction, Request, Response, Router } from 'express';
 
-import Config from '../../../config';
+import Config from '@config';
 import RestChannel from '../interface';
 import Authentication from '../middlewares/Authentication';
 import UsersController from './controllers/UsersController';
@@ -31,7 +31,7 @@ export default class Express implements RestChannel {
     const HOST = Config.channels.rest.host;
 
     this.express.listen(PORT, HOST, () => {
-      console.log(`Server is running on port ${PORT}`);
+      console.log(`Rest server is running on port ${PORT}`);
     });
   }
 
@@ -43,39 +43,17 @@ export default class Express implements RestChannel {
   private initRouter() {
     const router = Router();
 
-    router.get(
-      '/',
-      this.checkAccess.bind(this),
-      this.usersController.show.bind(this.usersController),
-    );
-
+    router.get('/', this.checkAccess.bind(this), this.usersController.show.bind(this.usersController));
     router.post('/', this.usersController.create.bind(this.usersController));
+    router.patch('/', this.checkAccess.bind(this), this.usersController.update.bind(this.usersController));
+    router.delete('/', this.checkAccess.bind(this), this.usersController.delete.bind(this.usersController));
 
-    router.patch(
-      '/',
-      this.checkAccess.bind(this),
-      this.usersController.update.bind(this.usersController),
-    );
-
-    router.delete(
-      '/',
-      this.checkAccess.bind(this),
-      this.usersController.delete.bind(this.usersController),
-    );
-
-    router.post(
-      '/token',
-      this.tokensController.create.bind(this.tokensController),
-    );
+    router.post('/token', this.tokensController.create.bind(this.tokensController));
 
     this.express.use(router);
   }
 
-  private checkAccess(
-    request: Request,
-    response: Response,
-    next: NextFunction,
-  ): void {
+  private checkAccess(request: Request, response: Response, next: NextFunction): void {
     const authenticationHeader = request.headers.authorization;
 
     if (!authenticationHeader) {

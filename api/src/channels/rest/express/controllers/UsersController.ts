@@ -1,9 +1,9 @@
 import { Request, Response } from 'express';
 
-import CreateUserService from '../../../../services/CreateUserService';
-import GetUserService from '../../../../services/GetUserService';
-import UpdateUserService from '../../../../services/UpdateUserService';
-import DeleteUserService from '../../../../services/DeleteUserService';
+import CreateUserService from '@services/CreateUserService';
+import GetUserService from '@services/GetUserService';
+import UpdateUserService from '@services/UpdateUserService';
+import DeleteUserService from '@services/DeleteUserService';
 
 export default class UsersController {
   private createUserService: CreateUserService;
@@ -21,11 +21,7 @@ export default class UsersController {
   public async create(request: Request, response: Response): Promise<Response> {
     const { username, email, password } = request.body;
 
-    const user = await this.createUserService.execute({
-      username,
-      email,
-      password,
-    });
+    const user = await this.createUserService.execute({ username, email, password });
 
     return response.json(user);
   }
@@ -42,12 +38,7 @@ export default class UsersController {
     const id = request.userId;
     const { username, email, password } = request.body;
 
-    const user = await this.updateUserService.execute({
-      id,
-      username,
-      email,
-      password,
-    });
+    const user = await this.updateUserService.execute({ id, username, email, password });
 
     return response.json(user);
   }

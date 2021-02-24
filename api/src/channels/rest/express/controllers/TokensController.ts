@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 
-import AuthenticateUserService from '../../../../services/AuthenticateUserService';
+import AuthenticateUserService from '@services/AuthenticateUserService';
 
 export default class TokensController {
   private authenticateUserService: AuthenticateUserService;
@@ -12,10 +12,7 @@ export default class TokensController {
   public async create(request: Request, response: Response): Promise<Response> {
     const { email, password } = request.body;
 
-    const { user, token } = await this.authenticateUserService.execute({
-      email,
-      password,
-    });
+    const { user, token } = await this.authenticateUserService.execute({ email, password });
 
     return response.json({ user, token });
   }
