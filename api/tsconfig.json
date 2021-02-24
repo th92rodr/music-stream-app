@@ -4,10 +4,21 @@
     "module": "commonjs",
     "outDir": "./dist",
     "rootDir": "./src",
+    "baseUrl": "./src",
+    "paths": {
+      "@channels/*": ["channels/*"],
+      "@config": ["config"],
+      "@database/*": ["database/*"],
+      "@entities/*": ["entities/*"],
+      "@repositories/*": ["repositories/*"],
+      "@services/*": ["services/*"],
+    },
     "strict": true,
-    "esModuleInterop": true,
     "allowJs": true,
+    "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true
-  }
+  },
+  "include": [ "./src/**/*.ts" ],
+  "exclude": ["node_modules"],
 }
