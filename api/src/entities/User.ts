@@ -1,8 +1,8 @@
 export default class User {
-  public id: string;
-  public username: string;
-  public email: string;
-  public password: string;
+  public readonly id: string;
+  public readonly username: string;
+  public readonly email: string;
+  public readonly password: string;
 
   constructor({ id, username, email, password }: User) {
     this.id = id;
