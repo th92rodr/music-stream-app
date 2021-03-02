@@ -1,7 +1,7 @@
 import Knex from 'knex';
 
-import { MusicsTable } from '@constants/index';
 import Music from '@entities/Music';
+import { MusicsTable } from '@constants/index';
 import MusicsRepository from './interface';
 
 export default class SQLMusicsRepository implements MusicsRepository {

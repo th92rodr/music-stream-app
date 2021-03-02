@@ -1,7 +1,7 @@
 import Knex from 'knex';
 
-import { AlbumsTable } from '@constants/index';
 import Album from '@entities/Album';
+import { AlbumsTable } from '@constants/index';
 import AlbumsRepository from './interface';
 
 export default class SQLAlbumsRepository implements AlbumsRepository {
@@ -17,17 +17,17 @@ export default class SQLAlbumsRepository implements AlbumsRepository {
       .where({ id });
   }
 
-  public async store({ id, name, year, producers, studio, cover, tracks }: Album): Promise<void> {
+  public async store({ id, name, year, producers, studio, cover, tracksIds }: Album): Promise<void> {
     // prettier-ignore
     await this.databaseConnection<Album, Album>(AlbumsTable)
-      .insert({ id, name, year, producers, studio, cover, tracks });
+      .insert({ id, name, year, producers, studio, cover, tracksIds });
   }
 
-  public async update({ id, name, year, producers, studio, cover, tracks }: Album): Promise<Album> {
+  public async update({ id, name, year, producers, studio, cover, tracksIds }: Album): Promise<Album> {
     // prettier-ignore
     return this.databaseConnection<Album, Album>(AlbumsTable)
       .where({ id })
-      .update({ name, year, producers, studio, cover, tracks });
+      .update({ name, year, producers, studio, cover, tracksIds });
   }
 
   public async delete(id: string): Promise<void> {
