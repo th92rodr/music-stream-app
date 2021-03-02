@@ -8,10 +8,10 @@ export async function up(knex: Knex): Promise<void> {
     table.string('name').notNullable();
     table.date('year').notNullable();
     table.string('cover').notNullable();
-    table.specificType('producers', 'text ARRAY');
     table.string('studio');
+    table.specificType('producers', 'text ARRAY');
     // prettier-ignore
-    table.specificType('tracks', 'text ARRAY')
+    table.specificType('tracksIds', 'text ARRAY')
       .notNullable()
       .references('id')
       .inTable(MusicsTable)
