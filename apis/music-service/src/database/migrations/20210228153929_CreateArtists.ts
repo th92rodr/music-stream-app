@@ -1,6 +1,6 @@
 import * as Knex from 'knex';
 
-import { AlbumsTable, ArtistsTable } from '../../constants/index';
+import { ArtistsTable } from '../../constants/index';
 
 export async function up(knex: Knex): Promise<void> {
   return knex.schema.createTable(ArtistsTable, table => {
@@ -8,14 +8,8 @@ export async function up(knex: Knex): Promise<void> {
     table.string('name').notNullable();
     table.string('description');
     table.string('genre').notNullable();
-    table.specificType('photos', 'text ARRAY');
-    // prettier-ignore
-    table.specificType('albumsIds', 'text ARRAY')
-      .notNullable()
-      .references('id')
-      .inTable(AlbumsTable)
-      .onUpdate('CASCADE')
-      .onDelete('CASCADE')
+    table.specificType('photos', 'text[]');
+    table.specificType('albumsIds', 'text[]');
   });
 }
 

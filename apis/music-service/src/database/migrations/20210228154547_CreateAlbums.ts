@@ -1,6 +1,6 @@
 import * as Knex from 'knex';
 
-import { AlbumsTable, MusicsTable } from '../../constants/index';
+import { AlbumsTable, ArtistsTable } from '../../constants/index';
 
 export async function up(knex: Knex): Promise<void> {
   return knex.schema.createTable(AlbumsTable, table => {
@@ -9,14 +9,15 @@ export async function up(knex: Knex): Promise<void> {
     table.date('year').notNullable();
     table.string('cover').notNullable();
     table.string('studio');
-    table.specificType('producers', 'text ARRAY');
+    table.specificType('producers', 'text[]');
+    table.specificType('tracksIds', 'text[]');
     // prettier-ignore
-    table.specificType('tracksIds', 'text ARRAY')
+    table.string('artistId')
       .notNullable()
       .references('id')
-      .inTable(MusicsTable)
+      .inTable(ArtistsTable)
       .onUpdate('CASCADE')
-      .onDelete('CASCADE')
+      .onDelete('CASCADE');
   });
 }
 
