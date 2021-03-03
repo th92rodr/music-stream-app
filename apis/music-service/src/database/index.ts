@@ -1,11 +1,8 @@
 import knex from 'knex';
-import path from 'path';
 
 const dbConnection = knex({
-  client: 'sqlite3',
-  connection: {
-    filename: path.resolve(__dirname, '..', '..', '..', '..', 'storage', 'music.database.sqlite'),
-  },
+  client: 'pg',
+  connection: process.env.POSTGRES_ADDRESS,
   useNullAsDefault: true,
 });
 
