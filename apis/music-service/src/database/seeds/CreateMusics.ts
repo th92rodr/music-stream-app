@@ -18,17 +18,13 @@ export async function seed(knex: Knex): Promise<void> {
 
   const uuidIdProvider = new UuidIdProvider();
 
-  const music = new Music({
+  const artist = new Artist({
     id: uuidIdProvider.generate(),
-    title: 'Price of a Mile',
-    duration: 355,
-    file: path.resolve('Sabaton', 'The-Art-of-War', 'The-Price-of-a-Mile.mp3'),
-    composers: ['Joakim Brodén'],
-    lyrics: '',
+    name: 'Sabaton',
+    description: '',
+    genre: Genre['Power Metal'],
+    photos: [path.resolve('Sabaton', 'Sabaton.jpg'), path.resolve('Sabaton', 'Sabaton2.jpg')],
   });
-
-  const musicsRepository = new SQLMusicsRepository(knex);
-  await musicsRepository.store(music);
 
   const album = new Album({
     id: uuidIdProvider.generate(),
@@ -37,20 +33,27 @@ export async function seed(knex: Knex): Promise<void> {
     studio: 'The Abyss Studios',
     producers: ['Tommy Tägtgren', 'Peter Tägtgren'],
     cover: path.resolve('Sabaton', 'The-Art-of-War', 'The-Art-of-War.jpg'),
-    tracks: [music],
+    artistId: artist.id,
   });
+
+  const music = new Music({
+    id: uuidIdProvider.generate(),
+    title: 'Price of a Mile',
+    durationInSeconds: 355,
+    file: path.resolve('Sabaton', 'The-Art-of-War', 'The-Price-of-a-Mile.mp3'),
+    composers: ['Joakim Brodén'],
+    lyrics: '',
+    albumId: album.id,
+  });
+
+  album.setTracks([music]);
+  artist.setAlbums([album]);
+
+  const musicsRepository = new SQLMusicsRepository(knex);
+  await musicsRepository.store(music);
 
   const albumsRepository = new SQLAlbumsRepository(knex);
   await albumsRepository.store(album);
-
-  const artist = new Artist({
-    id: uuidIdProvider.generate(),
-    name: 'Sabaton',
-    description: '',
-    genre: Genre['Power Metal'],
-    photos: [path.resolve('Sabaton', 'Sabaton.jpg'), path.resolve('Sabaton', 'Sabaton2.jpg')],
-    albums: [album],
-  });
 
   const artistsRepository = new SQLArtistsRepository(knex);
   await artistsRepository.store(artist);
