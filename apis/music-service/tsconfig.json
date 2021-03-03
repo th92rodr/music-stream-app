@@ -12,6 +12,7 @@
       "@providers/*": ["providers/*"],
       "@repositories/*": ["repositories/*"],
       "@services/*": ["services/*"],
+      "@utils/*": ["utils/*"],
     },
     "strict": true,
     "allowJs": true,
