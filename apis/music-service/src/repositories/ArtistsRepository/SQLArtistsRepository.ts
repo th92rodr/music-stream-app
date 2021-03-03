@@ -1,8 +1,10 @@
 import Knex from 'knex';
 
 import Artist from '@entities/Artist';
-import { ArtistsTable } from '@constants/index';
+import Album from '@entities/Album';
+import { AlbumsTable, ArtistsTable } from '@constants/index';
 import ArtistsRepository from './interface';
+import { removeUndefineds } from 'utils';
 
 export default class SQLArtistsRepository implements ArtistsRepository {
   private databaseConnection: Knex;
@@ -11,29 +13,55 @@ export default class SQLArtistsRepository implements ArtistsRepository {
     this.databaseConnection = databaseConnection;
   }
 
-  public async find(id: string): Promise<Artist> {
+  public async find(id: string): Promise<Artist | undefined> {
     // prettier-ignore
-    return this.databaseConnection<Artist, Artist>(ArtistsTable)
-      .where({ id });
-  }
-
-  public async store({ id, name, genre, description, photos, albumsIds }: Artist): Promise<void> {
-    // prettier-ignore
-    await this.databaseConnection<Artist, Artist>(ArtistsTable)
-      .insert({ id, name, genre, description, photos, albumsIds });
-  }
-
-  public async update({ id, name, genre, description, photos, albumsIds }: Artist): Promise<Artist> {
-    // prettier-ignore
-    return this.databaseConnection<Artist, Artist>(ArtistsTable)
+    return this.databaseConnection<Artist>(ArtistsTable)
       .where({ id })
-      .update({ name, genre, description, photos, albumsIds });
+      .first();
+  }
+
+  public async findAllAlbums(id: string): Promise<Artist | undefined> {
+    // prettier-ignore
+    const artist = await this.databaseConnection<Artist>(ArtistsTable)
+      .where({ id })
+      .first();
+
+    if (!artist) {
+      return;
+    }
+
+    let promises = artist.albumsIds.map(async albumId => {
+      // prettier-ignore
+      return await this.databaseConnection<Album>(AlbumsTable)
+        .where({ id: albumId })
+        .first();
+    });
+
+    const albums = await Promise.all(promises);
+    artist.albums = albums.filter(removeUndefineds);
+
+    return artist;
+  }
+
+  public async store({ id, name, description, genre, photos, albumsIds }: Artist): Promise<void> {
+    // prettier-ignore
+    await this.databaseConnection<Artist>(ArtistsTable)
+      .insert({ id, name, description, genre, photos, albumsIds });
+  }
+
+  public async update({ id, name, description, genre, photos, albumsIds }: Artist): Promise<void> {
+    // prettier-ignore
+    await this.databaseConnection<Artist>(ArtistsTable)
+      .where({ id })
+      .update({ name, description, genre, photos, albumsIds })
+      .first();
   }
 
   public async delete(id: string): Promise<void> {
     // prettier-ignore
-    await this.databaseConnection<Artist, Artist>(ArtistsTable)
+    await this.databaseConnection<Artist>(ArtistsTable)
       .where({ id })
-      .del();
+      .del()
+      .first();
   }
 }
