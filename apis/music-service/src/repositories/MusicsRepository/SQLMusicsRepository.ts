@@ -11,29 +11,32 @@ export default class SQLMusicsRepository implements MusicsRepository {
     this.databaseConnection = databaseConnection;
   }
 
-  public async find(id: string): Promise<Music> {
+  public async find(id: string): Promise<Music | undefined> {
     // prettier-ignore
-    return this.databaseConnection<Music, Music>(MusicsTable)
-      .where({ id });
-  }
-
-  public async store({ id, title, duration, composers, file, lyrics }: Music): Promise<void> {
-    // prettier-ignore
-    await this.databaseConnection<Music, Music>(MusicsTable)
-      .insert({ id, title, duration, composers, file, lyrics });
-  }
-
-  public async update({ id, title, duration, composers, file, lyrics }: Music): Promise<Music> {
-    // prettier-ignore
-    return this.databaseConnection<Music, Music>(MusicsTable)
+    return this.databaseConnection<Music>(MusicsTable)
       .where({ id })
-      .update({ title, duration, composers, file, lyrics });
+      .first();
+  }
+
+  public async store({ id, title, durationInSeconds, file, composers, lyrics, albumId }: Music): Promise<void> {
+    // prettier-ignore
+    await this.databaseConnection<Music>(MusicsTable)
+      .insert({ id, title, durationInSeconds, file, composers, lyrics, albumId });
+  }
+
+  public async update({ id, title, durationInSeconds, file, composers, lyrics, albumId }: Music): Promise<void> {
+    // prettier-ignore
+    await this.databaseConnection<Music>(MusicsTable)
+      .where({ id })
+      .update({ title, durationInSeconds, file, composers, lyrics, albumId })
+      .first();
   }
 
   public async delete(id: string): Promise<void> {
     // prettier-ignore
-    await this.databaseConnection<Music, Music>(MusicsTable)
+    await this.databaseConnection<Music>(MusicsTable)
       .where({ id })
-      .del();
+      .del()
+      .first();
   }
 }
