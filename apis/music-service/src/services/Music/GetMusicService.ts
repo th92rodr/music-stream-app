@@ -13,6 +13,10 @@ export default class GetMusicService {
   }
 
   public async execute({ id }: Request): Promise<Music> {
-    return this.musicsRepository.find(id);
+    const music = await this.musicsRepository.find(id);
+    if (!music) {
+      throw Error();
+    }
+    return music;
   }
 }
