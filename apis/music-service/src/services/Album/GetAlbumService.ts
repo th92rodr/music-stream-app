@@ -13,6 +13,10 @@ export default class GetAlbumService {
   }
 
   public async execute({ id }: Request): Promise<Album> {
-    return this.albumsRepository.find(id);
+    const album = await this.albumsRepository.find(id);
+    if (!album) {
+      throw Error();
+    }
+    return album;
   }
 }

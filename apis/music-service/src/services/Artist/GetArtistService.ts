@@ -13,6 +13,10 @@ export default class GetArtistService {
   }
 
   public async execute({ id }: Request): Promise<Artist> {
-    return this.artistsRepository.find(id);
+    const artist = await this.artistsRepository.find(id);
+    if (!artist) {
+      throw Error();
+    }
+    return artist;
   }
 }
