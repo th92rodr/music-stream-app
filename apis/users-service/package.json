@@ -16,7 +16,7 @@
     "bcryptjs": "^2.4.3",
     "jsonwebtoken": "^8.5.1",
     "knex": "^0.21.18",
-    "sqlite3": "^5.0.2",
+    "pg": "^8.5.1",
     "uuidv4": "^6.2.6"
   },
   "devDependencies": {
@@ -29,6 +29,7 @@
     "eslint-plugin-import": "^2.22.1",
     "prettier": "^2.2.1",
     "ts-node-dev": "^1.1.1",
+    "tsconfig-paths": "^3.9.0",
     "typescript": "^4.1.5"
   }
 }
