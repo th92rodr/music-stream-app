@@ -13,6 +13,10 @@ export default class GetUserService {
   }
 
   public async execute({ id }: Request): Promise<User> {
-    return this.usersRepository.find(id);
+    const user = await this.usersRepository.find(id);
+    if (!user) {
+      throw Error();
+    }
+    return user;
   }
 }

@@ -1,4 +1,3 @@
-import User from '@entities/User';
 import UsersRepository from '@repositories/UsersRepository/interface';
 
 interface Request {
@@ -15,7 +14,7 @@ export default class UpdateUserService {
     this.usersRepository = usersRepository;
   }
 
-  public async execute({ id, username, email, password }: Request): Promise<User> {
-    return this.usersRepository.update({ id, username, email, password });
+  public async execute({ id, username, email, password }: Request): Promise<void> {
+    await this.usersRepository.update({ id, username, email, password });
   }
 }

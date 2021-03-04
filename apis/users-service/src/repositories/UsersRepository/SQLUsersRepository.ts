@@ -1,7 +1,7 @@
 import Knex from 'knex';
 
-import { UsersTable } from '@constants/index';
 import User from '@entities/User';
+import { UsersTable } from '@constants/index';
 import UsersRepository from './interface';
 
 export default class SQLUsersRepository implements UsersRepository {
@@ -11,35 +11,39 @@ export default class SQLUsersRepository implements UsersRepository {
     this.databaseConnection = databaseConnection;
   }
 
-  public async find(id: string): Promise<User> {
+  public async find(id: string): Promise<User | undefined> {
     // prettier-ignore
-    return this.databaseConnection<User, User>(UsersTable)
-      .where({ id });
+    return this.databaseConnection<User>(UsersTable)
+      .where({ id })
+      .first();
   }
 
-  public async findByEmail(email: string): Promise<User> {
+  public async findByEmail(email: string): Promise<User | undefined> {
     // prettier-ignore
-    return this.databaseConnection<User, User>(UsersTable)
-      .where({ email });
+    return this.databaseConnection<User>(UsersTable)
+      .where({ email })
+      .first();
   }
 
   public async store({ id, username, email, password }: User): Promise<void> {
     // prettier-ignore
-    await this.databaseConnection<User, User>(UsersTable)
+    await this.databaseConnection<User>(UsersTable)
       .insert({ id, username, email, password });
   }
 
-  public async update({ id, username, email, password }: User): Promise<User> {
+  public async update({ id, username, email, password }: User): Promise<void> {
     // prettier-ignore
-    return this.databaseConnection<User, User>(UsersTable)
+    await this.databaseConnection<User>(UsersTable)
       .where({ id })
-      .update({ username, email, password });
+      .update({ username, email, password })
+      .first();
   }
 
   public async delete(id: string): Promise<void> {
     // prettier-ignore
-    await this.databaseConnection<User, User>(UsersTable)
+    await this.databaseConnection<User>(UsersTable)
       .where({ id })
-      .del();
+      .del()
+      .first();
   }
 }
