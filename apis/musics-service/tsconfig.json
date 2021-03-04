@@ -1,0 +1,25 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "module": "commonjs",
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "baseUrl": "./src",
+    "paths": {
+      "@constants/*": ["constants/*"],
+      "@database/*": ["database/*"],
+      "@entities/*": ["entities/*"],
+      "@providers/*": ["providers/*"],
+      "@repositories/*": ["repositories/*"],
+      "@services/*": ["services/*"],
+      "@utils/*": ["utils/*"],
+    },
+    "strict": true,
+    "allowJs": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true
+  },
+  "include": [ "./src/**/*.ts" ],
+  "exclude": ["node_modules", "knexfile.ts"],
+}
