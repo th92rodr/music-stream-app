@@ -13,6 +13,7 @@
     "knex:seed": "knex --knexfile knexfile.ts seed:run"
   },
   "dependencies": {
+    "dotenv": "^8.2.0",
     "knex": "^0.21.18",
     "pg": "^8.5.1",
     "uuidv4": "^6.2.6"
