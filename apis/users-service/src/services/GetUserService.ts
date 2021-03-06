@@ -1,3 +1,4 @@
+import { ErrorUserNotFound } from '@constants/errors';
 import User from '@entities/User';
 import UsersRepository from '@repositories/UsersRepository/interface';
 
@@ -14,9 +15,11 @@ export default class GetUserService {
 
   public async execute({ id }: Request): Promise<User> {
     const user = await this.usersRepository.find(id);
+
     if (!user) {
-      throw Error();
+      throw new ErrorUserNotFound(id, null);
     }
+
     return user;
   }
 }

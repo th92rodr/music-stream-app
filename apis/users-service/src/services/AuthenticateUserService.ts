@@ -1,7 +1,8 @@
+import { ErrorUserNotFound, ErrorInvalidCredentials } from '@constants/errors';
 import User from '@entities/User';
-import UsersRepository from '@repositories/UsersRepository/interface';
 import HashProvider from '@providers/HashProvider/interface';
 import TokenProvider from '@providers/TokenProvider/interface';
+import UsersRepository from '@repositories/UsersRepository/interface';
 
 interface Request {
   email: string;
@@ -27,12 +28,12 @@ export default class AuthenticateUserService {
   public async execute({ email, password }: Request): Promise<Response> {
     const user = await this.usersRepository.findByEmail(email);
     if (!user) {
-      throw new Error();
+      throw new ErrorUserNotFound(null, email);
     }
 
     const passwordMatched = await this.hashProvider.compare(password, user.password);
     if (!passwordMatched) {
-      throw new Error();
+      throw new ErrorInvalidCredentials();
     }
 
     const token = this.tokenProvider.generate(user.id);
