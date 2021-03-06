@@ -24,18 +24,30 @@ export class MusicsHandler implements IMusicsServer {
   }
 
   getMusic = async (call: grpc.ServerUnaryCall<Id>, callback: grpc.sendUnaryData<Music>): Promise<void> => {
-    const music = await this.getMusicService.execute({ id: call.request.getId() });
-    callback(null, this.translateMusicEntity(music));
+    try {
+      const music = await this.getMusicService.execute({ id: call.request.getId() });
+      callback(null, this.translateMusicEntity(music));
+    } catch (error) {
+      callback(error, null);
+    }
   };
 
   getAlbum = async (call: grpc.ServerUnaryCall<Id>, callback: grpc.sendUnaryData<Album>): Promise<void> => {
-    const album = await this.getAlbumService.execute({ id: call.request.getId() });
-    callback(null, this.translateAlbumEntity(album));
+    try {
+      const album = await this.getAlbumService.execute({ id: call.request.getId() });
+      callback(null, this.translateAlbumEntity(album));
+    } catch (error) {
+      callback(error, null);
+    }
   };
 
   getArtist = async (call: grpc.ServerUnaryCall<Id>, callback: grpc.sendUnaryData<Artist>): Promise<void> => {
-    const artist = await this.getArtistService.execute({ id: call.request.getId() });
-    callback(null, this.translateArtistEntity(artist));
+    try {
+      const artist = await this.getArtistService.execute({ id: call.request.getId() });
+      callback(null, this.translateArtistEntity(artist));
+    } catch (error) {
+      callback(error, null);
+    }
   };
 
   private translateMusicEntity(musicEntity: MusicEntity): Music {
