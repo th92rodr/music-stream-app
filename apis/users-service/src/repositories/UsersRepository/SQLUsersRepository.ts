@@ -1,8 +1,8 @@
 import Knex from 'knex';
 
-import User from '@entities/User';
-import { UsersTable } from '@constants/index';
 import UsersRepository from './interface';
+import { UsersTable } from '@constants/index';
+import User from '@entities/User';
 
 export default class SQLUsersRepository implements UsersRepository {
   private databaseConnection: Knex;
