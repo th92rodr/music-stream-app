@@ -1,6 +1,6 @@
 import { hash, compare } from 'bcryptjs';
 
-import Config from '@config';
+import Config from '@config/index';
 import HashProvider from './interface';
 
 export default class BCryptHashProvider implements HashProvider {
