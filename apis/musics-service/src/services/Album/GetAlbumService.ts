@@ -1,3 +1,4 @@
+import { ErrorAlbumNotFound } from '@constants/errors';
 import Album from '@entities/Album';
 import AlbumsRepository from '@repositories/AlbumsRepository/interface';
 
@@ -14,9 +15,11 @@ export default class GetAlbumService {
 
   public async execute({ id }: Request): Promise<Album> {
     const album = await this.albumsRepository.find(id);
+
     if (!album) {
-      throw Error();
+      throw new ErrorAlbumNotFound(id);
     }
+
     return album;
   }
 }

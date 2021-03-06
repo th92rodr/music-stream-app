@@ -1,3 +1,4 @@
+import { ErrorMusicNotFound } from '@constants/errors';
 import Music from '@entities/Music';
 import MusicsRepository from '@repositories/MusicsRepository/interface';
 
@@ -14,9 +15,11 @@ export default class GetMusicService {
 
   public async execute({ id }: Request): Promise<Music> {
     const music = await this.musicsRepository.find(id);
+
     if (!music) {
-      throw Error();
+      throw new ErrorMusicNotFound(id);
     }
+
     return music;
   }
 }
