@@ -1,17 +1,20 @@
 import * as grpc from 'grpc';
 
-import Config from '@config/index';
 import GrpcChannel from './interface';
 import { MusicsHandler, MusicsService } from './handlers/MusicsHandler';
+import Config from '@config/index';
+import ErrorHandler from '@errors/ErrorHandler';
 import GetMusicService from '@services/Music/GetMusicService';
 import GetAlbumService from '@services/Album/GetAlbumService';
 import GetArtistService from '@services/Artist/GetArtistService';
 
 export default class Grpc implements GrpcChannel {
   private musicsHandler: MusicsHandler;
+  private errorHandler: ErrorHandler;
 
-  constructor(getMusicService: GetMusicService, getAlbumService: GetAlbumService, getArtistService: GetArtistService) {
-    this.musicsHandler = new MusicsHandler(getMusicService, getAlbumService, getArtistService);
+  constructor(getMusicService: GetMusicService, getAlbumService: GetAlbumService, getArtistService: GetArtistService, errorHandler: ErrorHandler) {
+    this.musicsHandler = new MusicsHandler(getMusicService, getAlbumService, getArtistService, errorHandler);
+    this.errorHandler = errorHandler;
   }
 
   public start(): void {
@@ -28,7 +31,7 @@ export default class Grpc implements GrpcChannel {
       grpc.ServerCredentials.createInsecure(),
       (error: Error | null, port: number): void => {
         if (error != null) {
-          return console.error(error);
+          this.errorHandler.handleError(error);
         }
         console.log(`gRPC server is running on port ${port}`);
       },
