@@ -1,0 +1,114 @@
+import * as grpc from 'grpc';
+
+import { IUsersServer } from '../proto/users_service_grpc_pb';
+import {
+  AuthenticateUserRequest,
+  AuthenticateUserResponse,
+  CreateUserRequest,
+  CreateUserResponse,
+  DeleteUserRequest,
+  DeleteUserResponse,
+  GetUserRequest,
+  GetUserResponse,
+  UpdateUserRequest,
+  UpdateUserResponse,
+} from '../proto/users_service_pb';
+import User from '@entities/User';
+import AuthenticateUserService from '@services/AuthenticateUserService';
+import CreateUserService from '@services/CreateUserService';
+import DeleteUserService from '@services/DeleteUserService';
+import GetUserService from '@services/GetUserService';
+import UpdateUserService from '@services/UpdateUserService';
+
+export { UsersService } from '../proto/users_service_grpc_pb';
+
+export class UsersHandler implements IUsersServer {
+  private getUserService: GetUserService;
+  private createUserService: CreateUserService;
+  private updateUserService: UpdateUserService;
+  private deleteUserService: DeleteUserService;
+  private authenticateUserService: AuthenticateUserService;
+
+  constructor(
+    getUserService: GetUserService,
+    createUserService: CreateUserService,
+    updateUserService: UpdateUserService,
+    deleteUserService: DeleteUserService,
+    authenticateUserService: AuthenticateUserService,
+  ) {
+    this.getUserService = getUserService;
+    this.createUserService = createUserService;
+    this.updateUserService = updateUserService;
+    this.deleteUserService = deleteUserService;
+    this.authenticateUserService = authenticateUserService;
+  }
+
+  get = async (call: grpc.ServerUnaryCall<GetUserRequest>, callback: grpc.sendUnaryData<GetUserResponse>): Promise<void> => {
+    const user = await this.getUserService.execute({ id: call.request.getId() });
+    callback(null, this.translateGetUser(user));
+  };
+
+  create = async (call: grpc.ServerUnaryCall<CreateUserRequest>, callback: grpc.sendUnaryData<CreateUserResponse>): Promise<void> => {
+    const user = await this.createUserService.execute({
+      username: call.request.getUsername(),
+      email: call.request.getEmail(),
+      password: call.request.getPassword(),
+    });
+    callback(null, this.translateCreateUser(user));
+  };
+
+  update = async (call: grpc.ServerUnaryCall<UpdateUserRequest>, callback: grpc.sendUnaryData<UpdateUserResponse>): Promise<void> => {
+    await this.updateUserService.execute({
+      id: call.request.getId(),
+      username: call.request.getUsername(),
+      email: call.request.getEmail(),
+      password: call.request.getPassword(),
+    });
+    callback(null, call.request);
+  };
+
+  delete = async (call: grpc.ServerUnaryCall<DeleteUserRequest>, callback: grpc.sendUnaryData<DeleteUserResponse>): Promise<void> => {
+    await this.deleteUserService.execute({
+      id: call.request.getId(),
+    });
+    callback(null, new DeleteUserResponse());
+  };
+
+  authenticate = async (call: grpc.ServerUnaryCall<AuthenticateUserRequest>, callback: grpc.sendUnaryData<AuthenticateUserResponse>): Promise<void> => {
+    const { user, token } = await this.authenticateUserService.execute({
+      email: call.request.getEmail(),
+      password: call.request.getPassword(),
+    });
+    callback(null, this.translateAuthenticateUser(token));
+  };
+
+  private translateGetUser(user: User): GetUserResponse {
+    const getUserResponse = new GetUserResponse();
+
+    getUserResponse.setId(user.id);
+    getUserResponse.setUsername(user.username);
+    getUserResponse.setEmail(user.email);
+    getUserResponse.setPassword(user.password);
+
+    return getUserResponse;
+  }
+
+  private translateCreateUser(user: User): CreateUserResponse {
+    const createUserResponse = new CreateUserResponse();
+
+    createUserResponse.setId(user.id);
+    createUserResponse.setUsername(user.username);
+    createUserResponse.setEmail(user.email);
+    createUserResponse.setPassword(user.password);
+
+    return createUserResponse;
+  }
+
+  private translateAuthenticateUser(token: string): AuthenticateUserResponse {
+    const authenticateUserResponse = new AuthenticateUserResponse();
+
+    authenticateUserResponse.setToken(token);
+
+    return authenticateUserResponse;
+  }
+}
