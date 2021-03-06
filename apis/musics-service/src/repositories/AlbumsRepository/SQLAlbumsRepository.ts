@@ -1,10 +1,10 @@
 import Knex from 'knex';
 
-import Album from '@entities/Album';
-import { AlbumsTable, MusicsTable } from '@constants/index';
 import AlbumsRepository from './interface';
+import { AlbumsTable, MusicsTable } from '@constants/index';
+import Album from '@entities/Album';
 import Music from '@entities/Music';
-import { removeUndefineds } from 'utils';
+import { removeUndefineds } from '@utils/index';
 
 export default class SQLAlbumsRepository implements AlbumsRepository {
   private databaseConnection: Knex;

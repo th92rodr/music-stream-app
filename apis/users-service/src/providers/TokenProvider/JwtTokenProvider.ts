@@ -1,7 +1,7 @@
 import { sign } from 'jsonwebtoken';
 
-import Config from '@config/index';
 import TokenProvider from './interface';
+import Config from '@config/index';
 
 export default class JwtTokenProvider implements TokenProvider {
   public generate(id: string): string {
