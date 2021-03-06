@@ -44,42 +44,62 @@ export class UsersHandler implements IUsersServer {
   }
 
   get = async (call: grpc.ServerUnaryCall<GetUserRequest>, callback: grpc.sendUnaryData<GetUserResponse>): Promise<void> => {
-    const user = await this.getUserService.execute({ id: call.request.getId() });
-    callback(null, this.translateGetUser(user));
+    try {
+      const user = await this.getUserService.execute({ id: call.request.getId() });
+      callback(null, this.translateGetUser(user));
+    } catch (error) {
+      callback(error, null);
+    }
   };
 
   create = async (call: grpc.ServerUnaryCall<CreateUserRequest>, callback: grpc.sendUnaryData<CreateUserResponse>): Promise<void> => {
-    const user = await this.createUserService.execute({
-      username: call.request.getUsername(),
-      email: call.request.getEmail(),
-      password: call.request.getPassword(),
-    });
-    callback(null, this.translateCreateUser(user));
+    try {
+      const user = await this.createUserService.execute({
+        username: call.request.getUsername(),
+        email: call.request.getEmail(),
+        password: call.request.getPassword(),
+      });
+      callback(null, this.translateCreateUser(user));
+    } catch (error) {
+      callback(error, null);
+    }
   };
 
   update = async (call: grpc.ServerUnaryCall<UpdateUserRequest>, callback: grpc.sendUnaryData<UpdateUserResponse>): Promise<void> => {
-    await this.updateUserService.execute({
-      id: call.request.getId(),
-      username: call.request.getUsername(),
-      email: call.request.getEmail(),
-      password: call.request.getPassword(),
-    });
-    callback(null, call.request);
+    try {
+      await this.updateUserService.execute({
+        id: call.request.getId(),
+        username: call.request.getUsername(),
+        email: call.request.getEmail(),
+        password: call.request.getPassword(),
+      });
+      callback(null, call.request);
+    } catch (error) {
+      callback(error, null);
+    }
   };
 
   delete = async (call: grpc.ServerUnaryCall<DeleteUserRequest>, callback: grpc.sendUnaryData<DeleteUserResponse>): Promise<void> => {
-    await this.deleteUserService.execute({
-      id: call.request.getId(),
-    });
-    callback(null, new DeleteUserResponse());
+    try {
+      await this.deleteUserService.execute({
+        id: call.request.getId(),
+      });
+      callback(null, new DeleteUserResponse());
+    } catch (error) {
+      callback(error, null);
+    }
   };
 
   authenticate = async (call: grpc.ServerUnaryCall<AuthenticateUserRequest>, callback: grpc.sendUnaryData<AuthenticateUserResponse>): Promise<void> => {
-    const { user, token } = await this.authenticateUserService.execute({
-      email: call.request.getEmail(),
-      password: call.request.getPassword(),
-    });
-    callback(null, this.translateAuthenticateUser(token));
+    try {
+      const { token } = await this.authenticateUserService.execute({
+        email: call.request.getEmail(),
+        password: call.request.getPassword(),
+      });
+      callback(null, this.translateAuthenticateUser(token));
+    } catch (error) {
+      callback(error, null);
+    }
   };
 
   private translateGetUser(user: User): GetUserResponse {
