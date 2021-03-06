@@ -3,9 +3,11 @@ import * as grpc from 'grpc';
 import { IMusicsServer } from '../proto/musics_service_grpc_pb';
 import { Id, Music, Album, Artist, Genre } from '../proto/musics_service_pb';
 import { Genre as GenreEnum } from '@constants/index';
+import { InternalError } from '@constants/errors';
 import MusicEntity from '@entities/Music';
 import AlbumEntity from '@entities/Album';
 import ArtistEntity from '@entities/Artist';
+import ErrorHandler from '@errors/ErrorHandler';
 import GetMusicService from '@services/Music/GetMusicService';
 import GetAlbumService from '@services/Album/GetAlbumService';
 import GetArtistService from '@services/Artist/GetArtistService';
@@ -17,10 +19,13 @@ export class MusicsHandler implements IMusicsServer {
   private getAlbumService: GetAlbumService;
   private getArtistService: GetArtistService;
 
-  constructor(getMusicService: GetMusicService, getAlbumService: GetAlbumService, getArtistService: GetArtistService) {
+  private errorHandler: ErrorHandler;
+
+  constructor(getMusicService: GetMusicService, getAlbumService: GetAlbumService, getArtistService: GetArtistService, errorHandler: ErrorHandler) {
     this.getMusicService = getMusicService;
     this.getAlbumService = getAlbumService;
     this.getArtistService = getArtistService;
+    this.errorHandler = errorHandler;
   }
 
   getMusic = async (call: grpc.ServerUnaryCall<Id>, callback: grpc.sendUnaryData<Music>): Promise<void> => {
@@ -28,6 +33,11 @@ export class MusicsHandler implements IMusicsServer {
       const music = await this.getMusicService.execute({ id: call.request.getId() });
       callback(null, this.translateMusicEntity(music));
     } catch (error) {
+      await this.errorHandler.handleError(error);
+
+      if (!this.errorHandler.isTrustedError(error)) {
+        callback(new InternalError(), null);
+      }
       callback(error, null);
     }
   };
@@ -37,6 +47,11 @@ export class MusicsHandler implements IMusicsServer {
       const album = await this.getAlbumService.execute({ id: call.request.getId() });
       callback(null, this.translateAlbumEntity(album));
     } catch (error) {
+      await this.errorHandler.handleError(error);
+
+      if (!this.errorHandler.isTrustedError(error)) {
+        callback(new InternalError(), null);
+      }
       callback(error, null);
     }
   };
@@ -46,6 +61,11 @@ export class MusicsHandler implements IMusicsServer {
       const artist = await this.getArtistService.execute({ id: call.request.getId() });
       callback(null, this.translateArtistEntity(artist));
     } catch (error) {
+      await this.errorHandler.handleError(error);
+
+      if (!this.errorHandler.isTrustedError(error)) {
+        callback(new InternalError(), null);
+      }
       callback(error, null);
     }
   };
