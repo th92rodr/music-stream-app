@@ -13,7 +13,9 @@ import {
   UpdateUserRequest,
   UpdateUserResponse,
 } from '../proto/users_service_pb';
+import { InternalError } from '@constants/errors';
 import User from '@entities/User';
+import ErrorHandler from '@errors/ErrorHandler';
 import AuthenticateUserService from '@services/AuthenticateUserService';
 import CreateUserService from '@services/CreateUserService';
 import DeleteUserService from '@services/DeleteUserService';
@@ -29,18 +31,22 @@ export class UsersHandler implements IUsersServer {
   private deleteUserService: DeleteUserService;
   private authenticateUserService: AuthenticateUserService;
 
+  private errorHandler: ErrorHandler;
+
   constructor(
     getUserService: GetUserService,
     createUserService: CreateUserService,
     updateUserService: UpdateUserService,
     deleteUserService: DeleteUserService,
     authenticateUserService: AuthenticateUserService,
+    errorHandler: ErrorHandler,
   ) {
     this.getUserService = getUserService;
     this.createUserService = createUserService;
     this.updateUserService = updateUserService;
     this.deleteUserService = deleteUserService;
     this.authenticateUserService = authenticateUserService;
+    this.errorHandler = errorHandler;
   }
 
   get = async (call: grpc.ServerUnaryCall<GetUserRequest>, callback: grpc.sendUnaryData<GetUserResponse>): Promise<void> => {
@@ -48,6 +54,11 @@ export class UsersHandler implements IUsersServer {
       const user = await this.getUserService.execute({ id: call.request.getId() });
       callback(null, this.translateGetUser(user));
     } catch (error) {
+      await this.errorHandler.handleError(error);
+
+      if (!this.errorHandler.isTrustedError(error)) {
+        callback(new InternalError(), null);
+      }
       callback(error, null);
     }
   };
@@ -61,6 +72,11 @@ export class UsersHandler implements IUsersServer {
       });
       callback(null, this.translateCreateUser(user));
     } catch (error) {
+      await this.errorHandler.handleError(error);
+
+      if (!this.errorHandler.isTrustedError(error)) {
+        callback(new InternalError(), null);
+      }
       callback(error, null);
     }
   };
@@ -75,6 +91,11 @@ export class UsersHandler implements IUsersServer {
       });
       callback(null, call.request);
     } catch (error) {
+      await this.errorHandler.handleError(error);
+
+      if (!this.errorHandler.isTrustedError(error)) {
+        callback(new InternalError(), null);
+      }
       callback(error, null);
     }
   };
@@ -86,6 +107,11 @@ export class UsersHandler implements IUsersServer {
       });
       callback(null, new DeleteUserResponse());
     } catch (error) {
+      await this.errorHandler.handleError(error);
+
+      if (!this.errorHandler.isTrustedError(error)) {
+        callback(new InternalError(), null);
+      }
       callback(error, null);
     }
   };
@@ -98,6 +124,11 @@ export class UsersHandler implements IUsersServer {
       });
       callback(null, this.translateAuthenticateUser(token));
     } catch (error) {
+      await this.errorHandler.handleError(error);
+
+      if (!this.errorHandler.isTrustedError(error)) {
+        callback(new InternalError(), null);
+      }
       callback(error, null);
     }
   };
