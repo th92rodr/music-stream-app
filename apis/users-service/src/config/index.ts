@@ -1,4 +1,9 @@
 export default {
+  authentication: {
+    secret: process.env.SECRET || 'top-secret',
+    expiresIn: '1d',
+  },
+
   channels: {
     grpc: {
       host: '0.0.0.0',
@@ -6,9 +11,9 @@ export default {
     },
   },
 
-  authentication: {
-    secret: process.env.SECRET || 'top-secret',
-    expiresIn: '1d',
+  logging: {
+    redirect: 'console', // 'console' / 'file'
+    filePath: 'logs/error.log',
   },
 
   security: {
