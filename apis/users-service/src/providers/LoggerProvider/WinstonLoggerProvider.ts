@@ -2,6 +2,7 @@ import winston from 'winston';
 const { colorize, printf, splat, timestamp } = winston.format;
 
 import LoggerProvider from './interface';
+import Config from '@config/index';
 
 const customLevels = {
   levels: {
@@ -36,13 +37,17 @@ export default class WinstonLoggerProvider implements LoggerProvider {
       }),
     );
 
-    const transport = new winston.transports.Console({
+    const consoleTransport = new winston.transports.Console({
       format: formatter,
+    });
+
+    const fileTransport = new winston.transports.File({
+      filename: Config.logging.filePath,
     });
 
     this.logger = winston.createLogger({
       levels: customLevels.levels,
-      transports: [transport],
+      transports: [Config.logging.redirect == 'file' ? fileTransport : consoleTransport],
       defaultMeta: { service: 'users-service' },
     });
 
