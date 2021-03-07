@@ -1,3 +1,4 @@
+import { ErrorArtistNotFound } from '@constants/errors';
 import Artist from '@entities/Artist';
 import ArtistsRepository from '@repositories/ArtistsRepository/interface';
 
@@ -14,9 +15,11 @@ export default class GetArtistService {
 
   public async execute({ id }: Request): Promise<Artist> {
     const artist = await this.artistsRepository.find(id);
+
     if (!artist) {
-      throw Error();
+      throw new ErrorArtistNotFound(id);
     }
+
     return artist;
   }
 }

@@ -1,7 +1,8 @@
+import { ErrorEmailInUse } from '@constants/errors';
 import User from '@entities/User';
-import UsersRepository from '@repositories/UsersRepository/interface';
 import IdProvider from '@providers/IdProvider/interface';
 import HashProvider from '@providers/HashProvider/interface';
+import UsersRepository from '@repositories/UsersRepository/interface';
 
 interface Request {
   username: string;
@@ -23,7 +24,7 @@ export default class CreateUserService {
   public async execute({ username, email, password }: Request): Promise<User> {
     const userExists = await this.usersRepository.findByEmail(email);
     if (userExists) {
-      throw new Error();
+      throw new ErrorEmailInUse(email);
     }
 
     const hashedPassword = await this.hashProvider.generate(password);
