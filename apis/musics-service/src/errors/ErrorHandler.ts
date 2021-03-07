@@ -1,8 +1,15 @@
 import BaseError from './BaseError';
+import LoggerProvider from '@providers/LoggerProvider/interface';
 
 export default class ErrorHandler {
+  private loggerProvider: LoggerProvider;
+
+  constructor(loggerProvider: LoggerProvider) {
+    this.loggerProvider = loggerProvider;
+  }
+
   public async handleError(error: Error): Promise<void> {
-    console.log('Error Handler: ', error);
+    this.loggerProvider.error('', error);
   }
 
   public isTrustedError(error: Error): boolean {
