@@ -4,6 +4,7 @@ import GrpcChannel from './interface';
 import { MusicsHandler, MusicsService } from './handlers/MusicsHandler';
 import Config from '@config/index';
 import ErrorHandler from '@errors/ErrorHandler';
+import LoggerProvider from '@providers/LoggerProvider/interface';
 import GetMusicService from '@services/Music/GetMusicService';
 import GetAlbumService from '@services/Album/GetAlbumService';
 import GetArtistService from '@services/Artist/GetArtistService';
@@ -11,10 +12,19 @@ import GetArtistService from '@services/Artist/GetArtistService';
 export default class Grpc implements GrpcChannel {
   private musicsHandler: MusicsHandler;
   private errorHandler: ErrorHandler;
+  private loggerProvider: LoggerProvider;
 
-  constructor(getMusicService: GetMusicService, getAlbumService: GetAlbumService, getArtistService: GetArtistService, errorHandler: ErrorHandler) {
+  // prettier-ignore
+  constructor(
+    getMusicService: GetMusicService,
+    getAlbumService: GetAlbumService,
+    getArtistService: GetArtistService,
+    errorHandler: ErrorHandler,
+    loggerProvider: LoggerProvider,
+  ) {
     this.musicsHandler = new MusicsHandler(getMusicService, getAlbumService, getArtistService, errorHandler);
     this.errorHandler = errorHandler;
+    this.loggerProvider = loggerProvider;
   }
 
   public start(): void {
@@ -32,8 +42,9 @@ export default class Grpc implements GrpcChannel {
       (error: Error | null, port: number): void => {
         if (error != null) {
           this.errorHandler.handleError(error);
+        } else {
+          this.loggerProvider.info(`gRPC server is running on port ${port}`);
         }
-        console.log(`gRPC server is running on port ${port}`);
       },
     );
 
