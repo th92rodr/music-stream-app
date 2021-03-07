@@ -5,4 +5,9 @@ export default {
       port: Number(process.env.GRPC_PORT) || 6565,
     },
   },
+
+  logging: {
+    redirect: 'console', // 'console' / 'file'
+    filePath: 'logs/error.log',
+  },
 };
