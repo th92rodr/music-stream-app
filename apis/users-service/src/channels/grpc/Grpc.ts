@@ -12,6 +12,8 @@ import GetUserService from '@services/GetUserService';
 import UpdateUserService from '@services/UpdateUserService';
 
 export default class Grpc implements GrpcChannel {
+  private server: grpc.Server;
+
   private usersHandler: UsersHandler;
   private errorHandler: ErrorHandler;
   private loggerProvider: LoggerProvider;
@@ -28,29 +30,39 @@ export default class Grpc implements GrpcChannel {
     this.usersHandler = new UsersHandler(getUserService, createUserService, updateUserService, deleteUserService, authenticateUserService, errorHandler);
     this.errorHandler = errorHandler;
     this.loggerProvider = loggerProvider;
+
+    this.server = new grpc.Server();
   }
 
   public start(): void {
-    const server: grpc.Server = new grpc.Server();
-
-    server.addService(UsersService, this.usersHandler);
+    this.server.addService(UsersService, this.usersHandler);
 
     const PORT = Config.channels.grpc.port;
     const HOST = Config.channels.grpc.host;
 
     // prettier-ignore
-    server.bindAsync(
+    this.server.bindAsync(
       `${HOST}:${PORT}`,
       grpc.ServerCredentials.createInsecure(),
       (error: Error | null, port: number): void => {
         if (error != null) {
           this.errorHandler.handleError(error);
         } else {
-          this.loggerProvider.info(`gRPC server is running on port ${port}`);
+          this.loggerProvider.info(`gRPC server is running on port ${port}.`);
         }
       },
     );
 
-    server.start();
+    this.server.start();
+  }
+
+  public async stop(): Promise<void> {
+    this.loggerProvider.info('Stopping gRPC server ...');
+    return new Promise((resolve, reject) => {
+      this.server.tryShutdown(() => {
+        this.loggerProvider.info('gRPC server stopped.');
+        resolve();
+      });
+    });
   }
 }
