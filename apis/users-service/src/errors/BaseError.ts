@@ -1,6 +1,6 @@
 export default class BaseError extends Error {
   public readonly name: string;
-  public readonly statusCode: Number;
+  public readonly statusCode: number;
   public readonly isOperational: boolean;
 
   constructor({ name, statusCode, isOperational, message }: BaseError) {
