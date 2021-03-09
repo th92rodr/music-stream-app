@@ -5,9 +5,9 @@ import { MusicsHandler, MusicsService } from './handlers/MusicsHandler';
 import Config from '@config/index';
 import ErrorHandler from '@errors/ErrorHandler';
 import LoggerProvider from '@providers/LoggerProvider/interface';
-import GetMusicService from '@services/Music/GetMusicService';
-import GetAlbumService from '@services/Album/GetAlbumService';
-import GetArtistService from '@services/Artist/GetArtistService';
+import AlbumsService from '@services/AlbumsService/interface';
+import ArtistsService from '@services/ArtistsService/interface';
+import IMusicsService from '@services/MusicsService/interface';
 
 export default class Grpc implements GrpcChannel {
   private server: grpc.Server;
@@ -18,13 +18,15 @@ export default class Grpc implements GrpcChannel {
 
   // prettier-ignore
   constructor(
-    getMusicService: GetMusicService,
-    getAlbumService: GetAlbumService,
-    getArtistService: GetArtistService,
+    albumsService: AlbumsService,
+    artistsService: ArtistsService,
+    musicsService: IMusicsService,
     errorHandler: ErrorHandler,
     loggerProvider: LoggerProvider,
   ) {
-    this.musicsHandler = new MusicsHandler(getMusicService, getAlbumService, getArtistService, errorHandler);
+    this.musicsHandler = new MusicsHandler(
+      albumsService, artistsService, musicsService, errorHandler);
+
     this.errorHandler = errorHandler;
     this.loggerProvider = loggerProvider;
 

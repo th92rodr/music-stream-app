@@ -16,42 +16,22 @@ import {
 import { InternalError } from '@constants/errors';
 import User from '@entities/User';
 import ErrorHandler from '@errors/ErrorHandler';
-import AuthenticateUserService from '@services/AuthenticateUserService';
-import CreateUserService from '@services/CreateUserService';
-import DeleteUserService from '@services/DeleteUserService';
-import GetUserService from '@services/GetUserService';
-import UpdateUserService from '@services/UpdateUserService';
+import UsersService from '@services/interface';
 
 export { UsersService } from '../proto/users_service_grpc_pb';
 
 export class UsersHandler implements IUsersServer {
-  private getUserService: GetUserService;
-  private createUserService: CreateUserService;
-  private updateUserService: UpdateUserService;
-  private deleteUserService: DeleteUserService;
-  private authenticateUserService: AuthenticateUserService;
-
+  private usersService: UsersService;
   private errorHandler: ErrorHandler;
 
-  constructor(
-    getUserService: GetUserService,
-    createUserService: CreateUserService,
-    updateUserService: UpdateUserService,
-    deleteUserService: DeleteUserService,
-    authenticateUserService: AuthenticateUserService,
-    errorHandler: ErrorHandler,
-  ) {
-    this.getUserService = getUserService;
-    this.createUserService = createUserService;
-    this.updateUserService = updateUserService;
-    this.deleteUserService = deleteUserService;
-    this.authenticateUserService = authenticateUserService;
+  constructor(usersService: UsersService, errorHandler: ErrorHandler) {
+    this.usersService = usersService;
     this.errorHandler = errorHandler;
   }
 
   get = async (call: grpc.ServerUnaryCall<GetUserRequest>, callback: grpc.sendUnaryData<GetUserResponse>): Promise<void> => {
     try {
-      const user = await this.getUserService.execute({ id: call.request.getId() });
+      const user = await this.usersService.get({ id: call.request.getId() });
       callback(null, this.translateGetUser(user));
     } catch (error) {
       await this.errorHandler.handleError(error);
@@ -65,7 +45,7 @@ export class UsersHandler implements IUsersServer {
 
   create = async (call: grpc.ServerUnaryCall<CreateUserRequest>, callback: grpc.sendUnaryData<CreateUserResponse>): Promise<void> => {
     try {
-      const user = await this.createUserService.execute({
+      const user = await this.usersService.create({
         username: call.request.getUsername(),
         email: call.request.getEmail(),
         password: call.request.getPassword(),
@@ -83,7 +63,7 @@ export class UsersHandler implements IUsersServer {
 
   update = async (call: grpc.ServerUnaryCall<UpdateUserRequest>, callback: grpc.sendUnaryData<UpdateUserResponse>): Promise<void> => {
     try {
-      await this.updateUserService.execute({
+      await this.usersService.update({
         id: call.request.getId(),
         username: call.request.getUsername(),
         email: call.request.getEmail(),
@@ -102,7 +82,7 @@ export class UsersHandler implements IUsersServer {
 
   delete = async (call: grpc.ServerUnaryCall<DeleteUserRequest>, callback: grpc.sendUnaryData<DeleteUserResponse>): Promise<void> => {
     try {
-      await this.deleteUserService.execute({
+      await this.usersService.delete({
         id: call.request.getId(),
       });
       callback(null, new DeleteUserResponse());
@@ -118,7 +98,7 @@ export class UsersHandler implements IUsersServer {
 
   authenticate = async (call: grpc.ServerUnaryCall<AuthenticateUserRequest>, callback: grpc.sendUnaryData<AuthenticateUserResponse>): Promise<void> => {
     try {
-      const { token } = await this.authenticateUserService.execute({
+      const { token } = await this.usersService.authenticate({
         email: call.request.getEmail(),
         password: call.request.getPassword(),
       });

@@ -5,11 +5,7 @@ import { UsersHandler, UsersService } from './handlers/UsersHandler';
 import Config from '@config/index';
 import ErrorHandler from '@errors/ErrorHandler';
 import LoggerProvider from '@providers/LoggerProvider/interface';
-import AuthenticateUserService from '@services/AuthenticateUserService';
-import CreateUserService from '@services/CreateUserService';
-import DeleteUserService from '@services/DeleteUserService';
-import GetUserService from '@services/GetUserService';
-import UpdateUserService from '@services/UpdateUserService';
+import IUsersService from '@services/interface';
 
 export default class Grpc implements GrpcChannel {
   private server: grpc.Server;
@@ -18,16 +14,14 @@ export default class Grpc implements GrpcChannel {
   private errorHandler: ErrorHandler;
   private loggerProvider: LoggerProvider;
 
+  // prettier-ignore
   constructor(
-    getUserService: GetUserService,
-    createUserService: CreateUserService,
-    updateUserService: UpdateUserService,
-    deleteUserService: DeleteUserService,
-    authenticateUserService: AuthenticateUserService,
+    usersService: IUsersService,
     errorHandler: ErrorHandler,
     loggerProvider: LoggerProvider,
   ) {
-    this.usersHandler = new UsersHandler(getUserService, createUserService, updateUserService, deleteUserService, authenticateUserService, errorHandler);
+    this.usersHandler = new UsersHandler(usersService, errorHandler);
+
     this.errorHandler = errorHandler;
     this.loggerProvider = loggerProvider;
 
