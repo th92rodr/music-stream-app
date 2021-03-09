@@ -4,33 +4,38 @@ import { IMusicsServer } from '../proto/musics_service_grpc_pb';
 import { Id, Music, Album, Artist, Genre } from '../proto/musics_service_pb';
 import { Genre as GenreEnum } from '@constants/index';
 import { InternalError } from '@constants/errors';
-import MusicEntity from '@entities/Music';
 import AlbumEntity from '@entities/Album';
 import ArtistEntity from '@entities/Artist';
+import MusicEntity from '@entities/Music';
 import ErrorHandler from '@errors/ErrorHandler';
-import GetMusicService from '@services/Music/GetMusicService';
-import GetAlbumService from '@services/Album/GetAlbumService';
-import GetArtistService from '@services/Artist/GetArtistService';
+import AlbumsService from '@services/AlbumsService/interface';
+import ArtistsService from '@services/ArtistsService/interface';
+import MusicsService from '@services/MusicsService/interface';
 
 export { MusicsService } from '../proto/musics_service_grpc_pb';
 
 export class MusicsHandler implements IMusicsServer {
-  private getMusicService: GetMusicService;
-  private getAlbumService: GetAlbumService;
-  private getArtistService: GetArtistService;
-
+  private albumsService: AlbumsService;
+  private artistsService: ArtistsService;
+  private musicsService: MusicsService;
   private errorHandler: ErrorHandler;
 
-  constructor(getMusicService: GetMusicService, getAlbumService: GetAlbumService, getArtistService: GetArtistService, errorHandler: ErrorHandler) {
-    this.getMusicService = getMusicService;
-    this.getAlbumService = getAlbumService;
-    this.getArtistService = getArtistService;
+  // prettier-ignore
+  constructor(
+    albumsService: AlbumsService,
+    artistsService: ArtistsService,
+    musicsService: MusicsService,
+    errorHandler: ErrorHandler,
+  ) {
+    this.albumsService = albumsService;
+    this.artistsService = artistsService;
+    this.musicsService = musicsService;
     this.errorHandler = errorHandler;
   }
 
   getMusic = async (call: grpc.ServerUnaryCall<Id>, callback: grpc.sendUnaryData<Music>): Promise<void> => {
     try {
-      const music = await this.getMusicService.execute({ id: call.request.getId() });
+      const music = await this.musicsService.get({ id: call.request.getId() });
       callback(null, this.translateMusicEntity(music));
     } catch (error) {
       await this.errorHandler.handleError(error);
@@ -44,7 +49,7 @@ export class MusicsHandler implements IMusicsServer {
 
   getAlbum = async (call: grpc.ServerUnaryCall<Id>, callback: grpc.sendUnaryData<Album>): Promise<void> => {
     try {
-      const album = await this.getAlbumService.execute({ id: call.request.getId() });
+      const album = await this.albumsService.get({ id: call.request.getId() });
       callback(null, this.translateAlbumEntity(album));
     } catch (error) {
       await this.errorHandler.handleError(error);
@@ -58,7 +63,7 @@ export class MusicsHandler implements IMusicsServer {
 
   getArtist = async (call: grpc.ServerUnaryCall<Id>, callback: grpc.sendUnaryData<Artist>): Promise<void> => {
     try {
-      const artist = await this.getArtistService.execute({ id: call.request.getId() });
+      const artist = await this.artistsService.get({ id: call.request.getId() });
       callback(null, this.translateArtistEntity(artist));
     } catch (error) {
       await this.errorHandler.handleError(error);
