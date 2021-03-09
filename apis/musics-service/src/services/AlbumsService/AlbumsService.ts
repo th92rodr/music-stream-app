@@ -1,19 +1,17 @@
+import { GetAlbumRequest } from './dtos';
+import IAlbumsService from './interface';
 import { ErrorAlbumNotFound } from '@constants/errors';
 import Album from '@entities/Album';
 import AlbumsRepository from '@repositories/AlbumsRepository/interface';
 
-interface Request {
-  id: string;
-}
-
-export default class GetAlbumService {
+export default class AlbumsService implements IAlbumsService {
   private albumsRepository: AlbumsRepository;
 
   constructor(albumsRepository: AlbumsRepository) {
     this.albumsRepository = albumsRepository;
   }
 
-  public async execute({ id }: Request): Promise<Album> {
+  public async get({ id }: GetAlbumRequest): Promise<Album> {
     const album = await this.albumsRepository.find(id);
 
     if (!album) {
@@ -22,4 +20,10 @@ export default class GetAlbumService {
 
     return album;
   }
+
+  public async create(request: any): Promise<void> {}
+
+  public async update(request: any): Promise<void> {}
+
+  public async delete(request: any): Promise<void> {}
 }
