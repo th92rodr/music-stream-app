@@ -1,20 +1,20 @@
-import path from 'path';
 import Knex from 'knex';
+import path from 'path';
 
-import Music from '../../entities/Music';
 import Album from '../../entities/Album';
 import Artist from '../../entities/Artist';
+import Music from '../../entities/Music';
 import { AlbumsTable, ArtistsTable, Genre, MusicsTable } from '../../constants/index';
 import UuidIdProvider from '../../providers/IdProvider/UuidIdProvider';
-import SQLMusicsRepository from '../../repositories/MusicsRepository/SQLMusicsRepository';
 import SQLAlbumsRepository from '../../repositories/AlbumsRepository/SQLAlbumsRepository';
 import SQLArtistsRepository from '../../repositories/ArtistsRepository/SQLArtistsRepository';
+import SQLMusicsRepository from '../../repositories/MusicsRepository/SQLMusicsRepository';
 
 export async function seed(knex: Knex): Promise<void> {
-  // Deletes ALL existing entries
-  await knex(MusicsTable).del();
-  await knex(AlbumsTable).del();
+  // Deletes all existing entries.
   await knex(ArtistsTable).del();
+  await knex(AlbumsTable).del();
+  await knex(MusicsTable).del();
 
   const uuidIdProvider = new UuidIdProvider();
 
