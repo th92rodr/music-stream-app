@@ -1,19 +1,17 @@
+import { GetMusicRequest } from './dtos';
+import IMusicsService from './interface';
 import { ErrorMusicNotFound } from '@constants/errors';
 import Music from '@entities/Music';
 import MusicsRepository from '@repositories/MusicsRepository/interface';
 
-interface Request {
-  id: string;
-}
-
-export default class GetMusicService {
+export default class MusicsService implements IMusicsService {
   private musicsRepository: MusicsRepository;
 
   constructor(musicsRepository: MusicsRepository) {
     this.musicsRepository = musicsRepository;
   }
 
-  public async execute({ id }: Request): Promise<Music> {
+  public async get({ id }: GetMusicRequest): Promise<Music> {
     const music = await this.musicsRepository.find(id);
 
     if (!music) {
@@ -22,4 +20,10 @@ export default class GetMusicService {
 
     return music;
   }
+
+  public async create(request: any): Promise<void> {}
+
+  public async update(request: any): Promise<void> {}
+
+  public async delete(request: any): Promise<void> {}
 }
