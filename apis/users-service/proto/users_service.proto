@@ -1,0 +1,64 @@
+syntax = "proto3";
+
+package proto;
+
+service Users {
+    rpc Get (GetUserRequest) returns (GetUserResponse) {}
+    rpc Create (CreateUserRequest) returns (CreateUserResponse) {}
+    rpc Update (UpdateUserRequest) returns (UpdateUserResponse) {}
+    rpc Delete (DeleteUserRequest) returns (DeleteUserResponse) {}
+    rpc Authenticate (AuthenticateUserRequest) returns (AuthenticateUserResponse) {}
+}
+
+message GetUserRequest {
+    string id = 1;
+}
+
+message GetUserResponse {
+    string id = 1;
+    string username = 2;
+    string email = 3;
+    string password = 4;
+}
+
+message CreateUserRequest {
+    string username = 1;
+    string email = 2;
+    string password = 3;
+}
+
+message CreateUserResponse {
+    string id = 1;
+    string username = 2;
+    string email = 3;
+    string password = 4;
+}
+
+message UpdateUserRequest {
+    string id = 1;
+    string username = 2;
+    string email = 3;
+    string password = 4;
+}
+
+message UpdateUserResponse {
+    string id = 1;
+    string username = 2;
+    string email = 3;
+    string password = 4;
+}
+
+message DeleteUserRequest {
+    string id = 1;
+}
+
+message DeleteUserResponse {}
+
+message AuthenticateUserRequest {
+    string email = 1;
+    string password = 2;
+}
+
+message AuthenticateUserResponse {
+    string token = 1;
+}
