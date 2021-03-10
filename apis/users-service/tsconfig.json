@@ -7,10 +7,11 @@
     "baseUrl": "./src",
     "paths": {
       "@channels/*": ["channels/*"],
-      "@config": ["config"],
+      "@config/*": ["config/*"],
       "@constants/*": ["constants/*"],
       "@database/*": ["database/*"],
       "@entities/*": ["entities/*"],
+      "@errors/*": ["errors/*"],
       "@providers/*": ["providers/*"],
       "@repositories/*": ["repositories/*"],
       "@services/*": ["services/*"],
