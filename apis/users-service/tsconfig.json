@@ -11,7 +11,7 @@
       "@constants/*": ["constants/*"],
       "@database/*": ["database/*"],
       "@entities/*": ["entities/*"],
-      "@errors/*": ["errors/*"],
+      "@handlers/*": ["handlers/*"],
       "@providers/*": ["providers/*"],
       "@repositories/*": ["repositories/*"],
       "@services/*": ["services/*"],
