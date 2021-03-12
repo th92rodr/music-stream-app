@@ -1,24 +1,24 @@
 import * as grpc from 'grpc';
 
-import GrpcChannel from './interface';
+import IGrpcChannel from './interface';
 import { UsersHandler, UsersService } from './handlers/UsersHandler';
 import Config from '@config/index';
-import ErrorHandler from '@errors/ErrorHandler';
-import LoggerProvider from '@providers/LoggerProvider/interface';
-import IUsersService from '@services/interface';
+import IErrorHandler from '@handlers/ErrorHandler/interface';
+import ILoggerProvider from '@providers/LoggerProvider/interface';
+import IUsersService from '@services/UsersService/interface';
 
-export default class Grpc implements GrpcChannel {
+export default class Grpc implements IGrpcChannel {
   private server: grpc.Server;
 
   private usersHandler: UsersHandler;
-  private errorHandler: ErrorHandler;
-  private loggerProvider: LoggerProvider;
+  private errorHandler: IErrorHandler;
+  private loggerProvider: ILoggerProvider;
 
   // prettier-ignore
   constructor(
     usersService: IUsersService,
-    errorHandler: ErrorHandler,
-    loggerProvider: LoggerProvider,
+    errorHandler: IErrorHandler,
+    loggerProvider: ILoggerProvider,
   ) {
     this.usersHandler = new UsersHandler(usersService, errorHandler);
 

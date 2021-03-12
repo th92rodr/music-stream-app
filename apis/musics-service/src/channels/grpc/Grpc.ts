@@ -1,28 +1,28 @@
 import * as grpc from 'grpc';
 
-import GrpcChannel from './interface';
+import IGrpcChannel from './interface';
 import { MusicsHandler, MusicsService } from './handlers/MusicsHandler';
 import Config from '@config/index';
-import ErrorHandler from '@errors/ErrorHandler';
-import LoggerProvider from '@providers/LoggerProvider/interface';
-import AlbumsService from '@services/AlbumsService/interface';
-import ArtistsService from '@services/ArtistsService/interface';
+import IErrorHandler from '@handlers/ErrorHandler/interface';
+import ILoggerProvider from '@providers/LoggerProvider/interface';
+import IAlbumsService from '@services/AlbumsService/interface';
+import IArtistsService from '@services/ArtistsService/interface';
 import IMusicsService from '@services/MusicsService/interface';
 
-export default class Grpc implements GrpcChannel {
+export default class Grpc implements IGrpcChannel {
   private server: grpc.Server;
 
   private musicsHandler: MusicsHandler;
-  private errorHandler: ErrorHandler;
-  private loggerProvider: LoggerProvider;
+  private errorHandler: IErrorHandler;
+  private loggerProvider: ILoggerProvider;
 
   // prettier-ignore
   constructor(
-    albumsService: AlbumsService,
-    artistsService: ArtistsService,
+    albumsService: IAlbumsService,
+    artistsService: IArtistsService,
     musicsService: IMusicsService,
-    errorHandler: ErrorHandler,
-    loggerProvider: LoggerProvider,
+    errorHandler: IErrorHandler,
+    loggerProvider: ILoggerProvider,
   ) {
     this.musicsHandler = new MusicsHandler(
       albumsService, artistsService, musicsService, errorHandler);
