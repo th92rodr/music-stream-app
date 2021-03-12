@@ -2,12 +2,12 @@ import { GetArtistRequest } from './dtos';
 import IArtistsService from './interface';
 import { ErrorArtistNotFound } from '@constants/errors';
 import Artist from '@entities/Artist';
-import ArtistsRepository from '@repositories/ArtistsRepository/interface';
+import IArtistsRepository from '@repositories/ArtistsRepository/interface';
 
 export default class ArtistsService implements IArtistsService {
-  private artistsRepository: ArtistsRepository;
+  private artistsRepository: IArtistsRepository;
 
-  constructor(artistsRepository: ArtistsRepository) {
+  constructor(artistsRepository: IArtistsRepository) {
     this.artistsRepository = artistsRepository;
   }
 

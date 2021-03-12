@@ -2,12 +2,12 @@ import { GetAlbumRequest } from './dtos';
 import IAlbumsService from './interface';
 import { ErrorAlbumNotFound } from '@constants/errors';
 import Album from '@entities/Album';
-import AlbumsRepository from '@repositories/AlbumsRepository/interface';
+import IAlbumsRepository from '@repositories/AlbumsRepository/interface';
 
 export default class AlbumsService implements IAlbumsService {
-  private albumsRepository: AlbumsRepository;
+  private albumsRepository: IAlbumsRepository;
 
-  constructor(albumsRepository: AlbumsRepository) {
+  constructor(albumsRepository: IAlbumsRepository) {
     this.albumsRepository = albumsRepository;
   }
 

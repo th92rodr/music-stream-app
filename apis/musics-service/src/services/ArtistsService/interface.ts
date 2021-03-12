@@ -1,7 +1,7 @@
 import { GetArtistRequest } from './dtos';
 import Artist from '@entities/Artist';
 
-export default interface ArtistsService {
+export default interface IArtistsService {
   get(request: GetArtistRequest): Promise<Artist>;
   create(request: any): Promise<void>;
   update(request: any): Promise<void>;
