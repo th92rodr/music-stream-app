@@ -1,5 +1,5 @@
 import { StatusCode } from './index';
-import BaseError from '@errors/BaseError';
+import BaseError from './BaseError';
 
 export class ErrorMusicNotFound extends BaseError {
   constructor(id: string) {
@@ -38,9 +38,9 @@ export class InternalError extends BaseError {
   constructor() {
     super({
       name: 'INTERNAL ERROR',
-      statusCode: StatusCode.INTERNAL_SERVER,
+      statusCode: StatusCode.INTERNAL_SERVER_ERROR,
       isOperational: false,
-      message: `An unexpected error occur.`,
+      message: 'An unexpected error occur.',
     });
   }
 }
