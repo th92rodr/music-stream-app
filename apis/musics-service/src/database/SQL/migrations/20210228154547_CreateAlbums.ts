@@ -1,6 +1,6 @@
 import * as Knex from 'knex';
 
-import { AlbumsTable, ArtistsTable } from '../../constants/index';
+import { AlbumsTable, ArtistsTable } from '../../../constants/index';
 
 export async function up(knex: Knex): Promise<void> {
   return knex.schema.createTable(AlbumsTable, table => {

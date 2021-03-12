@@ -1,4 +1,4 @@
-export default interface Database {
+export default interface IDatabase {
   getConnection(): any;
   close(): Promise<void>;
 }
