@@ -1,3 +1,3 @@
-export default interface TokenProvider {
+export default interface ITokenProvider {
   generate(id: string): string;
 }

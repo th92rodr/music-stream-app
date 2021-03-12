@@ -1,3 +1,3 @@
-export default interface IdProvider {
+export default interface IIdProvider {
   generate(): string;
 }

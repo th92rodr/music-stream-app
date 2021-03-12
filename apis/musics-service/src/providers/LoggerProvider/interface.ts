@@ -1,4 +1,4 @@
-export default interface LoggerProvider {
+export default interface ILoggerProvider {
   info(message: string, meta?: any): void;
   error(message: string, error: Error): void;
   warn(message: string, meta: Error): void;

@@ -1,9 +1,9 @@
 import crypto from 'crypto';
 
-import HashProvider from './interface';
+import IHashProvider from './interface';
 import Config from '@config/index';
 
-export default class CryptoHashProvider implements HashProvider {
+export default class CryptoHashProvider implements IHashProvider {
   private salt: string;
   private algorithm: string;
 

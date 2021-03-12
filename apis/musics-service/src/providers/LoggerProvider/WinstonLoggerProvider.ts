@@ -1,7 +1,7 @@
 import winston from 'winston';
 const { colorize, printf, splat, timestamp } = winston.format;
 
-import LoggerProvider from './interface';
+import ILoggerProvider from './interface';
 import Config from '@config/index';
 
 const customLevels = {
@@ -22,7 +22,7 @@ const customColors = {
   fatal: 'red',
 };
 
-export default class WinstonLoggerProvider implements LoggerProvider {
+export default class WinstonLoggerProvider implements ILoggerProvider {
   private logger: winston.Logger;
 
   constructor() {

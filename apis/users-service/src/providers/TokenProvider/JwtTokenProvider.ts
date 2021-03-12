@@ -1,9 +1,9 @@
 import { sign } from 'jsonwebtoken';
 
-import TokenProvider from './interface';
+import ITokenProvider from './interface';
 import Config from '@config/index';
 
-export default class JwtTokenProvider implements TokenProvider {
+export default class JwtTokenProvider implements ITokenProvider {
   public generate(id: string): string {
     const { secret, expiresIn } = Config.authentication;
 
