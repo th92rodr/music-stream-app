@@ -1,6 +1,6 @@
 import Album from '@entities/Album';
 
-export default interface AlbumsRepository {
+export default interface IAlbumsRepository {
   find(id: string): Promise<Album | undefined>;
   findAllTracks(id: string): Promise<Album | undefined>;
   store(album: Album): Promise<void>;

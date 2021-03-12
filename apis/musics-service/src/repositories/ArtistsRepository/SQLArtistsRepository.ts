@@ -1,12 +1,12 @@
 import Knex from 'knex';
 
-import ArtistsRepository from './interface';
+import IArtistsRepository from './interface';
 import { AlbumsTable, ArtistsTable } from '@constants/index';
 import Album from '@entities/Album';
 import Artist from '@entities/Artist';
 import { removeUndefineds } from '@utils/index';
 
-export default class SQLArtistsRepository implements ArtistsRepository {
+export default class SQLArtistsRepository implements IArtistsRepository {
   private databaseConnection: Knex;
 
   constructor(databaseConnection: Knex) {

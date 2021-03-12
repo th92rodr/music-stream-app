@@ -1,10 +1,10 @@
 import Knex from 'knex';
 
-import MusicsRepository from './interface';
+import IMusicsRepository from './interface';
 import { MusicsTable } from '@constants/index';
 import Music from '@entities/Music';
 
-export default class SQLMusicsRepository implements MusicsRepository {
+export default class SQLMusicsRepository implements IMusicsRepository {
   private databaseConnection: Knex;
 
   constructor(databaseConnection: Knex) {
