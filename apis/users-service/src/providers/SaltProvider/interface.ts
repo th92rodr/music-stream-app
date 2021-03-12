@@ -1,3 +1,3 @@
-export default interface SaltProvider {
+export default interface ISaltProvider {
   generate(rounds: number): Promise<string>;
 }
