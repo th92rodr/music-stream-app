@@ -2,12 +2,12 @@ import { GetMusicRequest } from './dtos';
 import IMusicsService from './interface';
 import { ErrorMusicNotFound } from '@constants/errors';
 import Music from '@entities/Music';
-import MusicsRepository from '@repositories/MusicsRepository/interface';
+import IMusicsRepository from '@repositories/MusicsRepository/interface';
 
 export default class MusicsService implements IMusicsService {
-  private musicsRepository: MusicsRepository;
+  private musicsRepository: IMusicsRepository;
 
-  constructor(musicsRepository: MusicsRepository) {
+  constructor(musicsRepository: IMusicsRepository) {
     this.musicsRepository = musicsRepository;
   }
 

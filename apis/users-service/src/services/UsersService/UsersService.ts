@@ -9,28 +9,28 @@ import {
 import IUsersService from './interface';
 import { ErrorUserNotFound, ErrorEmailInUse, ErrorInvalidCredentials } from '@constants/errors';
 import User from '@entities/User';
-import IdProvider from '@providers/IdProvider/interface';
-import HashProvider from '@providers/HashProvider/interface';
-import TokenProvider from '@providers/TokenProvider/interface';
-import UsersRepository from '@repositories/UsersRepository/interface';
+import IHashProvider from '@providers/HashProvider/interface';
+import IIdProvider from '@providers/IdProvider/interface';
+import ITokenProvider from '@providers/TokenProvider/interface';
+import IUsersRepository from '@repositories/UsersRepository/interface';
 
 export default class UsersService implements IUsersService {
-  private usersRepository: UsersRepository;
+  private usersRepository: IUsersRepository;
 
-  private idProvider: IdProvider;
-  private hashProvider: HashProvider;
-  private tokenProvider: TokenProvider;
+  private hashProvider: IHashProvider;
+  private idProvider: IIdProvider;
+  private tokenProvider: ITokenProvider;
 
   // prettier-ignore
   constructor(
-    usersRepository: UsersRepository,
-    idProvider: IdProvider,
-    hashProvider: HashProvider,
-    tokenProvider: TokenProvider
+    usersRepository: IUsersRepository,
+    hashProvider: IHashProvider,
+    idProvider: IIdProvider,
+    tokenProvider: ITokenProvider
   ) {
     this.usersRepository = usersRepository;
-    this.idProvider = idProvider;
     this.hashProvider = hashProvider;
+    this.idProvider = idProvider;
     this.tokenProvider = tokenProvider;
   }
 

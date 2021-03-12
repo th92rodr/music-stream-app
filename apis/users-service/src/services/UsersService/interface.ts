@@ -8,7 +8,7 @@ import {
   AuthenticateUserResponse } from './dtos';
 import User from '@entities/User';
 
-export default interface UsersService {
+export default interface IUsersService {
   get(request: GetUserRequest): Promise<User>;
   create(request: CreateUserRequest): Promise<User>;
   update(request: UpdateUserRequest): Promise<void>;
