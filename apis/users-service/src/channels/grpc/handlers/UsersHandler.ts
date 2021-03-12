@@ -15,16 +15,16 @@ import {
 } from '../proto/users_service_pb';
 import { InternalError } from '@constants/errors';
 import User from '@entities/User';
-import ErrorHandler from '@errors/ErrorHandler';
-import UsersService from '@services/interface';
+import IErrorHandler from '@handlers/ErrorHandler/interface';
+import IUsersService from '@services/UsersService/interface';
 
 export { UsersService } from '../proto/users_service_grpc_pb';
 
 export class UsersHandler implements IUsersServer {
-  private usersService: UsersService;
-  private errorHandler: ErrorHandler;
+  private usersService: IUsersService;
+  private errorHandler: IErrorHandler;
 
-  constructor(usersService: UsersService, errorHandler: ErrorHandler) {
+  constructor(usersService: IUsersService, errorHandler: IErrorHandler) {
     this.usersService = usersService;
     this.errorHandler = errorHandler;
   }
