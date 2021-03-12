@@ -1,6 +1,7 @@
 import knex from 'knex';
 
 import IDatabase from './interface';
+import Config from '@config/index';
 import ILoggerProvider from '@providers/LoggerProvider/interface';
 
 export default class KnexDatabase implements IDatabase {
@@ -10,7 +11,7 @@ export default class KnexDatabase implements IDatabase {
   constructor(loggerProvider: ILoggerProvider) {
     this.connection = knex({
       client: 'pg',
-      connection: process.env.POSTGRES_ADDRESS,
+      connection: Config.database.postgres.address,
       useNullAsDefault: true,
     });
 

@@ -11,6 +11,12 @@ export default {
     },
   },
 
+  database: {
+    postgres: {
+      address: process.env.POSTGRES_ADDRESS || '',
+    },
+  },
+
   logging: {
     redirect: 'console', // 'console' / 'file'
     filePath: 'logs/error.log',
