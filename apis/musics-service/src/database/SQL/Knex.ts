@@ -1,14 +1,13 @@
 import knex from 'knex';
 
-import Database from './interface';
-import LoggerProvider from '@providers/LoggerProvider/interface';
+import IDatabase from './interface';
+import ILoggerProvider from '@providers/LoggerProvider/interface';
 
-export default class KnexDatabase implements Database {
+export default class KnexDatabase implements IDatabase {
   private connection: knex;
+  private loggerProvider: ILoggerProvider;
 
-  private loggerProvider: LoggerProvider;
-
-  constructor(loggerProvider: LoggerProvider) {
+  constructor(loggerProvider: ILoggerProvider) {
     this.connection = knex({
       client: 'pg',
       connection: process.env.POSTGRES_ADDRESS,
