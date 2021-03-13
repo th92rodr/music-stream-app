@@ -1,14 +1,11 @@
 import Knex from 'knex';
 import path from 'path';
 
-import Album from '../../entities/Album';
-import Artist from '../../entities/Artist';
-import Music from '../../entities/Music';
-import { AlbumsTable, ArtistsTable, Genre, MusicsTable } from '../../constants/index';
-import UuidIdProvider from '../../providers/IdProvider/UuidIdProvider';
-import SQLAlbumsRepository from '../../repositories/AlbumsRepository/SQLAlbumsRepository';
-import SQLArtistsRepository from '../../repositories/ArtistsRepository/SQLArtistsRepository';
-import SQLMusicsRepository from '../../repositories/MusicsRepository/SQLMusicsRepository';
+import { AlbumsTable, ArtistsTable, Genre, MusicsTable } from '../../../constants/index';
+import Album from '../../../entities/Album';
+import Artist from '../../../entities/Artist';
+import Music from '../../../entities/Music';
+import { idProvider } from '../../../providers/index';
 
 export async function seed(knex: Knex): Promise<void> {
   // Deletes all existing entries.
@@ -16,10 +13,8 @@ export async function seed(knex: Knex): Promise<void> {
   await knex(AlbumsTable).del();
   await knex(MusicsTable).del();
 
-  const uuidIdProvider = new UuidIdProvider();
-
   const artist = new Artist({
-    id: uuidIdProvider.generate(),
+    id: idProvider.generate(),
     name: 'Sabaton',
     description: '',
     genre: Genre['Power Metal'],
@@ -27,7 +22,7 @@ export async function seed(knex: Knex): Promise<void> {
   });
 
   const album = new Album({
-    id: uuidIdProvider.generate(),
+    id: idProvider.generate(),
     name: 'The Art of War',
     year: new Date(2008),
     studio: 'The Abyss Studios',
@@ -37,7 +32,7 @@ export async function seed(knex: Knex): Promise<void> {
   });
 
   const music = new Music({
-    id: uuidIdProvider.generate(),
+    id: idProvider.generate(),
     title: 'Price of a Mile',
     durationInSeconds: 355,
     file: path.resolve('Sabaton', 'The-Art-of-War', 'The-Price-of-a-Mile.mp3'),
@@ -49,12 +44,7 @@ export async function seed(knex: Knex): Promise<void> {
   album.setTracks([music]);
   artist.setAlbums([album]);
 
-  const musicsRepository = new SQLMusicsRepository(knex);
-  await musicsRepository.store(music);
-
-  const albumsRepository = new SQLAlbumsRepository(knex);
-  await albumsRepository.store(album);
-
-  const artistsRepository = new SQLArtistsRepository(knex);
-  await artistsRepository.store(artist);
+  await knex<Artist>(ArtistsTable).insert(artist);
+  await knex<Album>(AlbumsTable).insert(album);
+  await knex<Music>(MusicsTable).insert(music);
 }

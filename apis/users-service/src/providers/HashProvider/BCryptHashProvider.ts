@@ -1,9 +1,9 @@
 import { hash, compare } from 'bcryptjs';
 
-import HashProvider from './interface';
+import IHashProvider from './interface';
 import Config from '@config/index';
 
-export default class BCryptHashProvider implements HashProvider {
+export default class BCryptHashProvider implements IHashProvider {
   private salt: string;
 
   constructor() {

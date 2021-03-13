@@ -7,25 +7,25 @@ import { InternalError } from '@constants/errors';
 import AlbumEntity from '@entities/Album';
 import ArtistEntity from '@entities/Artist';
 import MusicEntity from '@entities/Music';
-import ErrorHandler from '@errors/ErrorHandler';
-import AlbumsService from '@services/AlbumsService/interface';
-import ArtistsService from '@services/ArtistsService/interface';
-import MusicsService from '@services/MusicsService/interface';
+import IErrorHandler from '@handlers/ErrorHandler/interface';
+import IAlbumsService from '@services/AlbumsService/interface';
+import IArtistsService from '@services/ArtistsService/interface';
+import IMusicsService from '@services/MusicsService/interface';
 
 export { MusicsService } from '../proto/musics_service_grpc_pb';
 
 export class MusicsHandler implements IMusicsServer {
-  private albumsService: AlbumsService;
-  private artistsService: ArtistsService;
-  private musicsService: MusicsService;
-  private errorHandler: ErrorHandler;
+  private albumsService: IAlbumsService;
+  private artistsService: IArtistsService;
+  private musicsService: IMusicsService;
+  private errorHandler: IErrorHandler;
 
   // prettier-ignore
   constructor(
-    albumsService: AlbumsService,
-    artistsService: ArtistsService,
-    musicsService: MusicsService,
-    errorHandler: ErrorHandler,
+    albumsService: IAlbumsService,
+    artistsService: IArtistsService,
+    musicsService: IMusicsService,
+    errorHandler: IErrorHandler,
   ) {
     this.albumsService = albumsService;
     this.artistsService = artistsService;
@@ -119,7 +119,7 @@ export class MusicsHandler implements IMusicsServer {
     return artist;
   }
 
-  private translateGenre(genre: Number): Genre {
+  private translateGenre(genre: number): Genre {
     switch (genre) {
       case GenreEnum['Heavy Metal']:
         return Genre.HEAVY_METAL;

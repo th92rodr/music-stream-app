@@ -1,6 +1,6 @@
 import * as Knex from 'knex';
 
-import { UsersTable } from '../../constants/index';
+import { UsersTable } from '../../../constants/index';
 
 export async function up(knex: Knex): Promise<void> {
   return knex.schema.createTable(UsersTable, table => {

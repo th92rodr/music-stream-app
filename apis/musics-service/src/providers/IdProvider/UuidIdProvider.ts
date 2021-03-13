@@ -1,8 +1,8 @@
 import { v4 as uuid } from 'uuid';
 
-import IdProvider from './interface';
+import IIdProvider from './interface';
 
-export default class UuidIdProvider implements IdProvider {
+export default class UuidIdProvider implements IIdProvider {
   public generate(): string {
     return uuid();
   }

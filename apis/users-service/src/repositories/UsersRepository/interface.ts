@@ -1,6 +1,6 @@
 import User from '@entities/User';
 
-export default interface UsersRepository {
+export default interface IUsersRepository {
   find(id: string): Promise<User | undefined>;
   findByEmail(email: string): Promise<User | undefined>;
   store(user: User): Promise<void>;
