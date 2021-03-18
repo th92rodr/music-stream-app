@@ -126,6 +126,8 @@ export default class ExpressRestChannel implements IRestChannel {
 
     this.express.use(cors());
     this.express.use(express.json({ limit: '10kb' }));
+
+    this.express.use(this.logging.bind(this));
   }
 
   private initRouter(): void {
@@ -167,5 +169,17 @@ export default class ExpressRestChannel implements IRestChannel {
       const internalError = new InternalError();
       return response.status(internalError.statusCode).json({ error: internalError.message });
     }
+  }
+
+  private logging(request: Request, response: Response, next: NextFunction): void {
+    this.loggerProvider.info('', {
+      'http-version': request.httpVersionMajor + '.' + request.httpVersionMinor,
+      method: request.method,
+      URL: request.originalUrl || request.url,
+      'user-agent': request.headers['user-agent'],
+      'remote-addr': request.ip || (request.connection && request.connection.remoteAddress) || undefined,
+    });
+
+    return next();
   }
 }
