@@ -1,4 +1,6 @@
+import cors from 'cors';
 import express, { NextFunction, Request, Response, Router } from 'express';
+import helmet from 'helmet';
 import * as http from 'http';
 
 import IRestChannel from '../interface';
@@ -57,6 +59,13 @@ export default class ExpressRestChannel implements IRestChannel {
     this.server = this.express.listen(PORT, HOST, () => {
       this.loggerProvider.info(`Rest server is running on port ${PORT}.`);
     });
+  }
+
+  private initMiddlewares(): void {
+    this.express.use(helmet());
+
+    this.express.use(cors());
+    this.express.use(express.json({ limit: '10kb' }));
   }
 
   private initRouter(): void {
