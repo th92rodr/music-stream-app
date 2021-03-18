@@ -1,4 +1,4 @@
-import express, { Router } from 'express';
+import express, { NextFunction, Request, Response, Router } from 'express';
 import * as http from 'http';
 
 import IRestChannel from '../interface';
@@ -9,7 +9,7 @@ import Authentication from '../middlewares/Authentication';
 import Config from '@config/index';
 import { HttpStatusCode } from '@constants/index';
 import BaseError from '@constants/BaseError';
-import { ErrorInvalidToken } from '@constants/errors';
+import { ErrorInvalidToken, InternalError } from '@constants/errors';
 import IErrorHandler from '@handlers/ErrorHandler/interface';
 import IMusicsIntegration from '@integrations/MusicsIntegration/interface';
 import IUsersIntegration from '@integrations/UsersIntegration/interface';
@@ -72,5 +72,31 @@ export default class ExpressRestChannel implements IRestChannel {
     router.get('/music/:id', this.musicsController.stream.bind(this.musicsController));
 
     this.express.use(router);
+  }
+
+  private checkAccess(request: Request, response: Response, next: NextFunction): void | Response {
+    const authenticationHeader = request.headers.authorization;
+
+    if (!authenticationHeader) {
+      const error = new ErrorInvalidToken();
+      return response.status(error.statusCode).json({ error: error.message });
+    }
+
+    try {
+      const id = this.authenticationProvider.authentication(authenticationHeader);
+
+      request.userId = id;
+
+      return next();
+
+      //
+    } catch (error) {
+      if (error instanceof BaseError) {
+        return response.status(error.statusCode).json({ error: error.message });
+      }
+
+      const internalError = new InternalError();
+      return response.status(internalError.statusCode).json({ error: internalError.message });
+    }
   }
 }
