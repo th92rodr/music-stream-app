@@ -2,8 +2,8 @@ import { Request, Response } from 'express';
 
 import { HttpStatusCode } from '@constants/index';
 import BaseError from '@constants/BaseError';
-import IUsersIntegration from '@integrations/UsersIntegration/interface';
 import { InternalError } from '@constants/errors';
+import IUsersIntegration from '@integrations/UsersIntegration/interface';
 
 export default class UsersController {
   private usersIntegration: IUsersIntegration;
