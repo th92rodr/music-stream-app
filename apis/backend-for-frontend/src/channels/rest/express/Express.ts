@@ -18,6 +18,7 @@ import IErrorHandler from '@handlers/ErrorHandler/interface';
 import IMusicsIntegration from '@integrations/MusicsIntegration/interface';
 import IUsersIntegration from '@integrations/UsersIntegration/interface';
 import ILoggerProvider from '@providers/LoggerProvider/interface';
+import { delay } from '@utils/index';
 
 export default class ExpressRestChannel implements IRestChannel {
   private express: express.Express;
@@ -71,6 +72,42 @@ export default class ExpressRestChannel implements IRestChannel {
       socket.once('close', () => {
         this.sockets.delete(socketId);
       });
+    });
+  }
+
+  public async stop(): Promise<void> {
+    this.loggerProvider.info('Stopping rest server ...');
+
+    if (this.sockets.size > 0) {
+      await this.waitForSocketsToClose();
+    }
+
+    return new Promise((resolve, reject) => {
+      this.server.close((error: Error | undefined) => {
+        if (error) {
+          this.errorHandler.handleError(error);
+          reject(error);
+        } else {
+          this.loggerProvider.info('Rest server stopped.');
+          resolve();
+        }
+      });
+    });
+  }
+
+  private async waitForSocketsToClose() {
+    for (let counter = 5; counter > 0; counter--) {
+      if (this.sockets.size > 0) {
+        this.loggerProvider.info(`Waiting ${counter} more ${counter !== 1 ? 'seconds' : 'second'} for all connections to close ...`);
+        await delay(1);
+      } else {
+        break;
+      }
+    }
+
+    this.loggerProvider.info('Forcing all connections to close now.');
+    this.sockets.forEach(socket => {
+      socket.destroy();
     });
   }
 
