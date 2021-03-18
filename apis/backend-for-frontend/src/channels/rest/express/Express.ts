@@ -1,4 +1,4 @@
-import express from 'express';
+import express, { Router } from 'express';
 import * as http from 'http';
 
 import IRestChannel from '../interface';
@@ -57,5 +57,20 @@ export default class ExpressRestChannel implements IRestChannel {
     this.server = this.express.listen(PORT, HOST, () => {
       this.loggerProvider.info(`Rest server is running on port ${PORT}.`);
     });
+  }
+
+  private initRouter(): void {
+    const router = Router();
+
+    router.get('/', this.checkAccess.bind(this), this.usersController.show.bind(this.usersController));
+    router.post('/', this.usersController.create.bind(this.usersController));
+    router.patch('/', this.checkAccess.bind(this), this.usersController.update.bind(this.usersController));
+    router.delete('/', this.checkAccess.bind(this), this.usersController.delete.bind(this.usersController));
+
+    router.post('/token', this.tokensController.create.bind(this.tokensController));
+
+    router.get('/music/:id', this.musicsController.stream.bind(this.musicsController));
+
+    this.express.use(router);
   }
 }
