@@ -3,6 +3,7 @@ import express, { NextFunction, Request, Response, Router } from 'express';
 import rateLimit from 'express-rate-limit';
 import helmet from 'helmet';
 import * as http from 'http';
+import { Socket } from 'net';
 
 import IRestChannel from '../interface';
 import MusicsController from './controllers/MusicsController';
@@ -21,6 +22,7 @@ import ILoggerProvider from '@providers/LoggerProvider/interface';
 export default class ExpressRestChannel implements IRestChannel {
   private express: express.Express;
   private server: http.Server;
+  private sockets: Map<number, Socket>;
 
   private authenticationProvider: Authentication;
   private errorHandler: IErrorHandler;
@@ -39,6 +41,7 @@ export default class ExpressRestChannel implements IRestChannel {
   ) {
     this.express = express();
     this.server = new http.Server();
+    this.sockets = new Map();
 
     this.authenticationProvider = new Authentication();
     this.errorHandler = errorHandler;
@@ -59,6 +62,15 @@ export default class ExpressRestChannel implements IRestChannel {
 
     this.server = this.express.listen(PORT, HOST, () => {
       this.loggerProvider.info(`Rest server is running on port ${PORT}.`);
+    });
+
+    this.server.on('connection', (socket: Socket) => {
+      const socketId = this.sockets.size + 1;
+      this.sockets.set(socketId, socket);
+
+      socket.once('close', () => {
+        this.sockets.delete(socketId);
+      });
     });
   }
 
