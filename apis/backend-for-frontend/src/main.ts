@@ -1,6 +1,7 @@
 import 'dotenv/config';
 
 import { restChannel } from '@channels/index';
+import { errorHandler } from '@handlers/index';
 import { loggerProvider } from '@providers/index';
 
 restChannel.start();
@@ -15,6 +16,20 @@ process.on('SIGINT', function onSigint() {
 process.on('SIGTERM', function onSigterm() {
   loggerProvider.info('Got SIGTERM. Graceful shutdown.');
   shutdown();
+});
+
+process.on('unhandledRejection', (error: Error, promise: Promise<any>) => {
+  loggerProvider.info('Unhandled rejection caught.');
+  throw error;
+});
+
+process.on('uncaughtException', (error: Error) => {
+  loggerProvider.info('Unhandled exception caught.');
+
+  errorHandler.handleError(error);
+  if (!errorHandler.isTrustedError(error)) {
+    shutdown(1);
+  }
 });
 
 async function shutdown(exitCode = 0): Promise<void> {
