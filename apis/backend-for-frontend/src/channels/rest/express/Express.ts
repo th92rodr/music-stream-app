@@ -1,11 +1,13 @@
 import cors from 'cors';
-import express, { NextFunction, Request, Response, Router } from 'express';
+import express, { Express, NextFunction, Request, Response, Router } from 'express';
 import rateLimit from 'express-rate-limit';
 import helmet from 'helmet';
 import * as http from 'http';
 import { Socket } from 'net';
 
 import IRestChannel from '../interface';
+import AlbumsController from './controllers/AlbumsController';
+import ArtistsController from './controllers/ArtistsController';
 import MusicsController from './controllers/MusicsController';
 import TokensController from './controllers/TokensController';
 import UsersController from './controllers/UsersController';
@@ -21,7 +23,7 @@ import ILoggerProvider from '@providers/LoggerProvider/interface';
 import { delay } from '@utils/index';
 
 export default class ExpressRestChannel implements IRestChannel {
-  private express: express.Express;
+  private express: Express;
   private server: http.Server;
   private sockets: Map<number, Socket>;
 
@@ -29,6 +31,8 @@ export default class ExpressRestChannel implements IRestChannel {
   private errorHandler: IErrorHandler;
   private loggerProvider: ILoggerProvider;
 
+  private albumsController: AlbumsController;
+  private artistsController: ArtistsController;
   private musicsController: MusicsController;
   private tokensController: TokensController;
   private usersController: UsersController;
@@ -50,6 +54,9 @@ export default class ExpressRestChannel implements IRestChannel {
 
     this.usersController = new UsersController(usersIntegration);
     this.tokensController = new TokensController(usersIntegration);
+
+    this.albumsController = new AlbumsController(musicsIntegration);
+    this.artistsController = new ArtistsController(musicsIntegration);
     this.musicsController = new MusicsController(musicsIntegration);
   }
 
@@ -142,6 +149,26 @@ export default class ExpressRestChannel implements IRestChannel {
 
     router.get('/music/:id', this.musicsController.stream.bind(this.musicsController));
 
+    router.get('/api/artist', this.artistsController.index.bind(this.artistsController));
+    router.get('/api/artist/:id', this.artistsController.show.bind(this.artistsController));
+    router.post('/api/artist', this.artistsController.create.bind(this.artistsController));
+    router.patch('/api/artist/:id', this.artistsController.update.bind(this.artistsController));
+    router.delete('/api/artist/:id', this.artistsController.delete.bind(this.artistsController));
+
+    router.get('/api/album/:id', this.albumsController.show.bind(this.albumsController));
+    router.post('/api/album', this.albumsController.create.bind(this.albumsController));
+    router.patch('/api/album/:id', this.albumsController.update.bind(this.albumsController));
+    router.delete('/api/album/:id', this.albumsController.delete.bind(this.albumsController));
+
+    router.get('/api/music/:id', this.musicsController.show.bind(this.musicsController));
+    router.post('/api/music', this.musicsController.create.bind(this.musicsController));
+    router.patch('/api/music/:id', this.musicsController.update.bind(this.musicsController));
+    router.delete('/api/music/:id', this.musicsController.delete.bind(this.musicsController));
+
+    router.use('*', (request: Request, response: Response) => {
+      response.status(HttpStatusCode.NOT_FOUND).json({ message: 'Not Found' });
+    });
+
     this.express.use(router);
   }
 
@@ -159,8 +186,6 @@ export default class ExpressRestChannel implements IRestChannel {
       request.userId = id;
 
       return next();
-
-      //
     } catch (error) {
       if (error instanceof BaseError) {
         return response.status(error.statusCode).json({ error: error.message });
