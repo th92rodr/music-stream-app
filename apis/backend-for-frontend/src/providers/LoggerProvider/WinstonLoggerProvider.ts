@@ -32,7 +32,9 @@ export default class WinstonLoggerProvider implements ILoggerProvider {
       splat(),
       printf(info => {
         const { timestamp, level, message, ...meta } = info;
-        meta.message = message;
+        if (message != '') {
+          meta.message = message;
+        }
         return `[${timestamp}] [${level}]: ${Object.keys(meta).length ? JSON.stringify(meta, null, 2) : ''}`;
       }),
     );
