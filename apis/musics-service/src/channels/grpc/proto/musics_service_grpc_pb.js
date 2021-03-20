@@ -26,6 +26,72 @@ function deserialize_proto_Artist(buffer_arg) {
   return musics_service_pb.Artist.deserializeBinary(new Uint8Array(buffer_arg));
 }
 
+function serialize_proto_ArtistList(arg) {
+  if (!(arg instanceof musics_service_pb.ArtistList)) {
+    throw new Error('Expected argument of type proto.ArtistList');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_proto_ArtistList(buffer_arg) {
+  return musics_service_pb.ArtistList.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
+function serialize_proto_CreateAlbumRequest(arg) {
+  if (!(arg instanceof musics_service_pb.CreateAlbumRequest)) {
+    throw new Error('Expected argument of type proto.CreateAlbumRequest');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_proto_CreateAlbumRequest(buffer_arg) {
+  return musics_service_pb.CreateAlbumRequest.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
+function serialize_proto_CreateArtistRequest(arg) {
+  if (!(arg instanceof musics_service_pb.CreateArtistRequest)) {
+    throw new Error('Expected argument of type proto.CreateArtistRequest');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_proto_CreateArtistRequest(buffer_arg) {
+  return musics_service_pb.CreateArtistRequest.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
+function serialize_proto_CreateMusicRequest(arg) {
+  if (!(arg instanceof musics_service_pb.CreateMusicRequest)) {
+    throw new Error('Expected argument of type proto.CreateMusicRequest');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_proto_CreateMusicRequest(buffer_arg) {
+  return musics_service_pb.CreateMusicRequest.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
+function serialize_proto_Empty(arg) {
+  if (!(arg instanceof musics_service_pb.Empty)) {
+    throw new Error('Expected argument of type proto.Empty');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_proto_Empty(buffer_arg) {
+  return musics_service_pb.Empty.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
+function serialize_proto_GetArtistByGenreRequest(arg) {
+  if (!(arg instanceof musics_service_pb.GetArtistByGenreRequest)) {
+    throw new Error('Expected argument of type proto.GetArtistByGenreRequest');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_proto_GetArtistByGenreRequest(buffer_arg) {
+  return musics_service_pb.GetArtistByGenreRequest.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
 function serialize_proto_Id(arg) {
   if (!(arg instanceof musics_service_pb.Id)) {
     throw new Error('Expected argument of type proto.Id');
@@ -48,6 +114,39 @@ function deserialize_proto_Music(buffer_arg) {
   return musics_service_pb.Music.deserializeBinary(new Uint8Array(buffer_arg));
 }
 
+function serialize_proto_UpdateAlbumRequest(arg) {
+  if (!(arg instanceof musics_service_pb.UpdateAlbumRequest)) {
+    throw new Error('Expected argument of type proto.UpdateAlbumRequest');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_proto_UpdateAlbumRequest(buffer_arg) {
+  return musics_service_pb.UpdateAlbumRequest.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
+function serialize_proto_UpdateArtistRequest(arg) {
+  if (!(arg instanceof musics_service_pb.UpdateArtistRequest)) {
+    throw new Error('Expected argument of type proto.UpdateArtistRequest');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_proto_UpdateArtistRequest(buffer_arg) {
+  return musics_service_pb.UpdateArtistRequest.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
+function serialize_proto_UpdateMusicRequest(arg) {
+  if (!(arg instanceof musics_service_pb.UpdateMusicRequest)) {
+    throw new Error('Expected argument of type proto.UpdateMusicRequest');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_proto_UpdateMusicRequest(buffer_arg) {
+  return musics_service_pb.UpdateMusicRequest.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
 
 var MusicsService = exports.MusicsService = {
   getMusic: {
@@ -61,6 +160,39 @@ var MusicsService = exports.MusicsService = {
     responseSerialize: serialize_proto_Music,
     responseDeserialize: deserialize_proto_Music,
   },
+  createMusic: {
+    path: '/proto.Musics/CreateMusic',
+    requestStream: false,
+    responseStream: false,
+    requestType: musics_service_pb.CreateMusicRequest,
+    responseType: musics_service_pb.Music,
+    requestSerialize: serialize_proto_CreateMusicRequest,
+    requestDeserialize: deserialize_proto_CreateMusicRequest,
+    responseSerialize: serialize_proto_Music,
+    responseDeserialize: deserialize_proto_Music,
+  },
+  updateMusic: {
+    path: '/proto.Musics/UpdateMusic',
+    requestStream: false,
+    responseStream: false,
+    requestType: musics_service_pb.UpdateMusicRequest,
+    responseType: musics_service_pb.Music,
+    requestSerialize: serialize_proto_UpdateMusicRequest,
+    requestDeserialize: deserialize_proto_UpdateMusicRequest,
+    responseSerialize: serialize_proto_Music,
+    responseDeserialize: deserialize_proto_Music,
+  },
+  deleteMusic: {
+    path: '/proto.Musics/DeleteMusic',
+    requestStream: false,
+    responseStream: false,
+    requestType: musics_service_pb.Id,
+    responseType: musics_service_pb.Empty,
+    requestSerialize: serialize_proto_Id,
+    requestDeserialize: deserialize_proto_Id,
+    responseSerialize: serialize_proto_Empty,
+    responseDeserialize: deserialize_proto_Empty,
+  },
   getAlbum: {
     path: '/proto.Musics/GetAlbum',
     requestStream: false,
@@ -72,6 +204,39 @@ var MusicsService = exports.MusicsService = {
     responseSerialize: serialize_proto_Album,
     responseDeserialize: deserialize_proto_Album,
   },
+  createAlbum: {
+    path: '/proto.Musics/CreateAlbum',
+    requestStream: false,
+    responseStream: false,
+    requestType: musics_service_pb.CreateAlbumRequest,
+    responseType: musics_service_pb.Album,
+    requestSerialize: serialize_proto_CreateAlbumRequest,
+    requestDeserialize: deserialize_proto_CreateAlbumRequest,
+    responseSerialize: serialize_proto_Album,
+    responseDeserialize: deserialize_proto_Album,
+  },
+  updateAlbum: {
+    path: '/proto.Musics/UpdateAlbum',
+    requestStream: false,
+    responseStream: false,
+    requestType: musics_service_pb.UpdateAlbumRequest,
+    responseType: musics_service_pb.Album,
+    requestSerialize: serialize_proto_UpdateAlbumRequest,
+    requestDeserialize: deserialize_proto_UpdateAlbumRequest,
+    responseSerialize: serialize_proto_Album,
+    responseDeserialize: deserialize_proto_Album,
+  },
+  deleteAlbum: {
+    path: '/proto.Musics/DeleteAlbum',
+    requestStream: false,
+    responseStream: false,
+    requestType: musics_service_pb.Id,
+    responseType: musics_service_pb.Empty,
+    requestSerialize: serialize_proto_Id,
+    requestDeserialize: deserialize_proto_Id,
+    responseSerialize: serialize_proto_Empty,
+    responseDeserialize: deserialize_proto_Empty,
+  },
   getArtist: {
     path: '/proto.Musics/GetArtist',
     requestStream: false,
@@ -82,6 +247,61 @@ var MusicsService = exports.MusicsService = {
     requestDeserialize: deserialize_proto_Id,
     responseSerialize: serialize_proto_Artist,
     responseDeserialize: deserialize_proto_Artist,
+  },
+  getAllArtists: {
+    path: '/proto.Musics/GetAllArtists',
+    requestStream: false,
+    responseStream: false,
+    requestType: musics_service_pb.Empty,
+    responseType: musics_service_pb.ArtistList,
+    requestSerialize: serialize_proto_Empty,
+    requestDeserialize: deserialize_proto_Empty,
+    responseSerialize: serialize_proto_ArtistList,
+    responseDeserialize: deserialize_proto_ArtistList,
+  },
+  getArtistByGenre: {
+    path: '/proto.Musics/GetArtistByGenre',
+    requestStream: false,
+    responseStream: false,
+    requestType: musics_service_pb.GetArtistByGenreRequest,
+    responseType: musics_service_pb.ArtistList,
+    requestSerialize: serialize_proto_GetArtistByGenreRequest,
+    requestDeserialize: deserialize_proto_GetArtistByGenreRequest,
+    responseSerialize: serialize_proto_ArtistList,
+    responseDeserialize: deserialize_proto_ArtistList,
+  },
+  createArtist: {
+    path: '/proto.Musics/CreateArtist',
+    requestStream: false,
+    responseStream: false,
+    requestType: musics_service_pb.CreateArtistRequest,
+    responseType: musics_service_pb.Artist,
+    requestSerialize: serialize_proto_CreateArtistRequest,
+    requestDeserialize: deserialize_proto_CreateArtistRequest,
+    responseSerialize: serialize_proto_Artist,
+    responseDeserialize: deserialize_proto_Artist,
+  },
+  updateArtist: {
+    path: '/proto.Musics/UpdateArtist',
+    requestStream: false,
+    responseStream: false,
+    requestType: musics_service_pb.UpdateArtistRequest,
+    responseType: musics_service_pb.Artist,
+    requestSerialize: serialize_proto_UpdateArtistRequest,
+    requestDeserialize: deserialize_proto_UpdateArtistRequest,
+    responseSerialize: serialize_proto_Artist,
+    responseDeserialize: deserialize_proto_Artist,
+  },
+  deleteArtist: {
+    path: '/proto.Musics/DeleteArtist',
+    requestStream: false,
+    responseStream: false,
+    requestType: musics_service_pb.Id,
+    responseType: musics_service_pb.Empty,
+    requestSerialize: serialize_proto_Id,
+    requestDeserialize: deserialize_proto_Id,
+    responseSerialize: serialize_proto_Empty,
+    responseDeserialize: deserialize_proto_Empty,
   },
 };
 
