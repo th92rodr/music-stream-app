@@ -1,9 +1,15 @@
-import { GetMusicRequest } from './dtos';
+// prettier-ignore
+import {
+  GetMusicRequest,
+  CreateMusicRequest,
+  UpdateMusicRequest,
+  DeleteMusicRequest
+} from './dtos';
 import Music from '@entities/Music';
 
 export default interface IMusicsService {
   get(request: GetMusicRequest): Promise<Music>;
-  create(request: any): Promise<void>;
-  update(request: any): Promise<void>;
-  delete(request: any): Promise<void>;
+  create(request: CreateMusicRequest): Promise<Music>;
+  update(request: UpdateMusicRequest): Promise<Music>;
+  delete(request: DeleteMusicRequest): Promise<void>;
 }
