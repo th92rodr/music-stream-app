@@ -4,7 +4,6 @@ import IArtistsRepository from './interface';
 import { AlbumsTable, ArtistsTable } from '@constants/index';
 import Album from '@entities/Album';
 import Artist from '@entities/Artist';
-import { removeUndefineds } from '@utils/index';
 
 export default class SQLArtistsRepository implements IArtistsRepository {
   private databaseConnection: Knex;
@@ -15,13 +14,6 @@ export default class SQLArtistsRepository implements IArtistsRepository {
 
   public async find(id: string): Promise<Artist | undefined> {
     // prettier-ignore
-    return this.databaseConnection<Artist>(ArtistsTable)
-      .where({ id })
-      .first();
-  }
-
-  public async findAllAlbums(id: string): Promise<Artist | undefined> {
-    // prettier-ignore
     const artist = await this.databaseConnection<Artist>(ArtistsTable)
       .where({ id })
       .first();
@@ -30,30 +22,38 @@ export default class SQLArtistsRepository implements IArtistsRepository {
       return;
     }
 
-    let promises = artist.albumsIds.map(async albumId => {
-      // prettier-ignore
-      return await this.databaseConnection<Album>(AlbumsTable)
-        .where({ id: albumId })
-        .first();
-    });
+    // prettier-ignore
+    const albums = await this.databaseConnection<Album>(AlbumsTable)
+      .where({ artistId: artist.id });
 
-    const albums = await Promise.all(promises);
-    artist.albums = albums.filter(removeUndefineds);
-
-    return artist;
+    return this.translateArtist(artist, albums);
   }
 
-  public async store({ id, name, description, genre, photos, albumsIds }: Artist): Promise<void> {
+  public async findAll(): Promise<Array<Artist>> {
+    const artists = await this.databaseConnection<Artist>(ArtistsTable);
+
+    return this.translateArtists(artists);
+  }
+
+  public async findByGenre(genre: number): Promise<Array<Artist>> {
+    // prettier-ignore
+    const artists = await  this.databaseConnection<Artist>(ArtistsTable)
+      .where({ genre });
+
+    return this.translateArtists(artists);
+  }
+
+  public async store({ id, name, description, genre, photos }: Artist): Promise<void> {
     // prettier-ignore
     await this.databaseConnection<Artist>(ArtistsTable)
-      .insert({ id, name, description, genre, photos, albumsIds });
+      .insert({ id, name, description, genre, photos });
   }
 
-  public async update({ id, name, description, genre, photos, albumsIds }: Artist): Promise<void> {
+  public async update({ id, name, description, genre, photos }: Artist): Promise<void> {
     // prettier-ignore
     await this.databaseConnection<Artist>(ArtistsTable)
       .where({ id })
-      .update({ name, description, genre, photos, albumsIds })
+      .update({ name, description, genre, photos })
       .first();
   }
 
@@ -63,5 +63,31 @@ export default class SQLArtistsRepository implements IArtistsRepository {
       .where({ id })
       .del()
       .first();
+  }
+
+  private translateArtists(artists: Array<Artist>): Array<Artist> {
+    return artists.map(artist => {
+      return new Artist({
+        id: artist.id,
+        name: artist.name,
+        description: artist.description,
+        genre: artist.genre,
+        photos: artist.photos,
+      });
+    });
+  }
+
+  private translateArtist(artist: Artist, albums: Array<Album>): Artist {
+    const newArtist = new Artist({
+      id: artist.id,
+      name: artist.name,
+      description: artist.description,
+      genre: artist.genre,
+      photos: artist.photos,
+    });
+
+    newArtist.setAlbums(albums);
+
+    return newArtist;
   }
 }
