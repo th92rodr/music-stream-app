@@ -1,9 +1,15 @@
-import { GetAlbumRequest } from './dtos';
+// prettier-ignore
+import {
+  GetAlbumRequest,
+  CreateAlbumRequest,
+  UpdateAlbumRequest,
+  DeleteAlbumRequest
+} from './dtos';
 import Album from '@entities/Album';
 
 export default interface IAlbumsService {
   get(request: GetAlbumRequest): Promise<Album>;
-  create(request: any): Promise<void>;
-  update(request: any): Promise<void>;
-  delete(request: any): Promise<void>;
+  create(request: CreateAlbumRequest): Promise<Album>;
+  update(request: UpdateAlbumRequest): Promise<Album>;
+  delete(request: DeleteAlbumRequest): Promise<void>;
 }
