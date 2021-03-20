@@ -13,9 +13,15 @@ export default class SQLMusicsRepository implements IMusicsRepository {
 
   public async find(id: string): Promise<Music | undefined> {
     // prettier-ignore
-    return this.databaseConnection<Music>(MusicsTable)
+    const music = await this.databaseConnection<Music>(MusicsTable)
       .where({ id })
       .first();
+
+    if (!music) {
+      return;
+    }
+
+    return this.translateMusic(music);
   }
 
   public async store({ id, title, durationInSeconds, file, composers, lyrics, albumId }: Music): Promise<void> {
@@ -38,5 +44,17 @@ export default class SQLMusicsRepository implements IMusicsRepository {
       .where({ id })
       .del()
       .first();
+  }
+
+  private translateMusic(music: Music): Music {
+    return new Music({
+      id: music.id,
+      title: music.title,
+      durationInSeconds: music.durationInSeconds,
+      file: music.file,
+      composers: music.composers,
+      lyrics: music.lyrics,
+      albumId: music.albumId,
+    });
   }
 }
