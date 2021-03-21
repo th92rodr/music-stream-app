@@ -91,12 +91,12 @@ export class MusicsHandler implements IMusicsServer {
     try {
       const music = await this.musicsService.update({
         id: call.request.getId(),
-        title: call.request.getTitle(),
-        durationInSeconds: call.request.getDurationinseconds(),
-        file: call.request.getFile(),
+        title: call.request.getTitle() != '' ? call.request.getTitle() : undefined,
+        durationInSeconds: call.request.getDurationinseconds() > 0 ? call.request.getDurationinseconds() : undefined,
+        file: call.request.getFile() != '' ? call.request.getFile() : undefined,
         composers: call.request.getComposersList(),
-        lyrics: call.request.getLyrics(),
-        albumId: call.request.getAlbumid(),
+        lyrics: call.request.getLyrics() != '' ? call.request.getLyrics() : undefined,
+        albumId: call.request.getAlbumid() != '' ? call.request.getAlbumid() : undefined,
       });
 
       callback(null, this.translateMusicEntity(music));
@@ -168,12 +168,12 @@ export class MusicsHandler implements IMusicsServer {
     try {
       const album = await this.albumsService.update({
         id: call.request.getId(),
-        name: call.request.getName(),
-        year: call.request.getYear() > 0 ? new Date(call.request.getYear()) : null,
-        cover: call.request.getCover(),
-        studio: call.request.getStudio(),
+        name: call.request.getName() != '' ? call.request.getName() : undefined,
+        year: call.request.getYear() > 0 ? new Date(call.request.getYear()) : undefined,
+        cover: call.request.getCover() != '' ? call.request.getCover() : undefined,
+        studio: call.request.getStudio() != '' ? call.request.getStudio() : undefined,
         producers: call.request.getProducersList(),
-        artistId: call.request.getArtistid(),
+        artistId: call.request.getArtistid() != '' ? call.request.getArtistid() : undefined,
       });
 
       callback(null, this.translateAlbumEntity(album));
@@ -277,9 +277,9 @@ export class MusicsHandler implements IMusicsServer {
     try {
       const artist = await this.artistsService.update({
         id: call.request.getId(),
-        name: call.request.getName(),
-        description: call.request.getDescription(),
-        genre: this.translateGenreEnum(call.request.getGenre()) != 0 ? this.translateGenreEnum(call.request.getGenre()) : null,
+        name: call.request.getName() != '' ? call.request.getName() : undefined,
+        description: call.request.getDescription() != '' ? call.request.getDescription() : undefined,
+        genre: this.translateGenreEnum(call.request.getGenre()) > 0 ? this.translateGenreEnum(call.request.getGenre()) : undefined,
         photos: call.request.getPhotosList(),
       });
 
