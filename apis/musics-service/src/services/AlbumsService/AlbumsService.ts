@@ -60,12 +60,12 @@ export default class AlbumsService implements IAlbumsService {
 
     const newAlbum = new Album({
       id,
-      name: name != '' ? name : album.name,
-      year: year != null ? year : album.year,
-      cover: cover != '' ? cover : album.cover,
-      studio: studio != '' ? studio : album.studio,
-      producers: arrayIntersection(producers, album.producers),
-      artistId: artistId != '' ? artistId : album.artistId,
+      name: name ? name : album.name,
+      year: year ? year : album.year,
+      cover: cover ? cover : album.cover,
+      studio: studio ? studio : album.studio,
+      producers: producers ? arrayIntersection(producers, album.producers) : album.producers,
+      artistId: artistId ? artistId : album.artistId,
     });
 
     await this.albumsRepository.update(newAlbum);

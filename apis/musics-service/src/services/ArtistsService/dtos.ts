@@ -17,10 +17,10 @@ export interface CreateArtistRequest {
 
 export interface UpdateArtistRequest {
   id: string;
-  name: string;
-  description: string;
-  genre: Genre | null;
-  photos: Array<string>;
+  name?: string;
+  description?: string;
+  genre?: Genre;
+  photos?: Array<string>;
 }
 
 export interface DeleteArtistRequest {
