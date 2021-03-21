@@ -22,7 +22,7 @@ service Musics {
 }
 
 message Id {
-    string Id = 1;
+    string id = 1;
 }
 
 message Music {

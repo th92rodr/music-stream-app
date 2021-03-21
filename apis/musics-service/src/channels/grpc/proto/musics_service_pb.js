@@ -414,7 +414,7 @@ proto.proto.Id.serializeBinaryToWriter = function(message, writer) {
 
 
 /**
- * optional string Id = 1;
+ * optional string id = 1;
  * @return {string}
  */
 proto.proto.Id.prototype.getId = function() {
