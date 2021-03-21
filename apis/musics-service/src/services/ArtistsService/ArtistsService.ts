@@ -71,10 +71,10 @@ export default class ArtistsService implements IArtistsService {
 
     const newArtist = new Artist({
       id,
-      name: name != '' ? name : artist.name,
-      description: description != '' ? description : artist.description,
-      genre: genre != null ? genre : artist.genre,
-      photos: arrayIntersection(photos, artist.photos),
+      name: name ? name : artist.name,
+      description: description ? description : artist.description,
+      genre: genre ? genre : artist.genre,
+      photos: photos ? arrayIntersection(photos, artist.photos) : artist.photos,
     });
 
     await this.artistsRepository.update(newArtist);

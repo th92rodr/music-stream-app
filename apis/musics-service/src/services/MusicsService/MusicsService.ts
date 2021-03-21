@@ -60,12 +60,12 @@ export default class MusicsService implements IMusicsService {
 
     const newMusic = new Music({
       id,
-      title: title != '' ? title : music.title,
-      durationInSeconds: durationInSeconds > 0 ? durationInSeconds : music.durationInSeconds,
-      file: file != '' ? file : music.file,
-      composers: arrayIntersection(composers, music.composers),
-      lyrics: lyrics != '' ? lyrics : music.lyrics,
-      albumId: albumId != '' ? albumId : music.albumId,
+      title: title ? title : music.title,
+      durationInSeconds: durationInSeconds ? durationInSeconds : music.durationInSeconds,
+      file: file ? file : music.file,
+      composers: composers ? arrayIntersection(composers, music.composers) : music.composers,
+      lyrics: lyrics ? lyrics : music.lyrics,
+      albumId: albumId ? albumId : music.albumId,
     });
 
     await this.musicsRepository.update(newMusic);
