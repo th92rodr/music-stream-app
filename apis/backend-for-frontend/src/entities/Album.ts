@@ -7,11 +7,10 @@ export default class Album {
   public readonly cover: string;
   public readonly studio: string;
   public readonly producers: Array<string>;
-  public tracks: Array<Music>;
-  public tracksIds: Array<string>;
   public readonly artistId: string;
+  public tracks: Array<Music>;
 
-  constructor({ id, name, year, cover, studio, producers, artistId }: Omit<Album, 'tracks' | 'tracksIds' | 'setTracks'>) {
+  constructor({ id, name, year, cover, studio, producers, artistId }: Omit<Album, 'tracks' | 'setTracks'>) {
     this.id = id;
     this.name = name;
     this.year = year;
@@ -20,11 +19,9 @@ export default class Album {
     this.producers = producers;
     this.artistId = artistId;
     this.tracks = [];
-    this.tracksIds = [];
   }
 
-  public setTracks(tracks: Array<Music>) {
+  public setTracks(tracks: Array<Music>): void {
     this.tracks = tracks;
-    this.tracksIds = tracks.map(track => track.id);
   }
 }
