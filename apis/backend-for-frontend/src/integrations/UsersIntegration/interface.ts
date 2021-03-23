@@ -1,10 +1,18 @@
-import { AuthenticateRequest, AuthenticateResponse, CreateRequest } from './dtos';
+// prettier-ignore
+import {
+  GetUser,
+  CreateUser,
+  UpdateUser,
+  DeleteUser,
+  AuthenticateUser,
+  AuthenticateResponse,
+} from './dtos';
 import User from '@entities/User';
 
 export default interface IUsersIntegration {
-  getUser(id: string): Promise<User>;
-  createUser(request: CreateRequest): Promise<User>;
-  updateUser(user: User): Promise<User>;
-  deleteUser(id: string): Promise<void>;
-  authenticateUser(request: AuthenticateRequest): Promise<AuthenticateResponse>;
+  getUser(request: GetUser): Promise<User>;
+  createUser(request: CreateUser): Promise<User>;
+  updateUser(request: UpdateUser): Promise<User>;
+  deleteUser(request: DeleteUser): Promise<void>;
+  authenticateUser(request: AuthenticateUser): Promise<AuthenticateResponse>;
 }
