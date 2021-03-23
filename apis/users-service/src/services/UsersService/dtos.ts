@@ -12,9 +12,9 @@ export interface CreateUserRequest {
 
 export interface UpdateUserRequest {
   id: string;
-  username: string;
-  email: string;
-  password: string;
+  username?: string;
+  email?: string;
+  password?: string;
 }
 
 export interface DeleteUserRequest {

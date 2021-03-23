@@ -5,7 +5,8 @@ import {
   UpdateUserRequest,
   DeleteUserRequest,
   AuthenticateUserRequest,
-  AuthenticateUserResponse } from './dtos';
+  AuthenticateUserResponse
+} from './dtos';
 import IUsersService from './interface';
 import { ErrorUserNotFound, ErrorEmailInUse, ErrorInvalidCredentials } from '@constants/errors';
 import User from '@entities/User';
@@ -64,8 +65,31 @@ export default class UsersService implements IUsersService {
     return user;
   }
 
-  public async update({ id, username, email, password }: UpdateUserRequest): Promise<void> {
-    await this.usersRepository.update({ id, username, email, password });
+  public async update({ id, username, email, password }: UpdateUserRequest): Promise<User> {
+    const user = await this.usersRepository.find(id);
+
+    if (!user) {
+      throw new ErrorUserNotFound(id, null);
+    }
+
+    let newPassword;
+
+    if (password) {
+      newPassword = await this.hashProvider.generate(password);
+    } else {
+      newPassword = user.password;
+    }
+
+    const newUser = new User({
+      id,
+      username: username ? username : user.username,
+      email: email ? email : user.email,
+      password: newPassword,
+    });
+
+    await this.usersRepository.update(newUser);
+
+    return newUser;
   }
 
   public async delete({ id }: DeleteUserRequest): Promise<void> {
@@ -74,11 +98,13 @@ export default class UsersService implements IUsersService {
 
   public async authenticate({ email, password }: AuthenticateUserRequest): Promise<AuthenticateUserResponse> {
     const user = await this.usersRepository.findByEmail(email);
+
     if (!user) {
       throw new ErrorUserNotFound(null, email);
     }
 
     const passwordMatched = await this.hashProvider.compare(password, user.password);
+
     if (!passwordMatched) {
       throw new ErrorInvalidCredentials();
     }
