@@ -1,20 +1,18 @@
 import * as grpc from 'grpc';
 
 import { IUsersServer } from '../proto/users_service_grpc_pb';
+// prettier-ignore
 import {
+  User,
+  Id,
+  Empty,
+  CreateUserRequest,
+  UpdateUserRequest,
   AuthenticateUserRequest,
   AuthenticateUserResponse,
-  CreateUserRequest,
-  CreateUserResponse,
-  DeleteUserRequest,
-  DeleteUserResponse,
-  GetUserRequest,
-  GetUserResponse,
-  UpdateUserRequest,
-  UpdateUserResponse,
 } from '../proto/users_service_pb';
 import { InternalError } from '@constants/errors';
-import User from '@entities/User';
+import UserEntity from '@entities/User';
 import IErrorHandler from '@handlers/ErrorHandler/interface';
 import IUsersService from '@services/UsersService/interface';
 
@@ -29,116 +27,114 @@ export class UsersHandler implements IUsersServer {
     this.errorHandler = errorHandler;
   }
 
-  get = async (call: grpc.ServerUnaryCall<GetUserRequest>, callback: grpc.sendUnaryData<GetUserResponse>): Promise<void> => {
+  get = async (call: grpc.ServerUnaryCall<Id>, callback: grpc.sendUnaryData<User>): Promise<void> => {
     try {
       const user = await this.usersService.get({ id: call.request.getId() });
-      callback(null, this.translateGetUser(user));
+
+      callback(null, this.translateUserEntity(user));
     } catch (error) {
       await this.errorHandler.handleError(error);
 
       if (!this.errorHandler.isTrustedError(error)) {
         callback(new InternalError(), null);
       }
+
       callback(error, null);
     }
   };
 
-  create = async (call: grpc.ServerUnaryCall<CreateUserRequest>, callback: grpc.sendUnaryData<CreateUserResponse>): Promise<void> => {
+  create = async (call: grpc.ServerUnaryCall<CreateUserRequest>, callback: grpc.sendUnaryData<User>): Promise<void> => {
     try {
       const user = await this.usersService.create({
         username: call.request.getUsername(),
         email: call.request.getEmail(),
         password: call.request.getPassword(),
       });
-      callback(null, this.translateCreateUser(user));
+
+      callback(null, this.translateUserEntity(user));
     } catch (error) {
       await this.errorHandler.handleError(error);
 
       if (!this.errorHandler.isTrustedError(error)) {
         callback(new InternalError(), null);
       }
+
       callback(error, null);
     }
   };
 
-  update = async (call: grpc.ServerUnaryCall<UpdateUserRequest>, callback: grpc.sendUnaryData<UpdateUserResponse>): Promise<void> => {
+  update = async (call: grpc.ServerUnaryCall<UpdateUserRequest>, callback: grpc.sendUnaryData<User>): Promise<void> => {
     try {
-      await this.usersService.update({
+      const user = await this.usersService.update({
         id: call.request.getId(),
-        username: call.request.getUsername(),
-        email: call.request.getEmail(),
-        password: call.request.getPassword(),
+        username: call.request.getUsername() != '' ? call.request.getUsername() : undefined,
+        email: call.request.getEmail() != '' ? call.request.getEmail() : undefined,
+        password: call.request.getPassword() != '' ? call.request.getPassword() : undefined,
       });
-      callback(null, call.request);
+
+      callback(null, this.translateUserEntity(user));
     } catch (error) {
       await this.errorHandler.handleError(error);
 
       if (!this.errorHandler.isTrustedError(error)) {
         callback(new InternalError(), null);
       }
+
       callback(error, null);
     }
   };
 
-  delete = async (call: grpc.ServerUnaryCall<DeleteUserRequest>, callback: grpc.sendUnaryData<DeleteUserResponse>): Promise<void> => {
+  delete = async (call: grpc.ServerUnaryCall<Id>, callback: grpc.sendUnaryData<Empty>): Promise<void> => {
     try {
-      await this.usersService.delete({
-        id: call.request.getId(),
-      });
-      callback(null, new DeleteUserResponse());
+      await this.usersService.delete({ id: call.request.getId() });
+
+      callback(null, new Empty());
     } catch (error) {
       await this.errorHandler.handleError(error);
 
       if (!this.errorHandler.isTrustedError(error)) {
         callback(new InternalError(), null);
       }
+
       callback(error, null);
     }
   };
 
   authenticate = async (call: grpc.ServerUnaryCall<AuthenticateUserRequest>, callback: grpc.sendUnaryData<AuthenticateUserResponse>): Promise<void> => {
     try {
-      const { token } = await this.usersService.authenticate({
+      const { token, user } = await this.usersService.authenticate({
         email: call.request.getEmail(),
         password: call.request.getPassword(),
       });
-      callback(null, this.translateAuthenticateUser(token));
+
+      callback(null, this.translateAuthenticateUser(token, user));
     } catch (error) {
       await this.errorHandler.handleError(error);
 
       if (!this.errorHandler.isTrustedError(error)) {
         callback(new InternalError(), null);
       }
+
       callback(error, null);
     }
   };
 
-  private translateGetUser(user: User): GetUserResponse {
-    const getUserResponse = new GetUserResponse();
+  private translateUserEntity(userEntity: UserEntity): User {
+    const user = new User();
 
-    getUserResponse.setId(user.id);
-    getUserResponse.setUsername(user.username);
-    getUserResponse.setEmail(user.email);
-    getUserResponse.setPassword(user.password);
+    user.setId(userEntity.id);
+    user.setUsername(userEntity.username);
+    user.setEmail(userEntity.email);
+    user.setPassword(userEntity.password);
 
-    return getUserResponse;
+    return user;
   }
 
-  private translateCreateUser(user: User): CreateUserResponse {
-    const createUserResponse = new CreateUserResponse();
-
-    createUserResponse.setId(user.id);
-    createUserResponse.setUsername(user.username);
-    createUserResponse.setEmail(user.email);
-    createUserResponse.setPassword(user.password);
-
-    return createUserResponse;
-  }
-
-  private translateAuthenticateUser(token: string): AuthenticateUserResponse {
+  private translateAuthenticateUser(token: string, userEntity: UserEntity): AuthenticateUserResponse {
     const authenticateUserResponse = new AuthenticateUserResponse();
 
     authenticateUserResponse.setToken(token);
+    authenticateUserResponse.setUser(this.translateUserEntity(userEntity));
 
     return authenticateUserResponse;
   }
