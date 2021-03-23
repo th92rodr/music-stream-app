@@ -11,7 +11,15 @@ interface TokenPayload {
 
 export default class Authentication {
   public authentication(authenticationHeader: string): string {
-    const [, token] = authenticationHeader.split(' ');
+    const [authenticationType, token] = authenticationHeader.split(' ');
+
+    if (!/^Bearer$/i.test(authenticationType)) {
+      throw new ErrorInvalidToken();
+    }
+
+    if (!token || token === '') {
+      throw new ErrorInvalidToken();
+    }
 
     try {
       const decodedToken = verify(token, Config.authentication.secret);
