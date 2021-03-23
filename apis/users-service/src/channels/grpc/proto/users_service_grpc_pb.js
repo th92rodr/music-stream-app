@@ -37,59 +37,26 @@ function deserialize_proto_CreateUserRequest(buffer_arg) {
   return users_service_pb.CreateUserRequest.deserializeBinary(new Uint8Array(buffer_arg));
 }
 
-function serialize_proto_CreateUserResponse(arg) {
-  if (!(arg instanceof users_service_pb.CreateUserResponse)) {
-    throw new Error('Expected argument of type proto.CreateUserResponse');
+function serialize_proto_Empty(arg) {
+  if (!(arg instanceof users_service_pb.Empty)) {
+    throw new Error('Expected argument of type proto.Empty');
   }
   return Buffer.from(arg.serializeBinary());
 }
 
-function deserialize_proto_CreateUserResponse(buffer_arg) {
-  return users_service_pb.CreateUserResponse.deserializeBinary(new Uint8Array(buffer_arg));
+function deserialize_proto_Empty(buffer_arg) {
+  return users_service_pb.Empty.deserializeBinary(new Uint8Array(buffer_arg));
 }
 
-function serialize_proto_DeleteUserRequest(arg) {
-  if (!(arg instanceof users_service_pb.DeleteUserRequest)) {
-    throw new Error('Expected argument of type proto.DeleteUserRequest');
+function serialize_proto_Id(arg) {
+  if (!(arg instanceof users_service_pb.Id)) {
+    throw new Error('Expected argument of type proto.Id');
   }
   return Buffer.from(arg.serializeBinary());
 }
 
-function deserialize_proto_DeleteUserRequest(buffer_arg) {
-  return users_service_pb.DeleteUserRequest.deserializeBinary(new Uint8Array(buffer_arg));
-}
-
-function serialize_proto_DeleteUserResponse(arg) {
-  if (!(arg instanceof users_service_pb.DeleteUserResponse)) {
-    throw new Error('Expected argument of type proto.DeleteUserResponse');
-  }
-  return Buffer.from(arg.serializeBinary());
-}
-
-function deserialize_proto_DeleteUserResponse(buffer_arg) {
-  return users_service_pb.DeleteUserResponse.deserializeBinary(new Uint8Array(buffer_arg));
-}
-
-function serialize_proto_GetUserRequest(arg) {
-  if (!(arg instanceof users_service_pb.GetUserRequest)) {
-    throw new Error('Expected argument of type proto.GetUserRequest');
-  }
-  return Buffer.from(arg.serializeBinary());
-}
-
-function deserialize_proto_GetUserRequest(buffer_arg) {
-  return users_service_pb.GetUserRequest.deserializeBinary(new Uint8Array(buffer_arg));
-}
-
-function serialize_proto_GetUserResponse(arg) {
-  if (!(arg instanceof users_service_pb.GetUserResponse)) {
-    throw new Error('Expected argument of type proto.GetUserResponse');
-  }
-  return Buffer.from(arg.serializeBinary());
-}
-
-function deserialize_proto_GetUserResponse(buffer_arg) {
-  return users_service_pb.GetUserResponse.deserializeBinary(new Uint8Array(buffer_arg));
+function deserialize_proto_Id(buffer_arg) {
+  return users_service_pb.Id.deserializeBinary(new Uint8Array(buffer_arg));
 }
 
 function serialize_proto_UpdateUserRequest(arg) {
@@ -103,15 +70,15 @@ function deserialize_proto_UpdateUserRequest(buffer_arg) {
   return users_service_pb.UpdateUserRequest.deserializeBinary(new Uint8Array(buffer_arg));
 }
 
-function serialize_proto_UpdateUserResponse(arg) {
-  if (!(arg instanceof users_service_pb.UpdateUserResponse)) {
-    throw new Error('Expected argument of type proto.UpdateUserResponse');
+function serialize_proto_User(arg) {
+  if (!(arg instanceof users_service_pb.User)) {
+    throw new Error('Expected argument of type proto.User');
   }
   return Buffer.from(arg.serializeBinary());
 }
 
-function deserialize_proto_UpdateUserResponse(buffer_arg) {
-  return users_service_pb.UpdateUserResponse.deserializeBinary(new Uint8Array(buffer_arg));
+function deserialize_proto_User(buffer_arg) {
+  return users_service_pb.User.deserializeBinary(new Uint8Array(buffer_arg));
 }
 
 
@@ -120,45 +87,45 @@ var UsersService = exports.UsersService = {
     path: '/proto.Users/Get',
     requestStream: false,
     responseStream: false,
-    requestType: users_service_pb.GetUserRequest,
-    responseType: users_service_pb.GetUserResponse,
-    requestSerialize: serialize_proto_GetUserRequest,
-    requestDeserialize: deserialize_proto_GetUserRequest,
-    responseSerialize: serialize_proto_GetUserResponse,
-    responseDeserialize: deserialize_proto_GetUserResponse,
+    requestType: users_service_pb.Id,
+    responseType: users_service_pb.User,
+    requestSerialize: serialize_proto_Id,
+    requestDeserialize: deserialize_proto_Id,
+    responseSerialize: serialize_proto_User,
+    responseDeserialize: deserialize_proto_User,
   },
   create: {
     path: '/proto.Users/Create',
     requestStream: false,
     responseStream: false,
     requestType: users_service_pb.CreateUserRequest,
-    responseType: users_service_pb.CreateUserResponse,
+    responseType: users_service_pb.User,
     requestSerialize: serialize_proto_CreateUserRequest,
     requestDeserialize: deserialize_proto_CreateUserRequest,
-    responseSerialize: serialize_proto_CreateUserResponse,
-    responseDeserialize: deserialize_proto_CreateUserResponse,
+    responseSerialize: serialize_proto_User,
+    responseDeserialize: deserialize_proto_User,
   },
   update: {
     path: '/proto.Users/Update',
     requestStream: false,
     responseStream: false,
     requestType: users_service_pb.UpdateUserRequest,
-    responseType: users_service_pb.UpdateUserResponse,
+    responseType: users_service_pb.User,
     requestSerialize: serialize_proto_UpdateUserRequest,
     requestDeserialize: deserialize_proto_UpdateUserRequest,
-    responseSerialize: serialize_proto_UpdateUserResponse,
-    responseDeserialize: deserialize_proto_UpdateUserResponse,
+    responseSerialize: serialize_proto_User,
+    responseDeserialize: deserialize_proto_User,
   },
   delete: {
     path: '/proto.Users/Delete',
     requestStream: false,
     responseStream: false,
-    requestType: users_service_pb.DeleteUserRequest,
-    responseType: users_service_pb.DeleteUserResponse,
-    requestSerialize: serialize_proto_DeleteUserRequest,
-    requestDeserialize: deserialize_proto_DeleteUserRequest,
-    responseSerialize: serialize_proto_DeleteUserResponse,
-    responseDeserialize: deserialize_proto_DeleteUserResponse,
+    requestType: users_service_pb.Id,
+    responseType: users_service_pb.Empty,
+    requestSerialize: serialize_proto_Id,
+    requestDeserialize: deserialize_proto_Id,
+    responseSerialize: serialize_proto_Empty,
+    responseDeserialize: deserialize_proto_Empty,
   },
   authenticate: {
     path: '/proto.Users/Authenticate',
