@@ -16,7 +16,8 @@ export default class UsersController {
     const id = request.userId;
 
     try {
-      const user = await this.usersIntegration.getUser(id);
+      const user = await this.usersIntegration.getUser({ id });
+
       return response.status(HttpStatusCode.OK).json(user);
 
       //
@@ -35,6 +36,7 @@ export default class UsersController {
 
     try {
       const user = await this.usersIntegration.createUser({ username, email, password });
+
       return response.status(HttpStatusCode.CREATED).json(user);
 
       //
@@ -54,6 +56,7 @@ export default class UsersController {
 
     try {
       const user = await this.usersIntegration.updateUser({ id, username, email, password });
+
       return response.status(HttpStatusCode.OK).json(user);
 
       //
@@ -71,7 +74,8 @@ export default class UsersController {
     const id = request.userId;
 
     try {
-      await this.usersIntegration.deleteUser(id);
+      await this.usersIntegration.deleteUser({ id });
+
       return response.status(HttpStatusCode.OK).send();
 
       //

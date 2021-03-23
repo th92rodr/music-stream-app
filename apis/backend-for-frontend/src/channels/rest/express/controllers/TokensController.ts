@@ -16,8 +16,9 @@ export default class TokensController {
     const { email, password } = request.body;
 
     try {
-      const { token } = await this.usersIntegration.authenticateUser({ email, password });
-      return response.status(HttpStatusCode.OK).json(token);
+      const { token, user } = await this.usersIntegration.authenticateUser({ email, password });
+
+      return response.status(HttpStatusCode.OK).json({ token, user });
 
       //
     } catch (error) {
