@@ -13,16 +13,28 @@ export default class SQLUsersRepository implements IUsersRepository {
 
   public async find(id: string): Promise<User | undefined> {
     // prettier-ignore
-    return this.databaseConnection<User>(UsersTable)
+    const user = await this.databaseConnection<User>(UsersTable)
       .where({ id })
       .first();
+
+    if (!user) {
+      return;
+    }
+
+    return this.translateUser(user);
   }
 
   public async findByEmail(email: string): Promise<User | undefined> {
     // prettier-ignore
-    return this.databaseConnection<User>(UsersTable)
+    const user = await this.databaseConnection<User>(UsersTable)
       .where({ email })
       .first();
+
+    if (!user) {
+      return;
+    }
+
+    return this.translateUser(user);
   }
 
   public async store({ id, username, email, password }: User): Promise<void> {
@@ -45,5 +57,14 @@ export default class SQLUsersRepository implements IUsersRepository {
       .where({ id })
       .del()
       .first();
+  }
+
+  private translateUser(user: User): User {
+    return new User({
+      id: user.id,
+      username: user.username,
+      email: user.email,
+      password: user.password,
+    });
   }
 }

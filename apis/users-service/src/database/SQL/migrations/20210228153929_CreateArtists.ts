@@ -7,9 +7,8 @@ export async function up(knex: Knex): Promise<void> {
     table.string('id').primary();
     table.string('name').notNullable();
     table.string('description');
-    table.string('genre').notNullable();
+    table.integer('genre').notNullable();
     table.specificType('photos', 'text[]');
-    table.specificType('albumsIds', 'text[]');
   });
 }
 

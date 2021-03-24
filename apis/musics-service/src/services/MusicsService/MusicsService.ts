@@ -1,14 +1,28 @@
-import { GetMusicRequest } from './dtos';
+// prettier-ignore
+import {
+  GetMusicRequest,
+  CreateMusicRequest,
+  UpdateMusicRequest,
+  DeleteMusicRequest
+} from './dtos';
 import IMusicsService from './interface';
 import { ErrorMusicNotFound } from '@constants/errors';
 import Music from '@entities/Music';
+import IIdProvider from '@providers/IdProvider/interface';
 import IMusicsRepository from '@repositories/MusicsRepository/interface';
+import { arrayIntersection } from '@utils/index';
 
 export default class MusicsService implements IMusicsService {
   private musicsRepository: IMusicsRepository;
+  private idProvider: IIdProvider;
 
-  constructor(musicsRepository: IMusicsRepository) {
+  // prettier-ignore
+  constructor(
+    musicsRepository: IMusicsRepository,
+    idProvider: IIdProvider,
+  ) {
     this.musicsRepository = musicsRepository;
+    this.idProvider = idProvider;
   }
 
   public async get({ id }: GetMusicRequest): Promise<Music> {
@@ -21,9 +35,45 @@ export default class MusicsService implements IMusicsService {
     return music;
   }
 
-  public async create(request: any): Promise<void> {}
+  public async create({ title, durationInSeconds, file, composers, lyrics, albumId }: CreateMusicRequest): Promise<Music> {
+    const music = new Music({
+      id: this.idProvider.generate(),
+      title,
+      durationInSeconds,
+      file,
+      composers,
+      lyrics,
+      albumId,
+    });
 
-  public async update(request: any): Promise<void> {}
+    await this.musicsRepository.store(music);
 
-  public async delete(request: any): Promise<void> {}
+    return music;
+  }
+
+  public async update({ id, title, durationInSeconds, file, composers, lyrics, albumId }: UpdateMusicRequest): Promise<Music> {
+    const music = await this.musicsRepository.find(id);
+
+    if (!music) {
+      throw new ErrorMusicNotFound(id);
+    }
+
+    const newMusic = new Music({
+      id,
+      title: title ? title : music.title,
+      durationInSeconds: durationInSeconds ? durationInSeconds : music.durationInSeconds,
+      file: file ? file : music.file,
+      composers: composers ? arrayIntersection(composers, music.composers) : music.composers,
+      lyrics: lyrics ? lyrics : music.lyrics,
+      albumId: albumId ? albumId : music.albumId,
+    });
+
+    await this.musicsRepository.update(newMusic);
+
+    return newMusic;
+  }
+
+  public async delete({ id }: DeleteMusicRequest): Promise<void> {
+    await this.musicsRepository.delete(id);
+  }
 }

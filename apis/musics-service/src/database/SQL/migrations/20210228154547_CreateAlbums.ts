@@ -10,7 +10,6 @@ export async function up(knex: Knex): Promise<void> {
     table.string('cover').notNullable();
     table.string('studio');
     table.specificType('producers', 'text[]');
-    table.specificType('tracksIds', 'text[]');
     // prettier-ignore
     table.string('artistId')
       .notNullable()

@@ -4,7 +4,6 @@ import IAlbumsRepository from './interface';
 import { AlbumsTable, MusicsTable } from '@constants/index';
 import Album from '@entities/Album';
 import Music from '@entities/Music';
-import { removeUndefineds } from '@utils/index';
 
 export default class SQLAlbumsRepository implements IAlbumsRepository {
   private databaseConnection: Knex;
@@ -15,13 +14,6 @@ export default class SQLAlbumsRepository implements IAlbumsRepository {
 
   public async find(id: string): Promise<Album | undefined> {
     // prettier-ignore
-    return this.databaseConnection<Album>(AlbumsTable)
-      .where({ id })
-      .first();
-  }
-
-  public async findAllTracks(id: string): Promise<Album | undefined> {
-    // prettier-ignore
     const album = await this.databaseConnection<Album>(AlbumsTable)
       .where({ id })
       .first();
@@ -30,30 +22,24 @@ export default class SQLAlbumsRepository implements IAlbumsRepository {
       return;
     }
 
-    let promises = album.tracksIds.map(async trackId => {
-      // prettier-ignore
-      return await this.databaseConnection<Music>(MusicsTable)
-        .where({ id: trackId })
-        .first();
-    });
+    // prettier-ignore
+    const tracks = await this.databaseConnection<Music>(MusicsTable)
+      .where({ albumId: album.id });
 
-    const musics = await Promise.all(promises);
-    album.tracks = musics.filter(removeUndefineds);
-
-    return album;
+    return this.translateAlbum(album, tracks);
   }
 
-  public async store({ id, name, year, cover, studio, producers, tracksIds, artistId }: Album): Promise<void> {
+  public async store({ id, name, year, cover, studio, producers, artistId }: Album): Promise<void> {
     // prettier-ignore
     await this.databaseConnection<Album>(AlbumsTable)
-      .insert({ id, name, year, cover, studio, producers, tracksIds, artistId });
+      .insert({ id, name, year, cover, studio, producers, artistId });
   }
 
-  public async update({ id, name, year, cover, studio, producers, tracksIds, artistId }: Album): Promise<void> {
+  public async update({ id, name, year, cover, studio, producers, artistId }: Album): Promise<void> {
     // prettier-ignore
     await this.databaseConnection<Album>(AlbumsTable)
       .where({ id })
-      .update({ name, year, cover, studio, producers, tracksIds, artistId })
+      .update({ name, year, cover, studio, producers, artistId })
       .first();
   }
 
@@ -63,5 +49,21 @@ export default class SQLAlbumsRepository implements IAlbumsRepository {
       .where({ id })
       .del()
       .first();
+  }
+
+  private translateAlbum(album: Album, tracks: Array<Music>): Album {
+    const newAlbum = new Album({
+      id: album.id,
+      name: album.name,
+      year: album.year,
+      cover: album.cover,
+      studio: album.studio,
+      producers: album.producers,
+      artistId: album.artistId,
+    });
+
+    newAlbum.setTracks(tracks);
+
+    return newAlbum;
   }
 }
