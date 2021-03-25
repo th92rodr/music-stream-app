@@ -35,6 +35,12 @@ export default class AlbumsService implements IAlbumsService {
     return album;
   }
 
+  public async getAll(): Promise<Array<Album>> {
+    const albums = await this.albumsRepository.findAll();
+
+    return albums;
+  }
+
   public async create({ name, year, cover, studio, producers, artistId }: CreateAlbumRequest): Promise<Album> {
     const album = new Album({
       id: this.idProvider.generate(),
