@@ -35,6 +35,12 @@ export default class MusicsService implements IMusicsService {
     return music;
   }
 
+  public async getAll(): Promise<Array<Music>> {
+    const musics = await this.musicsRepository.findAll();
+
+    return musics;
+  }
+
   public async create({ title, durationInSeconds, file, composers, lyrics, albumId }: CreateMusicRequest): Promise<Music> {
     const music = new Music({
       id: this.idProvider.generate(),
