@@ -1,6 +1,7 @@
 import Knex from 'knex';
 
 import IUsersRepository from './interface';
+import { translateUser } from './translators';
 import { UsersTable } from '@constants/index';
 import User from '@entities/User';
 
@@ -21,7 +22,7 @@ export default class SQLUsersRepository implements IUsersRepository {
       return;
     }
 
-    return this.translateUser(user);
+    return translateUser(user);
   }
 
   public async findByEmail(email: string): Promise<User | undefined> {
@@ -34,7 +35,7 @@ export default class SQLUsersRepository implements IUsersRepository {
       return;
     }
 
-    return this.translateUser(user);
+    return translateUser(user);
   }
 
   public async store({ id, username, email, password }: User): Promise<void> {
@@ -57,14 +58,5 @@ export default class SQLUsersRepository implements IUsersRepository {
       .where({ id })
       .del()
       .first();
-  }
-
-  private translateUser(user: User): User {
-    return new User({
-      id: user.id,
-      username: user.username,
-      email: user.email,
-      password: user.password,
-    });
   }
 }
