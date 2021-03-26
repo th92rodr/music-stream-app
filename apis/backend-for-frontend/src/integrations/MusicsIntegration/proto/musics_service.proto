@@ -4,18 +4,20 @@ package proto;
 
 service Musics {
     rpc GetMusic(Id) returns (Music) {}
+    rpc GetMusics(Empty) returns (MusicsList) {}
     rpc CreateMusic(CreateMusicRequest) returns (Music) {}
     rpc UpdateMusic(UpdateMusicRequest) returns (Music) {}
     rpc DeleteMusic(Id) returns (Empty) {}
 
     rpc GetAlbum(Id) returns (Album) {}
+    rpc GetAlbums(Empty) returns (AlbumsList) {}
     rpc CreateAlbum(CreateAlbumRequest) returns (Album) {}
     rpc UpdateAlbum(UpdateAlbumRequest) returns (Album) {}
     rpc DeleteAlbum(Id) returns (Empty) {}
 
     rpc GetArtist(Id) returns (Artist) {}
-    rpc GetAllArtists(Empty) returns (ArtistList) {}
-    rpc GetArtistByGenre(GetArtistByGenreRequest) returns (ArtistList) {}
+    rpc GetArtists(Empty) returns (ArtistsList) {}
+    rpc GetArtistByGenre(GetArtistByGenreRequest) returns (ArtistsList) {}
     rpc CreateArtist(CreateArtistRequest) returns (Artist) {}
     rpc UpdateArtist(UpdateArtistRequest) returns (Artist) {}
     rpc DeleteArtist(Id) returns (Empty) {}
@@ -33,6 +35,10 @@ message Music {
     repeated string composers = 5;
     string lyrics = 6;
     string albumId = 7;
+}
+
+message MusicsList {
+    repeated Music musics = 1;
 }
 
 message CreateMusicRequest {
@@ -62,6 +68,11 @@ message Album {
     string studio = 5;
     repeated string producers = 6;
     string artistId = 7;
+    repeated Music tracks = 8;
+}
+
+message AlbumsList {
+    repeated Album albums = 1;
 }
 
 message CreateAlbumRequest {
@@ -89,9 +100,10 @@ message Artist {
     string description = 3;
     Genre genre = 4;
     repeated string photos = 5;
+    repeated Album albums = 6;
 }
 
-message ArtistList {
+message ArtistsList {
     repeated Artist artists = 1;
 }
 

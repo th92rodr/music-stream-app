@@ -1,6 +1,8 @@
 import Knex from 'knex';
 
+import { PaginationRequest } from './dtos';
 import IArtistsRepository from './interface';
+import { translateArtist, translateArtistsList } from '../translators';
 import { AlbumsTable, ArtistsTable } from '@constants/index';
 import Album from '@entities/Album';
 import Artist from '@entities/Artist';
@@ -26,13 +28,25 @@ export default class SQLArtistsRepository implements IArtistsRepository {
     const albums = await this.databaseConnection<Album>(AlbumsTable)
       .where({ artistId: artist.id });
 
-    return this.translateArtist(artist, albums);
+    return translateArtist(artist, albums);
   }
 
-  public async findAll(): Promise<Array<Artist>> {
+  public async findAll(paginationRequest?: PaginationRequest): Promise<Array<Artist>> {
+    if (paginationRequest) {
+      const { offset, limit } = paginationRequest;
+
+      // prettier-ignore
+      const artists = await this.databaseConnection<Artist>(ArtistsTable)
+        .offset(offset)
+        .limit(limit)
+        .orderBy('name', 'asc');
+
+      return translateArtistsList(artists);
+    }
+
     const artists = await this.databaseConnection<Artist>(ArtistsTable);
 
-    return this.translateArtists(artists);
+    return translateArtistsList(artists);
   }
 
   public async findByGenre(genre: number): Promise<Array<Artist>> {
@@ -40,7 +54,7 @@ export default class SQLArtistsRepository implements IArtistsRepository {
     const artists = await  this.databaseConnection<Artist>(ArtistsTable)
       .where({ genre });
 
-    return this.translateArtists(artists);
+    return translateArtistsList(artists);
   }
 
   public async store({ id, name, description, genre, photos }: Artist): Promise<void> {
@@ -63,31 +77,5 @@ export default class SQLArtistsRepository implements IArtistsRepository {
       .where({ id })
       .del()
       .first();
-  }
-
-  private translateArtists(artists: Array<Artist>): Array<Artist> {
-    return artists.map(artist => {
-      return new Artist({
-        id: artist.id,
-        name: artist.name,
-        description: artist.description,
-        genre: artist.genre,
-        photos: artist.photos,
-      });
-    });
-  }
-
-  private translateArtist(artist: Artist, albums: Array<Album>): Artist {
-    const newArtist = new Artist({
-      id: artist.id,
-      name: artist.name,
-      description: artist.description,
-      genre: artist.genre,
-      photos: artist.photos,
-    });
-
-    newArtist.setAlbums(albums);
-
-    return newArtist;
   }
 }

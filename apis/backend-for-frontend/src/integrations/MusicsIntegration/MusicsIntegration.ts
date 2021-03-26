@@ -3,12 +3,11 @@ import * as grpc from 'grpc';
 import { MusicsClient } from './proto/musics_service_grpc_pb';
 import {
   Id,
-  Music,
   Album,
   Artist,
-  ArtistList,
-  Genre,
+  ArtistsList,
   Empty,
+  Music,
   CreateMusicRequest,
   UpdateMusicRequest,
   CreateAlbumRequest,
@@ -16,6 +15,8 @@ import {
   GetArtistByGenreRequest,
   CreateArtistRequest,
   UpdateArtistRequest,
+  AlbumsList,
+  MusicsList,
 } from './proto/musics_service_pb';
 // prettier-ignore
 import {
@@ -34,8 +35,17 @@ import {
   DeleteArtist,
 } from './dtos';
 import IMusicsIntegration from './interface';
+// prettier-ignore
+import {
+  translateAlbumEntity,
+  translateAlbumEntityList,
+  translateArtistEntity,
+  translateArtistEntityList,
+  translateGenreEnum,
+  translateMusicEntity,
+  translateMusicEntityList
+} from './translators';
 import Config from '@config/index';
-import { Genre as GenreEnum } from '@constants/index';
 import AlbumEntity from '@entities/Album';
 import ArtistEntity from '@entities/Artist';
 import MusicEntity from '@entities/Music';
@@ -56,7 +66,16 @@ export default class MusicsIntegration implements IMusicsIntegration {
 
       this.client.getMusic(musicId, (error: Error | null, music: Music) => {
         if (error != null) reject(error);
-        else resolve(this.translateMusicEntity(music));
+        else resolve(translateMusicEntity(music));
+      });
+    });
+  };
+
+  public getMusics = async (): Promise<Array<MusicEntity>> => {
+    return new Promise((resolve, reject) => {
+      this.client.getMusics(new Empty(), (error: Error | null, musicsList: MusicsList) => {
+        if (error != null) reject(error);
+        else resolve(translateMusicEntityList(musicsList));
       });
     });
   };
@@ -73,7 +92,7 @@ export default class MusicsIntegration implements IMusicsIntegration {
 
       this.client.createMusic(createMusicRequest, (error: Error | null, music: Music) => {
         if (error != null) reject(error);
-        else resolve(this.translateMusicEntity(music));
+        else resolve(translateMusicEntity(music));
       });
     });
   };
@@ -91,7 +110,7 @@ export default class MusicsIntegration implements IMusicsIntegration {
 
       this.client.updateMusic(updateMusicRequest, (error: Error | null, music: Music) => {
         if (error != null) reject(error);
-        else resolve(this.translateMusicEntity(music));
+        else resolve(translateMusicEntity(music));
       });
     });
   };
@@ -115,7 +134,16 @@ export default class MusicsIntegration implements IMusicsIntegration {
 
       this.client.getAlbum(albumId, (error: Error | null, album: Album) => {
         if (error != null) reject(error);
-        else resolve(this.translateAlbumEntity(album));
+        else resolve(translateAlbumEntity(album));
+      });
+    });
+  };
+
+  public getAlbums = async (): Promise<Array<AlbumEntity>> => {
+    return new Promise((resolve, reject) => {
+      this.client.getAlbums(new Empty(), (error: Error | null, albumsList: AlbumsList) => {
+        if (error != null) reject(error);
+        else resolve(translateAlbumEntityList(albumsList));
       });
     });
   };
@@ -132,7 +160,7 @@ export default class MusicsIntegration implements IMusicsIntegration {
 
       this.client.createAlbum(createAlbumRequest, (error: Error | null, album: Album) => {
         if (error != null) reject(error);
-        else resolve(this.translateAlbumEntity(album));
+        else resolve(translateAlbumEntity(album));
       });
     });
   };
@@ -150,7 +178,7 @@ export default class MusicsIntegration implements IMusicsIntegration {
 
       this.client.updateAlbum(updateAlbumRequest, (error: Error | null, album: Album) => {
         if (error != null) reject(error);
-        else resolve(this.translateAlbumEntity(album));
+        else resolve(translateAlbumEntity(album));
       });
     });
   };
@@ -174,16 +202,16 @@ export default class MusicsIntegration implements IMusicsIntegration {
 
       this.client.getArtist(artistId, (error: Error | null, artist: Artist) => {
         if (error != null) reject(error);
-        else resolve(this.translateArtistEntity(artist));
+        else resolve(translateArtistEntity(artist));
       });
     });
   };
 
-  public getAllArtists = async (): Promise<Array<ArtistEntity>> => {
+  public getArtists = async (): Promise<Array<ArtistEntity>> => {
     return new Promise((resolve, reject) => {
-      this.client.getAllArtists(new Empty(), (error: Error | null, artistList: ArtistList) => {
+      this.client.getArtists(new Empty(), (error: Error | null, artistsList: ArtistsList) => {
         if (error != null) reject(error);
-        else resolve(this.translateArtistEntityList(artistList));
+        else resolve(translateArtistEntityList(artistsList));
       });
     });
   };
@@ -191,11 +219,11 @@ export default class MusicsIntegration implements IMusicsIntegration {
   public getArtistsByGenre = async ({ genre }: GetArtistByGenre): Promise<Array<ArtistEntity>> => {
     return new Promise((resolve, reject) => {
       const getArtistByGenreRequest = new GetArtistByGenreRequest();
-      getArtistByGenreRequest.setGenre(this.translateGenreEnum(genre));
+      getArtistByGenreRequest.setGenre(translateGenreEnum(genre));
 
-      this.client.getArtistByGenre(getArtistByGenreRequest, (error: Error | null, artistList: ArtistList) => {
+      this.client.getArtistByGenre(getArtistByGenreRequest, (error: Error | null, artistsList: ArtistsList) => {
         if (error != null) reject(error);
-        else resolve(this.translateArtistEntityList(artistList));
+        else resolve(translateArtistEntityList(artistsList));
       });
     });
   };
@@ -205,12 +233,12 @@ export default class MusicsIntegration implements IMusicsIntegration {
       const createArtistRequest = new CreateArtistRequest();
       createArtistRequest.setName(name);
       createArtistRequest.setDescription(description);
-      createArtistRequest.setGenre(this.translateGenreEnum(genre));
+      createArtistRequest.setGenre(translateGenreEnum(genre));
       createArtistRequest.setPhotosList(photos);
 
       this.client.createArtist(createArtistRequest, (error: Error | null, artist: Artist) => {
         if (error != null) reject(error);
-        else resolve(this.translateArtistEntity(artist));
+        else resolve(translateArtistEntity(artist));
       });
     });
   };
@@ -221,12 +249,12 @@ export default class MusicsIntegration implements IMusicsIntegration {
       updateArtistRequest.setId(id);
       updateArtistRequest.setName(name ? name : '');
       updateArtistRequest.setDescription(description ? description : '');
-      updateArtistRequest.setGenre(genre ? this.translateGenreEnum(genre) : 0);
+      updateArtistRequest.setGenre(genre ? translateGenreEnum(genre) : 0);
       updateArtistRequest.setPhotosList(photos ? photos : []);
 
       this.client.updateArtist(updateArtistRequest, (error: Error | null, artist: Artist) => {
         if (error != null) reject(error);
-        else resolve(this.translateArtistEntity(artist));
+        else resolve(translateArtistEntity(artist));
       });
     });
   };
@@ -242,80 +270,4 @@ export default class MusicsIntegration implements IMusicsIntegration {
       });
     });
   };
-
-  private translateMusicEntity(music: Music): MusicEntity {
-    return new MusicEntity({
-      id: music.getId(),
-      title: music.getTitle(),
-      durationInSeconds: music.getDurationinseconds(),
-      file: music.getFile(),
-      composers: music.getComposersList(),
-      lyrics: music.getLyrics(),
-      albumId: music.getAlbumid(),
-    });
-  }
-
-  private translateAlbumEntity(album: Album): AlbumEntity {
-    return new AlbumEntity({
-      id: album.getId(),
-      name: album.getName(),
-      year: new Date(album.getYear()),
-      cover: album.getCover(),
-      studio: album.getStudio(),
-      producers: album.getProducersList(),
-      artistId: album.getArtistid(),
-    });
-  }
-
-  private translateArtistEntity(artist: Artist): ArtistEntity {
-    return new ArtistEntity({
-      id: artist.getId(),
-      name: artist.getName(),
-      description: artist.getDescription(),
-      genre: this.translateGenre(artist.getGenre()),
-      photos: artist.getPhotosList(),
-    });
-  }
-
-  private translateArtistEntityList(artistList: ArtistList): Array<ArtistEntity> {
-    return artistList.getArtistsList().map(artist => this.translateArtistEntity(artist));
-  }
-
-  private translateGenre(genre: Genre): GenreEnum {
-    switch (genre) {
-      case Genre.HEAVY_METAL:
-        return GenreEnum['Heavy Metal'];
-      case Genre.FOLK_METAL:
-        return GenreEnum['Folk Metal'];
-      case Genre.POWER_METAL:
-        return GenreEnum['Power Metal'];
-      case Genre.DEATH_METAL:
-        return GenreEnum['Death Metal'];
-      case Genre.THRASH_METAL:
-        return GenreEnum['Thrash Metal'];
-      case Genre.BLACK_METAL:
-        return GenreEnum['Black Metal'];
-      default:
-        return 0;
-    }
-  }
-
-  private translateGenreEnum(genre: GenreEnum): Genre {
-    switch (genre) {
-      case GenreEnum['Heavy Metal']:
-        return Genre.HEAVY_METAL;
-      case GenreEnum['Folk Metal']:
-        return Genre.FOLK_METAL;
-      case GenreEnum['Power Metal']:
-        return Genre.POWER_METAL;
-      case GenreEnum['Death Metal']:
-        return Genre.DEATH_METAL;
-      case GenreEnum['Thrash Metal']:
-        return Genre.THRASH_METAL;
-      case GenreEnum['Black Metal']:
-        return Genre.BLACK_METAL;
-      default:
-        return 0;
-    }
-  }
 }
