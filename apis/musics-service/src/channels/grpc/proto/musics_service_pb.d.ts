@@ -66,6 +66,28 @@ export namespace Music {
     }
 }
 
+export class MusicsList extends jspb.Message { 
+    clearMusicsList(): void;
+    getMusicsList(): Array<Music>;
+    setMusicsList(value: Array<Music>): MusicsList;
+    addMusics(value?: Music, index?: number): Music;
+
+    serializeBinary(): Uint8Array;
+    toObject(includeInstance?: boolean): MusicsList.AsObject;
+    static toObject(includeInstance: boolean, msg: MusicsList): MusicsList.AsObject;
+    static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+    static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+    static serializeBinaryToWriter(message: MusicsList, writer: jspb.BinaryWriter): void;
+    static deserializeBinary(bytes: Uint8Array): MusicsList;
+    static deserializeBinaryFromReader(message: MusicsList, reader: jspb.BinaryReader): MusicsList;
+}
+
+export namespace MusicsList {
+    export type AsObject = {
+        musicsList: Array<Music.AsObject>,
+    }
+}
+
 export class CreateMusicRequest extends jspb.Message { 
     getTitle(): string;
     setTitle(value: string): CreateMusicRequest;
@@ -160,6 +182,10 @@ export class Album extends jspb.Message {
     addProducers(value: string, index?: number): string;
     getArtistid(): string;
     setArtistid(value: string): Album;
+    clearTracksList(): void;
+    getTracksList(): Array<Music>;
+    setTracksList(value: Array<Music>): Album;
+    addTracks(value?: Music, index?: number): Music;
 
     serializeBinary(): Uint8Array;
     toObject(includeInstance?: boolean): Album.AsObject;
@@ -180,6 +206,29 @@ export namespace Album {
         studio: string,
         producersList: Array<string>,
         artistid: string,
+        tracksList: Array<Music.AsObject>,
+    }
+}
+
+export class AlbumsList extends jspb.Message { 
+    clearAlbumsList(): void;
+    getAlbumsList(): Array<Album>;
+    setAlbumsList(value: Array<Album>): AlbumsList;
+    addAlbums(value?: Album, index?: number): Album;
+
+    serializeBinary(): Uint8Array;
+    toObject(includeInstance?: boolean): AlbumsList.AsObject;
+    static toObject(includeInstance: boolean, msg: AlbumsList): AlbumsList.AsObject;
+    static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+    static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+    static serializeBinaryToWriter(message: AlbumsList, writer: jspb.BinaryWriter): void;
+    static deserializeBinary(bytes: Uint8Array): AlbumsList;
+    static deserializeBinaryFromReader(message: AlbumsList, reader: jspb.BinaryReader): AlbumsList;
+}
+
+export namespace AlbumsList {
+    export type AsObject = {
+        albumsList: Array<Album.AsObject>,
     }
 }
 
@@ -273,6 +322,10 @@ export class Artist extends jspb.Message {
     getPhotosList(): Array<string>;
     setPhotosList(value: Array<string>): Artist;
     addPhotos(value: string, index?: number): string;
+    clearAlbumsList(): void;
+    getAlbumsList(): Array<Album>;
+    setAlbumsList(value: Array<Album>): Artist;
+    addAlbums(value?: Album, index?: number): Album;
 
     serializeBinary(): Uint8Array;
     toObject(includeInstance?: boolean): Artist.AsObject;
@@ -291,26 +344,27 @@ export namespace Artist {
         description: string,
         genre: Genre,
         photosList: Array<string>,
+        albumsList: Array<Album.AsObject>,
     }
 }
 
-export class ArtistList extends jspb.Message { 
+export class ArtistsList extends jspb.Message { 
     clearArtistsList(): void;
     getArtistsList(): Array<Artist>;
-    setArtistsList(value: Array<Artist>): ArtistList;
+    setArtistsList(value: Array<Artist>): ArtistsList;
     addArtists(value?: Artist, index?: number): Artist;
 
     serializeBinary(): Uint8Array;
-    toObject(includeInstance?: boolean): ArtistList.AsObject;
-    static toObject(includeInstance: boolean, msg: ArtistList): ArtistList.AsObject;
+    toObject(includeInstance?: boolean): ArtistsList.AsObject;
+    static toObject(includeInstance: boolean, msg: ArtistsList): ArtistsList.AsObject;
     static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
     static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
-    static serializeBinaryToWriter(message: ArtistList, writer: jspb.BinaryWriter): void;
-    static deserializeBinary(bytes: Uint8Array): ArtistList;
-    static deserializeBinaryFromReader(message: ArtistList, reader: jspb.BinaryReader): ArtistList;
+    static serializeBinaryToWriter(message: ArtistsList, writer: jspb.BinaryWriter): void;
+    static deserializeBinary(bytes: Uint8Array): ArtistsList;
+    static deserializeBinaryFromReader(message: ArtistsList, reader: jspb.BinaryReader): ArtistsList;
 }
 
-export namespace ArtistList {
+export namespace ArtistsList {
     export type AsObject = {
         artistsList: Array<Artist.AsObject>,
     }
