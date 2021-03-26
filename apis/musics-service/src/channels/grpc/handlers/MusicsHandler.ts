@@ -4,11 +4,12 @@ import { IMusicsServer } from '../proto/musics_service_grpc_pb';
 import {
   Id,
   Album,
+  AlbumsList,
   Artist,
-  ArtistList,
+  ArtistsList,
   Empty,
-  Genre,
   Music,
+  MusicsList,
   CreateMusicRequest,
   UpdateMusicRequest,
   CreateAlbumRequest,
@@ -17,11 +18,17 @@ import {
   CreateArtistRequest,
   UpdateArtistRequest,
 } from '../proto/musics_service_pb';
-import { Genre as GenreEnum } from '@constants/index';
+// prettier-ignore
+import {
+  translateAlbumEntity,
+  translateAlbumEntityList,
+  translateArtistEntity,
+  translateArtistEntityList,
+  translateGenreEnum,
+  translateMusicEntity,
+  translateMusicEntityList,
+} from './translators';
 import { InternalError } from '@constants/errors';
-import AlbumEntity from '@entities/Album';
-import ArtistEntity from '@entities/Artist';
-import MusicEntity from '@entities/Music';
 import IErrorHandler from '@handlers/ErrorHandler/interface';
 import IAlbumsService from '@services/AlbumsService/interface';
 import IArtistsService from '@services/ArtistsService/interface';
@@ -52,7 +59,23 @@ export class MusicsHandler implements IMusicsServer {
     try {
       const music = await this.musicsService.get({ id: call.request.getId() });
 
-      callback(null, this.translateMusicEntity(music));
+      callback(null, translateMusicEntity(music));
+    } catch (error) {
+      await this.errorHandler.handleError(error);
+
+      if (!this.errorHandler.isTrustedError(error)) {
+        callback(new InternalError(), null);
+      }
+
+      callback(error, null);
+    }
+  };
+
+  getMusics = async (call: grpc.ServerUnaryCall<Empty>, callback: grpc.sendUnaryData<MusicsList>): Promise<void> => {
+    try {
+      const musics = await this.musicsService.getAll();
+
+      callback(null, translateMusicEntityList(musics));
     } catch (error) {
       await this.errorHandler.handleError(error);
 
@@ -75,7 +98,7 @@ export class MusicsHandler implements IMusicsServer {
         albumId: call.request.getAlbumid(),
       });
 
-      callback(null, this.translateMusicEntity(music));
+      callback(null, translateMusicEntity(music));
     } catch (error) {
       await this.errorHandler.handleError(error);
 
@@ -99,7 +122,7 @@ export class MusicsHandler implements IMusicsServer {
         albumId: call.request.getAlbumid() != '' ? call.request.getAlbumid() : undefined,
       });
 
-      callback(null, this.translateMusicEntity(music));
+      callback(null, translateMusicEntity(music));
     } catch (error) {
       await this.errorHandler.handleError(error);
 
@@ -130,13 +153,31 @@ export class MusicsHandler implements IMusicsServer {
   getAlbum = async (call: grpc.ServerUnaryCall<Id>, callback: grpc.sendUnaryData<Album>): Promise<void> => {
     try {
       const album = await this.albumsService.get({ id: call.request.getId() });
-      callback(null, this.translateAlbumEntity(album));
+
+      callback(null, translateAlbumEntity(album));
     } catch (error) {
       await this.errorHandler.handleError(error);
 
       if (!this.errorHandler.isTrustedError(error)) {
         callback(new InternalError(), null);
       }
+
+      callback(error, null);
+    }
+  };
+
+  getAlbums = async (call: grpc.ServerUnaryCall<Empty>, callback: grpc.sendUnaryData<AlbumsList>): Promise<void> => {
+    try {
+      const albums = await this.albumsService.getAll();
+
+      callback(null, translateAlbumEntityList(albums));
+    } catch (error) {
+      await this.errorHandler.handleError(error);
+
+      if (!this.errorHandler.isTrustedError(error)) {
+        callback(new InternalError(), null);
+      }
+
       callback(error, null);
     }
   };
@@ -152,7 +193,7 @@ export class MusicsHandler implements IMusicsServer {
         artistId: call.request.getArtistid(),
       });
 
-      callback(null, this.translateAlbumEntity(album));
+      callback(null, translateAlbumEntity(album));
     } catch (error) {
       await this.errorHandler.handleError(error);
 
@@ -176,7 +217,7 @@ export class MusicsHandler implements IMusicsServer {
         artistId: call.request.getArtistid() != '' ? call.request.getArtistid() : undefined,
       });
 
-      callback(null, this.translateAlbumEntity(album));
+      callback(null, translateAlbumEntity(album));
     } catch (error) {
       await this.errorHandler.handleError(error);
 
@@ -208,7 +249,7 @@ export class MusicsHandler implements IMusicsServer {
     try {
       const artist = await this.artistsService.get({ id: call.request.getId() });
 
-      callback(null, this.translateArtistEntity(artist));
+      callback(null, translateArtistEntity(artist));
     } catch (error) {
       await this.errorHandler.handleError(error);
 
@@ -220,11 +261,11 @@ export class MusicsHandler implements IMusicsServer {
     }
   };
 
-  getAllArtists = async (call: grpc.ServerUnaryCall<Empty>, callback: grpc.sendUnaryData<ArtistList>): Promise<void> => {
+  getArtists = async (call: grpc.ServerUnaryCall<Empty>, callback: grpc.sendUnaryData<ArtistsList>): Promise<void> => {
     try {
       const artists = await this.artistsService.getAll();
 
-      callback(null, this.translateArtistEntityList(artists));
+      callback(null, translateArtistEntityList(artists));
     } catch (error) {
       await this.errorHandler.handleError(error);
 
@@ -236,11 +277,11 @@ export class MusicsHandler implements IMusicsServer {
     }
   };
 
-  getArtistByGenre = async (call: grpc.ServerUnaryCall<GetArtistByGenreRequest>, callback: grpc.sendUnaryData<ArtistList>): Promise<void> => {
+  getArtistByGenre = async (call: grpc.ServerUnaryCall<GetArtistByGenreRequest>, callback: grpc.sendUnaryData<ArtistsList>): Promise<void> => {
     try {
-      const artists = await this.artistsService.getByGenre({ genre: this.translateGenreEnum(call.request.getGenre()) });
+      const artists = await this.artistsService.getByGenre({ genre: translateGenreEnum(call.request.getGenre()) });
 
-      callback(null, this.translateArtistEntityList(artists));
+      callback(null, translateArtistEntityList(artists));
     } catch (error) {
       await this.errorHandler.handleError(error);
 
@@ -257,11 +298,11 @@ export class MusicsHandler implements IMusicsServer {
       const artist = await this.artistsService.create({
         name: call.request.getName(),
         description: call.request.getDescription(),
-        genre: this.translateGenreEnum(call.request.getGenre()),
+        genre: translateGenreEnum(call.request.getGenre()),
         photos: call.request.getPhotosList(),
       });
 
-      callback(null, this.translateArtistEntity(artist));
+      callback(null, translateArtistEntity(artist));
     } catch (error) {
       await this.errorHandler.handleError(error);
 
@@ -279,11 +320,11 @@ export class MusicsHandler implements IMusicsServer {
         id: call.request.getId(),
         name: call.request.getName() != '' ? call.request.getName() : undefined,
         description: call.request.getDescription() != '' ? call.request.getDescription() : undefined,
-        genre: this.translateGenreEnum(call.request.getGenre()) > 0 ? this.translateGenreEnum(call.request.getGenre()) : undefined,
+        genre: translateGenreEnum(call.request.getGenre()) > 0 ? translateGenreEnum(call.request.getGenre()) : undefined,
         photos: call.request.getPhotosList(),
       });
 
-      callback(null, this.translateArtistEntity(artist));
+      callback(null, translateArtistEntity(artist));
     } catch (error) {
       await this.errorHandler.handleError(error);
 
@@ -310,90 +351,4 @@ export class MusicsHandler implements IMusicsServer {
       callback(error, null);
     }
   };
-
-  private translateMusicEntity(musicEntity: MusicEntity): Music {
-    const music: Music = new Music();
-
-    music.setId(musicEntity.id);
-    music.setTitle(musicEntity.title);
-    music.setDurationinseconds(musicEntity.durationInSeconds);
-    music.setFile(musicEntity.file);
-    music.setComposersList(musicEntity.composers);
-    music.setLyrics(musicEntity.lyrics);
-    music.setAlbumid(musicEntity.albumId);
-
-    return music;
-  }
-
-  private translateAlbumEntity(albumEntity: AlbumEntity): Album {
-    const album: Album = new Album();
-
-    album.setId(albumEntity.id);
-    album.setName(albumEntity.name);
-    album.setYear(albumEntity.year.getTime());
-    album.setCover(albumEntity.cover);
-    album.setStudio(albumEntity.studio);
-    album.setProducersList(albumEntity.producers);
-    album.setArtistid(albumEntity.artistId);
-
-    return album;
-  }
-
-  private translateArtistEntity(artistEntity: ArtistEntity): Artist {
-    const artist: Artist = new Artist();
-
-    artist.setId(artistEntity.id);
-    artist.setName(artistEntity.name);
-    artist.setDescription(artistEntity.description);
-    artist.setGenre(this.translateGenre(artistEntity.genre));
-    artist.setPhotosList(artistEntity.photos);
-
-    return artist;
-  }
-
-  private translateArtistEntityList(artistEntities: Array<ArtistEntity>): ArtistList {
-    const artistList = new ArtistList();
-
-    artistList.setArtistsList(artistEntities.map(artistEntity => this.translateArtistEntity(artistEntity)));
-
-    return artistList;
-  }
-
-  private translateGenre(genre: number): Genre {
-    switch (genre) {
-      case GenreEnum['Heavy Metal']:
-        return Genre.HEAVY_METAL;
-      case GenreEnum['Folk Metal']:
-        return Genre.FOLK_METAL;
-      case GenreEnum['Power Metal']:
-        return Genre.POWER_METAL;
-      case GenreEnum['Death Metal']:
-        return Genre.DEATH_METAL;
-      case GenreEnum['Thrash Metal']:
-        return Genre.THRASH_METAL;
-      case GenreEnum['Black Metal']:
-        return Genre.BLACK_METAL;
-      default:
-        return 0;
-    }
-  }
-
-  private translateGenreEnum(genre: Genre): GenreEnum {
-    switch (genre) {
-      case Genre.HEAVY_METAL:
-        return GenreEnum['Heavy Metal'];
-      case Genre.FOLK_METAL:
-        return GenreEnum['Folk Metal'];
-      case Genre.POWER_METAL:
-        return GenreEnum['Power Metal'];
-      case Genre.DEATH_METAL:
-        return GenreEnum['Death Metal'];
-      case Genre.THRASH_METAL:
-        return GenreEnum['Thrash Metal'];
-      case Genre.BLACK_METAL:
-        return GenreEnum['Black Metal'];
-      default:
-        return 0;
-    }
-  }
 }
