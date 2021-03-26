@@ -11,8 +11,8 @@ import {
   AuthenticateUserRequest,
   AuthenticateUserResponse,
 } from '../proto/users_service_pb';
+import { translateAuthenticateUser, translateUserEntity } from './translators';
 import { InternalError } from '@constants/errors';
-import UserEntity from '@entities/User';
 import IErrorHandler from '@handlers/ErrorHandler/interface';
 import IUsersService from '@services/UsersService/interface';
 
@@ -31,7 +31,7 @@ export class UsersHandler implements IUsersServer {
     try {
       const user = await this.usersService.get({ id: call.request.getId() });
 
-      callback(null, this.translateUserEntity(user));
+      callback(null, translateUserEntity(user));
     } catch (error) {
       await this.errorHandler.handleError(error);
 
@@ -51,7 +51,7 @@ export class UsersHandler implements IUsersServer {
         password: call.request.getPassword(),
       });
 
-      callback(null, this.translateUserEntity(user));
+      callback(null, translateUserEntity(user));
     } catch (error) {
       await this.errorHandler.handleError(error);
 
@@ -72,7 +72,7 @@ export class UsersHandler implements IUsersServer {
         password: call.request.getPassword() != '' ? call.request.getPassword() : undefined,
       });
 
-      callback(null, this.translateUserEntity(user));
+      callback(null, translateUserEntity(user));
     } catch (error) {
       await this.errorHandler.handleError(error);
 
@@ -107,7 +107,7 @@ export class UsersHandler implements IUsersServer {
         password: call.request.getPassword(),
       });
 
-      callback(null, this.translateAuthenticateUser(token, user));
+      callback(null, translateAuthenticateUser(token, user));
     } catch (error) {
       await this.errorHandler.handleError(error);
 
@@ -118,24 +118,4 @@ export class UsersHandler implements IUsersServer {
       callback(error, null);
     }
   };
-
-  private translateUserEntity(userEntity: UserEntity): User {
-    const user = new User();
-
-    user.setId(userEntity.id);
-    user.setUsername(userEntity.username);
-    user.setEmail(userEntity.email);
-    user.setPassword(userEntity.password);
-
-    return user;
-  }
-
-  private translateAuthenticateUser(token: string, userEntity: UserEntity): AuthenticateUserResponse {
-    const authenticateUserResponse = new AuthenticateUserResponse();
-
-    authenticateUserResponse.setToken(token);
-    authenticateUserResponse.setUser(this.translateUserEntity(userEntity));
-
-    return authenticateUserResponse;
-  }
 }
