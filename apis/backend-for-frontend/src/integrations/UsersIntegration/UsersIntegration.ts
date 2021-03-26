@@ -5,7 +5,6 @@ import { UsersClient } from './proto/users_service_grpc_pb';
 import {
   User,
   Id,
-  Empty,
   CreateUserRequest,
   UpdateUserRequest,
   AuthenticateUserRequest,
@@ -21,6 +20,7 @@ import {
   AuthenticateResponse,
 } from './dtos';
 import IUsersIntegration from './interface';
+import { translateAuthenticateUser, translateUserEntity } from './translators';
 import Config from '@config/index';
 import UserEntity from '@entities/User';
 
@@ -40,7 +40,7 @@ export default class UsersIntegration implements IUsersIntegration {
 
       this.client.get(userId, (error: Error | null, user: User) => {
         if (error != null) reject(error);
-        else resolve(this.translateUserEntity(user));
+        else resolve(translateUserEntity(user));
       });
     });
   };
@@ -54,7 +54,7 @@ export default class UsersIntegration implements IUsersIntegration {
 
       this.client.create(createUserRequest, (error: Error | null, user: User) => {
         if (error != null) reject(error);
-        else resolve(this.translateUserEntity(user));
+        else resolve(translateUserEntity(user));
       });
     });
   };
@@ -69,7 +69,7 @@ export default class UsersIntegration implements IUsersIntegration {
 
       this.client.update(updateUserRequest, (error: Error | null, user: User) => {
         if (error != null) reject(error);
-        else resolve(this.translateUserEntity(user));
+        else resolve(translateUserEntity(user));
       });
     });
   };
@@ -94,23 +94,8 @@ export default class UsersIntegration implements IUsersIntegration {
 
       this.client.authenticate(authenticateUserRequest, (error: Error | null, response: AuthenticateUserResponse) => {
         if (error != null) reject(error);
-        else {
-          const user = response.getUser();
-          resolve({
-            token: response.getToken(),
-            user: user ? this.translateUserEntity(user) : undefined,
-          });
-        }
+        else resolve(translateAuthenticateUser(response));
       });
     });
   };
-
-  private translateUserEntity(user: User): UserEntity {
-    return new UserEntity({
-      id: user.getId(),
-      username: user.getUsername(),
-      email: user.getEmail(),
-      password: user.getPassword(),
-    });
-  }
 }
