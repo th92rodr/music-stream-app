@@ -2,7 +2,7 @@ import Knex from 'knex';
 
 import { PaginationRequest } from './dtos';
 import IAlbumsRepository from './interface';
-import { translateAlbum, translateAlbumsList } from './translators';
+import { translateAlbum, translateAlbumsList } from '../translators';
 import { AlbumsTable, MusicsTable } from '@constants/index';
 import Album from '@entities/Album';
 import Music from '@entities/Music';

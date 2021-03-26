@@ -2,7 +2,7 @@ import Knex from 'knex';
 
 import { PaginationRequest } from './dtos';
 import IArtistsRepository from './interface';
-import { translateArtist, translateArtistsList } from './translators';
+import { translateArtist, translateArtistsList } from '../translators';
 import { AlbumsTable, ArtistsTable } from '@constants/index';
 import Album from '@entities/Album';
 import Artist from '@entities/Artist';
