@@ -1,5 +1,6 @@
 import Knex from 'knex';
 
+import { PaginationRequest } from './dtos';
 import IAlbumsRepository from './interface';
 import { translateAlbum, translateAlbumsList } from './translators';
 import { AlbumsTable, MusicsTable } from '@constants/index';
@@ -30,7 +31,19 @@ export default class SQLAlbumsRepository implements IAlbumsRepository {
     return translateAlbum(album, tracks);
   }
 
-  public async findAll(): Promise<Array<Album>> {
+  public async findAll(paginationRequest?: PaginationRequest): Promise<Array<Album>> {
+    if (paginationRequest) {
+      const { offset, limit } = paginationRequest;
+
+      // prettier-ignore
+      const albums = await this.databaseConnection<Album>(AlbumsTable)
+        .offset(offset)
+        .limit(limit)
+        .orderBy('name', 'asc');
+
+      return translateAlbumsList(albums);
+    }
+
     const albums = await this.databaseConnection<Album>(AlbumsTable);
 
     return translateAlbumsList(albums);
