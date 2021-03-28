@@ -1,5 +1,7 @@
 import express, { Express, Request, Response, Router } from 'express';
+import handlebars from 'express-handlebars';
 import * as http from 'http';
+import path from 'path';
 
 import IStaticFilesChannel from '../interface';
 import AlbumsController from './controllers/AlbumsController';
@@ -39,6 +41,8 @@ export default class ExpressStaticFilesChannel implements IStaticFilesChannel {
   }
 
   public start(): void {
+    this.configureTemplateEngine();
+
     const PORT = Config.channels.staticFiles.port;
     const HOST = Config.channels.staticFiles.host;
 
@@ -61,5 +65,22 @@ export default class ExpressStaticFilesChannel implements IStaticFilesChannel {
         }
       });
     });
+  }
+
+  private configureTemplateEngine(): void {
+    // Handlebars Template Engine configuration
+    this.express.engine(
+      '.hbs',
+      handlebars({
+        defaultLayout: 'index',
+        extname: '.hbs',
+      }),
+    );
+
+    this.express.set('views', path.join(Config.staticFiles.path, 'views'));
+    this.express.set('view engine', '.hbs');
+
+    // Set static files folder
+    this.express.use(express.static(path.join(Config.staticFiles.path, 'public')));
   }
 }
