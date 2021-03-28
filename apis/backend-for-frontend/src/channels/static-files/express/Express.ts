@@ -8,6 +8,7 @@ import AlbumsController from './controllers/AlbumsController';
 import ArtistsController from './controllers/ArtistsController';
 import MusicsController from './controllers/MusicsController';
 import Config from '@config/index';
+import { HttpStatusCode } from '@constants/index';
 import IErrorHandler from '@handlers/ErrorHandler/interface';
 import IMusicsIntegration from '@integrations/MusicsIntegration/interface';
 import ILoggerProvider from '@providers/LoggerProvider/interface';
@@ -42,6 +43,8 @@ export default class ExpressStaticFilesChannel implements IStaticFilesChannel {
 
   public start(): void {
     this.configureTemplateEngine();
+
+    this.initRouter();
 
     const PORT = Config.channels.staticFiles.port;
     const HOST = Config.channels.staticFiles.host;
@@ -82,5 +85,25 @@ export default class ExpressStaticFilesChannel implements IStaticFilesChannel {
 
     // Set static files folder
     this.express.use(express.static(path.join(Config.staticFiles.path, 'public')));
+  }
+
+  private initRouter(): void {
+    const router = Router();
+
+    router.get('/web/band', this.artistsController.index.bind(this.artistsController));
+    router.get('/web/band/:id', this.artistsController.show.bind(this.artistsController));
+    router.get('/web/band/:id/cover', this.artistsController.getCover.bind(this.artistsController));
+
+    router.get('/web/album/:id', this.albumsController.show.bind(this.albumsController));
+    router.get('/web/album/:id/cover', this.albumsController.getCover.bind(this.albumsController));
+
+    router.get('/web/music/:id', this.musicsController.show.bind(this.musicsController));
+    router.get('/web/music/:id/audio', this.musicsController.stream.bind(this.musicsController));
+
+    router.use('*', (request: Request, response: Response) => {
+      response.status(HttpStatusCode.NOT_FOUND).render('404');
+    });
+
+    this.express.use(router);
   }
 }
