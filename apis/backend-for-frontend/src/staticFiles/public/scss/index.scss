@@ -1,0 +1,85 @@
+@import '_vars';
+@import '_main';
+@import '_header';
+@import '_sidebar';
+@import '_current-track';
+@import '_bands';
+@import '_404';
+
+* {
+  box-sizing: border-box;
+  outline: none;
+  user-select: none;
+  margin: 0;
+  padding: 0;
+  border: none;
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  font-family: $font-montserrat;
+  line-height: 1.4;
+  letter-spacing: 1px;
+  font-size: $font-size-small-1;
+  font-weight: 400;
+  color: $color-text-main;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  border: 0;
+}
+
+ul {
+  list-style-type: none;
+}
+
+h1,
+h2,
+h3 {
+  letter-spacing: 1.2px;
+  font-size: $font-size-small-2;
+  color: $color-text-highlight;
+  font-weight: 400;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+  background-color: transparent;
+}
+
+button,
+input,
+select,
+textarea {
+  font-family: inherit;
+  font-weight: inherit;
+  font-size: inherit;
+  line-height: inherit;
+  letter-spacing: inherit;
+  color: inherit;
+  cursor: text;
+}
+
+button {
+  background: none;
+  border: none;
+  overflow: visible;
+  cursor: pointer;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  background: $color-background-sidebar;
+}
+::-webkit-scrollbar-thumb {
+  border-radius: 4px;
+  background: $color-border;
+}
