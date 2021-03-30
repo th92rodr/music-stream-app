@@ -25,3 +25,10 @@ export const convertMonthToString = (month: number): string => {
     default: return '';
   }
 };
+
+export const getMusicDuration = (durationInSeconds: number): string => {
+  const quotient = Math.floor(durationInSeconds / 60);
+  const remainder = durationInSeconds % 60;
+
+  return `${quotient}:${remainder}`;
+};
