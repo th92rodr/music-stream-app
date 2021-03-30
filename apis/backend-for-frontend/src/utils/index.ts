@@ -1,4 +1,5 @@
 import fs from 'fs';
+import path from 'path';
 import { promisify } from 'util';
 
 import Music from '@entities/Music';
@@ -44,4 +45,9 @@ export const getAlbumDuration = (tracks: Array<Music>): string => {
   const remainder = duration % 60;
 
   return `${quotient} min ${remainder} sec`;
+};
+
+export const getFileExtension = (file: string): string => {
+  const [, extension] = path.extname(file).split('.');
+  return extension;
 };
