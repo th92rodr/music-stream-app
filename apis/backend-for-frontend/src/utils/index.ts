@@ -1,6 +1,8 @@
 import fs from 'fs';
 import { promisify } from 'util';
 
+import Music from '@entities/Music';
+
 export const getFileStatus = promisify(fs.stat);
 
 export const delay = (seconds: number) => {
@@ -31,4 +33,15 @@ export const getMusicDuration = (durationInSeconds: number): string => {
   const remainder = durationInSeconds % 60;
 
   return `${quotient}:${remainder}`;
+};
+
+export const getAlbumDuration = (tracks: Array<Music>): string => {
+  const duration = tracks.reduce((acc, current) => {
+    return acc + current.durationInSeconds;
+  }, 0);
+
+  const quotient = Math.floor(duration / 60);
+  const remainder = duration % 60;
+
+  return `${quotient} min ${remainder} sec`;
 };
