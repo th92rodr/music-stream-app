@@ -6,6 +6,9 @@ export function translateArtist(artist: Artist, albums: Array<Album>): Artist {
   const newArtist = new Artist({
     id: artist.id,
     name: artist.name,
+    country: artist.country,
+    foundationDate: artist.foundationDate,
+    members: artist.members,
     description: artist.description,
     genre: artist.genre,
     photos: artist.photos,
@@ -24,7 +27,7 @@ export function translateAlbum(album: Album, tracks: Array<Music>): Album {
   const newAlbum = new Album({
     id: album.id,
     name: album.name,
-    year: album.year,
+    releaseDate: album.releaseDate,
     cover: album.cover,
     studio: album.studio,
     producers: album.producers,
