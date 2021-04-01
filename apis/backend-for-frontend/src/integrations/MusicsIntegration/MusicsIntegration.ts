@@ -148,11 +148,11 @@ export default class MusicsIntegration implements IMusicsIntegration {
     });
   };
 
-  public createAlbum = async ({ name, year, cover, studio, producers, artistId }: CreateAlbum): Promise<AlbumEntity> => {
+  public createAlbum = async ({ name, releaseDate, cover, studio, producers, artistId }: CreateAlbum): Promise<AlbumEntity> => {
     return new Promise((resolve, reject) => {
       const createAlbumRequest = new CreateAlbumRequest();
       createAlbumRequest.setName(name);
-      createAlbumRequest.setYear(year.getTime());
+      createAlbumRequest.setReleasedate(releaseDate.getTime());
       createAlbumRequest.setCover(cover);
       createAlbumRequest.setStudio(studio);
       createAlbumRequest.setProducersList(producers);
@@ -165,12 +165,12 @@ export default class MusicsIntegration implements IMusicsIntegration {
     });
   };
 
-  public updateAlbum = async ({ id, name, year, cover, studio, producers, artistId }: UpdateAlbum): Promise<AlbumEntity> => {
+  public updateAlbum = async ({ id, name, releaseDate, cover, studio, producers, artistId }: UpdateAlbum): Promise<AlbumEntity> => {
     return new Promise((resolve, reject) => {
       const updateAlbumRequest = new UpdateAlbumRequest();
       updateAlbumRequest.setId(id);
       updateAlbumRequest.setName(name ? name : '');
-      updateAlbumRequest.setYear(year ? year.getTime() : 0);
+      updateAlbumRequest.setReleasedate(releaseDate ? releaseDate.getTime() : 0);
       updateAlbumRequest.setCover(cover ? cover : '');
       updateAlbumRequest.setStudio(studio ? studio : '');
       updateAlbumRequest.setProducersList(producers ? producers : []);
@@ -228,10 +228,13 @@ export default class MusicsIntegration implements IMusicsIntegration {
     });
   };
 
-  public createArtist = async ({ name, description, genre, photos }: CreateArtist): Promise<ArtistEntity> => {
+  public createArtist = async ({ name, country, foundationDate, members, description, genre, photos }: CreateArtist): Promise<ArtistEntity> => {
     return new Promise((resolve, reject) => {
       const createArtistRequest = new CreateArtistRequest();
       createArtistRequest.setName(name);
+      createArtistRequest.setCountry(country);
+      createArtistRequest.setFoundationdate(foundationDate.getTime());
+      createArtistRequest.setMembersList(members);
       createArtistRequest.setDescription(description);
       createArtistRequest.setGenre(translateGenreEnum(genre));
       createArtistRequest.setPhotosList(photos);
@@ -243,11 +246,14 @@ export default class MusicsIntegration implements IMusicsIntegration {
     });
   };
 
-  public updateArtist = async ({ id, name, description, genre, photos }: UpdateArtist): Promise<ArtistEntity> => {
+  public updateArtist = async ({ id, name, country, foundationDate, members, description, genre, photos }: UpdateArtist): Promise<ArtistEntity> => {
     return new Promise((resolve, reject) => {
       const updateArtistRequest = new UpdateArtistRequest();
       updateArtistRequest.setId(id);
       updateArtistRequest.setName(name ? name : '');
+      updateArtistRequest.setCountry(country ? country : '');
+      updateArtistRequest.setFoundationdate(foundationDate ? foundationDate.getTime() : 0);
+      updateArtistRequest.setMembersList(members ? members : []);
       updateArtistRequest.setDescription(description ? description : '');
       updateArtistRequest.setGenre(genre ? translateGenreEnum(genre) : 0);
       updateArtistRequest.setPhotosList(photos ? photos : []);
