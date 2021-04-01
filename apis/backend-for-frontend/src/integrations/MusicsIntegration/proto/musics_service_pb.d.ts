@@ -170,8 +170,8 @@ export class Album extends jspb.Message {
     setId(value: string): Album;
     getName(): string;
     setName(value: string): Album;
-    getYear(): number;
-    setYear(value: number): Album;
+    getReleasedate(): number;
+    setReleasedate(value: number): Album;
     getCover(): string;
     setCover(value: string): Album;
     getStudio(): string;
@@ -201,7 +201,7 @@ export namespace Album {
     export type AsObject = {
         id: string,
         name: string,
-        year: number,
+        releasedate: number,
         cover: string,
         studio: string,
         producersList: Array<string>,
@@ -235,8 +235,8 @@ export namespace AlbumsList {
 export class CreateAlbumRequest extends jspb.Message { 
     getName(): string;
     setName(value: string): CreateAlbumRequest;
-    getYear(): number;
-    setYear(value: number): CreateAlbumRequest;
+    getReleasedate(): number;
+    setReleasedate(value: number): CreateAlbumRequest;
     getCover(): string;
     setCover(value: string): CreateAlbumRequest;
     getStudio(): string;
@@ -261,7 +261,7 @@ export class CreateAlbumRequest extends jspb.Message {
 export namespace CreateAlbumRequest {
     export type AsObject = {
         name: string,
-        year: number,
+        releasedate: number,
         cover: string,
         studio: string,
         producersList: Array<string>,
@@ -274,8 +274,8 @@ export class UpdateAlbumRequest extends jspb.Message {
     setId(value: string): UpdateAlbumRequest;
     getName(): string;
     setName(value: string): UpdateAlbumRequest;
-    getYear(): number;
-    setYear(value: number): UpdateAlbumRequest;
+    getReleasedate(): number;
+    setReleasedate(value: number): UpdateAlbumRequest;
     getCover(): string;
     setCover(value: string): UpdateAlbumRequest;
     getStudio(): string;
@@ -301,7 +301,7 @@ export namespace UpdateAlbumRequest {
     export type AsObject = {
         id: string,
         name: string,
-        year: number,
+        releasedate: number,
         cover: string,
         studio: string,
         producersList: Array<string>,
@@ -314,6 +314,14 @@ export class Artist extends jspb.Message {
     setId(value: string): Artist;
     getName(): string;
     setName(value: string): Artist;
+    getCountry(): string;
+    setCountry(value: string): Artist;
+    getFoundationdate(): number;
+    setFoundationdate(value: number): Artist;
+    clearMembersList(): void;
+    getMembersList(): Array<string>;
+    setMembersList(value: Array<string>): Artist;
+    addMembers(value: string, index?: number): string;
     getDescription(): string;
     setDescription(value: string): Artist;
     getGenre(): Genre;
@@ -341,6 +349,9 @@ export namespace Artist {
     export type AsObject = {
         id: string,
         name: string,
+        country: string,
+        foundationdate: number,
+        membersList: Array<string>,
         description: string,
         genre: Genre,
         photosList: Array<string>,
@@ -393,6 +404,14 @@ export namespace GetArtistByGenreRequest {
 export class CreateArtistRequest extends jspb.Message { 
     getName(): string;
     setName(value: string): CreateArtistRequest;
+    getCountry(): string;
+    setCountry(value: string): CreateArtistRequest;
+    getFoundationdate(): number;
+    setFoundationdate(value: number): CreateArtistRequest;
+    clearMembersList(): void;
+    getMembersList(): Array<string>;
+    setMembersList(value: Array<string>): CreateArtistRequest;
+    addMembers(value: string, index?: number): string;
     getDescription(): string;
     setDescription(value: string): CreateArtistRequest;
     getGenre(): Genre;
@@ -415,6 +434,9 @@ export class CreateArtistRequest extends jspb.Message {
 export namespace CreateArtistRequest {
     export type AsObject = {
         name: string,
+        country: string,
+        foundationdate: number,
+        membersList: Array<string>,
         description: string,
         genre: Genre,
         photosList: Array<string>,
@@ -426,6 +448,14 @@ export class UpdateArtistRequest extends jspb.Message {
     setId(value: string): UpdateArtistRequest;
     getName(): string;
     setName(value: string): UpdateArtistRequest;
+    getCountry(): string;
+    setCountry(value: string): UpdateArtistRequest;
+    getFoundationdate(): number;
+    setFoundationdate(value: number): UpdateArtistRequest;
+    clearMembersList(): void;
+    getMembersList(): Array<string>;
+    setMembersList(value: Array<string>): UpdateArtistRequest;
+    addMembers(value: string, index?: number): string;
     getDescription(): string;
     setDescription(value: string): UpdateArtistRequest;
     getGenre(): Genre;
@@ -449,6 +479,9 @@ export namespace UpdateArtistRequest {
     export type AsObject = {
         id: string,
         name: string,
+        country: string,
+        foundationdate: number,
+        membersList: Array<string>,
         description: string,
         genre: Genre,
         photosList: Array<string>,
