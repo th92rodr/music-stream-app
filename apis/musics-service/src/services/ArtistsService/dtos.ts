@@ -10,6 +10,9 @@ export interface GetArtistByGenreRequest {
 
 export interface CreateArtistRequest {
   name: string;
+  country: string;
+  foundationDate: Date;
+  members: Array<string>;
   description: string;
   genre: Genre;
   photos: Array<string>;
@@ -18,6 +21,9 @@ export interface CreateArtistRequest {
 export interface UpdateArtistRequest {
   id: string;
   name?: string;
+  country?: string;
+  foundationDate?: Date;
+  members?: Array<string>;
   description?: string;
   genre?: Genre;
   photos?: Array<string>;

@@ -4,7 +4,7 @@ export interface GetAlbumRequest {
 
 export interface CreateAlbumRequest {
   name: string;
-  year: Date;
+  releaseDate: Date;
   cover: string;
   studio: string;
   producers: Array<string>;
@@ -14,7 +14,7 @@ export interface CreateAlbumRequest {
 export interface UpdateAlbumRequest {
   id: string;
   name?: string;
-  year?: Date;
+  releaseDate?: Date;
   cover?: string;
   studio?: string;
   producers?: Array<string>;
