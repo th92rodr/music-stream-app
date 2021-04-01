@@ -48,10 +48,13 @@ export default class ArtistsService implements IArtistsService {
     return artists;
   }
 
-  public async create({ name, description, genre, photos }: CreateArtistRequest): Promise<Artist> {
+  public async create({ name, country, foundationDate, members, description, genre, photos }: CreateArtistRequest): Promise<Artist> {
     const artist = new Artist({
       id: this.idProvider.generate(),
       name,
+      country,
+      foundationDate,
+      members,
       description,
       genre,
       photos,
@@ -62,7 +65,7 @@ export default class ArtistsService implements IArtistsService {
     return artist;
   }
 
-  public async update({ id, name, description, genre, photos }: UpdateArtistRequest): Promise<Artist> {
+  public async update({ id, name, country, foundationDate, members, description, genre, photos }: UpdateArtistRequest): Promise<Artist> {
     const artist = await this.artistsRepository.find(id);
 
     if (!artist) {
@@ -72,6 +75,9 @@ export default class ArtistsService implements IArtistsService {
     const newArtist = new Artist({
       id,
       name: name ? name : artist.name,
+      country: country ? country : artist.country,
+      foundationDate: foundationDate ? foundationDate : artist.foundationDate,
+      members: members ? arrayIntersection(members, artist.members) : artist.members,
       description: description ? description : artist.description,
       genre: genre ? genre : artist.genre,
       photos: photos ? arrayIntersection(photos, artist.photos) : artist.photos,
