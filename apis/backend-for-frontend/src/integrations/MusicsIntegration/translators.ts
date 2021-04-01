@@ -24,7 +24,7 @@ export function translateAlbumEntity(album: Album): AlbumEntity {
   const newAlbum = new AlbumEntity({
     id: album.getId(),
     name: album.getName(),
-    year: new Date(album.getYear()),
+    releaseDate: new Date(album.getReleasedate()),
     cover: album.getCover(),
     studio: album.getStudio(),
     producers: album.getProducersList(),
@@ -44,6 +44,9 @@ export function translateArtistEntity(artist: Artist): ArtistEntity {
   const newArtist = new ArtistEntity({
     id: artist.getId(),
     name: artist.getName(),
+    country: artist.getCountry(),
+    foundationDate: new Date(artist.getFoundationdate()),
+    members: artist.getMembersList(),
     description: artist.getDescription(),
     genre: translateGenre(artist.getGenre()),
     photos: artist.getPhotosList(),
