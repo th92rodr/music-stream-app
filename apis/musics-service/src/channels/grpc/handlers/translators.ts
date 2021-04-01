@@ -31,7 +31,7 @@ export function translateAlbumEntity(albumEntity: AlbumEntity): Album {
 
   album.setId(albumEntity.id);
   album.setName(albumEntity.name);
-  album.setYear(albumEntity.year.getTime());
+  album.setReleasedate(albumEntity.releaseDate.getTime());
   album.setCover(albumEntity.cover);
   album.setStudio(albumEntity.studio);
   album.setProducersList(albumEntity.producers);
@@ -54,6 +54,9 @@ export function translateArtistEntity(artistEntity: ArtistEntity): Artist {
 
   artist.setId(artistEntity.id);
   artist.setName(artistEntity.name);
+  artist.setCountry(artistEntity.country);
+  artist.setFoundationdate(artistEntity.foundationDate.getTime());
+  artist.setMembersList(artistEntity.members);
   artist.setDescription(artistEntity.description);
   artist.setGenre(translateGenre(artistEntity.genre));
   artist.setPhotosList(artistEntity.photos);
