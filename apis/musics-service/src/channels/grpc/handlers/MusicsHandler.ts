@@ -186,7 +186,7 @@ export class MusicsHandler implements IMusicsServer {
     try {
       const album = await this.albumsService.create({
         name: call.request.getName(),
-        year: new Date(call.request.getYear()),
+        releaseDate: new Date(call.request.getReleasedate()),
         cover: call.request.getCover(),
         studio: call.request.getStudio(),
         producers: call.request.getProducersList(),
@@ -210,7 +210,7 @@ export class MusicsHandler implements IMusicsServer {
       const album = await this.albumsService.update({
         id: call.request.getId(),
         name: call.request.getName() != '' ? call.request.getName() : undefined,
-        year: call.request.getYear() > 0 ? new Date(call.request.getYear()) : undefined,
+        releaseDate: call.request.getReleasedate() > 0 ? new Date(call.request.getReleasedate()) : undefined,
         cover: call.request.getCover() != '' ? call.request.getCover() : undefined,
         studio: call.request.getStudio() != '' ? call.request.getStudio() : undefined,
         producers: call.request.getProducersList(),
@@ -297,6 +297,9 @@ export class MusicsHandler implements IMusicsServer {
     try {
       const artist = await this.artistsService.create({
         name: call.request.getName(),
+        country: call.request.getCountry(),
+        foundationDate: new Date(call.request.getFoundationdate()),
+        members: call.request.getMembersList(),
         description: call.request.getDescription(),
         genre: translateGenreEnum(call.request.getGenre()),
         photos: call.request.getPhotosList(),
@@ -319,6 +322,9 @@ export class MusicsHandler implements IMusicsServer {
       const artist = await this.artistsService.update({
         id: call.request.getId(),
         name: call.request.getName() != '' ? call.request.getName() : undefined,
+        country: call.request.getCountry() != '' ? call.request.getCountry() : undefined,
+        foundationDate: call.request.getFoundationdate() > 0 ? new Date(call.request.getFoundationdate()) : undefined,
+        members: call.request.getMembersList(),
         description: call.request.getDescription() != '' ? call.request.getDescription() : undefined,
         genre: translateGenreEnum(call.request.getGenre()) > 0 ? translateGenreEnum(call.request.getGenre()) : undefined,
         photos: call.request.getPhotosList(),
