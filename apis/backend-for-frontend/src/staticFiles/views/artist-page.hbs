@@ -1,0 +1,148 @@
+<div class="page artist__page">
+  {{> header}}
+
+  <section class="artist__page__wrapper">
+    <div class="artist__page__full_img">
+      <div class="artist__page__full_img__wrapper">
+        <img src="/web/files/?file={{artist.fullImg}}" alt={{artist.name}} loading="lazy" />
+      </div>
+    </div>
+
+    {{> sidebar}}
+
+    <section class="artist__page__main">
+      <div class="band__header">
+        <div class="band__header__favorite">
+          <div class="favorite">
+            {{> icon-heart}}
+            <span>Favorite</span>
+          </div>
+          <div class="follow">
+            {{> icon-foot-steps}}
+            <span>Follow</span>
+          </div>
+        </div>
+
+        <div class="band__header__name__wrapper">
+          <div class="band__header__name">
+            <p>{{artist.name}}</p>
+          </div>
+
+          <div class="band__see__more">
+            <a href={{artist.facebookUrl}} target="_blank">
+              {{> icon-facebook}}
+              <span>Facebook</span>
+            </a>
+            <a href={{artist.twitterUrl}} target="_blank">
+              {{> icon-twitter}}
+              <span>Twitter</span>
+            </a>
+            <a href={{artist.instagramUrl}} target="_blank">
+              {{> icon-instagram}}
+              <span>Instagram</span>
+            </a>
+            <a href={{artist.wikipediaUrl}} target="_blank">
+              {{> icon-wikipedia}}
+              <span>Wikipedia</span>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="band__actions">
+        <button class="band__actions__play">
+          {{> icon-play-filled}}
+          <span>Play</span>
+        </button>
+        <button class="band__actions__mix">
+          {{> icon-sync}}
+          <span>Mix</span>
+        </button>
+      </div>
+
+      <div class="band__popular__tracks">
+        <div class="band__popular__tracks__header">
+          <h2>Popular Tracks</h2>
+        </div>
+
+        <div class="tracks__header">
+          <div class="tracks__header__title">Song</div>
+          <div class="tracks__header__length">
+            {{> icon-clock}}
+          </div>
+        </div>
+
+        {{#each artist.tracks}}
+        <div class="track" id={{id}} onclick="OnClickMusic(this.id)">
+          <div class="track__play">
+            {{> icon-play-outline}}
+          </div>
+          <div class="track__title">{{title}}</div>
+          <div class="track__length">{{duration}}</div>
+        </div>
+        {{/each}}
+      </div>
+
+      <div class="band__discography">
+        <div class="band__discography__header">
+          <h2>Discography</h2>
+        </div>
+
+        <ul class="albums__list">
+          {{#each artist.albums}}
+          <li class="albums__list__item" id={{id}} onclick="OnClickAlbum(this.id)"
+            style="background-image: linear-gradient(rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.55)), url(/web/files/?file={{cover}}); opacity: 0.8">
+            <span class="album__title">{{name}}</span>
+            <span class="album__year">{{releaseDate}}</span>
+          </li>
+          {{/each}}
+        </ul>
+      </div>
+
+      <div class="band__info__wrapper">
+        <div class="band__info__img">
+          <div class="band__info__img__wrapper">
+            <img src="/icons/Amon_Jomsviking_2.jpg" alt="" loading="lazy" />
+            <svg viewBox="0, 0, 100, 100">
+              <path d="M 100,310 C -30,310 -30,-215 100,-215" />
+            </svg>
+          </div>
+        </div>
+
+        <div class="band__description__wrapper">
+          <div class="band__description">{{artist.description}}</div>
+        </div>
+      </div>
+
+      {{!-- <div class="band__info__data">
+        <div class="band__info__data__wrapper">
+          <div class="band__info__field">
+            <p class="band__info__field__data">{{artist.genre}}</p>
+            <p> :Genre</p>
+          </div>
+          <div class="band__info__field">
+            <p class="band__info__field__data">{{artist.country}}</p>
+            <p> :Country</p>
+          </div>
+          <div class="band__info__field">
+            <p class="band__info__field__data">{{artist.foundationDate}}</p>
+            <p> :Foundation Date</p>
+          </div>
+          <div class="band__info__field">
+            <ul class="band__info__field__members">
+              {{#each artist.members}}
+              <li>
+                <p class="band__info__field__data">{{name}}</p>
+              </li>
+              {{/each}}
+            </ul>
+            <p> :Members</p>
+          </div>
+        </div>
+      </div> --}}
+
+    </section>
+  </section>
+
+  {{> current-track}}
+</div>
