@@ -34,10 +34,10 @@ export default class ArtistsController {
   }
 
   public async create(request: Request, response: Response) {
-    const { name, description, genre, photos } = request.body;
+    const { name, country, foundationDate, members, description, genre, photos } = request.body;
 
     try {
-      const artist = await this.musicsIntegration.createArtist({ name, description, genre, photos });
+      const artist = await this.musicsIntegration.createArtist({ name, country, foundationDate, members, description, genre, photos });
 
       return response.status(HttpStatusCode.CREATED).json(artist);
 
@@ -54,10 +54,10 @@ export default class ArtistsController {
 
   public async update(request: Request, response: Response) {
     const { id } = request.params;
-    const { name, description, genre, photos } = request.body;
+    const { name, country, foundationDate, members, description, genre, photos } = request.body;
 
     try {
-      const artist = await this.musicsIntegration.updateArtist({ id, name, description, genre, photos });
+      const artist = await this.musicsIntegration.updateArtist({ id, name, country, foundationDate, members, description, genre, photos });
 
       return response.status(HttpStatusCode.OK).json(artist);
 
