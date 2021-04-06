@@ -160,9 +160,11 @@
           <ul class="band__list">
             {{#each artists}}
             <li class="band__list__item" id={{id}} onclick="OnClickBand(this.id)"
-              style="background-image: linear-gradient(rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.55)), url(/web/files/?file={{profileImg}}); opacity: 0.8">
-              <span class="band__name">{{name}}</span>
-              <span class="band__genre">{{genre}}</span>
+              style="background-image: url(/web/files/?file={{profileImg}});">
+              <div class="band__list__item__info">
+                <span class="band__name">{{name}}</span>
+                <span class="band__genre">{{genre}}</span>
+              </div>
             </li>
             {{/each}}
           </ul>
