@@ -6,6 +6,7 @@ import path from 'path';
 import IStaticFilesChannel from '../interface';
 import AlbumsController from './controllers/AlbumsController';
 import ArtistsController from './controllers/ArtistsController';
+import ImagesController from './controllers/ImagesController';
 import MusicsController from './controllers/MusicsController';
 import Config from '@config/index';
 import { HttpStatusCode } from '@constants/index';
@@ -22,6 +23,7 @@ export default class ExpressStaticFilesChannel implements IStaticFilesChannel {
 
   private albumsController;
   private artistsController;
+  private imagesController;
   private musicsController;
 
   // prettier-ignore
@@ -38,6 +40,7 @@ export default class ExpressStaticFilesChannel implements IStaticFilesChannel {
 
     this.albumsController = new AlbumsController(musicsIntegration);
     this.artistsController = new ArtistsController(musicsIntegration);
+    this.imagesController = new ImagesController();
     this.musicsController = new MusicsController(musicsIntegration);
   }
 
@@ -92,13 +95,11 @@ export default class ExpressStaticFilesChannel implements IStaticFilesChannel {
 
     router.get('/web/band', this.artistsController.index.bind(this.artistsController));
     router.get('/web/band/:id', this.artistsController.show.bind(this.artistsController));
-    router.get('/web/band/:id/cover', this.artistsController.getCover.bind(this.artistsController));
-
     router.get('/web/album/:id', this.albumsController.show.bind(this.albumsController));
-    router.get('/web/album/:id/cover', this.albumsController.getCover.bind(this.albumsController));
-
     router.get('/web/music/:id', this.musicsController.show.bind(this.musicsController));
     router.get('/web/music/:id/audio', this.musicsController.stream.bind(this.musicsController));
+
+    router.get('/web/files', this.imagesController.files.bind(this.imagesController));
 
     router.use('*', (request: Request, response: Response) => {
       response.status(HttpStatusCode.NOT_FOUND).render('404');
