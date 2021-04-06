@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', function () {
+  initSidebar();
   initCarousel();
 });
 
@@ -55,4 +56,29 @@ function initCarousel() {
       slideNextButtons[currentSlide - 1].click();
     }
   }, 5000);
+}
+
+function initSidebar() {
+  const getPlaylistsUrl = 'http://localhost:8080/api/playlists';
+
+  const playlistsList = document.querySelector('.sidebar .sidebar__playlists');
+
+  function getPlaylists() {
+    fetch(getPlaylistsUrl)
+      .then(response => {
+        return response.json();
+      })
+      .then(playlists => {
+        for (const playlist of playlists) {
+          let playlistsListItem = document.createElement('li');
+          playlistsListItem.innerHTML = `<li><a href="#">${playlist}</a></li>`;
+          playlistsList.appendChild(playlistsListItem);
+        }
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  }
+
+  getPlaylists();
 }
