@@ -89,9 +89,9 @@ function OnClickBand(id) {
   $(location).attr('href', `/web/band/${id}`);
 }
 
-function OnClickAlbum(id) {
-  const getAlbumUrl = `http://localhost:8080/api/album/${id}`;
+let isAlbumModal = false;
 
+function OnClickAlbum(id) {
   const albumModal = document.querySelector('.album__modal');
 
   const albumImg = albumModal.querySelector('.album__info__img img');
@@ -104,58 +104,89 @@ function OnClickAlbum(id) {
 
   const tracksList = albumModal.querySelector('.tracks');
 
-  fetch(getAlbumUrl)
-    .then(response => {
-      return response.json();
-    })
-    .then(album => {
-      albumImg.src = `/web/files/?file=${album.cover}`;
+  OnClickAlbum.cache = OnClickAlbum.cache || {};
 
-      albumReleaseYear.innerHTML = album.releaseDateStr;
-      albumName.innerHTML = album.name;
-      albumProducers.innerHTML = `Producers: ${album.producersStr}`;
-      albumStudio.innerHTML = `Studio: ${album.studio}`;
+  if (OnClickAlbum.cache[id]) {
+    buildAlbumModal(OnClickAlbum.cache[id]);
+  } else {
+    const getAlbumUrl = `http://localhost:8080/api/album/${id}`;
 
-      albumDurationNumberOfTracks.innerHTML = `${album.numberOfTracks} songs`;
-      albumDurationTime.innerHTML = album.fullDuration;
+    fetch(getAlbumUrl)
+      .then(response => {
+        return response.json();
+      })
+      .then(album => {
+        OnClickAlbum.cache[id] = album;
+        buildAlbumModal(album);
+      })
+      .catch(error => {
+        console.error(`Error fetching album ${id}:`, error);
+      });
+  }
 
-      tracksList.innerHTML = '';
+  function buildAlbumModal(album) {
+    albumImg.src = `/web/files/?file=${album.cover}`;
 
-      for (const [index, track] of album.tracks.entries()) {
-        let trackItem = document.createElement('div');
-        trackItem.className = 'track';
-        trackItem.id = track.id;
+    albumReleaseYear.innerHTML = album.releaseDateStr;
+    albumName.innerHTML = album.name;
+    albumProducers.innerHTML = `Producers: ${album.producersStr}`;
+    albumStudio.innerHTML = `Studio: ${album.studio}`;
 
-        trackItem.innerHTML = `
+    albumDurationNumberOfTracks.innerHTML = `${album.numberOfTracks} songs`;
+    albumDurationTime.innerHTML = album.fullDuration;
+
+    tracksList.innerHTML = '';
+
+    for (const [index, track] of album.tracks.entries()) {
+      let trackItem = document.createElement('div');
+      trackItem.className = 'track';
+      trackItem.id = track.id;
+
+      trackItem.innerHTML = `
           <div class="track__number">${index}</div>
           <div class="track__title">${track.title}</div>
           <div class="track__length">${track.durationStr}</div>
         `;
 
-        trackItem.addEventListener('click', OnClickMusic.bind(trackItem, track.id));
+      trackItem.addEventListener('click', OnClickMusic.bind(trackItem, track.id));
 
-        tracksList.appendChild(trackItem);
-      }
+      tracksList.appendChild(trackItem);
+    }
 
-      // albumModal.style['z-index'] = '$z-index-modal-0';
-      albumModal.style['z-index'] = '100';
-    })
-    .catch(error => {
-      console.error(`Error fetching album ${id}:`, error);
-    });
-}
+    albumModal.style['z-index'] = '100';
+    albumModal.querySelector('.album__modal__content').classList.add('open');
 
-// close album modal when click outside of it
-document.addEventListener('click', event => {
-  const albumModal = document.querySelector('.album__modal');
-  const albumModalContent = albumModal.querySelector('.album__modal__content');
+    isAlbumModal = true;
 
-  const isClickInside = albumModalContent.contains(event.target);
-
-  if (!isClickInside) {
-    albumModal.style['z-index'] = '-1';
+    setTimeout(function () {
+      // close album modal when click outside of it
+      document.addEventListener('click', checkWetherCloseAlbumModal);
+    }, 2000);
   }
-});
+
+  function checkWetherCloseAlbumModal(event) {
+    if (!isAlbumModal) {
+      return;
+    }
+
+    const albumModal = document.querySelector('.album__modal');
+    const albumModalContent = albumModal.querySelector('.album__modal__content');
+
+    const isClickInside = albumModalContent.contains(event.target);
+
+    if (!isClickInside) {
+      closeAlbumModal();
+    }
+  }
+
+  function closeAlbumModal() {
+    albumModal.style['z-index'] = '-1';
+    albumModal.querySelector('.album__modal__content').classList.remove('open');
+
+    isAlbumModal = false;
+    document.removeEventListener('click', checkWetherCloseAlbumModal);
+  }
+}
 
 function OnClickMusic(id) {
   $(location).attr('href', `/web/music/${id}/audio`);
