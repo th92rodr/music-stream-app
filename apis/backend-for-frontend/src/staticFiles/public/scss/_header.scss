@@ -170,17 +170,26 @@ section.header {
         button {
           & {
             padding: 5px 15px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
           }
 
-          i {
+          svg {
             & {
-              font-size: $font-size-medium-1;
-              color: $color-text-main;
-              transition: color $transition-duration $transition-smooth;
+              width: 24px;
+              height: 24px;
             }
 
             &:hover {
-              color: $color-text-highlight;
+              path {
+                stroke: $color-text-highlight;
+              }
+            }
+
+            path {
+              stroke: $color-text-main;
+              transition: color $transition-duration $transition-smooth;
             }
           }
         }
