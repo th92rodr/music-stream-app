@@ -30,10 +30,15 @@ export const convertMonthToString = (month: number): string => {
 };
 
 export const getMusicDuration = (durationInSeconds: number): string => {
-  const quotient = Math.floor(durationInSeconds / 60);
-  const remainder = durationInSeconds % 60;
+  const minutes = Math.floor(durationInSeconds / 60);
+  const seconds = durationInSeconds % 60;
 
-  return `${quotient}:${remainder}`;
+  let secondsStr = seconds.toString();
+  if (secondsStr.length == 1) {
+    secondsStr = `0${secondsStr}`;
+  }
+
+  return `${minutes}:${secondsStr}`;
 };
 
 export const getAlbumDuration = (tracks: Array<Music>): string => {
@@ -41,10 +46,15 @@ export const getAlbumDuration = (tracks: Array<Music>): string => {
     return acc + current.durationInSeconds;
   }, 0);
 
-  const quotient = Math.floor(duration / 60);
-  const remainder = duration % 60;
+  const minutes = Math.floor(duration / 60);
+  const seconds = duration % 60;
 
-  return `${quotient} min ${remainder} sec`;
+  let secondsStr = seconds.toString();
+  if (secondsStr.length == 1) {
+    secondsStr = `0${secondsStr}`;
+  }
+
+  return `${minutes} min ${secondsStr} sec`;
 };
 
 export const getFileExtension = (file: string): string => {
