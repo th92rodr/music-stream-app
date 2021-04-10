@@ -1,17 +1,14 @@
-<section class="modal">
-  <div class="modal__content">
-    <span class="modal__content__close">
+<section class="artist__modal">
+  <div class="artist__modal__content open">
+
+    {{!-- <span class="artist__modal__content__close">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 30">
         <path fill="#FF3660" fill-rule="evenodd"
           d="M20.711 7.168a1.5 1.5 0 012.12 2.12L17.121 15l5.71 5.711a1.5 1.5 0 01-2.12 2.12L15 17.122l-5.711 5.71a1.5 1.5 0 01-2.12-2.12l5.71-5.71-5.71-5.712a1.499 1.499 0 112.12-2.12L15 12.879l5.711-5.71z" />
       </svg>
-    </span>
+    </span> --}}
 
-    <div class="modal__content__scrollbar">
-      <div class="modal__content__scrollbar__thumb"></div>
-    </div>
-
-    <div class="modal__content__area">
+    <div class="artist__modal__content__area">
       <div class="artist__details">
         <div class="artist__details__img__wrapper">
           <div class="artist__details__img">
@@ -43,14 +40,7 @@
             </div>
             <div class="artist__details__info__stats__card">
               <span>
-                {{!-- {{> icon-foot-steps}} --}}
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 30">
-                  <g transform="translate(-4.547473508864641e-13, 0)" opacity="1">
-                    <path fill="#FFFFFF" id="path-1" opacity="1" fill-rule="evenodd"
-                      d="M5.534764405092787,6.431923996476657 C3.408867840351375,8.863816534541336 3.41009471841857,12.77771486095382 5.534764405092787,15.211966779916951 L14.945233764599521,26 C18.08616745026707,22.408078520196298 21.2259057162794,18.8161570403926 24.366713568299033,15.224235560588903 C26.49261013304045,12.792343022524223 26.49261013304045,8.875928023153392 24.366713568299033,6.44419277714861 C22.240817003557623,4.012300239083931 18.815876774540385,4.012300239083931 16.690231877094803,6.44419277714861 L14.956338584028238,8.427551277211528 L13.211371929944937,6.4318925380646785 C11.085475365203523,4 7.660535136186284,4 5.534764405092787,6.431923996476657Z">
-                    </path>
-                  </g>
-                </svg>
+                {{> icon-foot-steps}}
               </span>
               <div class="stats__card__data">
                 <span class="stats__card__title">Followers</span>
