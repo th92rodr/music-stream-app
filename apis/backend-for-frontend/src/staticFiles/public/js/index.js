@@ -93,6 +93,7 @@ let isAlbumModal = false;
 
 function OnClickAlbum(id) {
   const albumModal = document.querySelector('.album__modal');
+  const albumModalContent = albumModal.querySelector('.album__modal__content');
 
   const albumImg = albumModal.querySelector('.album__info__img img');
   const albumReleaseYear = albumModal.querySelector('.album__year');
@@ -143,7 +144,7 @@ function OnClickAlbum(id) {
       trackItem.id = track.id;
 
       trackItem.innerHTML = `
-          <div class="track__number">${index}</div>
+          <div class="track__number">${index + 1}</div>
           <div class="track__title">${track.title}</div>
           <div class="track__length">${track.durationStr}</div>
         `;
@@ -154,7 +155,7 @@ function OnClickAlbum(id) {
     }
 
     albumModal.style['z-index'] = '100';
-    albumModal.querySelector('.album__modal__content').classList.add('open');
+    albumModalContent.classList.add('open');
 
     isAlbumModal = true;
 
@@ -169,9 +170,6 @@ function OnClickAlbum(id) {
       return;
     }
 
-    const albumModal = document.querySelector('.album__modal');
-    const albumModalContent = albumModal.querySelector('.album__modal__content');
-
     const isClickInside = albumModalContent.contains(event.target);
 
     if (!isClickInside) {
@@ -181,7 +179,7 @@ function OnClickAlbum(id) {
 
   function closeAlbumModal() {
     albumModal.style['z-index'] = '-1';
-    albumModal.querySelector('.album__modal__content').classList.remove('open');
+    albumModalContent.classList.remove('open');
 
     isAlbumModal = false;
     document.removeEventListener('click', checkWetherCloseAlbumModal);
