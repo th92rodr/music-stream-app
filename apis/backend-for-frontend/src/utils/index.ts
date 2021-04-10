@@ -61,3 +61,8 @@ export const getFileExtension = (file: string): string => {
   const [, extension] = path.extname(file).split('.');
   return extension;
 };
+
+export const prepareArtistDescription = (description: string): string => {
+  const newLine = /\n/gi;
+  return description.replace(newLine, '\n\n');
+};
