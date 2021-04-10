@@ -33,6 +33,6 @@ export default {
   },
 
   storage: {
-    path: path.resolve(__dirname, '..', '..', '..', '..', 'storage', 'db'),
+    path: path.resolve(__dirname, '..', '..', '..', '..', 'storage'),
   },
 };
