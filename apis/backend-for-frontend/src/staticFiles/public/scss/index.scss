@@ -1,10 +1,12 @@
 @import '_vars';
-@import '_main';
 @import '_header';
 @import '_sidebar';
 @import '_current-track';
-@import '_bands';
-@import '_404';
+@import '_main-page';
+@import '_artist-page';
+@import '_404-page';
+@import '_artist-modal';
+@import '_album-modal';
 
 * {
   box-sizing: border-box;
@@ -22,11 +24,13 @@ body {
 }
 
 body {
+  scroll-behavior: smooth;
   font-family: $font-montserrat;
   line-height: 1.4;
   letter-spacing: 1px;
   font-size: $font-size-small-1;
   font-weight: 400;
+  text-transform: capitalize;
   color: $color-text-main;
 }
 
@@ -75,11 +79,17 @@ button {
   cursor: pointer;
 }
 
+p {
+  margin-block: 0;
+  margin-inline: 0;
+}
+
 ::-webkit-scrollbar {
   width: 8px;
-  background: $color-background-sidebar;
+  background: $color-background-main;
 }
+
 ::-webkit-scrollbar-thumb {
   border-radius: 4px;
-  background: $color-border;
+  background: $color-background-slider;
 }
