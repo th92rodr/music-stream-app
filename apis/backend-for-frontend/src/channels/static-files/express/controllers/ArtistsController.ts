@@ -15,11 +15,11 @@ export default class ArtistsController {
     try {
       const artists = await this.musicsIntegration.getArtists();
 
-      return response.status(HttpStatusCode.OK).render('bands', {
+      return response.status(HttpStatusCode.OK).render('main-page', {
         artists: translateArtists(artists),
       });
     } catch (error) {
-      return response.status(HttpStatusCode.NOT_FOUND).render('404');
+      return response.status(HttpStatusCode.NOT_FOUND).render('404-page');
     }
   }
 
@@ -29,11 +29,11 @@ export default class ArtistsController {
     try {
       const artist = await this.musicsIntegration.getArtist({ id });
 
-      return response.status(HttpStatusCode.OK).render('band', {
+      return response.status(HttpStatusCode.OK).render('artist-page', {
         artist: translateArtist(artist),
       });
     } catch (error) {
-      return response.status(HttpStatusCode.NOT_FOUND).render('404');
+      return response.status(HttpStatusCode.NOT_FOUND).render('404-page');
     }
   }
 }
