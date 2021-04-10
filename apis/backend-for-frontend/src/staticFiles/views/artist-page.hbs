@@ -2,8 +2,8 @@
   {{> header}}
 
   <section class="artist__page__wrapper">
-    <div class="artist__page__full_img">
-      <div class="artist__page__full_img__wrapper">
+    <div class="artist__page__full__img">
+      <div class="artist__page__full__img__wrapper">
         <img src="/web/files/?file={{artist.fullImg}}" alt={{artist.name}} loading="lazy" />
       </div>
     </div>
@@ -49,15 +49,40 @@
         </div>
       </div>
 
-      <div class="band__actions">
-        <button class="band__actions__play">
-          {{> icon-play-filled}}
-          <span>Play</span>
-        </button>
-        <button class="band__actions__mix">
-          {{> icon-sync}}
-          <span>Mix</span>
-        </button>
+      <div class="band__subheader">
+        <div class="band__actions">
+          <button class="band__actions__play">
+            {{> icon-play-filled}}
+            <span>Play</span>
+          </button>
+          <button class="band__actions__mix">
+            {{> icon-sync}}
+            <span>Mix</span>
+          </button>
+        </div>
+
+        <div class="band__stats">
+          <div class="band__stats__card">
+            <div class="stats__card__content">
+              <p>{{artist.country}}</p>
+            </div>
+            <span class="stats__card__title">Country</span>
+          </div>
+
+          <div class="band__stats__card">
+            <div class="stats__card__content">
+              <p>{{artist.genre}}</p>
+            </div>
+            <span class="stats__card__title">Genre</span>
+          </div>
+
+          <div class="band__stats__card">
+            <div class="stats__card__content">
+              <p>{{artist.foundationDate}}</p>
+            </div>
+            <span class="stats__card__title">Foundation Date</span>
+          </div>
+        </div>
       </div>
 
       <div class="band__popular__tracks">
@@ -90,10 +115,12 @@
 
         <ul class="albums__list">
           {{#each artist.albums}}
-          <li class="albums__list__item" id={{id}} onclick="OnClickAlbum(this.id)"
-            style="background-image: linear-gradient(rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.55)), url(/web/files/?file={{cover}}); opacity: 0.8">
-            <span class="album__title">{{name}}</span>
-            <span class="album__year">{{releaseDate}}</span>
+          <li class="albums__list__item" id={{id}} onclick="OnClickAlbum(this.id)">
+            <img src="/web/files/?file={{cover}}" alt={{name}} loading="lazy" />
+            <div class="albums__list__item__info">
+              <span class="album__title">{{name}}</span>
+              <span class="album__year">{{releaseDate}}</span>
+            </div>
           </li>
           {{/each}}
         </ul>
@@ -102,7 +129,7 @@
       <div class="band__info__wrapper">
         <div class="band__info__img">
           <div class="band__info__img__wrapper">
-            <img src="/icons/Amon_Jomsviking_2.jpg" alt="" loading="lazy" />
+            <img src="/web/files/?file={{artist.verticalImg}}" alt={{artist.name}} loading="lazy" />
             <svg viewBox="0, 0, 100, 100">
               <path d="M 100,310 C -30,310 -30,-215 100,-215" />
             </svg>
@@ -113,36 +140,10 @@
           <div class="band__description">{{artist.description}}</div>
         </div>
       </div>
-
-      {{!-- <div class="band__info__data">
-        <div class="band__info__data__wrapper">
-          <div class="band__info__field">
-            <p class="band__info__field__data">{{artist.genre}}</p>
-            <p> :Genre</p>
-          </div>
-          <div class="band__info__field">
-            <p class="band__info__field__data">{{artist.country}}</p>
-            <p> :Country</p>
-          </div>
-          <div class="band__info__field">
-            <p class="band__info__field__data">{{artist.foundationDate}}</p>
-            <p> :Foundation Date</p>
-          </div>
-          <div class="band__info__field">
-            <ul class="band__info__field__members">
-              {{#each artist.members}}
-              <li>
-                <p class="band__info__field__data">{{name}}</p>
-              </li>
-              {{/each}}
-            </ul>
-            <p> :Members</p>
-          </div>
-        </div>
-      </div> --}}
-
     </section>
   </section>
 
   {{> current-track}}
 </div>
+
+{{> album-modal}}
