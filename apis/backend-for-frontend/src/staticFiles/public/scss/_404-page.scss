@@ -1,0 +1,221 @@
+.not__found__page {
+  & {
+    width: 100%;
+    height: 100%;
+    padding: 40px 0;
+    background: $color-background-not-found-page;
+    z-index: $z-index-main-0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .header {
+    h1 {
+      font-family: $font-abril-fat-face;
+      font-size: 126px;
+      text-align: center;
+      text-shadow: -1px 0 #bfc0c0, 0 1px #bfc0c0, 1px 0 #bfc0c0, 0 -1px #bfc0c0;
+      color: #ededed;
+    }
+
+    h3 {
+      margin-top: -20px;
+      font-family: $font-lato;
+      font-size: 28px;
+      font-weight: 900;
+      text-transform: uppercase;
+      text-align: center;
+      color: #bfc0c0;
+    }
+  }
+
+  .ghost__wrapper {
+    & {
+      position: relative;
+      width: 250px;
+      height: 250px;
+    }
+
+    .ghost {
+      & {
+        position: absolute;
+        width: 50%;
+        height: 53%;
+        top: 10%;
+        left: 25%;
+        border-radius: 50% 50% 0 0;
+        border: 1px solid #bfc0c0;
+        border-bottom: none;
+        background: #ededed;
+        animation: float 2s ease-out infinite;
+      }
+
+      .face {
+        position: absolute;
+        width: 100%;
+        height: 60%;
+        top: 20%;
+      }
+
+      .eye-left,
+      .eye-right {
+        position: absolute;
+        width: 13px;
+        height: 13px;
+        top: 40%;
+        border-radius: 50%;
+        background: #585959;
+      }
+
+      .eye-left {
+        left: 25%;
+      }
+
+      .eye-right {
+        right: 25%;
+      }
+
+      .mouth {
+        position: absolute;
+        top: 50%;
+        left: 45%;
+        width: 10px;
+        height: 10px;
+        border: 3px solid;
+        border-radius: 50%;
+        border-color: transparent #585959 #585959 transparent;
+        transform: rotate(45deg);
+      }
+    }
+
+    .ghost__2 {
+      & {
+        position: absolute;
+        width: 50%;
+        height: 55%;
+        top: 10%;
+        left: 25%;
+        border-radius: 50% 50% 0 0;
+        border: 1px solid #bfc0c0;
+        border-bottom: none;
+        animation: float 2s ease-out infinite;
+      }
+
+      .leg__one,
+      .leg__two,
+      .leg__three,
+      .leg__four {
+        position: absolute;
+        top: 85%;
+        width: 25.25%;
+        height: 23%;
+        border: 1px solid #bfc0c0;
+        background: #ededed;
+      }
+
+      .leg__one {
+        left: -0.5%;
+        border-radius: 0 0 100% 30%;
+      }
+
+      .leg__two {
+        left: 24.75%;
+        border-radius: 0 0 50% 50%;
+      }
+
+      .leg__three {
+        left: 50%;
+        border-radius: 0 0 50% 50%;
+      }
+
+      .leg__four {
+        left: 75.25%;
+        border-radius: 0 0 30% 100%;
+      }
+    }
+
+    .ghost__shadow {
+      position: absolute;
+      width: 30%;
+      height: 7%;
+      top: 80%;
+      left: 35%;
+      border-radius: 50%;
+      background: #bfc0c0;
+      animation: scale 2s infinite;
+    }
+  }
+
+  .button__wrapper {
+    & {
+      width: 100%;
+      margin-top: 60px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .button {
+      & {
+        width: 50%;
+        display: flex;
+        align-items: center;
+      }
+
+      &:first-child {
+        justify-content: flex-end;
+        margin-right: 8px;
+      }
+
+      &:last-child {
+        justify-content: flex-start;
+        margin-left: 8px;
+      }
+
+      a {
+        & {
+          padding: 8px 32px;
+          border-radius: 8px;
+          background: #bfc0c0;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          transition: all $transition-duration $transition-timing-function;
+        }
+
+        &:hover {
+          background: transparent;
+
+          span {
+            color: #bfc0c0;
+          }
+        }
+
+        span {
+          font-size: 28px;
+          letter-spacing: 2.5px;
+          color: #202020;
+        }
+      }
+    }
+  }
+}
+
+@keyframes scale {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes float {
+  50% {
+    transform: translateY(15px);
+  }
+}
