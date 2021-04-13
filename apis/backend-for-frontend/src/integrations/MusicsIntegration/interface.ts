@@ -17,6 +17,7 @@ import {
   UpdateMusic,
   UnfavoriteArtist,
   UnfollowArtist,
+  ViewMusic,
 } from './dtos';
 import Album from '@entities/Album';
 import Artist from '@entities/Artist';
@@ -28,6 +29,7 @@ export default interface IMusicsIntegration {
   createMusic(request: CreateMusic): Promise<Music>;
   updateMusic(request: UpdateMusic): Promise<Music>;
   deleteMusic(request: DeleteMusic): Promise<void>;
+  viewMusic(request: ViewMusic): Promise<Music>;
 
   getAlbum(request: GetAlbum): Promise<Album>;
   getAlbums(): Promise<Array<Album>>;

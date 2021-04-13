@@ -38,6 +38,7 @@ import {
   UpdateMusic,
   UnfavoriteArtist,
   UnfollowArtist,
+  ViewMusic,
 } from './dtos';
 import IMusicsIntegration from './interface';
 // prettier-ignore
@@ -133,6 +134,18 @@ export default class MusicsIntegration implements IMusicsIntegration {
     });
   };
 
+  public viewMusic = async ({ id }: ViewMusic): Promise<MusicEntity> => {
+    return new Promise((resolve, reject) => {
+      const musicId = new Id();
+      musicId.setId(id);
+
+      this.client.viewMusic(musicId, (error: Error | null, music: Music) => {
+        if (error != null) reject(error);
+        else resolve(translateMusicEntity(music));
+      });
+    });
+  };
+
   public getAlbum = async ({ id }: GetAlbum): Promise<AlbumEntity> => {
     return new Promise((resolve, reject) => {
       const albumId = new Id();
@@ -158,7 +171,7 @@ export default class MusicsIntegration implements IMusicsIntegration {
     return new Promise((resolve, reject) => {
       const createAlbumRequest = new CreateAlbumRequest();
       createAlbumRequest.setName(name);
-      createAlbumRequest.setReleasedate(releaseDate.getTime());
+      createAlbumRequest.setReleasedate(dateToTimestamp(releaseDate));
       createAlbumRequest.setCover(cover);
       createAlbumRequest.setStudio(studio);
       createAlbumRequest.setProducersList(producers);
@@ -176,7 +189,7 @@ export default class MusicsIntegration implements IMusicsIntegration {
       const updateAlbumRequest = new UpdateAlbumRequest();
       updateAlbumRequest.setId(id);
       updateAlbumRequest.setName(name ? name : '');
-      updateAlbumRequest.setReleasedate(releaseDate ? releaseDate.getTime() : 0);
+      updateAlbumRequest.setReleasedate(releaseDate ? dateToTimestamp(releaseDate) : 0);
       updateAlbumRequest.setCover(cover ? cover : '');
       updateAlbumRequest.setStudio(studio ? studio : '');
       updateAlbumRequest.setProducersList(producers ? producers : []);

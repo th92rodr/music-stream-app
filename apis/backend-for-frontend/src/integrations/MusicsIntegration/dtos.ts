@@ -27,6 +27,10 @@ export interface DeleteMusic {
   id: string;
 }
 
+export interface ViewMusic {
+  id: string;
+}
+
 export interface GetAlbum {
   id: string;
 }
