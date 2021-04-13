@@ -1,4 +1,5 @@
 import Album from './Album';
+import Music from './Music';
 
 export default class Artist {
   public readonly id: string;
@@ -9,9 +10,16 @@ export default class Artist {
   public readonly description: string;
   public readonly genre: number;
   public readonly photos: Array<string>;
-  public albums: Array<Album>;
+  public readonly facebookUrl: string;
+  public readonly twitterUrl: string;
+  public readonly instagramUrl: string;
+  public readonly wikipediaUrl: string;
+  public readonly favorites: number;
+  public readonly followers: number;
+  public readonly albums: Array<Album>;
+  public readonly popularTracks: Array<Music>;
 
-  constructor({ id, name, country, foundationDate, members, description, genre, photos }: Omit<Artist, 'albums' | 'setAlbums'>) {
+  constructor({ id, name, country, foundationDate, members, description, genre, photos, facebookUrl, twitterUrl, instagramUrl, wikipediaUrl, favorites, followers, albums, popularTracks }: Artist) {
     this.id = id;
     this.name = name;
     this.country = country;
@@ -20,10 +28,13 @@ export default class Artist {
     this.description = description;
     this.genre = genre;
     this.photos = photos;
-    this.albums = [];
-  }
-
-  public setAlbums(albums: Array<Album>): void {
+    this.facebookUrl = facebookUrl;
+    this.twitterUrl = twitterUrl;
+    this.instagramUrl = instagramUrl;
+    this.wikipediaUrl = wikipediaUrl;
+    this.favorites = favorites;
+    this.followers = followers;
     this.albums = albums;
+    this.popularTracks = popularTracks;
   }
 }
