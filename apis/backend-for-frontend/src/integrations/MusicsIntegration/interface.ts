@@ -1,18 +1,22 @@
 // prettier-ignore
 import {
-  GetMusic,
-  CreateMusic,
-  UpdateMusic,
-  DeleteMusic,
-  GetAlbum,
   CreateAlbum,
-  UpdateAlbum,
+  CreateArtist,
+  CreateMusic,
   DeleteAlbum,
+  DeleteArtist,
+  DeleteMusic,
+  FavoriteArtist,
+  FollowArtist,
+  GetAlbum,
   GetArtist,
   GetArtistByGenre,
-  CreateArtist,
+  GetMusic,
+  UpdateAlbum,
   UpdateArtist,
-  DeleteArtist,
+  UpdateMusic,
+  UnfavoriteArtist,
+  UnfollowArtist,
 } from './dtos';
 import Album from '@entities/Album';
 import Artist from '@entities/Artist';
@@ -37,4 +41,8 @@ export default interface IMusicsIntegration {
   createArtist(request: CreateArtist): Promise<Artist>;
   updateArtist(request: UpdateArtist): Promise<Artist>;
   deleteArtist(request: DeleteArtist): Promise<void>;
+  favoriteArtist(request: FavoriteArtist): Promise<Artist>;
+  unfavoriteArtist(request: UnfavoriteArtist): Promise<Artist>;
+  followArtist(request: FollowArtist): Promise<Artist>;
+  unfollowArtist(request: UnfollowArtist): Promise<Artist>;
 }

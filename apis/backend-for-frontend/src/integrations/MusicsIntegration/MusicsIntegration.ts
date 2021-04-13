@@ -1,38 +1,43 @@
 import * as grpc from 'grpc';
 
 import { MusicsClient } from './proto/musics_service_grpc_pb';
+// prettier-ignore
 import {
-  Id,
   Album,
+  AlbumsList,
   Artist,
   ArtistsList,
-  Empty,
-  Music,
-  CreateMusicRequest,
-  UpdateMusicRequest,
   CreateAlbumRequest,
-  UpdateAlbumRequest,
-  GetArtistByGenreRequest,
   CreateArtistRequest,
-  UpdateArtistRequest,
-  AlbumsList,
+  CreateMusicRequest,
+  Empty,
+  GetArtistByGenreRequest,
+  Id,
+  Music,
   MusicsList,
+  UpdateAlbumRequest,
+  UpdateArtistRequest,
+  UpdateMusicRequest,
 } from './proto/musics_service_pb';
 // prettier-ignore
 import {
-  GetMusic,
-  CreateMusic,
-  UpdateMusic,
-  DeleteMusic,
-  GetAlbum,
   CreateAlbum,
-  UpdateAlbum,
+  CreateArtist,
+  CreateMusic,
   DeleteAlbum,
+  DeleteArtist,
+  DeleteMusic,
+  FavoriteArtist,
+  FollowArtist,
+  GetAlbum,
   GetArtist,
   GetArtistByGenre,
-  CreateArtist,
+  GetMusic,
+  UpdateAlbum,
   UpdateArtist,
-  DeleteArtist,
+  UpdateMusic,
+  UnfavoriteArtist,
+  UnfollowArtist,
 } from './dtos';
 import IMusicsIntegration from './interface';
 // prettier-ignore
@@ -49,6 +54,7 @@ import Config from '@config/index';
 import AlbumEntity from '@entities/Album';
 import ArtistEntity from '@entities/Artist';
 import MusicEntity from '@entities/Music';
+import { dateToTimestamp } from '@utils/index';
 
 export default class MusicsIntegration implements IMusicsIntegration {
   private client: MusicsClient;
@@ -228,16 +234,20 @@ export default class MusicsIntegration implements IMusicsIntegration {
     });
   };
 
-  public createArtist = async ({ name, country, foundationDate, members, description, genre, photos }: CreateArtist): Promise<ArtistEntity> => {
+  public createArtist = async ({ name, country, foundationDate, members, description, genre, photos, facebookUrl, twitterUrl, instagramUrl, wikipediaUrl }: CreateArtist): Promise<ArtistEntity> => {
     return new Promise((resolve, reject) => {
       const createArtistRequest = new CreateArtistRequest();
       createArtistRequest.setName(name);
       createArtistRequest.setCountry(country);
-      createArtistRequest.setFoundationdate(foundationDate.getTime());
+      createArtistRequest.setFoundationdate(dateToTimestamp(foundationDate));
       createArtistRequest.setMembersList(members);
       createArtistRequest.setDescription(description);
       createArtistRequest.setGenre(translateGenreEnum(genre));
       createArtistRequest.setPhotosList(photos);
+      createArtistRequest.setFacebookurl(facebookUrl);
+      createArtistRequest.setTwitterurl(twitterUrl);
+      createArtistRequest.setInstagramurl(instagramUrl);
+      createArtistRequest.setWikipediaurl(wikipediaUrl);
 
       this.client.createArtist(createArtistRequest, (error: Error | null, artist: Artist) => {
         if (error != null) reject(error);
@@ -246,17 +256,34 @@ export default class MusicsIntegration implements IMusicsIntegration {
     });
   };
 
-  public updateArtist = async ({ id, name, country, foundationDate, members, description, genre, photos }: UpdateArtist): Promise<ArtistEntity> => {
+  public updateArtist = async ({
+    id,
+    name,
+    country,
+    foundationDate,
+    members,
+    description,
+    genre,
+    photos,
+    facebookUrl,
+    twitterUrl,
+    instagramUrl,
+    wikipediaUrl,
+  }: UpdateArtist): Promise<ArtistEntity> => {
     return new Promise((resolve, reject) => {
       const updateArtistRequest = new UpdateArtistRequest();
       updateArtistRequest.setId(id);
       updateArtistRequest.setName(name ? name : '');
       updateArtistRequest.setCountry(country ? country : '');
-      updateArtistRequest.setFoundationdate(foundationDate ? foundationDate.getTime() : 0);
+      updateArtistRequest.setFoundationdate(foundationDate ? dateToTimestamp(foundationDate) : 0);
       updateArtistRequest.setMembersList(members ? members : []);
       updateArtistRequest.setDescription(description ? description : '');
       updateArtistRequest.setGenre(genre ? translateGenreEnum(genre) : 0);
       updateArtistRequest.setPhotosList(photos ? photos : []);
+      updateArtistRequest.setFacebookurl(facebookUrl ? facebookUrl : '');
+      updateArtistRequest.setTwitterurl(twitterUrl ? twitterUrl : '');
+      updateArtistRequest.setInstagramurl(instagramUrl ? instagramUrl : '');
+      updateArtistRequest.setWikipediaurl(wikipediaUrl ? wikipediaUrl : '');
 
       this.client.updateArtist(updateArtistRequest, (error: Error | null, artist: Artist) => {
         if (error != null) reject(error);
@@ -273,6 +300,54 @@ export default class MusicsIntegration implements IMusicsIntegration {
       this.client.deleteArtist(artistId, (error: Error | null) => {
         if (error != null) reject(error);
         else resolve();
+      });
+    });
+  };
+
+  public favoriteArtist = async ({ id }: FavoriteArtist): Promise<ArtistEntity> => {
+    return new Promise((resolve, reject) => {
+      const artistId = new Id();
+      artistId.setId(id);
+
+      this.client.favoriteArtist(artistId, (error: Error | null, artist: Artist) => {
+        if (error != null) reject(error);
+        else resolve(translateArtistEntity(artist));
+      });
+    });
+  };
+
+  public unfavoriteArtist = async ({ id }: UnfavoriteArtist): Promise<ArtistEntity> => {
+    return new Promise((resolve, reject) => {
+      const artistId = new Id();
+      artistId.setId(id);
+
+      this.client.unfavoriteArtist(artistId, (error: Error | null, artist: Artist) => {
+        if (error != null) reject(error);
+        else resolve(translateArtistEntity(artist));
+      });
+    });
+  };
+
+  public followArtist = async ({ id }: FollowArtist): Promise<ArtistEntity> => {
+    return new Promise((resolve, reject) => {
+      const artistId = new Id();
+      artistId.setId(id);
+
+      this.client.followArtist(artistId, (error: Error | null, artist: Artist) => {
+        if (error != null) reject(error);
+        else resolve(translateArtistEntity(artist));
+      });
+    });
+  };
+
+  public unfollowArtist = async ({ id }: UnfollowArtist): Promise<ArtistEntity> => {
+    return new Promise((resolve, reject) => {
+      const artistId = new Id();
+      artistId.setId(id);
+
+      this.client.unfollowArtist(artistId, (error: Error | null, artist: Artist) => {
+        if (error != null) reject(error);
+        else resolve(translateArtistEntity(artist));
       });
     });
   };

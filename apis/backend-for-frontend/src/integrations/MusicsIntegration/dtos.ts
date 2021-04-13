@@ -70,6 +70,10 @@ export interface CreateArtist {
   description: string;
   genre: Genre;
   photos: Array<string>;
+  facebookUrl: string;
+  twitterUrl: string;
+  instagramUrl: string;
+  wikipediaUrl: string;
 }
 
 export interface UpdateArtist {
@@ -81,8 +85,28 @@ export interface UpdateArtist {
   description?: string;
   genre?: Genre;
   photos?: Array<string>;
+  facebookUrl?: string;
+  twitterUrl?: string;
+  instagramUrl?: string;
+  wikipediaUrl?: string;
 }
 
 export interface DeleteArtist {
+  id: string;
+}
+
+export interface FavoriteArtist {
+  id: string;
+}
+
+export interface UnfavoriteArtist {
+  id: string;
+}
+
+export interface FollowArtist {
+  id: string;
+}
+
+export interface UnfollowArtist {
   id: string;
 }
