@@ -3,7 +3,8 @@ import {
   GetMusicRequest,
   CreateMusicRequest,
   UpdateMusicRequest,
-  DeleteMusicRequest
+  DeleteMusicRequest,
+  AddViewRequest,
 } from './dtos';
 import Music from '@entities/Music';
 
@@ -13,4 +14,5 @@ export default interface IMusicsService {
   create(request: CreateMusicRequest): Promise<Music>;
   update(request: UpdateMusicRequest): Promise<Music>;
   delete(request: DeleteMusicRequest): Promise<void>;
+  addView(request: AddViewRequest): Promise<Music>;
 }

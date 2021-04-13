@@ -3,7 +3,8 @@ import {
   GetMusicRequest,
   CreateMusicRequest,
   UpdateMusicRequest,
-  DeleteMusicRequest
+  DeleteMusicRequest,
+  AddViewRequest,
 } from './dtos';
 import IMusicsService from './interface';
 import { ErrorMusicNotFound } from '@constants/errors';
@@ -50,6 +51,7 @@ export default class MusicsService implements IMusicsService {
       composers,
       lyrics,
       albumId,
+      views: 0,
     });
 
     await this.musicsRepository.store(music);
@@ -72,6 +74,7 @@ export default class MusicsService implements IMusicsService {
       composers: composers ? arrayIntersection(composers, music.composers) : music.composers,
       lyrics: lyrics ? lyrics : music.lyrics,
       albumId: albumId ? albumId : music.albumId,
+      views: music.views,
     });
 
     await this.musicsRepository.update(newMusic);
@@ -81,5 +84,19 @@ export default class MusicsService implements IMusicsService {
 
   public async delete({ id }: DeleteMusicRequest): Promise<void> {
     await this.musicsRepository.delete(id);
+  }
+
+  public async addView({ id }: AddViewRequest): Promise<Music> {
+    const music = await this.musicsRepository.find(id);
+
+    if (!music) {
+      throw new ErrorMusicNotFound(id);
+    }
+
+    music.addView();
+
+    await this.musicsRepository.update(music);
+
+    return music;
   }
 }

@@ -24,3 +24,7 @@ export interface UpdateMusicRequest {
 export interface DeleteMusicRequest {
   id: string;
 }
+
+export interface AddViewRequest {
+  id: string;
+}
