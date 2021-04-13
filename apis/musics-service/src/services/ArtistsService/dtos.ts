@@ -16,6 +16,10 @@ export interface CreateArtistRequest {
   description: string;
   genre: Genre;
   photos: Array<string>;
+  facebookUrl: string;
+  twitterUrl: string;
+  instagramUrl: string;
+  wikipediaUrl: string;
 }
 
 export interface UpdateArtistRequest {
@@ -27,8 +31,28 @@ export interface UpdateArtistRequest {
   description?: string;
   genre?: Genre;
   photos?: Array<string>;
+  facebookUrl?: string;
+  twitterUrl?: string;
+  instagramUrl?: string;
+  wikipediaUrl?: string;
 }
 
 export interface DeleteArtistRequest {
+  id: string;
+}
+
+export interface AddFavoriteRequest {
+  id: string;
+}
+
+export interface RemoveFavoriteRequest {
+  id: string;
+}
+
+export interface AddFollowerRequest {
+  id: string;
+}
+
+export interface RemoveFollowerRequest {
   id: string;
 }

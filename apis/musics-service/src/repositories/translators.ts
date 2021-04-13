@@ -12,6 +12,12 @@ export function translateArtist(artist: Artist, albums: Array<Album>): Artist {
     description: artist.description,
     genre: artist.genre,
     photos: artist.photos,
+    facebookUrl: artist.facebookUrl,
+    twitterUrl: artist.twitterUrl,
+    instagramUrl: artist.instagramUrl,
+    wikipediaUrl: artist.wikipediaUrl,
+    favorites: artist.favorites,
+    followers: artist.followers,
   });
 
   newArtist.setAlbums(albums.map(album => translateAlbum(album, [])));

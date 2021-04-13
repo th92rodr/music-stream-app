@@ -4,7 +4,11 @@ import {
   GetArtistByGenreRequest,
   CreateArtistRequest,
   UpdateArtistRequest,
-  DeleteArtistRequest
+  DeleteArtistRequest,
+  AddFavoriteRequest,
+  RemoveFavoriteRequest,
+  AddFollowerRequest,
+  RemoveFollowerRequest,
 } from './dtos';
 import IArtistsService from './interface';
 import { ErrorArtistNotFound } from '@constants/errors';
@@ -48,7 +52,7 @@ export default class ArtistsService implements IArtistsService {
     return artists;
   }
 
-  public async create({ name, country, foundationDate, members, description, genre, photos }: CreateArtistRequest): Promise<Artist> {
+  public async create({ name, country, foundationDate, members, description, genre, photos, facebookUrl, twitterUrl, instagramUrl, wikipediaUrl }: CreateArtistRequest): Promise<Artist> {
     const artist = new Artist({
       id: this.idProvider.generate(),
       name,
@@ -58,6 +62,12 @@ export default class ArtistsService implements IArtistsService {
       description,
       genre,
       photos,
+      facebookUrl,
+      twitterUrl,
+      instagramUrl,
+      wikipediaUrl,
+      favorites: 0,
+      followers: 0,
     });
 
     await this.artistsRepository.store(artist);
@@ -65,7 +75,7 @@ export default class ArtistsService implements IArtistsService {
     return artist;
   }
 
-  public async update({ id, name, country, foundationDate, members, description, genre, photos }: UpdateArtistRequest): Promise<Artist> {
+  public async update({ id, name, country, foundationDate, members, description, genre, photos, facebookUrl, twitterUrl, instagramUrl, wikipediaUrl }: UpdateArtistRequest): Promise<Artist> {
     const artist = await this.artistsRepository.find(id);
 
     if (!artist) {
@@ -81,6 +91,12 @@ export default class ArtistsService implements IArtistsService {
       description: description ? description : artist.description,
       genre: genre ? genre : artist.genre,
       photos: photos ? arrayIntersection(photos, artist.photos) : artist.photos,
+      facebookUrl: facebookUrl ? facebookUrl : artist.facebookUrl,
+      twitterUrl: twitterUrl ? twitterUrl : artist.twitterUrl,
+      instagramUrl: instagramUrl ? instagramUrl : artist.instagramUrl,
+      wikipediaUrl: wikipediaUrl ? wikipediaUrl : artist.wikipediaUrl,
+      favorites: artist.favorites,
+      followers: artist.followers,
     });
 
     await this.artistsRepository.update(newArtist);
@@ -90,5 +106,61 @@ export default class ArtistsService implements IArtistsService {
 
   public async delete({ id }: DeleteArtistRequest): Promise<void> {
     await this.artistsRepository.delete(id);
+  }
+
+  public async addFavorite({ id }: AddFavoriteRequest): Promise<Artist> {
+    const artist = await this.artistsRepository.find(id);
+
+    if (!artist) {
+      throw new ErrorArtistNotFound(id);
+    }
+
+    artist.addFavorite();
+
+    await this.artistsRepository.update(artist);
+
+    return artist;
+  }
+
+  public async removeFavorite({ id }: RemoveFavoriteRequest): Promise<Artist> {
+    const artist = await this.artistsRepository.find(id);
+
+    if (!artist) {
+      throw new ErrorArtistNotFound(id);
+    }
+
+    artist.removeFavorite();
+
+    await this.artistsRepository.update(artist);
+
+    return artist;
+  }
+
+  public async addFollower({ id }: AddFollowerRequest): Promise<Artist> {
+    const artist = await this.artistsRepository.find(id);
+
+    if (!artist) {
+      throw new ErrorArtistNotFound(id);
+    }
+
+    artist.addFollower();
+
+    await this.artistsRepository.update(artist);
+
+    return artist;
+  }
+
+  public async removeFollower({ id }: RemoveFollowerRequest): Promise<Artist> {
+    const artist = await this.artistsRepository.find(id);
+
+    if (!artist) {
+      throw new ErrorArtistNotFound(id);
+    }
+
+    artist.removeFollower();
+
+    await this.artistsRepository.update(artist);
+
+    return artist;
   }
 }
