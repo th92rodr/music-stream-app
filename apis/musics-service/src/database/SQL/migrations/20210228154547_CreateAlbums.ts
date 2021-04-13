@@ -8,7 +8,7 @@ export async function up(knex: Knex): Promise<void> {
     table.string('name').notNullable();
     table.date('releaseDate').notNullable();
     table.string('cover').notNullable();
-    table.string('studio');
+    table.string('studio').notNullable();
     table.specificType('producers', 'text[]');
     // prettier-ignore
     table.string('artistId')
