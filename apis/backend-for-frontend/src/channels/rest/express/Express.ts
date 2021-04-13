@@ -140,30 +140,30 @@ export default class ExpressRestChannel implements IRestChannel {
   private initRouter(): void {
     const router = Router();
 
-    router.get('/', this.checkAccess.bind(this), this.usersController.show.bind(this.usersController));
-    router.post('/', this.usersController.create.bind(this.usersController));
-    router.patch('/', this.checkAccess.bind(this), this.usersController.update.bind(this.usersController));
-    router.delete('/', this.checkAccess.bind(this), this.usersController.delete.bind(this.usersController));
+    router.get('/api/users', this.checkAccess.bind(this), this.usersController.show.bind(this.usersController));
+    router.post('/api/users', this.usersController.create.bind(this.usersController));
+    router.patch('/api/users', this.checkAccess.bind(this), this.usersController.update.bind(this.usersController));
+    router.delete('/api/users', this.checkAccess.bind(this), this.usersController.delete.bind(this.usersController));
 
-    router.post('/token', this.tokensController.create.bind(this.tokensController));
+    router.post('/api/tokens', this.tokensController.create.bind(this.tokensController));
 
-    router.get('/music/:id', this.musicsController.stream.bind(this.musicsController));
+    router.get('/api/artists', this.artistsController.index.bind(this.artistsController));
+    router.get('/api/artists/:id', this.artistsController.show.bind(this.artistsController));
+    router.post('/api/artists', this.artistsController.create.bind(this.artistsController));
+    router.patch('/api/artists/:id', this.artistsController.update.bind(this.artistsController));
+    router.delete('/api/artists/:id', this.artistsController.delete.bind(this.artistsController));
 
-    router.get('/api/artist', this.artistsController.index.bind(this.artistsController));
-    router.get('/api/artist/:id', this.artistsController.show.bind(this.artistsController));
-    router.post('/api/artist', this.artistsController.create.bind(this.artistsController));
-    router.patch('/api/artist/:id', this.artistsController.update.bind(this.artistsController));
-    router.delete('/api/artist/:id', this.artistsController.delete.bind(this.artistsController));
+    router.get('/api/albums/:id', this.albumsController.show.bind(this.albumsController));
+    router.post('/api/albums', this.albumsController.create.bind(this.albumsController));
+    router.patch('/api/albums/:id', this.albumsController.update.bind(this.albumsController));
+    router.delete('/api/albums/:id', this.albumsController.delete.bind(this.albumsController));
 
-    router.get('/api/album/:id', this.albumsController.show.bind(this.albumsController));
-    router.post('/api/album', this.albumsController.create.bind(this.albumsController));
-    router.patch('/api/album/:id', this.albumsController.update.bind(this.albumsController));
-    router.delete('/api/album/:id', this.albumsController.delete.bind(this.albumsController));
+    router.get('/api/musics/:id', this.musicsController.show.bind(this.musicsController));
+    router.post('/api/musics', this.musicsController.create.bind(this.musicsController));
+    router.patch('/api/musics/:id', this.musicsController.update.bind(this.musicsController));
+    router.delete('/api/musics/:id', this.musicsController.delete.bind(this.musicsController));
 
-    router.get('/api/music/:id', this.musicsController.show.bind(this.musicsController));
-    router.post('/api/music', this.musicsController.create.bind(this.musicsController));
-    router.patch('/api/music/:id', this.musicsController.update.bind(this.musicsController));
-    router.delete('/api/music/:id', this.musicsController.delete.bind(this.musicsController));
+    router.get('/api/musics/:id/audio', this.musicsController.stream.bind(this.musicsController));
 
     router.use('*', (request: Request, response: Response) => {
       response.status(HttpStatusCode.NOT_FOUND).json({ message: 'Not Found' });
