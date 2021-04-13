@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import fs from 'fs';
 import path from 'path';
 
+import { translateMusic } from './translators';
 import Config from '@config/index';
 import { HttpStatusCode } from '@constants/index';
 import BaseError from '@constants/BaseError';
@@ -52,7 +53,7 @@ export default class MusicsController {
     try {
       const music = await this.musicsIntegration.getMusic({ id });
 
-      return response.status(HttpStatusCode.OK).json(music);
+      return response.status(HttpStatusCode.OK).json(translateMusic(music));
 
       //
     } catch (error) {
@@ -71,7 +72,7 @@ export default class MusicsController {
     try {
       const music = await this.musicsIntegration.createMusic({ title, durationInSeconds, file, composers, lyrics, albumId });
 
-      return response.status(HttpStatusCode.CREATED).json(music);
+      return response.status(HttpStatusCode.CREATED).json(translateMusic(music));
 
       //
     } catch (error) {
@@ -91,7 +92,7 @@ export default class MusicsController {
     try {
       const music = await this.musicsIntegration.updateMusic({ id, title, durationInSeconds, file, composers, lyrics, albumId });
 
-      return response.status(HttpStatusCode.OK).json(music);
+      return response.status(HttpStatusCode.OK).json(translateMusic(music));
 
       //
     } catch (error) {

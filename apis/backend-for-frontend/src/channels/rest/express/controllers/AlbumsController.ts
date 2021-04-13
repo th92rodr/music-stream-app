@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 
+import { translateAlbum } from './translators';
 import { HttpStatusCode } from '@constants/index';
 import BaseError from '@constants/BaseError';
 import { InternalError } from '@constants/errors';
@@ -18,7 +19,7 @@ export default class AlbumsController {
     try {
       const album = await this.musicsIntegration.getAlbum({ id });
 
-      return response.status(HttpStatusCode.OK).json(album);
+      return response.status(HttpStatusCode.OK).json(translateAlbum(album));
 
       //
     } catch (error) {
@@ -37,7 +38,7 @@ export default class AlbumsController {
     try {
       const album = await this.musicsIntegration.createAlbum({ name, releaseDate, cover, studio, producers, artistId });
 
-      return response.status(HttpStatusCode.CREATED).json(album);
+      return response.status(HttpStatusCode.CREATED).json(translateAlbum(album));
 
       //
     } catch (error) {
@@ -57,7 +58,7 @@ export default class AlbumsController {
     try {
       const album = await this.musicsIntegration.updateAlbum({ id, name, releaseDate, cover, studio, producers, artistId });
 
-      return response.status(HttpStatusCode.OK).json(album);
+      return response.status(HttpStatusCode.OK).json(translateAlbum(album));
 
       //
     } catch (error) {
