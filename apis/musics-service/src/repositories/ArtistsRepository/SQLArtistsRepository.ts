@@ -57,17 +57,17 @@ export default class SQLArtistsRepository implements IArtistsRepository {
     return translateArtistsList(artists);
   }
 
-  public async store({ id, name, country, foundationDate, members, description, genre, photos }: Artist): Promise<void> {
+  public async store({ id, name, country, foundationDate, members, description, genre, photos, facebookUrl, twitterUrl, instagramUrl, wikipediaUrl, favorites, followers }: Artist): Promise<void> {
     // prettier-ignore
     await this.databaseConnection<Artist>(ArtistsTable)
-      .insert({ id, name, country, foundationDate, members, description, genre, photos });
+      .insert({ id, name, country, foundationDate, members, description, genre, photos, facebookUrl, twitterUrl, instagramUrl, wikipediaUrl, favorites, followers });
   }
 
-  public async update({ id, name, country, foundationDate, members, description, genre, photos }: Artist): Promise<void> {
+  public async update({ id, name, country, foundationDate, members, description, genre, photos, facebookUrl, twitterUrl, instagramUrl, wikipediaUrl, favorites, followers }: Artist): Promise<void> {
     // prettier-ignore
     await this.databaseConnection<Artist>(ArtistsTable)
       .where({ id })
-      .update({ name, country, foundationDate, members, description, genre, photos })
+      .update({ name, country, foundationDate, members, description, genre, photos, facebookUrl, twitterUrl, instagramUrl, wikipediaUrl, favorites, followers })
       .first();
   }
 
