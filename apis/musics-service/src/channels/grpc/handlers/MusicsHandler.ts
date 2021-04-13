@@ -152,6 +152,22 @@ export class MusicsHandler implements IMusicsServer {
     }
   };
 
+  viewMusic = async (call: grpc.ServerUnaryCall<Id>, callback: grpc.sendUnaryData<Music>): Promise<void> => {
+    try {
+      const music = await this.musicsService.addView({ id: call.request.getId() });
+
+      callback(null, translateMusicEntity(music));
+    } catch (error) {
+      await this.errorHandler.handleError(error);
+
+      if (!this.errorHandler.isTrustedError(error)) {
+        callback(new InternalError(), null);
+      }
+
+      callback(error, null);
+    }
+  };
+
   getAlbum = async (call: grpc.ServerUnaryCall<Id>, callback: grpc.sendUnaryData<Album>): Promise<void> => {
     try {
       const album = await this.albumsService.get({ id: call.request.getId() });

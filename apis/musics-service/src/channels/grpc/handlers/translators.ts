@@ -15,6 +15,7 @@ export function translateMusicEntity(musicEntity: MusicEntity): Music {
   music.setComposersList(musicEntity.composers);
   music.setLyrics(musicEntity.lyrics);
   music.setAlbumid(musicEntity.albumId);
+  music.setViews(musicEntity.views);
 
   return music;
 }
