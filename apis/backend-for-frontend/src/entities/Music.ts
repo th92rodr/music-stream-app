@@ -6,8 +6,9 @@ export default class Music {
   public readonly composers: Array<string>;
   public readonly lyrics: string;
   public readonly albumId: string;
+  public readonly views: number;
 
-  constructor({ id, title, durationInSeconds, file, composers, lyrics, albumId }: Music) {
+  constructor({ id, title, durationInSeconds, file, composers, lyrics, albumId, views }: Music) {
     this.id = id;
     this.title = title;
     this.durationInSeconds = durationInSeconds;
@@ -15,5 +16,6 @@ export default class Music {
     this.composers = composers;
     this.lyrics = lyrics;
     this.albumId = albumId;
+    this.views = views;
   }
 }
