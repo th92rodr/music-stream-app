@@ -66,3 +66,11 @@ export const prepareArtistDescription = (description: string): string => {
   const newLine = /\n/gi;
   return description.replace(newLine, '\n\n');
 };
+
+export const dateToTimestamp = (date: Date): number => {
+  return date.getTime();
+};
+
+export const timestampToDate = (timestamp: number): Date => {
+  return new Date(timestamp);
+};
