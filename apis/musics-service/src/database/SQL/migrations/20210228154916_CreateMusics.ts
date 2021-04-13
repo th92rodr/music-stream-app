@@ -9,7 +9,8 @@ export async function up(knex: Knex): Promise<void> {
     table.integer('durationInSeconds').notNullable();
     table.string('file').notNullable();
     table.specificType('composers', 'text[]');
-    table.string('lyrics');
+    table.string('lyrics', 5000);
+    table.integer('views').notNullable();
     // prettier-ignore
     table.string('albumId')
       .notNullable()
