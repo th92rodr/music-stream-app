@@ -58,6 +58,7 @@ export function translateMusic(music: Music): Music {
     composers: music.composers,
     lyrics: music.lyrics,
     albumId: music.albumId,
+    views: music.views,
   });
 }
 
