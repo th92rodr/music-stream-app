@@ -520,7 +520,8 @@ proto.proto.Music.toObject = function(includeInstance, msg) {
     file: jspb.Message.getFieldWithDefault(msg, 4, ""),
     composersList: (f = jspb.Message.getRepeatedField(msg, 5)) == null ? undefined : f,
     lyrics: jspb.Message.getFieldWithDefault(msg, 6, ""),
-    albumid: jspb.Message.getFieldWithDefault(msg, 7, "")
+    albumid: jspb.Message.getFieldWithDefault(msg, 7, ""),
+    views: jspb.Message.getFieldWithDefault(msg, 8, 0)
   };
 
   if (includeInstance) {
@@ -584,6 +585,10 @@ proto.proto.Music.deserializeBinaryFromReader = function(msg, reader) {
     case 7:
       var value = /** @type {string} */ (reader.readString());
       msg.setAlbumid(value);
+      break;
+    case 8:
+      var value = /** @type {number} */ (reader.readInt32());
+      msg.setViews(value);
       break;
     default:
       reader.skipField();
@@ -660,6 +665,13 @@ proto.proto.Music.serializeBinaryToWriter = function(message, writer) {
   if (f.length > 0) {
     writer.writeString(
       7,
+      f
+    );
+  }
+  f = message.getViews();
+  if (f !== 0) {
+    writer.writeInt32(
+      8,
       f
     );
   }
@@ -808,6 +820,24 @@ proto.proto.Music.prototype.getAlbumid = function() {
  */
 proto.proto.Music.prototype.setAlbumid = function(value) {
   return jspb.Message.setProto3StringField(this, 7, value);
+};
+
+
+/**
+ * optional int32 views = 8;
+ * @return {number}
+ */
+proto.proto.Music.prototype.getViews = function() {
+  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 8, 0));
+};
+
+
+/**
+ * @param {number} value
+ * @return {!proto.proto.Music} returns this
+ */
+proto.proto.Music.prototype.setViews = function(value) {
+  return jspb.Message.setProto3IntField(this, 8, value);
 };
 
 
@@ -2810,7 +2840,7 @@ proto.proto.UpdateAlbumRequest.prototype.setArtistid = function(value) {
  * @private {!Array<number>}
  * @const
  */
-proto.proto.Artist.repeatedFields_ = [5,8,9];
+proto.proto.Artist.repeatedFields_ = [5,8,15,16];
 
 
 
@@ -2851,8 +2881,16 @@ proto.proto.Artist.toObject = function(includeInstance, msg) {
     description: jspb.Message.getFieldWithDefault(msg, 6, ""),
     genre: jspb.Message.getFieldWithDefault(msg, 7, 0),
     photosList: (f = jspb.Message.getRepeatedField(msg, 8)) == null ? undefined : f,
+    facebookurl: jspb.Message.getFieldWithDefault(msg, 9, ""),
+    twitterurl: jspb.Message.getFieldWithDefault(msg, 10, ""),
+    instagramurl: jspb.Message.getFieldWithDefault(msg, 11, ""),
+    wikipediaurl: jspb.Message.getFieldWithDefault(msg, 12, ""),
+    favorites: jspb.Message.getFieldWithDefault(msg, 13, 0),
+    followers: jspb.Message.getFieldWithDefault(msg, 14, 0),
     albumsList: jspb.Message.toObjectList(msg.getAlbumsList(),
-    proto.proto.Album.toObject, includeInstance)
+    proto.proto.Album.toObject, includeInstance),
+    populartracksList: jspb.Message.toObjectList(msg.getPopulartracksList(),
+    proto.proto.Music.toObject, includeInstance)
   };
 
   if (includeInstance) {
@@ -2922,9 +2960,38 @@ proto.proto.Artist.deserializeBinaryFromReader = function(msg, reader) {
       msg.addPhotos(value);
       break;
     case 9:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setFacebookurl(value);
+      break;
+    case 10:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setTwitterurl(value);
+      break;
+    case 11:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setInstagramurl(value);
+      break;
+    case 12:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setWikipediaurl(value);
+      break;
+    case 13:
+      var value = /** @type {number} */ (reader.readInt32());
+      msg.setFavorites(value);
+      break;
+    case 14:
+      var value = /** @type {number} */ (reader.readInt32());
+      msg.setFollowers(value);
+      break;
+    case 15:
       var value = new proto.proto.Album;
       reader.readMessage(value,proto.proto.Album.deserializeBinaryFromReader);
       msg.addAlbums(value);
+      break;
+    case 16:
+      var value = new proto.proto.Music;
+      reader.readMessage(value,proto.proto.Music.deserializeBinaryFromReader);
+      msg.addPopulartracks(value);
       break;
     default:
       reader.skipField();
@@ -3011,12 +3078,62 @@ proto.proto.Artist.serializeBinaryToWriter = function(message, writer) {
       f
     );
   }
+  f = message.getFacebookurl();
+  if (f.length > 0) {
+    writer.writeString(
+      9,
+      f
+    );
+  }
+  f = message.getTwitterurl();
+  if (f.length > 0) {
+    writer.writeString(
+      10,
+      f
+    );
+  }
+  f = message.getInstagramurl();
+  if (f.length > 0) {
+    writer.writeString(
+      11,
+      f
+    );
+  }
+  f = message.getWikipediaurl();
+  if (f.length > 0) {
+    writer.writeString(
+      12,
+      f
+    );
+  }
+  f = message.getFavorites();
+  if (f !== 0) {
+    writer.writeInt32(
+      13,
+      f
+    );
+  }
+  f = message.getFollowers();
+  if (f !== 0) {
+    writer.writeInt32(
+      14,
+      f
+    );
+  }
   f = message.getAlbumsList();
   if (f.length > 0) {
     writer.writeRepeatedMessage(
-      9,
+      15,
       f,
       proto.proto.Album.serializeBinaryToWriter
+    );
+  }
+  f = message.getPopulartracksList();
+  if (f.length > 0) {
+    writer.writeRepeatedMessage(
+      16,
+      f,
+      proto.proto.Music.serializeBinaryToWriter
     );
   }
 };
@@ -3205,12 +3322,120 @@ proto.proto.Artist.prototype.clearPhotosList = function() {
 
 
 /**
- * repeated Album albums = 9;
+ * optional string facebookUrl = 9;
+ * @return {string}
+ */
+proto.proto.Artist.prototype.getFacebookurl = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 9, ""));
+};
+
+
+/**
+ * @param {string} value
+ * @return {!proto.proto.Artist} returns this
+ */
+proto.proto.Artist.prototype.setFacebookurl = function(value) {
+  return jspb.Message.setProto3StringField(this, 9, value);
+};
+
+
+/**
+ * optional string twitterUrl = 10;
+ * @return {string}
+ */
+proto.proto.Artist.prototype.getTwitterurl = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 10, ""));
+};
+
+
+/**
+ * @param {string} value
+ * @return {!proto.proto.Artist} returns this
+ */
+proto.proto.Artist.prototype.setTwitterurl = function(value) {
+  return jspb.Message.setProto3StringField(this, 10, value);
+};
+
+
+/**
+ * optional string instagramUrl = 11;
+ * @return {string}
+ */
+proto.proto.Artist.prototype.getInstagramurl = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 11, ""));
+};
+
+
+/**
+ * @param {string} value
+ * @return {!proto.proto.Artist} returns this
+ */
+proto.proto.Artist.prototype.setInstagramurl = function(value) {
+  return jspb.Message.setProto3StringField(this, 11, value);
+};
+
+
+/**
+ * optional string wikipediaUrl = 12;
+ * @return {string}
+ */
+proto.proto.Artist.prototype.getWikipediaurl = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 12, ""));
+};
+
+
+/**
+ * @param {string} value
+ * @return {!proto.proto.Artist} returns this
+ */
+proto.proto.Artist.prototype.setWikipediaurl = function(value) {
+  return jspb.Message.setProto3StringField(this, 12, value);
+};
+
+
+/**
+ * optional int32 favorites = 13;
+ * @return {number}
+ */
+proto.proto.Artist.prototype.getFavorites = function() {
+  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 13, 0));
+};
+
+
+/**
+ * @param {number} value
+ * @return {!proto.proto.Artist} returns this
+ */
+proto.proto.Artist.prototype.setFavorites = function(value) {
+  return jspb.Message.setProto3IntField(this, 13, value);
+};
+
+
+/**
+ * optional int32 followers = 14;
+ * @return {number}
+ */
+proto.proto.Artist.prototype.getFollowers = function() {
+  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 14, 0));
+};
+
+
+/**
+ * @param {number} value
+ * @return {!proto.proto.Artist} returns this
+ */
+proto.proto.Artist.prototype.setFollowers = function(value) {
+  return jspb.Message.setProto3IntField(this, 14, value);
+};
+
+
+/**
+ * repeated Album albums = 15;
  * @return {!Array<!proto.proto.Album>}
  */
 proto.proto.Artist.prototype.getAlbumsList = function() {
   return /** @type{!Array<!proto.proto.Album>} */ (
-    jspb.Message.getRepeatedWrapperField(this, proto.proto.Album, 9));
+    jspb.Message.getRepeatedWrapperField(this, proto.proto.Album, 15));
 };
 
 
@@ -3219,7 +3444,7 @@ proto.proto.Artist.prototype.getAlbumsList = function() {
  * @return {!proto.proto.Artist} returns this
 */
 proto.proto.Artist.prototype.setAlbumsList = function(value) {
-  return jspb.Message.setRepeatedWrapperField(this, 9, value);
+  return jspb.Message.setRepeatedWrapperField(this, 15, value);
 };
 
 
@@ -3229,7 +3454,7 @@ proto.proto.Artist.prototype.setAlbumsList = function(value) {
  * @return {!proto.proto.Album}
  */
 proto.proto.Artist.prototype.addAlbums = function(opt_value, opt_index) {
-  return jspb.Message.addToRepeatedWrapperField(this, 9, opt_value, proto.proto.Album, opt_index);
+  return jspb.Message.addToRepeatedWrapperField(this, 15, opt_value, proto.proto.Album, opt_index);
 };
 
 
@@ -3239,6 +3464,44 @@ proto.proto.Artist.prototype.addAlbums = function(opt_value, opt_index) {
  */
 proto.proto.Artist.prototype.clearAlbumsList = function() {
   return this.setAlbumsList([]);
+};
+
+
+/**
+ * repeated Music popularTracks = 16;
+ * @return {!Array<!proto.proto.Music>}
+ */
+proto.proto.Artist.prototype.getPopulartracksList = function() {
+  return /** @type{!Array<!proto.proto.Music>} */ (
+    jspb.Message.getRepeatedWrapperField(this, proto.proto.Music, 16));
+};
+
+
+/**
+ * @param {!Array<!proto.proto.Music>} value
+ * @return {!proto.proto.Artist} returns this
+*/
+proto.proto.Artist.prototype.setPopulartracksList = function(value) {
+  return jspb.Message.setRepeatedWrapperField(this, 16, value);
+};
+
+
+/**
+ * @param {!proto.proto.Music=} opt_value
+ * @param {number=} opt_index
+ * @return {!proto.proto.Music}
+ */
+proto.proto.Artist.prototype.addPopulartracks = function(opt_value, opt_index) {
+  return jspb.Message.addToRepeatedWrapperField(this, 16, opt_value, proto.proto.Music, opt_index);
+};
+
+
+/**
+ * Clears the list making it empty but non-null.
+ * @return {!proto.proto.Artist} returns this
+ */
+proto.proto.Artist.prototype.clearPopulartracksList = function() {
+  return this.setPopulartracksList([]);
 };
 
 
@@ -3577,7 +3840,11 @@ proto.proto.CreateArtistRequest.toObject = function(includeInstance, msg) {
     membersList: (f = jspb.Message.getRepeatedField(msg, 4)) == null ? undefined : f,
     description: jspb.Message.getFieldWithDefault(msg, 5, ""),
     genre: jspb.Message.getFieldWithDefault(msg, 6, 0),
-    photosList: (f = jspb.Message.getRepeatedField(msg, 7)) == null ? undefined : f
+    photosList: (f = jspb.Message.getRepeatedField(msg, 7)) == null ? undefined : f,
+    facebookurl: jspb.Message.getFieldWithDefault(msg, 8, ""),
+    twitterurl: jspb.Message.getFieldWithDefault(msg, 9, ""),
+    instagramurl: jspb.Message.getFieldWithDefault(msg, 10, ""),
+    wikipediaurl: jspb.Message.getFieldWithDefault(msg, 11, "")
   };
 
   if (includeInstance) {
@@ -3641,6 +3908,22 @@ proto.proto.CreateArtistRequest.deserializeBinaryFromReader = function(msg, read
     case 7:
       var value = /** @type {string} */ (reader.readString());
       msg.addPhotos(value);
+      break;
+    case 8:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setFacebookurl(value);
+      break;
+    case 9:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setTwitterurl(value);
+      break;
+    case 10:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setInstagramurl(value);
+      break;
+    case 11:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setWikipediaurl(value);
       break;
     default:
       reader.skipField();
@@ -3717,6 +4000,34 @@ proto.proto.CreateArtistRequest.serializeBinaryToWriter = function(message, writ
   if (f.length > 0) {
     writer.writeRepeatedString(
       7,
+      f
+    );
+  }
+  f = message.getFacebookurl();
+  if (f.length > 0) {
+    writer.writeString(
+      8,
+      f
+    );
+  }
+  f = message.getTwitterurl();
+  if (f.length > 0) {
+    writer.writeString(
+      9,
+      f
+    );
+  }
+  f = message.getInstagramurl();
+  if (f.length > 0) {
+    writer.writeString(
+      10,
+      f
+    );
+  }
+  f = message.getWikipediaurl();
+  if (f.length > 0) {
+    writer.writeString(
+      11,
       f
     );
   }
@@ -3887,6 +4198,78 @@ proto.proto.CreateArtistRequest.prototype.clearPhotosList = function() {
 };
 
 
+/**
+ * optional string facebookUrl = 8;
+ * @return {string}
+ */
+proto.proto.CreateArtistRequest.prototype.getFacebookurl = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 8, ""));
+};
+
+
+/**
+ * @param {string} value
+ * @return {!proto.proto.CreateArtistRequest} returns this
+ */
+proto.proto.CreateArtistRequest.prototype.setFacebookurl = function(value) {
+  return jspb.Message.setProto3StringField(this, 8, value);
+};
+
+
+/**
+ * optional string twitterUrl = 9;
+ * @return {string}
+ */
+proto.proto.CreateArtistRequest.prototype.getTwitterurl = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 9, ""));
+};
+
+
+/**
+ * @param {string} value
+ * @return {!proto.proto.CreateArtistRequest} returns this
+ */
+proto.proto.CreateArtistRequest.prototype.setTwitterurl = function(value) {
+  return jspb.Message.setProto3StringField(this, 9, value);
+};
+
+
+/**
+ * optional string instagramUrl = 10;
+ * @return {string}
+ */
+proto.proto.CreateArtistRequest.prototype.getInstagramurl = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 10, ""));
+};
+
+
+/**
+ * @param {string} value
+ * @return {!proto.proto.CreateArtistRequest} returns this
+ */
+proto.proto.CreateArtistRequest.prototype.setInstagramurl = function(value) {
+  return jspb.Message.setProto3StringField(this, 10, value);
+};
+
+
+/**
+ * optional string wikipediaUrl = 11;
+ * @return {string}
+ */
+proto.proto.CreateArtistRequest.prototype.getWikipediaurl = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 11, ""));
+};
+
+
+/**
+ * @param {string} value
+ * @return {!proto.proto.CreateArtistRequest} returns this
+ */
+proto.proto.CreateArtistRequest.prototype.setWikipediaurl = function(value) {
+  return jspb.Message.setProto3StringField(this, 11, value);
+};
+
+
 
 /**
  * List of repeated fields within this message type.
@@ -3933,7 +4316,11 @@ proto.proto.UpdateArtistRequest.toObject = function(includeInstance, msg) {
     membersList: (f = jspb.Message.getRepeatedField(msg, 5)) == null ? undefined : f,
     description: jspb.Message.getFieldWithDefault(msg, 6, ""),
     genre: jspb.Message.getFieldWithDefault(msg, 7, 0),
-    photosList: (f = jspb.Message.getRepeatedField(msg, 8)) == null ? undefined : f
+    photosList: (f = jspb.Message.getRepeatedField(msg, 8)) == null ? undefined : f,
+    facebookurl: jspb.Message.getFieldWithDefault(msg, 9, ""),
+    twitterurl: jspb.Message.getFieldWithDefault(msg, 10, ""),
+    instagramurl: jspb.Message.getFieldWithDefault(msg, 11, ""),
+    wikipediaurl: jspb.Message.getFieldWithDefault(msg, 12, "")
   };
 
   if (includeInstance) {
@@ -4001,6 +4388,22 @@ proto.proto.UpdateArtistRequest.deserializeBinaryFromReader = function(msg, read
     case 8:
       var value = /** @type {string} */ (reader.readString());
       msg.addPhotos(value);
+      break;
+    case 9:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setFacebookurl(value);
+      break;
+    case 10:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setTwitterurl(value);
+      break;
+    case 11:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setInstagramurl(value);
+      break;
+    case 12:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setWikipediaurl(value);
       break;
     default:
       reader.skipField();
@@ -4084,6 +4487,34 @@ proto.proto.UpdateArtistRequest.serializeBinaryToWriter = function(message, writ
   if (f.length > 0) {
     writer.writeRepeatedString(
       8,
+      f
+    );
+  }
+  f = message.getFacebookurl();
+  if (f.length > 0) {
+    writer.writeString(
+      9,
+      f
+    );
+  }
+  f = message.getTwitterurl();
+  if (f.length > 0) {
+    writer.writeString(
+      10,
+      f
+    );
+  }
+  f = message.getInstagramurl();
+  if (f.length > 0) {
+    writer.writeString(
+      11,
+      f
+    );
+  }
+  f = message.getWikipediaurl();
+  if (f.length > 0) {
+    writer.writeString(
+      12,
       f
     );
   }
@@ -4269,6 +4700,78 @@ proto.proto.UpdateArtistRequest.prototype.addPhotos = function(value, opt_index)
  */
 proto.proto.UpdateArtistRequest.prototype.clearPhotosList = function() {
   return this.setPhotosList([]);
+};
+
+
+/**
+ * optional string facebookUrl = 9;
+ * @return {string}
+ */
+proto.proto.UpdateArtistRequest.prototype.getFacebookurl = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 9, ""));
+};
+
+
+/**
+ * @param {string} value
+ * @return {!proto.proto.UpdateArtistRequest} returns this
+ */
+proto.proto.UpdateArtistRequest.prototype.setFacebookurl = function(value) {
+  return jspb.Message.setProto3StringField(this, 9, value);
+};
+
+
+/**
+ * optional string twitterUrl = 10;
+ * @return {string}
+ */
+proto.proto.UpdateArtistRequest.prototype.getTwitterurl = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 10, ""));
+};
+
+
+/**
+ * @param {string} value
+ * @return {!proto.proto.UpdateArtistRequest} returns this
+ */
+proto.proto.UpdateArtistRequest.prototype.setTwitterurl = function(value) {
+  return jspb.Message.setProto3StringField(this, 10, value);
+};
+
+
+/**
+ * optional string instagramUrl = 11;
+ * @return {string}
+ */
+proto.proto.UpdateArtistRequest.prototype.getInstagramurl = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 11, ""));
+};
+
+
+/**
+ * @param {string} value
+ * @return {!proto.proto.UpdateArtistRequest} returns this
+ */
+proto.proto.UpdateArtistRequest.prototype.setInstagramurl = function(value) {
+  return jspb.Message.setProto3StringField(this, 11, value);
+};
+
+
+/**
+ * optional string wikipediaUrl = 12;
+ * @return {string}
+ */
+proto.proto.UpdateArtistRequest.prototype.getWikipediaurl = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 12, ""));
+};
+
+
+/**
+ * @param {string} value
+ * @return {!proto.proto.UpdateArtistRequest} returns this
+ */
+proto.proto.UpdateArtistRequest.prototype.setWikipediaurl = function(value) {
+  return jspb.Message.setProto3StringField(this, 12, value);
 };
 
 

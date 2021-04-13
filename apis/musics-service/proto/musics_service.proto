@@ -8,6 +8,7 @@ service Musics {
     rpc CreateMusic(CreateMusicRequest) returns (Music) {}
     rpc UpdateMusic(UpdateMusicRequest) returns (Music) {}
     rpc DeleteMusic(Id) returns (Empty) {}
+    rpc ViewMusic(Id) returns (Music) {}
 
     rpc GetAlbum(Id) returns (Album) {}
     rpc GetAlbums(Empty) returns (AlbumsList) {}
@@ -21,6 +22,10 @@ service Musics {
     rpc CreateArtist(CreateArtistRequest) returns (Artist) {}
     rpc UpdateArtist(UpdateArtistRequest) returns (Artist) {}
     rpc DeleteArtist(Id) returns (Empty) {}
+    rpc FavoriteArtist(Id) returns (Artist) {}
+    rpc UnfavoriteArtist(Id) returns (Artist) {}
+    rpc FollowArtist(Id) returns (Artist) {}
+    rpc UnfollowArtist(Id) returns (Artist) {}
 }
 
 message Id {
@@ -35,6 +40,7 @@ message Music {
     repeated string composers = 5;
     string lyrics = 6;
     string albumId = 7;
+    int32 views = 8;
 }
 
 message MusicsList {
@@ -103,7 +109,14 @@ message Artist {
     string description = 6;
     Genre genre = 7;
     repeated string photos = 8;
-    repeated Album albums = 9;
+    string facebookUrl = 9;
+    string twitterUrl = 10;
+    string instagramUrl = 11;
+    string wikipediaUrl = 12;
+    int32 favorites = 13;
+    int32 followers = 14;
+    repeated Album albums = 15;
+    repeated Music popularTracks = 16;
 }
 
 message ArtistsList {
@@ -122,6 +135,10 @@ message CreateArtistRequest {
     string description = 5;
     Genre genre = 6;
     repeated string photos = 7;
+    string facebookUrl = 8;
+    string twitterUrl = 9;
+    string instagramUrl = 10;
+    string wikipediaUrl = 11;
 }
 
 message UpdateArtistRequest {
@@ -133,6 +150,10 @@ message UpdateArtistRequest {
     string description = 6;
     Genre genre = 7;
     repeated string photos = 8;
+    string facebookUrl = 9;
+    string twitterUrl = 10;
+    string instagramUrl = 11;
+    string wikipediaUrl = 12;
 }
 
 enum Genre {
