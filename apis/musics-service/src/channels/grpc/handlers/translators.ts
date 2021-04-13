@@ -3,6 +3,7 @@ import { Genre as GenreEnum } from '@constants/index';
 import AlbumEntity from '@entities/Album';
 import ArtistEntity from '@entities/Artist';
 import MusicEntity from '@entities/Music';
+import { dateToTimestamp } from '@utils/index';
 
 export function translateMusicEntity(musicEntity: MusicEntity): Music {
   const music = new Music();
@@ -31,7 +32,7 @@ export function translateAlbumEntity(albumEntity: AlbumEntity): Album {
 
   album.setId(albumEntity.id);
   album.setName(albumEntity.name);
-  album.setReleasedate(albumEntity.releaseDate.getTime());
+  album.setReleasedate(dateToTimestamp(albumEntity.releaseDate));
   album.setCover(albumEntity.cover);
   album.setStudio(albumEntity.studio);
   album.setProducersList(albumEntity.producers);
@@ -55,12 +56,19 @@ export function translateArtistEntity(artistEntity: ArtistEntity): Artist {
   artist.setId(artistEntity.id);
   artist.setName(artistEntity.name);
   artist.setCountry(artistEntity.country);
-  artist.setFoundationdate(artistEntity.foundationDate.getTime());
+  artist.setFoundationdate(dateToTimestamp(artistEntity.foundationDate));
   artist.setMembersList(artistEntity.members);
   artist.setDescription(artistEntity.description);
   artist.setGenre(translateGenre(artistEntity.genre));
   artist.setPhotosList(artistEntity.photos);
+  artist.setFacebookurl(artistEntity.facebookUrl);
+  artist.setTwitterurl(artistEntity.twitterUrl);
+  artist.setInstagramurl(artistEntity.instagramUrl);
+  artist.setWikipediaurl(artistEntity.wikipediaUrl);
+  artist.setFavorites(artistEntity.favorites);
+  artist.setFollowers(artistEntity.followers);
   artist.setAlbumsList(artistEntity.albums.map(album => translateAlbumEntity(album)));
+  artist.setPopulartracksList(artistEntity.popularTracks.map(track => translateMusicEntity(track)));
 
   return artist;
 }

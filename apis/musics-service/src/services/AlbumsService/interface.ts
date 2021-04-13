@@ -3,7 +3,7 @@ import {
   GetAlbumRequest,
   CreateAlbumRequest,
   UpdateAlbumRequest,
-  DeleteAlbumRequest
+  DeleteAlbumRequest,
 } from './dtos';
 import Album from '@entities/Album';
 

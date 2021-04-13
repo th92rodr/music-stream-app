@@ -3,7 +3,7 @@ import {
   GetAlbumRequest,
   CreateAlbumRequest,
   UpdateAlbumRequest,
-  DeleteAlbumRequest
+  DeleteAlbumRequest,
 } from './dtos';
 import IAlbumsService from './interface';
 import { ErrorAlbumNotFound } from '@constants/errors';
