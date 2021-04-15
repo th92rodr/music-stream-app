@@ -20,9 +20,9 @@ export default class ExpressStaticFilesChannel implements IStaticFilesChannel {
   private errorHandler: IErrorHandler;
   private loggerProvider: ILoggerProvider;
 
-  private artistsController;
-  private imagesController;
-  private musicsController;
+  private artistsController: ArtistsController;
+  private imagesController: ImagesController;
+  private musicsController: MusicsController;
 
   // prettier-ignore
   constructor(
@@ -38,7 +38,7 @@ export default class ExpressStaticFilesChannel implements IStaticFilesChannel {
 
     this.artistsController = new ArtistsController(musicsIntegration);
     this.imagesController = new ImagesController();
-    this.musicsController = new MusicsController(musicsIntegration);
+    this.musicsController = new MusicsController();
   }
 
   public start(): void {
@@ -55,7 +55,7 @@ export default class ExpressStaticFilesChannel implements IStaticFilesChannel {
   }
 
   public async stop(): Promise<void> {
-    this.loggerProvider.info('Stopping rest server ...');
+    this.loggerProvider.info('Stopping static files server ...');
 
     return new Promise((resolve, reject) => {
       this.server.close((error: Error | undefined) => {
@@ -63,7 +63,7 @@ export default class ExpressStaticFilesChannel implements IStaticFilesChannel {
           this.errorHandler.handleError(error);
           reject(error);
         } else {
-          this.loggerProvider.info('Rest server stopped.');
+          this.loggerProvider.info('Static files server stopped.');
           resolve();
         }
       });
@@ -94,7 +94,7 @@ export default class ExpressStaticFilesChannel implements IStaticFilesChannel {
     router.get('/web/band/:id', this.artistsController.show.bind(this.artistsController));
 
     router.get('/web/files', this.imagesController.files.bind(this.imagesController));
-    router.get('/web/music/:id/audio', this.musicsController.stream.bind(this.musicsController));
+    router.get('/web/musics', this.musicsController.stream.bind(this.musicsController));
 
     router.use('*', (request: Request, response: Response) => {
       response.status(HttpStatusCode.NOT_FOUND).render('404-page');
