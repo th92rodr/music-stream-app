@@ -29,19 +29,19 @@
           </div>
 
           <div class="band__see__more">
-            <a href={{artist.facebookUrl}} target="_blank">
+            <a class="facebook" href={{artist.facebookUrl}} target="_blank">
               {{> icon-facebook}}
               <span>Facebook</span>
             </a>
-            <a href={{artist.twitterUrl}} target="_blank">
+            <a class="twitter" href={{artist.twitterUrl}} target="_blank">
               {{> icon-twitter}}
               <span>Twitter</span>
             </a>
-            <a href={{artist.instagramUrl}} target="_blank">
+            <a class="instagram" href={{artist.instagramUrl}} target="_blank">
               {{> icon-instagram}}
               <span>Instagram</span>
             </a>
-            <a href={{artist.wikipediaUrl}} target="_blank">
+            <a class="wikipedia" href={{artist.wikipediaUrl}} target="_blank">
               {{> icon-wikipedia}}
               <span>Wikipedia</span>
             </a>
@@ -63,21 +63,21 @@
 
         <div class="band__stats">
           <div class="band__stats__card">
-            <div class="stats__card__content">
+            <div class="stats__card__content country">
               <p>{{artist.country}}</p>
             </div>
             <span class="stats__card__title">Country</span>
           </div>
 
           <div class="band__stats__card">
-            <div class="stats__card__content">
+            <div class="stats__card__content genre">
               <p>{{artist.genre}}</p>
             </div>
             <span class="stats__card__title">Genre</span>
           </div>
 
           <div class="band__stats__card">
-            <div class="stats__card__content">
+            <div class="stats__card__content date">
               <p>{{artist.foundationDate}}</p>
             </div>
             <span class="stats__card__title">Foundation Date</span>
@@ -97,15 +97,17 @@
           </div>
         </div>
 
-        {{#each artist.tracks}}
-        <div class="track" id={{id}} onclick="OnClickMusic(this.id)">
-          <div class="track__play">
-            {{> icon-play-outline}}
+        <div class="tracks">
+          {{#each artist.tracks}}
+          <div class="track" id={{id}} onclick="OnClickMusic(this.id)">
+            <div class="track__play">
+              {{> icon-play-outline}}
+            </div>
+            <div class="track__title">{{title}}</div>
+            <div class="track__length">{{duration}}</div>
           </div>
-          <div class="track__title">{{title}}</div>
-          <div class="track__length">{{duration}}</div>
+          {{/each}}
         </div>
-        {{/each}}
       </div>
 
       <div class="band__discography">
