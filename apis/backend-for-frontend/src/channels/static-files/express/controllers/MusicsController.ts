@@ -25,7 +25,11 @@ export default class MusicsController {
       'Content-Length': fileStatus.size,
     });
 
-    const stream = fs.createReadStream(filePath);
-    stream.pipe(response);
+    try {
+      const stream = fs.createReadStream(filePath);
+      stream.pipe(response);
+    } catch (error) {
+      response.end();
+    }
   }
 }
