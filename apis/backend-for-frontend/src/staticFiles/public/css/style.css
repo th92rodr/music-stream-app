@@ -640,6 +640,7 @@ section.current__track .current__track__lyrics .lyrics:hover {
   cursor: pointer;
   background-size: cover;
   background-repeat: no-repeat;
+  background-position: center;
   opacity: 0.5;
   transition: all 0.5s cubic-bezier(0.4, 0.2, 0.3, 1);
 }
