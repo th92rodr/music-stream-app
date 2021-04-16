@@ -22,7 +22,11 @@ export default class ImagesController {
       'Content-Type': `image/${getFileExtension(filePath)}`,
     });
 
-    const stream = fs.createReadStream(filePath);
-    stream.pipe(response);
+    try {
+      const stream = fs.createReadStream(filePath);
+      stream.pipe(response);
+    } catch (error) {
+      response.end();
+    }
   }
 }
