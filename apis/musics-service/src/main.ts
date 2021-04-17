@@ -7,6 +7,16 @@ import { loggerProvider } from '@providers/index';
 
 grpcChannel.start();
 
+process.on('SIGINT', function onSigint() {
+  loggerProvider.info('Got SIGINT. Graceful shutdown.');
+  shutdown();
+});
+
+process.on('SIGTERM', function onSigterm() {
+  loggerProvider.info('Got SIGTERM. Graceful shutdown.');
+  shutdown();
+});
+
 process.on('unhandledRejection', (error: Error, promise: Promise<any>) => {
   loggerProvider.info('Unhandled rejection caught.');
   throw error;
@@ -25,5 +35,6 @@ async function shutdown(exitCode = 0): Promise<void> {
   await grpcChannel.stop();
   await database.close();
 
+  process.exitCode = exitCode;
   process.exit(exitCode);
 }
