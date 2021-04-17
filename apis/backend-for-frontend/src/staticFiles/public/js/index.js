@@ -83,15 +83,134 @@ function initSidebar() {
   getPlaylists();
 }
 
-// Listeners
-
 function OnClickBand(id) {
   $(location).attr('href', `/web/band/${id}`);
 }
 
-let isAlbumModal = false;
+let isArtistModalOpen = false;
+let isAlbumModalOpen = false;
+let isMusicModalOpen = false;
 
-function OnClickAlbum(id) {
+function openArtistPage(id) {
+  const artistId = id;
+
+  const artistPage = document.querySelector('.artist__page');
+
+  const artistName = artistPage.querySelector('.band__header__name p');
+  const artistCountry = artistPage.querySelector('.stats__card__content.country');
+  const artistGenre = artistPage.querySelector('.stats__card__content.genre p');
+  const artistFoundationDate = artistPage.querySelector('.stats__card__content.date p');
+  const artistDescription = artistPage.querySelector('.band__description');
+  const artistFacebook = artistPage.querySelector('.band__see__more .facebook');
+  const artistTwitter = artistPage.querySelector('.band__see__more .twitter');
+  const artistInstagram = artistPage.querySelector('.band__see__more .instagram');
+  const artistWikipedia = artistPage.querySelector('.band__see__more .wikipedia');
+  const artistFullImg = artistPage.querySelector('.artist__page__full__img__wrapper img');
+  const artistVerticalImg = artistPage.querySelector('.band__info__img__wrapper img');
+
+  const playButton = artistPage.querySelector('.band__actions__play');
+  const playMixButton = artistPage.querySelector('.band__actions__mix');
+  const favoriteArtistButton = artistPage.querySelector('.band__header__favorite .favorite');
+  const followArtistButton = artistPage.querySelector('.band__header__favorite .follow');
+
+  const popularTracksList = artistPage.querySelector('.band__popular__tracks .tracks');
+  const albumsList = artistPage.querySelector('.albums__list');
+
+  function fetchArtist() {
+    fetchArtist.cache = fetchArtist.cache || {};
+
+    if (fetchArtist.cache[artistId]) {
+      buildArtistPage(fetchArtist.cache[artistId]);
+    } else {
+      const getArtistUrl = `http://localhost:8080/api/artists/${artistId}`;
+
+      fetch(getArtistUrl)
+        .then(response => {
+          return response.json();
+        })
+        .then(artist => {
+          fetchArtist.cache[artistId] = artist;
+          buildArtistPage(artist);
+        })
+        .catch(error => {
+          console.error(`Error fetching artist ${artistId}:`, error);
+        });
+    }
+  }
+
+  function buildArtistPage(artist) {
+    console.log(artist);
+
+    artistFullImg.src = `/web/files/?file=${artist.fullImg}`;
+    artistFullImg.alt = artist.name;
+
+    artistVerticalImg.src = `/web/files/?file=${artist.verticalImg}`;
+    artistVerticalImg.alt = artist.name;
+
+    artistName.innerHTML = artist.name;
+    artistFacebook.href = artist.facebookUrl;
+    artistTwitter.href = artist.twitterUrl;
+    artistInstagram.href = artist.instagramUrl;
+    artistWikipedia.href = artist.wikipediaUrl;
+
+    artistCountry.innerHTML = `
+      {{> icon-sweden}}
+      <p>${artist.country}</p>
+    `;
+    artistGenre.innerHTML = artist.genre;
+    artistFoundationDate.innerHTML = artist.foundationDate;
+
+    artistDescription.innerHTML = artist.description;
+
+    popularTracksList.innerHTML = '';
+
+    for (const track of artist.popularTracks) {
+      let trackItem = document.createElement('div');
+      trackItem.className = 'track';
+      trackItem.id = track.id;
+
+      trackItem.innerHTML = `
+        <div class="track__play">{{> icon-play-outline}}</div>
+        <div class="track__title">${track.title}</div>
+        <div class="track__length">${track.durationStr}</div>
+      `;
+
+      trackItem.addEventListener('click', openMusicModal.bind(trackItem, track.id));
+
+      popularTracksList.appendChild(trackItem);
+    }
+
+    albumsList.innerHTML = '';
+
+    for (const album of artist.albums) {
+      let albumItem = document.createElement('li');
+      albumItem.className = 'albums__list__item';
+      albumItem.id = album.id;
+
+      albumItem.innerHTML = `
+        <img src="/web/files/?file=${album.cover}" alt=${album.name} loading="lazy" />
+        <div class="albums__list__item__info">
+          <span class="album__title">${album.name}</span>
+          <span class="album__year">${album.releaseDateStr}</span>
+        </div>
+      `;
+
+      albumItem.addEventListener('click', openAlbumModal.bind(albumItem, album.id));
+
+      albumsList.appendChild(albumItem);
+    }
+
+    artistPage.style['z-index'] = '100';
+
+    isArtistModalOpen = true;
+  }
+
+  fetchArtist();
+}
+
+function openAlbumModal(id) {
+  const albumId = id;
+
   const albumModal = document.querySelector('.album__modal');
   const albumModalContent = albumModal.querySelector('.album__modal__content');
 
@@ -105,24 +224,26 @@ function OnClickAlbum(id) {
 
   const tracksList = albumModal.querySelector('.tracks');
 
-  OnClickAlbum.cache = OnClickAlbum.cache || {};
+  function fetchAlbum() {
+    fetchAlbum.cache = fetchAlbum.cache || {};
 
-  if (OnClickAlbum.cache[id]) {
-    buildAlbumModal(OnClickAlbum.cache[id]);
-  } else {
-    const getAlbumUrl = `http://localhost:8080/api/album/${id}`;
+    if (fetchAlbum.cache[albumId]) {
+      buildAlbumModal(fetchAlbum.cache[albumId]);
+    } else {
+      const getAlbumUrl = `http://localhost:8080/api/albums/${albumId}`;
 
-    fetch(getAlbumUrl)
-      .then(response => {
-        return response.json();
-      })
-      .then(album => {
-        OnClickAlbum.cache[id] = album;
-        buildAlbumModal(album);
-      })
-      .catch(error => {
-        console.error(`Error fetching album ${id}:`, error);
-      });
+      fetch(getAlbumUrl)
+        .then(response => {
+          return response.json();
+        })
+        .then(album => {
+          fetchAlbum.cache[albumId] = album;
+          buildAlbumModal(album);
+        })
+        .catch(error => {
+          console.error(`Error fetching album ${albumId}:`, error);
+        });
+    }
   }
 
   function buildAlbumModal(album) {
@@ -149,7 +270,7 @@ function OnClickAlbum(id) {
           <div class="track__length">${track.durationStr}</div>
         `;
 
-      trackItem.addEventListener('click', OnClickMusic.bind(trackItem, track.id));
+      trackItem.addEventListener('click', openMusicModal.bind(trackItem, track.id));
 
       tracksList.appendChild(trackItem);
     }
@@ -157,7 +278,7 @@ function OnClickAlbum(id) {
     albumModal.style['z-index'] = '100';
     albumModalContent.classList.add('open');
 
-    isAlbumModal = true;
+    isAlbumModalOpen = true;
 
     setTimeout(function () {
       // close album modal when click outside of it
@@ -166,7 +287,7 @@ function OnClickAlbum(id) {
   }
 
   function checkWetherCloseAlbumModal(event) {
-    if (!isAlbumModal) {
+    if (!isAlbumModalOpen) {
       return;
     }
 
@@ -181,11 +302,103 @@ function OnClickAlbum(id) {
     albumModal.style['z-index'] = '-1';
     albumModalContent.classList.remove('open');
 
-    isAlbumModal = false;
+    isAlbumModalOpen = false;
     document.removeEventListener('click', checkWetherCloseAlbumModal);
   }
+
+  fetchAlbum();
 }
 
-function OnClickMusic(id) {
-  $(location).attr('href', `/web/music/${id}/audio`);
+function openMusicModal(id) {
+  const musicId = id;
+
+  function fetchMusic() {
+    fetchMusic.cache = fetchMusic.cache || {};
+
+    if (fetchMusic.cache[musicId]) {
+      buildMusicModal(fetchMusic.cache[musicId]);
+    } else {
+      const getMusicUrl = `http://localhost:8080/api/musics/${musicId}`;
+
+      fetch(getMusicUrl)
+        .then(response => {
+          return response.json();
+        })
+        .then(music => {
+          fetchMusic.cache[musicId] = music;
+          buildMusicModal(music);
+        })
+        .catch(error => {
+          console.error(`Error fetching music ${musicId}:`, error);
+        });
+    }
+  }
+
+  function buildMusicModal(music) {
+    console.log(music);
+  }
+
+  fetchMusic();
+}
+
+function openArtistModal(id) {
+  const artistId = id;
+
+  const artistModal = document.querySelector('.artist__modal');
+  const artistModalContent = artistModal.querySelector('.artist__modal__content');
+
+  const artistImg = artistModal.querySelector('.artist__details__img img');
+  const artistName = artistModal.querySelector('.artist__details__info__name span');
+
+  const topTracksList = albumModal.querySelector('.top__tracks__list');
+
+  function fetchArtist() {
+    fetchArtist.cache = fetchArtist.cache || {};
+
+    if (fetchArtist.cache[artistId]) {
+      buildArtistModal(fetchArtist.cache[artistId]);
+    } else {
+      const getArtistUrl = `http://localhost:8080/api/artists/${artistId}`;
+
+      fetch(getArtistUrl)
+        .then(response => {
+          return response.json();
+        })
+        .then(artist => {
+          fetchArtist.cache[artistId] = artist;
+          buildArtistModal(artist);
+        })
+        .catch(error => {
+          console.error(`Error fetching artist ${artistId}:`, error);
+        });
+    }
+  }
+
+  function buildArtistModal(artist) {
+    artistImg.src = `/web/files/?file=${artist.profileImg}`;
+    artistName.innerHTML = artist.name;
+
+    topTracksList.innerHTML = '';
+
+    for (const [index, track] of artist.popularTracks.entries()) {
+      let trackItem = document.createElement('div');
+      trackItem.className = 'top__tracks__item';
+
+      trackItem.innerHTML = `
+        <div class="top__tracks__item__img">
+          <img src="/web/files/?file=${track.cover}" alt=${track.title} loading="lazy" />
+        </div>
+        <div class="top__tracks__item__info">
+          <span>${index}. ${track.title}</span>
+        </div>
+      `;
+
+      tracksList.appendChild(trackItem);
+    }
+
+    artistModal.style['z-index'] = '100';
+    artistModalContent.classList.add('open');
+  }
+
+  fetchArtist();
 }
