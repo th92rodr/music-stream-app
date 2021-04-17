@@ -1,6 +1,9 @@
 package config
 
 import (
+	"flag"
+	"fmt"
+
 	"github.com/spf13/viper"
 )
 
@@ -16,7 +19,23 @@ var (
 )
 
 func Initialize() {
+	configFile := getConfigFile()
+
+	viper.SetConfigFile(configFile)
+	if err := viper.ReadInConfig(); err != nil {
+		panic(fmt.Sprintf("Failed to read config file: %+v", err))
+	}
+
 	initVariables()
+}
+
+func getConfigFile() string {
+	var configFile string
+
+	flag.StringVar(&configFile, "config", "", "Configuration file")
+	flag.Parse()
+
+	return configFile
 }
 
 func initVariables() {
