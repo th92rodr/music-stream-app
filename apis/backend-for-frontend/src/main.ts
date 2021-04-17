@@ -37,5 +37,6 @@ async function shutdown(exitCode = 0): Promise<void> {
   await restChannel.stop();
   await staticFilesChannel.stop();
 
+  process.exitCode = exitCode;
   process.exit(exitCode);
 }
