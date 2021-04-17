@@ -93,7 +93,6 @@ export default class ExpressRestChannel implements IRestChannel {
       this.server.close((error: Error | undefined) => {
         if (error) {
           this.errorHandler.handleError(error);
-          reject(error);
         } else {
           this.loggerProvider.info('Rest server stopped.');
           resolve();
