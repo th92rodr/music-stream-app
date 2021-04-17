@@ -57,6 +57,7 @@ export default class Grpc implements IGrpcChannel {
 
   public async stop(): Promise<void> {
     this.loggerProvider.info('Stopping gRPC server ...');
+
     return new Promise((resolve, reject) => {
       this.server.tryShutdown(() => {
         this.loggerProvider.info('gRPC server stopped.');

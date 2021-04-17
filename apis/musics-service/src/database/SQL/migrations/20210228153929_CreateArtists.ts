@@ -12,10 +12,10 @@ export async function up(knex: Knex): Promise<void> {
     table.string('description', 5000);
     table.integer('genre').notNullable();
     table.specificType('photos', 'text[]');
-    table.string('facebookUrl').notNullable();
-    table.string('twitterUrl').notNullable();
-    table.string('instagramUrl').notNullable();
-    table.string('wikipediaUrl').notNullable();
+    table.string('facebookUrl');
+    table.string('twitterUrl');
+    table.string('instagramUrl');
+    table.string('wikipediaUrl');
     table.integer('favorites').notNullable();
     table.integer('followers').notNullable();
   });
