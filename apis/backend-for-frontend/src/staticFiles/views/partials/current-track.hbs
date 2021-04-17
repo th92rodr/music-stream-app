@@ -1,0 +1,32 @@
+<section class="current__track">
+  <div class="current__track__name">
+    <div class="current__track__name__music"></div>
+    <div class="current__track__name__band"></div>
+  </div>
+
+  <div class="current__track__progress__wrapper">
+    <div class="current__track__actions">
+      <a>
+        {{> icon-arrow-backward}}
+      </a>
+      <a class="play">
+        {{> icon-play-filled}}
+      </a>
+      <a>
+        {{> icon-arrow-forward}}
+      </a>
+    </div>
+
+    <div class="current__track__progress">
+      <div class="current__track__progress__start"></div>
+      <div class="current__track__progress__bar">
+        <div id="song-progress"></div>
+      </div>
+      <div class="current__track__progress__finish"></div>
+    </div>
+  </div>
+
+  <div class="current__track__lyrics">
+    <a href="#" class="lyrics">Lyrics</a>
+  </div>
+</section>
