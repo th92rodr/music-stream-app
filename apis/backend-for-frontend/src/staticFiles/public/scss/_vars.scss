@@ -1,0 +1,82 @@
+@font-face {
+  font-family: 'Omnia';
+  src: url('/fonts/Omnia.woff2') format('woff2'), url('/fonts/Omnia.woff') format('woff'), url('/fonts/Omnia.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap'); // 400
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP&display=swap'); // 400
+@import url('https://fonts.googleapis.com/css?family=Abril+Fatface|Lato');
+
+// Font
+
+$font-montserrat: 'Montserrat', sans-serif;
+$font-noto-sans: 'Noto Sans JP', sans-serif;
+$font-abril-fat-face: 'Abril Fatface', serif;
+$font-lato: 'Lato', sans-serif;
+$font-omnia: 'Omnia';
+
+$font-size-small-1: 14px;
+$font-size-small-2: 16px;
+$font-size-medium-1: 20px;
+$font-size-medium-2: 24px;
+$font-size-large-1: 30px;
+$font-size-large-2: 36px;
+
+// Color
+
+$color-background-main: #0e0e0e;
+$color-background-white: #fafaff;
+$color-background-modal: #19191a;
+$color-background-not-found-page: #202020;
+$color-background-active: #176087;
+$color-background-slider: #282828;
+$color-background-slider-active: #8080804d;
+$color-background-table: #282828;
+
+$color-text-main: #b9b5b5;
+$color-text-bland: #8080804d;
+$color-text-highlight: #fafaff;
+$color-text-dark: #000;
+
+$color-border-main: #8080804d;
+$color-border-table: #282828;
+$color-border-active: #176087;
+$color-border-white: #fafaff;
+
+// Transitions
+
+$transition-duration: 0.3s;
+$transition-duration-long: 0.5s;
+$transition-timing-function: ease-in;
+$transition-smooth: cubic-bezier(0.4, 0.2, 0.3, 1);
+
+// Breakpoints
+
+$breakpoint-mini-phone: 480px;
+$breakpoint-phone: 640px;
+$breakpoint-tablet: 768px;
+$breakpoint-desktop: 1024px;
+
+// Z Index
+
+$z-index-hide: -1;
+
+$z-index-main-0: 00;
+$z-index-main-1: 01;
+$z-index-main-2: 02;
+$z-index-main-3: 03;
+
+$z-index-header-0: 10;
+$z-index-header-1: 11;
+$z-index-sidebar-0: 10;
+$z-index-sidebar-1: 11;
+$z-index-footer-0: 10;
+$z-index-footer-1: 11;
+
+$z-index-search-0: 100;
+$z-index-search-1: 101;
+$z-index-modal-0: 100;
+$z-index-modal-1: 101;
