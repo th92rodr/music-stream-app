@@ -61,7 +61,6 @@ export default class ExpressStaticFilesChannel implements IStaticFilesChannel {
       this.server.close((error: Error | undefined) => {
         if (error) {
           this.errorHandler.handleError(error);
-          reject(error);
         } else {
           this.loggerProvider.info('Static files server stopped.');
           resolve();
