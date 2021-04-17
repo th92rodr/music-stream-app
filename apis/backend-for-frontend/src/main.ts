@@ -7,8 +7,6 @@ import { loggerProvider } from '@providers/index';
 restChannel.start();
 staticFilesChannel.start();
 
-// Properly handle SIGINT and SIGTERM
-
 process.on('SIGINT', function onSigint() {
   loggerProvider.info('Got SIGINT. Graceful shutdown.');
   shutdown();
