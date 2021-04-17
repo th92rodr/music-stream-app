@@ -3,7 +3,7 @@ import {
   GetAlbumRequest,
   CreateAlbumRequest,
   UpdateAlbumRequest,
-  DeleteAlbumRequest
+  DeleteAlbumRequest,
 } from './dtos';
 import IAlbumsService from './interface';
 import { ErrorAlbumNotFound } from '@constants/errors';
@@ -41,11 +41,11 @@ export default class AlbumsService implements IAlbumsService {
     return albums;
   }
 
-  public async create({ name, year, cover, studio, producers, artistId }: CreateAlbumRequest): Promise<Album> {
+  public async create({ name, releaseDate, cover, studio, producers, artistId }: CreateAlbumRequest): Promise<Album> {
     const album = new Album({
       id: this.idProvider.generate(),
       name,
-      year,
+      releaseDate,
       cover,
       studio,
       producers,
@@ -57,7 +57,7 @@ export default class AlbumsService implements IAlbumsService {
     return album;
   }
 
-  public async update({ id, name, year, cover, studio, producers, artistId }: UpdateAlbumRequest): Promise<Album> {
+  public async update({ id, name, releaseDate, cover, studio, producers, artistId }: UpdateAlbumRequest): Promise<Album> {
     const album = await this.albumsRepository.find(id);
 
     if (!album) {
@@ -67,7 +67,7 @@ export default class AlbumsService implements IAlbumsService {
     const newAlbum = new Album({
       id,
       name: name ? name : album.name,
-      year: year ? year : album.year,
+      releaseDate: releaseDate ? releaseDate : album.releaseDate,
       cover: cover ? cover : album.cover,
       studio: studio ? studio : album.studio,
       producers: producers ? arrayIntersection(producers, album.producers) : album.producers,

@@ -1,12 +1,11 @@
 import 'dotenv/config';
 
-import { restChannel } from '@channels/index';
+import { restChannel, staticFilesChannel } from '@channels/index';
 import { errorHandler } from '@handlers/index';
 import { loggerProvider } from '@providers/index';
 
 restChannel.start();
-
-// Properly handle SIGINT and SIGTERM
+staticFilesChannel.start();
 
 process.on('SIGINT', function onSigint() {
   loggerProvider.info('Got SIGINT. Graceful shutdown.');
@@ -34,6 +33,8 @@ process.on('uncaughtException', (error: Error) => {
 
 async function shutdown(exitCode = 0): Promise<void> {
   await restChannel.stop();
+  await staticFilesChannel.stop();
 
+  process.exitCode = exitCode;
   process.exit(exitCode);
 }

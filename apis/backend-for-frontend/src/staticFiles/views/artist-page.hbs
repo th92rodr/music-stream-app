@@ -1,0 +1,151 @@
+<div class="page artist__page">
+  {{> header}}
+
+  <section class="artist__page__wrapper">
+    <div class="artist__page__full__img">
+      <div class="artist__page__full__img__wrapper">
+        <img src="/web/files/?file={{artist.fullImg}}" alt={{artist.name}} loading="lazy" />
+      </div>
+    </div>
+
+    {{> sidebar}}
+
+    <section class="artist__page__main">
+      <div class="band__header">
+        <div class="band__header__favorite">
+          <div class="favorite">
+            {{> icon-heart}}
+            <span>Favorite</span>
+          </div>
+          <div class="follow">
+            {{> icon-foot-steps}}
+            <span>Follow</span>
+          </div>
+        </div>
+
+        <div class="band__header__name__wrapper">
+          <div class="band__header__name">
+            <p>{{artist.name}}</p>
+          </div>
+
+          <div class="band__see__more">
+            <a class="facebook" href={{artist.facebookUrl}} target="_blank">
+              {{> icon-facebook}}
+              <span>Facebook</span>
+            </a>
+            <a class="twitter" href={{artist.twitterUrl}} target="_blank">
+              {{> icon-twitter}}
+              <span>Twitter</span>
+            </a>
+            <a class="instagram" href={{artist.instagramUrl}} target="_blank">
+              {{> icon-instagram}}
+              <span>Instagram</span>
+            </a>
+            <a class="wikipedia" href={{artist.wikipediaUrl}} target="_blank">
+              {{> icon-wikipedia}}
+              <span>Wikipedia</span>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="band__subheader">
+        <div class="band__actions">
+          <button class="band__actions__play">
+            {{> icon-play-filled}}
+            <span>Play</span>
+          </button>
+          <button class="band__actions__mix">
+            {{> icon-sync}}
+            <span>Mix</span>
+          </button>
+        </div>
+
+        <div class="band__stats">
+          <div class="band__stats__card">
+            <div class="stats__card__content country">
+              <p>{{artist.country}}</p>
+            </div>
+            <span class="stats__card__title">Country</span>
+          </div>
+
+          <div class="band__stats__card">
+            <div class="stats__card__content genre">
+              <p>{{artist.genre}}</p>
+            </div>
+            <span class="stats__card__title">Genre</span>
+          </div>
+
+          <div class="band__stats__card">
+            <div class="stats__card__content date">
+              <p>{{artist.foundationDate}}</p>
+            </div>
+            <span class="stats__card__title">Foundation Date</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="band__popular__tracks">
+        <div class="band__popular__tracks__header">
+          <h2>Popular Tracks</h2>
+        </div>
+
+        <div class="tracks__header">
+          <div class="tracks__header__title">Song</div>
+          <div class="tracks__header__length">
+            {{> icon-clock}}
+          </div>
+        </div>
+
+        <div class="tracks">
+          {{#each artist.tracks}}
+          <div class="track" id={{id}} onclick="OnClickMusic(this.id)">
+            <div class="track__play">
+              {{> icon-play-outline}}
+            </div>
+            <div class="track__title">{{title}}</div>
+            <div class="track__length">{{duration}}</div>
+          </div>
+          {{/each}}
+        </div>
+      </div>
+
+      <div class="band__discography">
+        <div class="band__discography__header">
+          <h2>Discography</h2>
+        </div>
+
+        <ul class="albums__list">
+          {{#each artist.albums}}
+          <li class="albums__list__item" id={{id}} onclick="OnClickAlbum(this.id)">
+            <img src="/web/files/?file={{cover}}" alt={{name}} loading="lazy" />
+            <div class="albums__list__item__info">
+              <span class="album__title">{{name}}</span>
+              <span class="album__year">{{releaseDate}}</span>
+            </div>
+          </li>
+          {{/each}}
+        </ul>
+      </div>
+
+      <div class="band__info__wrapper">
+        <div class="band__info__img">
+          <div class="band__info__img__wrapper">
+            <img src="/web/files/?file={{artist.verticalImg}}" alt={{artist.name}} loading="lazy" />
+            <svg viewBox="0, 0, 100, 100">
+              <path d="M 100,310 C -30,310 -30,-215 100,-215" />
+            </svg>
+          </div>
+        </div>
+
+        <div class="band__description__wrapper">
+          <div class="band__description">{{artist.description}}</div>
+        </div>
+      </div>
+    </section>
+  </section>
+
+  {{> current-track}}
+</div>
+
+{{> album-modal}}

@@ -1,23 +1,79 @@
 import Album from './Album';
+import Music from './Music';
 
 export default class Artist {
   public readonly id: string;
   public readonly name: string;
+  public readonly country: string;
+  public readonly foundationDate: Date;
+  public readonly members: Array<string>;
   public readonly description: string;
   public readonly genre: number;
   public readonly photos: Array<string>;
+  public readonly facebookUrl: string;
+  public readonly twitterUrl: string;
+  public readonly instagramUrl: string;
+  public readonly wikipediaUrl: string;
+  public favorites: number;
+  public followers: number;
   public albums: Array<Album>;
+  public popularTracks: Array<Music>;
 
-  constructor({ id, name, description, genre, photos }: Omit<Artist, 'albums' | 'setAlbums'>) {
+  constructor({
+    id,
+    name,
+    country,
+    foundationDate,
+    members,
+    description,
+    genre,
+    photos,
+    facebookUrl,
+    twitterUrl,
+    instagramUrl,
+    wikipediaUrl,
+    favorites,
+    followers,
+  }: Omit<Artist, 'albums' | 'popularTracks' | 'addFavorite' | 'removeFavorite' | 'addFollower' | 'removeFollower' | 'setAlbums' | 'setPopularTracks'>) {
     this.id = id;
     this.name = name;
+    this.country = country;
+    this.foundationDate = foundationDate;
+    this.members = members;
     this.description = description;
     this.genre = genre;
     this.photos = photos;
+    this.facebookUrl = facebookUrl;
+    this.twitterUrl = twitterUrl;
+    this.instagramUrl = instagramUrl;
+    this.wikipediaUrl = wikipediaUrl;
+    this.favorites = favorites;
+    this.followers = followers;
     this.albums = [];
+    this.popularTracks = [];
+  }
+
+  public addFavorite(): void {
+    this.favorites++;
+  }
+
+  public removeFavorite(): void {
+    this.favorites--;
+  }
+
+  public addFollower(): void {
+    this.followers++;
+  }
+
+  public removeFollower(): void {
+    this.followers--;
   }
 
   public setAlbums(albums: Array<Album>): void {
     this.albums = albums;
+  }
+
+  public setPopularTracks(tracks: Array<Music>): void {
+    this.popularTracks = tracks;
   }
 }

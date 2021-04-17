@@ -6,9 +6,18 @@ export function translateArtist(artist: Artist, albums: Array<Album>): Artist {
   const newArtist = new Artist({
     id: artist.id,
     name: artist.name,
+    country: artist.country,
+    foundationDate: artist.foundationDate,
+    members: artist.members,
     description: artist.description,
     genre: artist.genre,
     photos: artist.photos,
+    facebookUrl: artist.facebookUrl,
+    twitterUrl: artist.twitterUrl,
+    instagramUrl: artist.instagramUrl,
+    wikipediaUrl: artist.wikipediaUrl,
+    favorites: artist.favorites,
+    followers: artist.followers,
   });
 
   newArtist.setAlbums(albums.map(album => translateAlbum(album, [])));
@@ -24,7 +33,7 @@ export function translateAlbum(album: Album, tracks: Array<Music>): Album {
   const newAlbum = new Album({
     id: album.id,
     name: album.name,
-    year: album.year,
+    releaseDate: album.releaseDate,
     cover: album.cover,
     studio: album.studio,
     producers: album.producers,
@@ -49,6 +58,7 @@ export function translateMusic(music: Music): Music {
     composers: music.composers,
     lyrics: music.lyrics,
     albumId: music.albumId,
+    views: music.views,
   });
 }
 

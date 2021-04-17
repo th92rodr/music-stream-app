@@ -8,6 +8,7 @@ service Musics {
     rpc CreateMusic(CreateMusicRequest) returns (Music) {}
     rpc UpdateMusic(UpdateMusicRequest) returns (Music) {}
     rpc DeleteMusic(Id) returns (Empty) {}
+    rpc ViewMusic(Id) returns (Music) {}
 
     rpc GetAlbum(Id) returns (Album) {}
     rpc GetAlbums(Empty) returns (AlbumsList) {}
@@ -21,6 +22,10 @@ service Musics {
     rpc CreateArtist(CreateArtistRequest) returns (Artist) {}
     rpc UpdateArtist(UpdateArtistRequest) returns (Artist) {}
     rpc DeleteArtist(Id) returns (Empty) {}
+    rpc FavoriteArtist(Id) returns (Artist) {}
+    rpc UnfavoriteArtist(Id) returns (Artist) {}
+    rpc FollowArtist(Id) returns (Artist) {}
+    rpc UnfollowArtist(Id) returns (Artist) {}
 }
 
 message Id {
@@ -35,6 +40,7 @@ message Music {
     repeated string composers = 5;
     string lyrics = 6;
     string albumId = 7;
+    int32 views = 8;
 }
 
 message MusicsList {
@@ -63,7 +69,7 @@ message UpdateMusicRequest {
 message Album {
     string id = 1;
     string name = 2;
-    int64 year = 3;
+    int64 releaseDate = 3;
     string cover = 4;
     string studio = 5;
     repeated string producers = 6;
@@ -77,7 +83,7 @@ message AlbumsList {
 
 message CreateAlbumRequest {
     string name = 1;
-    int64 year = 2;
+    int64 releaseDate = 2;
     string cover = 3;
     string studio = 4;
     repeated string producers = 5;
@@ -87,7 +93,7 @@ message CreateAlbumRequest {
 message UpdateAlbumRequest {
     string id = 1;
     string name = 2;
-    int64 year = 3;
+    int64 releaseDate = 3;
     string cover = 4;
     string studio = 5;
     repeated string producers = 6;
@@ -97,10 +103,20 @@ message UpdateAlbumRequest {
 message Artist {
     string id = 1;
     string name = 2;
-    string description = 3;
-    Genre genre = 4;
-    repeated string photos = 5;
-    repeated Album albums = 6;
+    string country = 3;
+    int64 foundationDate = 4;
+    repeated string members = 5;
+    string description = 6;
+    Genre genre = 7;
+    repeated string photos = 8;
+    string facebookUrl = 9;
+    string twitterUrl = 10;
+    string instagramUrl = 11;
+    string wikipediaUrl = 12;
+    int32 favorites = 13;
+    int32 followers = 14;
+    repeated Album albums = 15;
+    repeated Music popularTracks = 16;
 }
 
 message ArtistsList {
@@ -113,17 +129,31 @@ message GetArtistByGenreRequest {
 
 message CreateArtistRequest {
     string name = 1;
-    string description = 2;
-    Genre genre = 3;
-    repeated string photos = 4;
+    string country = 2;
+    int64 foundationDate = 3;
+    repeated string members = 4;
+    string description = 5;
+    Genre genre = 6;
+    repeated string photos = 7;
+    string facebookUrl = 8;
+    string twitterUrl = 9;
+    string instagramUrl = 10;
+    string wikipediaUrl = 11;
 }
 
 message UpdateArtistRequest {
     string id = 1;
     string name = 2;
-    string description = 3;
-    Genre genre = 4;
-    repeated string photos = 5;
+    string country = 3;
+    int64 foundationDate = 4;
+    repeated string members = 5;
+    string description = 6;
+    Genre genre = 7;
+    repeated string photos = 8;
+    string facebookUrl = 9;
+    string twitterUrl = 10;
+    string instagramUrl = 11;
+    string wikipediaUrl = 12;
 }
 
 enum Genre {

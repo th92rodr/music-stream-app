@@ -1,0 +1,1717 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+JP&display=swap");
+@import url("https://fonts.googleapis.com/css?family=Abril+Fatface|Lato");
+@font-face {
+  font-family: "Omnia";
+  src: url("/fonts/Omnia.woff2") format("woff2"), url("/fonts/Omnia.woff") format("woff"), url("/fonts/Omnia.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+section.header {
+  height: 60px;
+  padding: 10px 20px;
+  border-bottom: 1px solid #8080804d;
+  background: #0e0e0e;
+  display: flex;
+  flex-flow: row wrap;
+  align-items: center;
+}
+section.header .search .search__inactive .search__inactive__input {
+  border-radius: 15px;
+  padding: 5px 5px 5px 35px;
+  background: #fafaff;
+  background-image: url("/icons/search.svg");
+  background-repeat: no-repeat;
+  background-size: 10%;
+  background-position: 5px;
+}
+section.header .search .search__inactive .search__inactive__input::placeholder {
+  color: #000;
+}
+section.header .search .search__active {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  z-index: -1;
+  background: #0e0e0e;
+  transition: all 0.5s cubic-bezier(0.4, 0.2, 0.3, 1);
+}
+section.header .search .search__active.active {
+  opacity: 1;
+  z-index: 100;
+}
+section.header .search .search__active .search__wrapper {
+  margin: 50px 20px 0 20px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+section.header .search .search__active .search__wrapper .cancel {
+  width: 75px;
+  height: 75px;
+  margin-right: 5px;
+  cursor: pointer;
+}
+section.header .search .search__active .search__wrapper .cancel svg circle,
+section.header .search .search__active .search__wrapper .cancel svg line {
+  stroke: #b9b5b5;
+  transition: all 0.3s cubic-bezier(0.4, 0.2, 0.3, 1);
+}
+section.header .search .search__active .search__wrapper .cancel svg circle {
+  stroke-width: 3;
+}
+section.header .search .search__active .search__wrapper .cancel svg line {
+  stroke-width: 10;
+}
+section.header .search .search__active .search__wrapper .cancel svg:hover circle,
+section.header .search .search__active .search__wrapper .cancel svg:hover line {
+  stroke: #fafaff;
+}
+@media (min-width: 480px) {
+  section.header .search .search__active .search__wrapper .cancel {
+    margin-right: 10px;
+  }
+}
+@media (min-width: 768px) {
+  section.header .search .search__active .search__wrapper .cancel {
+    margin-right: 25px;
+  }
+}
+section.header .search .search__active .search__wrapper .search__form {
+  width: 190px;
+}
+@media (min-width: 480px) {
+  section.header .search .search__active .search__wrapper .search__form {
+    width: 380px;
+  }
+}
+@media (min-width: 768px) {
+  section.header .search .search__active .search__wrapper .search__form {
+    width: 760px;
+  }
+}
+section.header .search .search__active .search__wrapper .search__form .search__active__input {
+  width: 100%;
+  padding: 5px;
+  margin-bottom: 5px;
+  border-bottom: 1px solid #8080804d;
+  background: transparent;
+  font-size: 36px;
+}
+section.header .search .search__active .search__wrapper .search__form .search__active__input::placeholder {
+  color: #8080804d;
+}
+section.header .user {
+  margin-left: auto;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between;
+  align-items: center;
+}
+section.header .user .user__info {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+section.header .user .user__info .user__info__img img {
+  display: inline-block;
+  max-width: 30px;
+  max-height: 30px;
+  border-radius: 50%;
+}
+section.header .user .user__info .user__info__name {
+  margin-left: 10px;
+}
+section.header .user .user__actions {
+  margin-left: 10px;
+}
+section.header .user .user__actions .dropdown {
+  position: relative;
+}
+section.header .user .user__actions .dropdown button {
+  padding: 5px 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+section.header .user .user__actions .dropdown button svg {
+  width: 24px;
+  height: 24px;
+}
+section.header .user .user__actions .dropdown button svg:hover path {
+  stroke: #fafaff;
+}
+section.header .user .user__actions .dropdown button svg path {
+  stroke: #b9b5b5;
+  transition: color 0.3s cubic-bezier(0.4, 0.2, 0.3, 1);
+}
+section.header .user .user__actions .dropdown .dropdown__menu {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  min-width: 160px;
+  margin-top: 25px;
+  background: #0e0e0e;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.18);
+  display: none;
+  z-index: 11;
+  text-align: left;
+}
+section.header .user .user__actions .dropdown .dropdown__menu li {
+  padding: 10px;
+  border-radius: 2px;
+  transition: all 0.5s cubic-bezier(0.4, 0.2, 0.3, 1);
+}
+section.header .user .user__actions .dropdown .dropdown__menu li:hover {
+  background: #176087;
+}
+section.header .user .user__actions .dropdown .dropdown__menu li:hover a {
+  color: #fafaff;
+}
+section.header .user .user__actions .dropdown .dropdown__menu li a {
+  display: block;
+  padding: 3px 20px;
+  white-space: nowrap;
+}
+
+aside.sidebar {
+  grid-area: sidebar;
+  position: fixed;
+  padding: 20px;
+  background: #0e0e0e;
+  font-family: "Noto Sans JP", sans-serif;
+  z-index: 10;
+}
+aside.sidebar .sidebar__main,
+aside.sidebar .sidebar__music,
+aside.sidebar .sidebar__playlists {
+  margin-bottom: 20px;
+}
+aside.sidebar .sidebar__main .sidebar__header,
+aside.sidebar .sidebar__music .sidebar__header,
+aside.sidebar .sidebar__playlists .sidebar__header {
+  margin-bottom: 5px;
+  text-transform: uppercase;
+}
+aside.sidebar .sidebar__main li,
+aside.sidebar .sidebar__music li,
+aside.sidebar .sidebar__playlists li {
+  line-height: 2;
+  padding-bottom: 5px;
+  transition: color 0.3s cubic-bezier(0.4, 0.2, 0.3, 1);
+}
+aside.sidebar .sidebar__main li:last-of-type,
+aside.sidebar .sidebar__music li:last-of-type,
+aside.sidebar .sidebar__playlists li:last-of-type {
+  padding-bottom: 0;
+}
+aside.sidebar .sidebar__main li:hover,
+aside.sidebar .sidebar__music li:hover,
+aside.sidebar .sidebar__playlists li:hover {
+  color: #fafaff;
+}
+aside.sidebar .sidebar__main li:hover svg,
+aside.sidebar .sidebar__music li:hover svg,
+aside.sidebar .sidebar__playlists li:hover svg {
+  margin-right: 10px;
+}
+aside.sidebar .sidebar__main li a,
+aside.sidebar .sidebar__music li a,
+aside.sidebar .sidebar__playlists li a {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+aside.sidebar .sidebar__main li a svg,
+aside.sidebar .sidebar__music li a svg,
+aside.sidebar .sidebar__playlists li a svg {
+  width: 24px;
+  height: 24px;
+  margin-right: 5px;
+  transition: all 0.3s cubic-bezier(0.4, 0.2, 0.3, 1);
+}
+
+section.current__track {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  height: 100px;
+  padding: 10px 20px;
+  border-top: 1px solid #8080804d;
+  z-index: 10;
+  background: #0e0e0e;
+  display: grid;
+  grid-template-columns: 200px auto 200px;
+  grid-template-areas: "name progress lyrics";
+}
+section.current__track .current__track__name {
+  grid-area: name;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  color: #fafaff;
+  font-size: 14px;
+}
+section.current__track .current__track__progress__wrapper {
+  grid-area: progress;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+section.current__track .current__track__progress__wrapper .current__track__actions {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: center;
+  align-items: center;
+}
+section.current__track .current__track__progress__wrapper .current__track__actions a {
+  margin: 0 10px;
+}
+section.current__track .current__track__progress__wrapper .current__track__actions a svg {
+  width: 16px;
+  height: 16px;
+}
+section.current__track .current__track__progress__wrapper .current__track__actions a svg path {
+  fill: #b9b5b5;
+}
+section.current__track .current__track__progress__wrapper .current__track__actions a.play svg {
+  width: 30px;
+  height: 30px;
+}
+section.current__track .current__track__progress__wrapper .current__track__actions a:hover svg path {
+  color: #fafaff;
+  cursor: pointer;
+}
+section.current__track .current__track__progress__wrapper .current__track__progress {
+  width: 100%;
+  padding: 0 10px;
+  display: flex;
+  flex-flow: row;
+  justify-content: space-between;
+  align-items: center;
+}
+section.current__track .current__track__progress__wrapper .current__track__progress .current__track__progress__start,
+section.current__track .current__track__progress__wrapper .current__track__progress .current__track__progress__finish {
+  font-size: 14px;
+}
+section.current__track .current__track__progress__wrapper .current__track__progress .current__track__progress__bar {
+  width: 100%;
+  padding: 0 20px;
+  transition: all 0.3s ease-in;
+  cursor: pointer;
+}
+section.current__track .current__track__progress__wrapper .current__track__progress .current__track__progress__bar:hover .noUi-base {
+  background: #176087;
+}
+section.current__track .current__track__progress__wrapper .current__track__progress .current__track__progress__bar:hover .noUi-handle {
+  display: block;
+  cursor: pointer;
+}
+section.current__track .current__track__progress__wrapper .current__track__progress .current__track__progress__bar .noUi-target {
+  border: none;
+  height: 4px;
+}
+section.current__track .current__track__progress__wrapper .current__track__progress .current__track__progress__bar .noUi-base {
+  background: #fafaff;
+}
+section.current__track .current__track__progress__wrapper .current__track__progress .current__track__progress__bar .noUi-origin {
+  background: #282828;
+}
+section.current__track .current__track__progress__wrapper .current__track__progress .current__track__progress__bar .noUi-handle {
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  box-shadow: none;
+  border: none;
+  left: 0;
+  display: none;
+}
+section.current__track .current__track__progress__wrapper .current__track__progress .current__track__progress__bar .noUi-handle:before,
+section.current__track .current__track__progress__wrapper .current__track__progress .current__track__progress__bar .noUi-handle:after {
+  background: none;
+}
+section.current__track .current__track__lyrics {
+  grid-area: lyrics;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+section.current__track .current__track__lyrics .lyrics {
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transition: color 0.3s ease-in;
+}
+section.current__track .current__track__lyrics .lyrics:hover {
+  color: #fafaff;
+}
+
+.main__page .main__page__wrapper {
+  box-sizing: border-box;
+  min-height: 100vh;
+  padding-bottom: 100px;
+  display: grid;
+  grid-template-columns: 100%;
+  grid-template-areas: "main";
+  background: #0e0e0e;
+}
+@media (min-width: 768px) {
+  .main__page .main__page__wrapper {
+    grid-template-columns: 200px auto;
+    grid-template-areas: "sidebar main";
+  }
+}
+.main__page .main__page__wrapper .sidebar {
+  background: transparent;
+}
+.main__page .main__page__wrapper .main__page__main {
+  grid-area: main;
+  padding-top: 10px;
+  padding-right: 20px;
+}
+.main__page .main__page__wrapper .main__page__main .main__header {
+  margin-bottom: 20px;
+  font-size: 36px;
+  color: #fafaff;
+}
+.main__page .main__page__wrapper .main__page__main .main__nav {
+  margin-bottom: 30px;
+  border-bottom: 1px solid #8080804d;
+  display: grid;
+  grid-auto-flow: column;
+  grid-gap: 10px;
+  justify-content: start;
+}
+.main__page .main__page__wrapper .main__page__main .main__nav .link {
+  display: inline-block;
+  padding: 5px 5px 11px 5px;
+  border-bottom: 2px solid transparent;
+  text-transform: uppercase;
+  transition: all 0.3s ease-in;
+}
+.main__page .main__page__wrapper .main__page__main .main__nav .link:hover {
+  color: #fafaff;
+}
+.main__page .main__page__wrapper .main__page__main .main__nav .link.is-active {
+  color: #fafaff;
+  border-bottom: 3px solid #176087;
+}
+.main__page .main__page__wrapper .main__page__main .main__nav .link:nth-of-type(2), .main__page .main__page__wrapper .main__page__main .main__nav .link:nth-of-type(3), .main__page .main__page__wrapper .main__page__main .main__nav .link:nth-of-type(4), .main__page .main__page__wrapper .main__page__main .main__nav .link:nth-of-type(5) {
+  display: none;
+}
+@media (min-width: 768px) {
+  .main__page .main__page__wrapper .main__page__main .main__nav .link:nth-of-type(2), .main__page .main__page__wrapper .main__page__main .main__nav .link:nth-of-type(3), .main__page .main__page__wrapper .main__page__main .main__nav .link:nth-of-type(4), .main__page .main__page__wrapper .main__page__main .main__nav .link:nth-of-type(5) {
+    display: inline;
+  }
+}
+.main__page .main__page__wrapper .main__page__main .main__content .carousel__wrapper {
+  margin-top: 80px;
+  padding-bottom: 40px;
+  border-bottom: 1px solid #8080804d;
+}
+.main__page .main__page__wrapper .main__page__main .main__content .carousel__wrapper .carousel__header {
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #8080804d;
+}
+.main__page .main__page__wrapper .main__page__main .main__content .carousel__wrapper .carousel__header h2 {
+  font-size: 24px;
+}
+.main__page .main__page__wrapper .main__page__main .main__content .carousel__wrapper .carousel {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.main__page .main__page__wrapper .main__page__main .main__content .carousel__wrapper .carousel .carousel__viewport {
+  width: 100%;
+  height: 500px;
+  display: flex;
+  flex-direction: row;
+  overflow-x: scroll;
+  scroll-behavior: smooth;
+  scroll-snap-type: x mandatory;
+}
+.main__page .main__page__wrapper .main__page__main .main__content .carousel__wrapper .carousel .carousel__viewport .carousel__slide {
+  width: 100%;
+  flex: 0 0 100%;
+}
+.main__page .main__page__wrapper .main__page__main .main__content .carousel__wrapper .carousel .carousel__viewport .carousel__slide .carousel__snapper {
+  width: 100%;
+  height: 100%;
+  scroll-snap-align: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+}
+.main__page .main__page__wrapper .main__page__main .main__content .carousel__wrapper .carousel .carousel__viewport .carousel__slide .carousel__snapper a {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  cursor: pointer;
+  background: #19191a;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1;
+}
+.main__page .main__page__wrapper .main__page__main .main__content .carousel__wrapper .carousel .carousel__viewport .carousel__slide .carousel__snapper a svg {
+  width: 32px;
+  height: 32px;
+}
+.main__page .main__page__wrapper .main__page__main .main__content .carousel__wrapper .carousel .carousel__viewport .carousel__slide .carousel__snapper a svg path {
+  fill: #fafaff;
+}
+.main__page .main__page__wrapper .main__page__main .main__content .carousel__wrapper .carousel .carousel__viewport .carousel__slide .carousel__snapper a.carousel__prev {
+  margin-left: 2px;
+}
+.main__page .main__page__wrapper .main__page__main .main__content .carousel__wrapper .carousel .carousel__viewport .carousel__slide .carousel__snapper a.carousel__next {
+  margin-right: 2px;
+}
+.main__page .main__page__wrapper .main__page__main .main__content .carousel__wrapper .carousel .carousel__viewport .carousel__slide .carousel__snapper .carousel__bands {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+}
+.main__page .main__page__wrapper .main__page__main .main__content .carousel__wrapper .carousel .carousel__viewport .carousel__slide .carousel__snapper .carousel__bands > div {
+  position: relative;
+  height: 100%;
+  overflow: hidden;
+  cursor: pointer;
+}
+.main__page .main__page__wrapper .main__page__main .main__content .carousel__wrapper .carousel .carousel__viewport .carousel__slide .carousel__snapper .carousel__bands > div.carousel__bands__triple {
+  width: calc(100% / 3);
+}
+.main__page .main__page__wrapper .main__page__main .main__content .carousel__wrapper .carousel .carousel__viewport .carousel__slide .carousel__snapper .carousel__bands > div.carousel__bands__unique {
+  width: 100%;
+}
+.main__page .main__page__wrapper .main__page__main .main__content .carousel__wrapper .carousel .carousel__viewport .carousel__slide .carousel__snapper .carousel__bands > div::after {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  content: "";
+  transition: background 0.5s cubic-bezier(0.4, 0.2, 0.3, 1);
+}
+.main__page .main__page__wrapper .main__page__main .main__content .carousel__wrapper .carousel .carousel__viewport .carousel__slide .carousel__snapper .carousel__bands > div:hover::after {
+  background: rgba(0, 0, 0, 0.3);
+}
+.main__page .main__page__wrapper .main__page__main .main__content .carousel__wrapper .carousel .carousel__viewport .carousel__slide .carousel__snapper .carousel__bands > div:hover img {
+  transform: scale3d(1.05, 1.05, 1.05);
+}
+.main__page .main__page__wrapper .main__page__main .main__content .carousel__wrapper .carousel .carousel__viewport .carousel__slide .carousel__snapper .carousel__bands > div:hover .carousel__bands__info {
+  opacity: 1;
+}
+.main__page .main__page__wrapper .main__page__main .main__content .carousel__wrapper .carousel .carousel__viewport .carousel__slide .carousel__snapper .carousel__bands > div img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 12px;
+  transform-origin: bottom right;
+  transition: transform 0.5s cubic-bezier(0.4, 0.2, 0.3, 1);
+}
+.main__page .main__page__wrapper .main__page__main .main__content .carousel__wrapper .carousel .carousel__viewport .carousel__slide .carousel__snapper .carousel__bands > div .carousel__bands__info {
+  position: absolute;
+  bottom: 25px;
+  left: 70px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  z-index: 1;
+  color: #fafaff;
+  opacity: 0;
+  transition: opacity 0.5s cubic-bezier(0.4, 0.2, 0.3, 1);
+}
+.main__page .main__page__wrapper .main__page__main .main__content .carousel__wrapper .carousel .carousel__viewport .carousel__slide .carousel__snapper .carousel__bands > div .carousel__bands__info .carousel__bands__info__band {
+  font-size: 30px;
+  letter-spacing: 5px;
+  text-shadow: 1px 1px 20px black;
+}
+.main__page .main__page__wrapper .main__page__main .main__content .carousel__wrapper .carousel .carousel__viewport .carousel__slide .carousel__snapper .carousel__bands > div .carousel__bands__info .carousel__bands__info__album {
+  font-size: 36px;
+  letter-spacing: 10px;
+  text-shadow: 1px 1px 20px black;
+}
+.main__page .main__page__wrapper .main__page__main .main__content .carousel__wrapper .carousel .carousel__viewport .carousel__slide .carousel__snapper .carousel__bands > div .carousel__bands__actions {
+  position: absolute;
+  bottom: 16px;
+  right: 16px;
+  z-index: 1;
+}
+.main__page .main__page__wrapper .main__page__main .main__content .carousel__wrapper .carousel .carousel__viewport .carousel__slide .carousel__snapper .carousel__bands > div .carousel__bands__actions svg {
+  width: 30px;
+  height: 30px;
+  stroke: #fafaff;
+  stroke-width: 2px;
+}
+.main__page .main__page__wrapper .main__page__main .main__content .carousel__wrapper .carousel ::-webkit-scrollbar {
+  height: 8px;
+}
+.main__page .main__page__wrapper .main__page__main .main__content .carousel__wrapper .carousel ::-webkit-scrollbar-track {
+  background: transparent;
+}
+.main__page .main__page__wrapper .main__page__main .main__content .carousel__wrapper .carousel ::-webkit-scrollbar-thumb {
+  border-radius: 25px;
+  background: #8080804d;
+}
+.main__page .main__page__wrapper .main__page__main .main__content .carousel__wrapper .carousel .carousel__navigation {
+  margin-top: 10px;
+}
+.main__page .main__page__wrapper .main__page__main .main__content .carousel__wrapper .carousel .carousel__navigation .carousel__navigation__list {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+.main__page .main__page__wrapper .main__page__main .main__content .carousel__wrapper .carousel .carousel__navigation .carousel__navigation__list .carousel__navigation__list__item .carousel__navigation__button {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  margin: 0 4px;
+  border-radius: 50%;
+  background-color: #8080804d;
+  transition: transform 0.3s;
+}
+.main__page .main__page__wrapper .main__page__main .main__content .bands {
+  margin-top: 80px;
+  padding-bottom: 40px;
+  border-bottom: 1px solid #8080804d;
+}
+.main__page .main__page__wrapper .main__page__main .main__content .bands .bands__header {
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #8080804d;
+}
+.main__page .main__page__wrapper .main__page__main .main__content .bands .bands__header h2 {
+  font-size: 24px;
+}
+.main__page .main__page__wrapper .main__page__main .main__content .bands .band__list {
+  display: grid;
+  grid-template-columns: minmax(250px, auto);
+  grid-gap: 20px;
+  width: 100%;
+}
+@media (min-width: 550px) {
+  .main__page .main__page__wrapper .main__page__main .main__content .bands .band__list {
+    grid-template-columns: repeat(2, minmax(250px, 1fr));
+  }
+}
+@media (min-width: 1100px) {
+  .main__page .main__page__wrapper .main__page__main .main__content .bands .band__list {
+    grid-template-columns: repeat(3, minmax(250px, 1fr));
+  }
+}
+@media (min-width: 1400px) {
+  .main__page .main__page__wrapper .main__page__main .main__content .bands .band__list {
+    grid-template-columns: repeat(4, minmax(250px, 1fr));
+  }
+}
+@media (min-width: 1600px) {
+  .main__page .main__page__wrapper .main__page__main .main__content .bands .band__list {
+    grid-template-columns: repeat(5, minmax(250px, 1fr));
+  }
+}
+.main__page .main__page__wrapper .main__page__main .main__content .bands .band__list .band__list__item {
+  min-height: 300px;
+  border-radius: 12px;
+  display: flex;
+  cursor: pointer;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  opacity: 0.5;
+  transition: all 0.5s cubic-bezier(0.4, 0.2, 0.3, 1);
+}
+.main__page .main__page__wrapper .main__page__main .main__content .bands .band__list .band__list__item:hover {
+  opacity: 1;
+  transform: scale3d(1.05, 1.05, 1.05);
+}
+.main__page .main__page__wrapper .main__page__main .main__content .bands .band__list .band__list__item:hover .band__list__item__info {
+  background: rgba(0, 0, 0, 0.8);
+}
+.main__page .main__page__wrapper .main__page__main .main__content .bands .band__list .band__list__item:hover .band__list__item__info .band__name {
+  font-size: 24px;
+  letter-spacing: 2px;
+}
+.main__page .main__page__wrapper .main__page__main .main__content .bands .band__list .band__list__item:hover .band__list__item__info .band__genre {
+  font-size: 16px;
+}
+.main__page .main__page__wrapper .main__page__main .main__content .bands .band__list .band__list__item .band__list__item__info {
+  align-self: flex-end;
+  width: 100%;
+  padding: 5px 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  background: rgba(0, 0, 0, 0.7);
+  color: #fafaff;
+  transition: all 0.5s cubic-bezier(0.4, 0.2, 0.3, 1);
+}
+.main__page .main__page__wrapper .main__page__main .main__content .bands .band__list .band__list__item .band__list__item__info .band__name {
+  font-size: 20px;
+  transition: all 0.5s cubic-bezier(0.4, 0.2, 0.3, 1);
+}
+.main__page .main__page__wrapper .main__page__main .main__content .bands .band__list .band__list__item .band__list__item__info .band__genre {
+  font-size: 14px;
+  transition: all 0.5s cubic-bezier(0.4, 0.2, 0.3, 1);
+}
+
+.artist__page .artist__page__wrapper {
+  box-sizing: border-box;
+  min-height: 100vh;
+  padding-bottom: 100px;
+  display: grid;
+  grid-template-columns: 100%;
+  grid-template-areas: "main";
+  background: #0e0e0e;
+}
+@media (min-width: 768px) {
+  .artist__page .artist__page__wrapper {
+    grid-template-columns: 200px auto;
+    grid-template-areas: "sidebar main";
+  }
+}
+@media (min-width: 1024px) {
+  .artist__page .artist__page__wrapper {
+    grid-template-columns: 250px auto;
+    grid-template-areas: "sidebar main";
+  }
+}
+.artist__page .artist__page__wrapper .sidebar {
+  background: transparent;
+}
+.artist__page .artist__page__wrapper .artist__page__full__img {
+  position: absolute;
+  width: 100%;
+  height: 40vh;
+  box-shadow: 0 200px 200px 1px rgba(25, 68, 91, 0.3);
+}
+.artist__page .artist__page__wrapper .artist__page__full__img .artist__page__full__img__wrapper {
+  position: relative;
+  width: 100%;
+  height: 40vh;
+}
+.artist__page .artist__page__wrapper .artist__page__full__img .artist__page__full__img__wrapper::after {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  content: "";
+  background: linear-gradient(0deg, rgba(0, 0, 0, 0.6), rgba(0, 212, 255, 0));
+}
+.artist__page .artist__page__wrapper .artist__page__full__img .artist__page__full__img__wrapper img {
+  width: 100%;
+  height: 40vh;
+  object-fit: cover;
+  object-position: 0 -60px;
+}
+.artist__page .artist__page__wrapper .artist__page__main {
+  grid-area: main;
+  padding: 0 20px 60px 20px;
+  display: flex;
+  flex-direction: column;
+}
+.artist__page .artist__page__wrapper .artist__page__main .band__header {
+  z-index: 1;
+  height: 40vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding-top: 10px;
+}
+.artist__page .artist__page__wrapper .artist__page__main .band__header .band__header__favorite {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+  font-size: 16px;
+}
+.artist__page .artist__page__wrapper .artist__page__main .band__header .band__header__favorite .favorite,
+.artist__page .artist__page__wrapper .artist__page__main .band__header .band__header__favorite .follow {
+  padding: 10px 15px;
+  border-radius: 25px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.5);
+  cursor: pointer;
+  transition: all 0.3s ease-in;
+}
+.artist__page .artist__page__wrapper .artist__page__main .band__header .band__header__favorite .favorite svg,
+.artist__page .artist__page__wrapper .artist__page__main .band__header .band__header__favorite .follow svg {
+  width: 16px;
+  height: 16px;
+  margin-right: 10px;
+}
+.artist__page .artist__page__wrapper .artist__page__main .band__header .band__header__favorite .favorite svg path,
+.artist__page .artist__page__wrapper .artist__page__main .band__header .band__header__favorite .follow svg path {
+  fill: #b9b5b5;
+}
+.artist__page .artist__page__wrapper .artist__page__main .band__header .band__header__favorite .favorite:hover svg path,
+.artist__page .artist__page__wrapper .artist__page__main .band__header .band__header__favorite .follow:hover svg path {
+  fill: #fafaff;
+}
+.artist__page .artist__page__wrapper .artist__page__main .band__header .band__header__favorite .favorite:hover span,
+.artist__page .artist__page__wrapper .artist__page__main .band__header .band__header__favorite .follow:hover span {
+  color: #fafaff;
+}
+.artist__page .artist__page__wrapper .artist__page__main .band__header .band__header__favorite .favorite {
+  margin-right: 20px;
+}
+.artist__page .artist__page__wrapper .artist__page__main .band__header .band__header__name__wrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.artist__page .artist__page__wrapper .artist__page__main .band__header .band__header__name__wrapper .band__header__name {
+  align-self: flex-end;
+  font-family: "Omnia";
+  font-size: 10vh;
+  color: #fafaff;
+  line-height: normal;
+}
+.artist__page .artist__page__wrapper .artist__page__main .band__header .band__header__name__wrapper .band__header__name p {
+  display: inline;
+  text-shadow: 1px 1px 20px black;
+}
+.artist__page .artist__page__wrapper .artist__page__main .band__header .band__header__name__wrapper .band__see__more {
+  align-self: flex-start;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.artist__page .artist__page__wrapper .artist__page__main .band__header .band__header__name__wrapper .band__see__more a {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+  margin-bottom: 8px;
+  transform: translateX(80px);
+  transition: all 0.3s ease-in;
+}
+.artist__page .artist__page__wrapper .artist__page__main .band__header .band__header__name__wrapper .band__see__more a:hover {
+  transform: translateX(0);
+}
+.artist__page .artist__page__wrapper .artist__page__main .band__header .band__header__name__wrapper .band__see__more a:hover svg path {
+  fill: #fafaff;
+}
+.artist__page .artist__page__wrapper .artist__page__main .band__header .band__header__name__wrapper .band__see__more a:hover span {
+  color: #fafaff;
+}
+.artist__page .artist__page__wrapper .artist__page__main .band__header .band__header__name__wrapper .band__see__more a svg {
+  width: 24px;
+  height: 24px;
+}
+.artist__page .artist__page__wrapper .artist__page__main .band__header .band__header__name__wrapper .band__see__more a svg path {
+  fill: #b9b5b5;
+}
+.artist__page .artist__page__wrapper .artist__page__main .band__header .band__header__name__wrapper .band__see__more a span {
+  width: 80px;
+  margin-left: 5px;
+}
+.artist__page .artist__page__wrapper .artist__page__main .band__subheader {
+  margin-top: 40px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+.artist__page .artist__page__wrapper .artist__page__main .band__subheader .band__actions {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+}
+.artist__page .artist__page__wrapper .artist__page__main .band__subheader .band__actions .band__actions__play,
+.artist__page .artist__page__wrapper .artist__page__main .band__subheader .band__actions .band__actions__mix {
+  background: #176087;
+  border-radius: 25px;
+  height: 48px;
+  padding: 5px 30px;
+  margin-right: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #fafaff;
+  font-size: 16px;
+  text-transform: uppercase;
+  border: 1px solid #176087;
+}
+.artist__page .artist__page__wrapper .artist__page__main .band__subheader .band__actions .band__actions__play:hover,
+.artist__page .artist__page__wrapper .artist__page__main .band__subheader .band__actions .band__actions__mix:hover {
+  border: 1px solid #fafaff;
+}
+.artist__page .artist__page__wrapper .artist__page__main .band__subheader .band__actions .band__actions__play svg,
+.artist__page .artist__page__wrapper .artist__page__main .band__subheader .band__actions .band__actions__mix svg {
+  width: 25px;
+  height: 25px;
+  margin-right: 15px;
+  font-size: 20px;
+  fill: #fafaff;
+}
+.artist__page .artist__page__wrapper .artist__page__main .band__subheader .band__stats {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+}
+.artist__page .artist__page__wrapper .artist__page__main .band__subheader .band__stats .band__stats__card {
+  padding: 0 15px;
+  margin-right: 15px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.artist__page .artist__page__wrapper .artist__page__main .band__subheader .band__stats .band__stats__card:last-child {
+  margin-right: 0;
+}
+.artist__page .artist__page__wrapper .artist__page__main .band__subheader .band__stats .band__stats__card .stats__card__content {
+  margin-bottom: 1px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+.artist__page .artist__page__wrapper .artist__page__main .band__subheader .band__stats .band__stats__card .stats__card__content svg {
+  width: 32px;
+  height: 32px;
+  margin-right: 10px;
+}
+.artist__page .artist__page__wrapper .artist__page__main .band__subheader .band__stats .band__stats__card .stats__card__content p {
+  color: #fafaff;
+  font-size: 24px;
+}
+.artist__page .artist__page__wrapper .artist__page__main .band__subheader .band__stats .band__stats__card .stats__card__title {
+  font-size: 14px;
+}
+.artist__page .artist__page__wrapper .artist__page__main .band__popular__tracks {
+  display: flex;
+  flex-flow: column wrap;
+  margin-top: 80px;
+  font-size: 16px;
+}
+.artist__page .artist__page__wrapper .artist__page__main .band__popular__tracks .band__popular__tracks__header {
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #8080804d;
+}
+.artist__page .artist__page__wrapper .artist__page__main .band__popular__tracks .band__popular__tracks__header h2 {
+  font-size: 24px;
+}
+.artist__page .artist__page__wrapper .artist__page__main .band__popular__tracks .tracks__header {
+  height: 42px;
+  display: flex;
+  flex-flow: row wrap;
+  align-items: center;
+}
+.artist__page .artist__page__wrapper .artist__page__main .band__popular__tracks .tracks__header .tracks__header__title {
+  width: 45%;
+  margin-left: 70px;
+  text-transform: uppercase;
+}
+@media (max-width: 1200px) {
+  .artist__page .artist__page__wrapper .artist__page__main .band__popular__tracks .tracks__header .tracks__header__title {
+    width: auto;
+  }
+}
+.artist__page .artist__page__wrapper .artist__page__main .band__popular__tracks .tracks__header .tracks__header__length {
+  margin-right: 25px;
+  margin-left: auto;
+}
+.artist__page .artist__page__wrapper .artist__page__main .band__popular__tracks .tracks__header .tracks__header__length svg {
+  width: 20px;
+  height: 20px;
+}
+.artist__page .artist__page__wrapper .artist__page__main .band__popular__tracks .track {
+  height: 42px;
+  border-top: 1px solid #282828;
+  display: flex;
+  flex-flow: row wrap;
+  align-items: center;
+  cursor: pointer;
+  transition: background 0.3s ease-in;
+}
+.artist__page .artist__page__wrapper .artist__page__main .band__popular__tracks .track:hover {
+  background: #282828;
+}
+.artist__page .artist__page__wrapper .artist__page__main .band__popular__tracks .track:hover .track__play svg path {
+  stroke: #176087;
+  fill: #176087;
+}
+.artist__page .artist__page__wrapper .artist__page__main .band__popular__tracks .track:last-child {
+  border-bottom: 1px solid #282828;
+}
+.artist__page .artist__page__wrapper .artist__page__main .band__popular__tracks .track .track__play {
+  margin-left: 15px;
+}
+.artist__page .artist__page__wrapper .artist__page__main .band__popular__tracks .track .track__play svg {
+  width: 20px;
+  height: 20px;
+  vertical-align: middle;
+}
+.artist__page .artist__page__wrapper .artist__page__main .band__popular__tracks .track .track__play svg path {
+  transition: all 0.3s ease-in;
+  stroke: #b9b5b5;
+}
+.artist__page .artist__page__wrapper .artist__page__main .band__popular__tracks .track .track__title {
+  width: 45%;
+  margin-left: 30px;
+  color: #fafaff;
+  text-transform: capitalize;
+}
+@media (max-width: 1200px) {
+  .artist__page .artist__page__wrapper .artist__page__main .band__popular__tracks .track .track__title {
+    width: auto !important;
+  }
+}
+.artist__page .artist__page__wrapper .artist__page__main .band__popular__tracks .track .track__length {
+  margin-right: 25px;
+  margin-left: auto;
+}
+.artist__page .artist__page__wrapper .artist__page__main .band__discography {
+  margin-top: 80px;
+  padding-bottom: 40px;
+  border-bottom: 1px solid #8080804d;
+}
+.artist__page .artist__page__wrapper .artist__page__main .band__discography .band__discography__header {
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #8080804d;
+}
+.artist__page .artist__page__wrapper .artist__page__main .band__discography .band__discography__header h2 {
+  font-size: 24px;
+}
+.artist__page .artist__page__wrapper .artist__page__main .band__discography .albums__list {
+  display: grid;
+  grid-template-columns: minmax(250px, auto);
+  grid-gap: 20px;
+  width: 100%;
+}
+@media (min-width: 550px) {
+  .artist__page .artist__page__wrapper .artist__page__main .band__discography .albums__list {
+    grid-template-columns: repeat(2, minmax(250px, 1fr));
+  }
+}
+@media (min-width: 1100px) {
+  .artist__page .artist__page__wrapper .artist__page__main .band__discography .albums__list {
+    grid-template-columns: repeat(3, minmax(250px, 1fr));
+  }
+}
+@media (min-width: 1400px) {
+  .artist__page .artist__page__wrapper .artist__page__main .band__discography .albums__list {
+    grid-template-columns: repeat(4, minmax(250px, 1fr));
+  }
+}
+@media (min-width: 1600px) {
+  .artist__page .artist__page__wrapper .artist__page__main .band__discography .albums__list {
+    grid-template-columns: repeat(5, minmax(250px, 1fr));
+  }
+}
+.artist__page .artist__page__wrapper .artist__page__main .band__discography .albums__list .albums__list__item {
+  min-height: 300px;
+  border-radius: 12px;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.5s cubic-bezier(0.4, 0.2, 0.3, 1);
+}
+.artist__page .artist__page__wrapper .artist__page__main .band__discography .albums__list .albums__list__item:hover {
+  transform: scale3d(1.05, 1.05, 1.05);
+}
+.artist__page .artist__page__wrapper .artist__page__main .band__discography .albums__list .albums__list__item:hover img {
+  opacity: 0.5;
+}
+.artist__page .artist__page__wrapper .artist__page__main .band__discography .albums__list .albums__list__item:hover .albums__list__item__info {
+  transform: translateY(-215px);
+}
+.artist__page .artist__page__wrapper .artist__page__main .band__discography .albums__list .albums__list__item img {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 1;
+  transition: opacity 0.5s cubic-bezier(0.4, 0.2, 0.3, 1);
+}
+.artist__page .artist__page__wrapper .artist__page__main .band__discography .albums__list .albums__list__item .albums__list__item__info {
+  position: absolute;
+  bottom: -200px;
+  width: 100%;
+  padding: 5px 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  font-weight: 700;
+  color: #fafaff;
+  transition: all 0.5s cubic-bezier(0.4, 0.2, 0.3, 1);
+}
+.artist__page .artist__page__wrapper .artist__page__main .band__discography .albums__list .albums__list__item .albums__list__item__info .album__title {
+  font-size: 24px;
+  letter-spacing: 2px;
+}
+.artist__page .artist__page__wrapper .artist__page__main .band__discography .albums__list .albums__list__item .albums__list__item__info .album__year {
+  font-size: 16px;
+}
+.artist__page .artist__page__wrapper .artist__page__main .band__info__wrapper {
+  display: flex;
+  flex-direction: row;
+  margin-top: 40px;
+  padding-bottom: 80px;
+  border-bottom: 1px solid #8080804d;
+}
+.artist__page .artist__page__wrapper .artist__page__main .band__info__wrapper .band__info__img {
+  width: 750px !important;
+}
+.artist__page .artist__page__wrapper .artist__page__main .band__info__wrapper .band__info__img .band__info__img__wrapper {
+  position: relative;
+  width: 100%;
+  height: 70vh;
+}
+.artist__page .artist__page__wrapper .artist__page__main .band__info__wrapper .band__info__img .band__info__img__wrapper::after {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  content: "";
+  background: rgba(0, 0, 0, 0.3);
+}
+.artist__page .artist__page__wrapper .artist__page__main .band__info__wrapper .band__info__img .band__info__img__wrapper img {
+  width: 100%;
+  height: 70vh;
+  object-fit: cover;
+  object-position: 65% center;
+  border-radius: 12px;
+}
+.artist__page .artist__page__wrapper .artist__page__main .band__info__wrapper .band__info__img .band__info__img__wrapper svg {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 25%;
+  height: 100%;
+  z-index: 1;
+}
+.artist__page .artist__page__wrapper .artist__page__main .band__info__wrapper .band__info__img .band__info__img__wrapper svg path {
+  fill: #0e0e0e;
+}
+.artist__page .artist__page__wrapper .artist__page__main .band__info__wrapper .band__description__wrapper {
+  width: calc(100% - 750px);
+  position: relative;
+}
+.artist__page .artist__page__wrapper .artist__page__main .band__info__wrapper .band__description__wrapper .band__description {
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 2;
+  width: calc(100% + 120px);
+  padding: 20px 0;
+  text-align: end;
+  font-size: 18px;
+  white-space: pre-line;
+}
+
+.not__found__page {
+  width: 100%;
+  height: 100%;
+  padding: 40px 0;
+  background: #202020;
+  z-index: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.not__found__page .header h1 {
+  font-family: "Abril Fatface", serif;
+  font-size: 126px;
+  text-align: center;
+  text-shadow: -1px 0 #bfc0c0, 0 1px #bfc0c0, 1px 0 #bfc0c0, 0 -1px #bfc0c0;
+  color: #ededed;
+}
+.not__found__page .header h3 {
+  margin-top: -20px;
+  font-family: "Lato", sans-serif;
+  font-size: 28px;
+  font-weight: 900;
+  text-transform: uppercase;
+  text-align: center;
+  color: #bfc0c0;
+}
+.not__found__page .ghost__wrapper {
+  position: relative;
+  width: 250px;
+  height: 250px;
+}
+.not__found__page .ghost__wrapper .ghost {
+  position: absolute;
+  width: 50%;
+  height: 53%;
+  top: 10%;
+  left: 25%;
+  border-radius: 50% 50% 0 0;
+  border: 1px solid #bfc0c0;
+  border-bottom: none;
+  background: #ededed;
+  animation: float 2s ease-out infinite;
+}
+.not__found__page .ghost__wrapper .ghost .face {
+  position: absolute;
+  width: 100%;
+  height: 60%;
+  top: 20%;
+}
+.not__found__page .ghost__wrapper .ghost .eye-left,
+.not__found__page .ghost__wrapper .ghost .eye-right {
+  position: absolute;
+  width: 13px;
+  height: 13px;
+  top: 40%;
+  border-radius: 50%;
+  background: #585959;
+}
+.not__found__page .ghost__wrapper .ghost .eye-left {
+  left: 25%;
+}
+.not__found__page .ghost__wrapper .ghost .eye-right {
+  right: 25%;
+}
+.not__found__page .ghost__wrapper .ghost .mouth {
+  position: absolute;
+  top: 50%;
+  left: 45%;
+  width: 10px;
+  height: 10px;
+  border: 3px solid;
+  border-radius: 50%;
+  border-color: transparent #585959 #585959 transparent;
+  transform: rotate(45deg);
+}
+.not__found__page .ghost__wrapper .ghost__2 {
+  position: absolute;
+  width: 50%;
+  height: 55%;
+  top: 10%;
+  left: 25%;
+  border-radius: 50% 50% 0 0;
+  border: 1px solid #bfc0c0;
+  border-bottom: none;
+  animation: float 2s ease-out infinite;
+}
+.not__found__page .ghost__wrapper .ghost__2 .leg__one,
+.not__found__page .ghost__wrapper .ghost__2 .leg__two,
+.not__found__page .ghost__wrapper .ghost__2 .leg__three,
+.not__found__page .ghost__wrapper .ghost__2 .leg__four {
+  position: absolute;
+  top: 85%;
+  width: 25.25%;
+  height: 23%;
+  border: 1px solid #bfc0c0;
+  background: #ededed;
+}
+.not__found__page .ghost__wrapper .ghost__2 .leg__one {
+  left: -0.5%;
+  border-radius: 0 0 100% 30%;
+}
+.not__found__page .ghost__wrapper .ghost__2 .leg__two {
+  left: 24.75%;
+  border-radius: 0 0 50% 50%;
+}
+.not__found__page .ghost__wrapper .ghost__2 .leg__three {
+  left: 50%;
+  border-radius: 0 0 50% 50%;
+}
+.not__found__page .ghost__wrapper .ghost__2 .leg__four {
+  left: 75.25%;
+  border-radius: 0 0 30% 100%;
+}
+.not__found__page .ghost__wrapper .ghost__shadow {
+  position: absolute;
+  width: 30%;
+  height: 7%;
+  top: 80%;
+  left: 35%;
+  border-radius: 50%;
+  background: #bfc0c0;
+  animation: scale 2s infinite;
+}
+.not__found__page .button__wrapper {
+  width: 100%;
+  margin-top: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.not__found__page .button__wrapper .button {
+  width: 50%;
+  display: flex;
+  align-items: center;
+}
+.not__found__page .button__wrapper .button:first-child {
+  justify-content: flex-end;
+  margin-right: 8px;
+}
+.not__found__page .button__wrapper .button:last-child {
+  justify-content: flex-start;
+  margin-left: 8px;
+}
+.not__found__page .button__wrapper .button a {
+  padding: 8px 32px;
+  border-radius: 8px;
+  background: #bfc0c0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.3s ease-in;
+}
+.not__found__page .button__wrapper .button a:hover {
+  background: transparent;
+}
+.not__found__page .button__wrapper .button a:hover span {
+  color: #bfc0c0;
+}
+.not__found__page .button__wrapper .button a span {
+  font-size: 28px;
+  letter-spacing: 2.5px;
+  color: #202020;
+}
+
+@keyframes scale {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+@keyframes float {
+  50% {
+    transform: translateY(15px);
+  }
+}
+.artist__modal {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  z-index: 100;
+  z-index: -1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(17, 17, 18, 0.7);
+}
+.artist__modal .artist__modal__content {
+  position: absolute;
+  top: 100vh;
+  height: 90vh;
+  min-width: 75vw;
+  border-radius: 25px;
+  padding: 0 40px 0 80px;
+  overflow-y: scroll;
+  background: #19191a;
+  transition: all 0.5s cubic-bezier(0.4, 0.2, 0.3, 1);
+}
+.artist__modal .artist__modal__content.open {
+  transform: translateY(-95vh);
+}
+.artist__modal .artist__modal__content .artist__modal__content__close {
+  position: absolute;
+  top: 30px;
+  right: 30px;
+  z-index: 101;
+}
+.artist__modal .artist__modal__content .artist__modal__content__close svg {
+  width: 30px;
+  height: 30px;
+}
+.artist__modal .artist__modal__content .artist__modal__content__close svg path {
+  fill: #ff3660;
+}
+.artist__modal .artist__modal__content .artist__modal__content__area {
+  display: flex;
+  justify-content: center;
+}
+.artist__modal .artist__modal__content .artist__modal__content__area .artist__details {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 420px minmax(640px, auto);
+  grid-column-gap: 90px;
+  padding: 90px 0 65px;
+  color: #fafaff;
+}
+.artist__modal .artist__modal__content .artist__modal__content__area .artist__details .artist__details__img__wrapper {
+  display: flex;
+  flex-direction: column;
+}
+.artist__modal .artist__modal__content .artist__modal__content__area .artist__details .artist__details__img__wrapper .artist__details__img {
+  width: 420px;
+  height: 420px;
+}
+.artist__modal .artist__modal__content .artist__modal__content__area .artist__details .artist__details__img__wrapper .artist__details__img img {
+  width: 100%;
+  height: 100%;
+  border-radius: 12px;
+}
+.artist__modal .artist__modal__content .artist__modal__content__area .artist__details .artist__details__img__wrapper a {
+  width: 100%;
+  height: 60px;
+  border-radius: 12px;
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #176087;
+  font-size: 16px;
+}
+.artist__modal .artist__modal__content .artist__modal__content__area .artist__details .artist__details__info {
+  display: flex;
+  flex-direction: column;
+}
+.artist__modal .artist__modal__content .artist__modal__content__area .artist__details .artist__details__info .artist__details__info__name {
+  font-size: 80px;
+  line-height: 1;
+}
+.artist__modal .artist__modal__content .artist__modal__content__area .artist__details .artist__details__info .artist__details__info__genre {
+  margin: 20px 0 10px;
+}
+.artist__modal .artist__modal__content .artist__modal__content__area .artist__details .artist__details__info .artist__details__info__genre span {
+  display: inline-block;
+  margin: 0 15px 15px 0;
+  padding: 0 20px;
+  border-radius: 25px;
+  background: #424548;
+  line-height: 2.5;
+  letter-spacing: normal;
+  font-size: 16px;
+}
+.artist__modal .artist__modal__content .artist__modal__content__area .artist__details .artist__details__info .artist__details__info__stats {
+  display: flex;
+  margin-bottom: 25px;
+}
+.artist__modal .artist__modal__content .artist__modal__content__area .artist__details .artist__details__info .artist__details__info__stats .artist__details__info__stats__card {
+  display: inline-flex;
+  align-items: center;
+  margin-bottom: 15px;
+  padding: 20px 40px 20px 20px;
+  border-radius: 12px;
+  background: #2c2f30;
+}
+.artist__modal .artist__modal__content .artist__modal__content__area .artist__details .artist__details__info .artist__details__info__stats .artist__details__info__stats__card:first-child {
+  margin-right: 15px;
+}
+.artist__modal .artist__modal__content .artist__modal__content__area .artist__details .artist__details__info .artist__details__info__stats .artist__details__info__stats__card svg {
+  width: 34px;
+  height: 34px;
+}
+.artist__modal .artist__modal__content .artist__modal__content__area .artist__details .artist__details__info .artist__details__info__stats .artist__details__info__stats__card svg path {
+  fill: #fafaff;
+}
+.artist__modal .artist__modal__content .artist__modal__content__area .artist__details .artist__details__info .artist__details__info__stats .artist__details__info__stats__card .stats__card__data {
+  margin-left: 15px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+}
+.artist__modal .artist__modal__content .artist__modal__content__area .artist__details .artist__details__info .artist__details__info__stats .artist__details__info__stats__card .stats__card__data .stats__card__title {
+  color: #b9b5b5;
+}
+.artist__modal .artist__modal__content .artist__modal__content__area .artist__details .artist__details__info .artist__details__info__stats .artist__details__info__stats__card .stats__card__data .stats__card__content {
+  font-size: 16px;
+  font-weight: 700;
+}
+.artist__modal .artist__modal__content .artist__modal__content__area .artist__details .artist__details__info .artist__details__top__tracks {
+  margin-bottom: 20px;
+}
+.artist__modal .artist__modal__content .artist__modal__content__area .artist__details .artist__details__info .artist__details__top__tracks .top__tracks__list {
+  display: grid;
+  grid-template-columns: repeat(3, 200px);
+  grid-column-gap: 15px;
+}
+.artist__modal .artist__modal__content .artist__modal__content__area .artist__details .artist__details__info .artist__details__top__tracks .top__tracks__list .top__tracks__item {
+  width: 200px;
+  height: 280px;
+}
+.artist__modal .artist__modal__content .artist__modal__content__area .artist__details .artist__details__info .artist__details__top__tracks .top__tracks__list .top__tracks__item .top__tracks__item__img {
+  width: 200px;
+  height: 200px;
+}
+.artist__modal .artist__modal__content .artist__modal__content__area .artist__details .artist__details__info .artist__details__top__tracks .top__tracks__list .top__tracks__item .top__tracks__item__img img {
+  border-radius: 12px 12px 0 0;
+}
+.artist__modal .artist__modal__content .artist__modal__content__area .artist__details .artist__details__info .artist__details__top__tracks .top__tracks__list .top__tracks__item .top__tracks__item__info {
+  padding: 12px 20px 15px;
+  border-radius: 0 0 12px 12px;
+  background: #252527;
+}
+.artist__modal .artist__modal__content .artist__modal__content__area .artist__details .artist__details__info .artist__details__top__tracks .top__tracks__list .top__tracks__item .top__tracks__item__info span {
+  font-size: 16px;
+}
+
+.album__modal {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  z-index: -1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(17, 17, 18, 0.7);
+}
+.album__modal .album__modal__content {
+  position: absolute;
+  top: 100vh;
+  height: 90vh;
+  min-width: 75vw;
+  border-radius: 25px;
+  padding: 0 80px;
+  overflow-y: scroll;
+  background: #19191a;
+  transition: all 0.5s cubic-bezier(0.4, 0.2, 0.3, 1);
+}
+.album__modal .album__modal__content.open {
+  transform: translateY(-95vh);
+}
+.album__modal .album__modal__content .album__modal__content__area {
+  display: flex;
+  flex-direction: column;
+  padding: 60px 0 90px;
+}
+.album__modal .album__modal__content .album__modal__content__area .album__info {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+}
+.album__modal .album__modal__content .album__modal__content__area .album__info .album__info__img {
+  width: 380px;
+  height: 380px;
+}
+@media (min-width: 960px) {
+  .album__modal .album__modal__content .album__modal__content__area .album__info .album__info__img {
+    width: 420px;
+    height: 420px;
+  }
+}
+.album__modal .album__modal__content .album__modal__content__area .album__info .album__info__img img {
+  width: 100%;
+  height: 100%;
+  border-radius: 12px;
+}
+.album__modal .album__modal__content .album__modal__content__area .album__info .album__info__data {
+  width: calc(100% - 480px);
+  margin-left: 60px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+  font-size: 16px;
+  color: #fafaff;
+}
+.album__modal .album__modal__content .album__modal__content__area .album__info .album__info__data .album__info__data__wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+.album__modal .album__modal__content .album__modal__content__area .album__info .album__info__data .album__info__data__wrapper .album__name {
+  font-size: 60px;
+  line-height: 1;
+  margin-bottom: 40px;
+}
+.album__modal .album__modal__content .album__modal__content__area .album__info .album__info__data .album__info__data__wrapper .album__year,
+.album__modal .album__modal__content .album__modal__content__area .album__info .album__info__data .album__info__data__wrapper .album__producers,
+.album__modal .album__modal__content .album__modal__content__area .album__info .album__info__data .album__info__data__wrapper .album__studio {
+  font-size: 18px;
+  margin-bottom: 8px;
+}
+.album__modal .album__modal__content .album__modal__content__area .album__info .album__info__data .album__duration {
+  align-self: flex-end;
+  display: flex;
+  align-items: center;
+}
+.album__modal .album__modal__content .album__modal__content__area .album__info .album__info__data .album__duration svg {
+  width: 4px;
+  height: 4px;
+  margin: 0 12px;
+}
+.album__modal .album__modal__content .album__modal__content__area .album__tracks {
+  margin-top: 50px;
+  display: flex;
+  flex-direction: column;
+}
+.album__modal .album__modal__content .album__modal__content__area .album__tracks .album__tracks__header {
+  height: 42px;
+  display: flex;
+  flex-flow: row wrap;
+  align-items: center;
+}
+.album__modal .album__modal__content .album__modal__content__area .album__tracks .album__tracks__header .tracks__header__number {
+  margin-left: 15px;
+  width: 20px;
+  font-style: italic;
+  text-align: end;
+}
+.album__modal .album__modal__content .album__modal__content__area .album__tracks .album__tracks__header .tracks__header__title {
+  margin-left: 70px;
+  text-transform: uppercase;
+}
+.album__modal .album__modal__content .album__modal__content__area .album__tracks .album__tracks__header .tracks__header__length {
+  margin-right: 20px;
+  margin-left: auto;
+}
+.album__modal .album__modal__content .album__modal__content__area .album__tracks .album__tracks__header .tracks__header__length svg {
+  width: 16px;
+  height: 16px;
+}
+.album__modal .album__modal__content .album__modal__content__area .album__tracks .tracks {
+  display: flex;
+  flex-flow: column wrap;
+}
+.album__modal .album__modal__content .album__modal__content__area .album__tracks .tracks .track {
+  height: 42px;
+  border-top: 1px solid #282828;
+  display: flex;
+  flex-flow: row wrap;
+  align-items: center;
+  cursor: pointer;
+  transition: background 0.3s ease-in;
+}
+.album__modal .album__modal__content .album__modal__content__area .album__tracks .tracks .track:hover {
+  background: #282828;
+}
+.album__modal .album__modal__content .album__modal__content__area .album__tracks .tracks .track:last-child {
+  border-bottom: 1px solid #282828;
+}
+.album__modal .album__modal__content .album__modal__content__area .album__tracks .tracks .track .track__number {
+  margin-left: 15px;
+  width: 20px;
+  text-align: end;
+}
+.album__modal .album__modal__content .album__modal__content__area .album__tracks .tracks .track .track__title {
+  margin-left: 60px;
+  color: #fafaff;
+}
+.album__modal .album__modal__content .album__modal__content__area .album__tracks .tracks .track .track__length {
+  margin-right: 15px;
+  margin-left: auto;
+}
+
+* {
+  box-sizing: border-box;
+  outline: none;
+  user-select: none;
+  margin: 0;
+  padding: 0;
+  border: none;
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  scroll-behavior: smooth;
+  font-family: "Montserrat", sans-serif;
+  line-height: 1.4;
+  letter-spacing: 1px;
+  font-size: 14px;
+  font-weight: 400;
+  text-transform: capitalize;
+  color: #b9b5b5;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  border: 0;
+}
+
+ul {
+  list-style-type: none;
+}
+
+h1,
+h2,
+h3 {
+  letter-spacing: 1.2px;
+  font-size: 16px;
+  color: #fafaff;
+  font-weight: 400;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+  background-color: transparent;
+}
+
+button,
+input,
+select,
+textarea {
+  font-family: inherit;
+  font-weight: inherit;
+  font-size: inherit;
+  line-height: inherit;
+  letter-spacing: inherit;
+  color: inherit;
+  cursor: text;
+}
+
+button {
+  background: none;
+  border: none;
+  overflow: visible;
+  cursor: pointer;
+}
+
+p {
+  margin-block: 0;
+  margin-inline: 0;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  background: #0e0e0e;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 4px;
+  background: #282828;
+}
+
+/*# sourceMappingURL=style.css.map */

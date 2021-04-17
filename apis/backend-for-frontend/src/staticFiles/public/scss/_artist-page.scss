@@ -1,0 +1,599 @@
+.artist__page {
+  .artist__page__wrapper {
+    & {
+      box-sizing: border-box;
+      min-height: 100vh;
+      padding-bottom: 100px;
+      display: grid;
+      grid-template-columns: 100%;
+      grid-template-areas: 'main';
+      background: $color-background-main;
+    }
+
+    @media (min-width: $breakpoint-tablet) {
+      grid-template-columns: 200px auto;
+      grid-template-areas: 'sidebar main';
+    }
+
+    @media (min-width: $breakpoint-desktop) {
+      grid-template-columns: 250px auto;
+      grid-template-areas: 'sidebar main';
+    }
+
+    .sidebar {
+      background: transparent;
+    }
+
+    .artist__page__full__img {
+      & {
+        position: absolute;
+        width: 100%;
+        height: 40vh;
+        box-shadow: 0 200px 200px 1px rgb(25 68 91 / 30%);
+      }
+
+      .artist__page__full__img__wrapper {
+        & {
+          position: relative;
+          width: 100%;
+          height: 40vh;
+        }
+
+        &::after {
+          position: absolute;
+          width: 100%;
+          height: 100%;
+          top: 0;
+          left: 0;
+          content: '';
+          background: linear-gradient(0deg, rgba(0, 0, 0, 0.6), rgba(0, 212, 255, 0));
+        }
+
+        img {
+          width: 100%;
+          height: 40vh;
+          object-fit: cover;
+          object-position: 0 -60px;
+        }
+      }
+    }
+
+    .artist__page__main {
+      & {
+        grid-area: main;
+        padding: 0 20px 60px 20px;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .band__header {
+        & {
+          z-index: $z-index-main-1;
+          height: 40vh;
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+          padding-top: 10px;
+        }
+
+        .band__header__favorite {
+          & {
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-end;
+            align-items: center;
+            font-size: $font-size-small-2;
+          }
+
+          .favorite,
+          .follow {
+            & {
+              padding: 10px 15px;
+              border-radius: 25px;
+              display: flex;
+              flex-direction: row;
+              align-items: center;
+              background: rgba(0, 0, 0, 0.5);
+              cursor: pointer;
+              transition: all $transition-duration $transition-timing-function;
+            }
+
+            svg {
+              & {
+                width: 16px;
+                height: 16px;
+                margin-right: 10px;
+              }
+
+              path {
+                fill: $color-text-main;
+              }
+            }
+
+            &:hover {
+              svg path {
+                fill: $color-text-highlight;
+              }
+
+              span {
+                color: $color-text-highlight;
+              }
+            }
+          }
+
+          .favorite {
+            margin-right: 20px;
+          }
+        }
+
+        .band__header__name__wrapper {
+          & {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+          }
+
+          .band__header__name {
+            & {
+              align-self: flex-end;
+              font-family: $font-omnia;
+              font-size: 10vh;
+              color: $color-text-highlight;
+              line-height: normal;
+            }
+
+            p {
+              display: inline;
+              text-shadow: 1px 1px 20px black;
+            }
+          }
+
+          .band__see__more {
+            & {
+              align-self: flex-start;
+              display: flex;
+              flex-direction: column;
+              overflow: hidden;
+            }
+
+            a {
+              & {
+                display: flex;
+                flex-direction: row;
+                justify-content: flex-end;
+                align-items: center;
+                margin-bottom: 8px;
+                transform: translateX(+80px);
+                transition: all $transition-duration $transition-timing-function;
+              }
+
+              &:hover {
+                transform: translateX(0);
+
+                svg path {
+                  fill: $color-text-highlight;
+                }
+
+                span {
+                  color: $color-text-highlight;
+                }
+              }
+
+              svg {
+                & {
+                  width: 24px;
+                  height: 24px;
+                }
+
+                path {
+                  fill: $color-text-main;
+                }
+              }
+
+              span {
+                width: 80px;
+                margin-left: 5px;
+              }
+            }
+          }
+        }
+      }
+
+      .band__subheader {
+        & {
+          margin-top: 40px;
+          display: flex;
+          flex-direction: row;
+          justify-content: space-between;
+          align-items: center;
+        }
+
+        .band__actions {
+          & {
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-start;
+          }
+
+          .band__actions__play,
+          .band__actions__mix {
+            & {
+              background: $color-background-active;
+              border-radius: 25px;
+              height: 48px;
+              padding: 5px 30px;
+              margin-right: 20px;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              color: $color-text-highlight;
+              font-size: $font-size-small-2;
+              text-transform: uppercase;
+              border: 1px solid $color-border-active;
+            }
+
+            &:hover {
+              border: 1px solid $color-border-white;
+            }
+
+            svg {
+              width: 25px;
+              height: 25px;
+              margin-right: 15px;
+              font-size: $font-size-medium-1;
+              fill: $color-text-highlight;
+            }
+          }
+        }
+
+        .band__stats {
+          & {
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-end;
+          }
+
+          .band__stats__card {
+            & {
+              padding: 0 15px;
+              margin-right: 15px;
+              display: flex;
+              flex-direction: column;
+              justify-content: center;
+              align-items: center;
+            }
+
+            &:last-child {
+              margin-right: 0;
+            }
+
+            .stats__card__content {
+              & {
+                margin-bottom: 1px;
+                display: flex;
+                flex-direction: row;
+                justify-content: center;
+                align-items: center;
+              }
+
+              svg {
+                width: 32px;
+                height: 32px;
+                margin-right: 10px;
+              }
+
+              p {
+                color: $color-text-highlight;
+                font-size: $font-size-medium-2;
+              }
+            }
+
+            .stats__card__title {
+              font-size: $font-size-small-1;
+            }
+          }
+        }
+      }
+
+      .band__popular__tracks {
+        & {
+          display: flex;
+          flex-flow: column wrap;
+          margin-top: 80px;
+          font-size: $font-size-small-2;
+        }
+
+        .band__popular__tracks__header {
+          & {
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid $color-border-main;
+          }
+
+          h2 {
+            font-size: $font-size-medium-2;
+          }
+        }
+
+        .tracks__header {
+          & {
+            height: 42px;
+            display: flex;
+            flex-flow: row wrap;
+            align-items: center;
+          }
+
+          .tracks__header__title {
+            & {
+              width: 45%;
+              margin-left: 70px;
+              text-transform: uppercase;
+            }
+
+            @media (max-width: 1200px) {
+              width: auto;
+            }
+          }
+
+          .tracks__header__length {
+            & {
+              margin-right: 25px;
+              margin-left: auto;
+            }
+
+            svg {
+              width: 20px;
+              height: 20px;
+            }
+          }
+        }
+
+        .track {
+          & {
+            height: 42px;
+            border-top: 1px solid $color-border-table;
+            display: flex;
+            flex-flow: row wrap;
+            align-items: center;
+            cursor: pointer;
+            transition: background $transition-duration $transition-timing-function;
+          }
+
+          &:hover {
+            background: $color-background-table;
+
+            .track__play svg path {
+              stroke: $color-border-active;
+              fill: $color-background-active;
+            }
+          }
+
+          &:last-child {
+            border-bottom: 1px solid $color-border-table;
+          }
+
+          .track__play {
+            & {
+              margin-left: 15px;
+            }
+
+            svg {
+              & {
+                width: 20px;
+                height: 20px;
+                vertical-align: middle;
+              }
+
+              path {
+                transition: all $transition-duration $transition-timing-function;
+                stroke: $color-text-main;
+              }
+            }
+          }
+
+          .track__title {
+            & {
+              width: 45%;
+              margin-left: 30px;
+              color: $color-text-highlight;
+              text-transform: capitalize;
+            }
+
+            @media (max-width: 1200px) {
+              width: auto !important;
+            }
+          }
+
+          .track__length {
+            margin-right: 25px;
+            margin-left: auto;
+          }
+        }
+      }
+
+      .band__discography {
+        & {
+          margin-top: 80px;
+          padding-bottom: 40px;
+          border-bottom: 1px solid $color-border-main;
+        }
+
+        .band__discography__header {
+          & {
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid $color-border-main;
+          }
+
+          h2 {
+            font-size: $font-size-medium-2;
+          }
+        }
+
+        .albums__list {
+          & {
+            display: grid;
+            grid-template-columns: minmax(250px, auto);
+            grid-gap: 20px;
+            width: 100%;
+          }
+
+          @media (min-width: 550px) {
+            grid-template-columns: repeat(2, minmax(250px, 1fr));
+          }
+
+          @media (min-width: 1100px) {
+            grid-template-columns: repeat(3, minmax(250px, 1fr));
+          }
+
+          @media (min-width: 1400px) {
+            grid-template-columns: repeat(4, minmax(250px, 1fr));
+          }
+
+          @media (min-width: 1600px) {
+            grid-template-columns: repeat(5, minmax(250px, 1fr));
+          }
+
+          .albums__list__item {
+            & {
+              min-height: 300px;
+              border-radius: 12px;
+              position: relative;
+              overflow: hidden;
+              cursor: pointer;
+              transition: transform $transition-duration-long $transition-smooth;
+            }
+
+            &:hover {
+              & {
+                transform: scale3d(1.05, 1.05, 1.05);
+              }
+
+              img {
+                opacity: 0.5;
+              }
+
+              .albums__list__item__info {
+                transform: translateY(-215px);
+              }
+            }
+
+            img {
+              position: absolute;
+              top: 0;
+              right: 0;
+              left: 0;
+              bottom: 0;
+              width: 100%;
+              height: 100%;
+              object-fit: cover;
+              opacity: 1;
+              transition: opacity $transition-duration-long $transition-smooth;
+            }
+
+            .albums__list__item__info {
+              & {
+                position: absolute;
+                bottom: -200px;
+                width: 100%;
+                padding: 5px 10px;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: flex-start;
+                font-weight: 700;
+                color: $color-text-highlight;
+                transition: all $transition-duration-long $transition-smooth;
+              }
+
+              .album__title {
+                font-size: $font-size-medium-2;
+                letter-spacing: 2px;
+              }
+
+              .album__year {
+                font-size: $font-size-small-2;
+              }
+            }
+          }
+        }
+      }
+
+      .band__info__wrapper {
+        & {
+          display: flex;
+          flex-direction: row;
+          margin-top: 40px;
+          padding-bottom: 80px;
+          border-bottom: 1px solid $color-border-main;
+        }
+
+        .band__info__img {
+          & {
+            width: 750px !important;
+          }
+
+          .band__info__img__wrapper {
+            & {
+              position: relative;
+              width: 100%;
+              height: 70vh;
+            }
+
+            &::after {
+              position: absolute;
+              width: 100%;
+              height: 100%;
+              top: 0;
+              left: 0;
+              content: '';
+              background: rgba(0, 0, 0, 0.3);
+            }
+
+            img {
+              width: 100%;
+              height: 70vh;
+              object-fit: cover;
+              object-position: 65% center;
+              border-radius: 12px;
+            }
+
+            svg {
+              & {
+                position: absolute;
+                top: 0;
+                right: 0;
+                width: 25%;
+                height: 100%;
+                z-index: $z-index-main-1;
+              }
+
+              path {
+                fill: $color-background-main;
+              }
+            }
+          }
+        }
+
+        .band__description__wrapper {
+          & {
+            width: calc(100% - 750px);
+            position: relative;
+          }
+
+          .band__description {
+            position: absolute;
+            top: 0;
+            right: 0;
+            z-index: $z-index-main-2;
+            width: calc(100% + 120px);
+            padding: 20px 0;
+            text-align: end;
+            font-size: 18px;
+            white-space: pre-line;
+          }
+        }
+      }
+    }
+  }
+}

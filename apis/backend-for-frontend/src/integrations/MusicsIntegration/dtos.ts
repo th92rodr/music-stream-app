@@ -27,13 +27,17 @@ export interface DeleteMusic {
   id: string;
 }
 
+export interface ViewMusic {
+  id: string;
+}
+
 export interface GetAlbum {
   id: string;
 }
 
 export interface CreateAlbum {
   name: string;
-  year: Date;
+  releaseDate: Date;
   cover: string;
   studio: string;
   producers: Array<string>;
@@ -43,7 +47,7 @@ export interface CreateAlbum {
 export interface UpdateAlbum {
   id: string;
   name?: string;
-  year?: Date;
+  releaseDate?: Date;
   cover?: string;
   studio?: string;
   producers?: Array<string>;
@@ -64,19 +68,49 @@ export interface GetArtistByGenre {
 
 export interface CreateArtist {
   name: string;
+  country: string;
+  foundationDate: Date;
+  members: Array<string>;
   description: string;
   genre: Genre;
   photos: Array<string>;
+  facebookUrl: string;
+  twitterUrl: string;
+  instagramUrl: string;
+  wikipediaUrl: string;
 }
 
 export interface UpdateArtist {
   id: string;
   name?: string;
+  country?: string;
+  foundationDate?: Date;
+  members?: Array<string>;
   description?: string;
   genre?: Genre;
   photos?: Array<string>;
+  facebookUrl?: string;
+  twitterUrl?: string;
+  instagramUrl?: string;
+  wikipediaUrl?: string;
 }
 
 export interface DeleteArtist {
+  id: string;
+}
+
+export interface FavoriteArtist {
+  id: string;
+}
+
+export interface UnfavoriteArtist {
+  id: string;
+}
+
+export interface FollowArtist {
+  id: string;
+}
+
+export interface UnfollowArtist {
   id: string;
 }

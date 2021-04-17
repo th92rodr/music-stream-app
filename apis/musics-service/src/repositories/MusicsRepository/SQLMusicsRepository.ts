@@ -44,17 +44,17 @@ export default class SQLMusicsRepository implements IMusicsRepository {
     return translateMusicsList(musics);
   }
 
-  public async store({ id, title, durationInSeconds, file, composers, lyrics, albumId }: Music): Promise<void> {
+  public async store({ id, title, durationInSeconds, file, composers, lyrics, albumId, views }: Music): Promise<void> {
     // prettier-ignore
     await this.databaseConnection<Music>(MusicsTable)
-      .insert({ id, title, durationInSeconds, file, composers, lyrics, albumId });
+      .insert({ id, title, durationInSeconds, file, composers, lyrics, albumId, views });
   }
 
-  public async update({ id, title, durationInSeconds, file, composers, lyrics, albumId }: Music): Promise<void> {
+  public async update({ id, title, durationInSeconds, file, composers, lyrics, albumId, views }: Music): Promise<void> {
     // prettier-ignore
     await this.databaseConnection<Music>(MusicsTable)
       .where({ id })
-      .update({ title, durationInSeconds, file, composers, lyrics, albumId })
+      .update({ title, durationInSeconds, file, composers, lyrics, albumId, views })
       .first();
   }
 

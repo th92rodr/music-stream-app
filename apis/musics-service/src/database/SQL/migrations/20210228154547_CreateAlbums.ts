@@ -6,7 +6,7 @@ export async function up(knex: Knex): Promise<void> {
   return knex.schema.createTable(AlbumsTable, table => {
     table.string('id').primary();
     table.string('name').notNullable();
-    table.date('year').notNullable();
+    table.date('releaseDate').notNullable();
     table.string('cover').notNullable();
     table.string('studio');
     table.specificType('producers', 'text[]');

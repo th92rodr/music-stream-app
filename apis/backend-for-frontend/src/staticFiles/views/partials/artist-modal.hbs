@@ -1,0 +1,120 @@
+<section class="artist__modal">
+  <div class="artist__modal__content open">
+
+    {{!-- <span class="artist__modal__content__close">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 30">
+        <path fill="#FF3660" fill-rule="evenodd"
+          d="M20.711 7.168a1.5 1.5 0 012.12 2.12L17.121 15l5.71 5.711a1.5 1.5 0 01-2.12 2.12L15 17.122l-5.711 5.71a1.5 1.5 0 01-2.12-2.12l5.71-5.71-5.71-5.712a1.499 1.499 0 112.12-2.12L15 12.879l5.711-5.71z" />
+      </svg>
+    </span> --}}
+
+    <div class="artist__modal__content__area">
+      <div class="artist__details">
+        <div class="artist__details__img__wrapper">
+          <div class="artist__details__img">
+            <img src="/web/files/?file=amon-amarth/artist_profile_amon-amarth.jpg" alt="" loading="lazy" />
+          </div>
+          <a href="#">Go to Artist Page</a>
+        </div>
+
+        <div class="artist__details__info">
+          <div class="artist__details__info__name">
+            <span>Amon Amarth</span>
+          </div>
+
+          <div class="artist__details__info__genre">
+            <span>death metal</span>
+            <span>melodic death metal</span>
+            <span>swedish metal</span>
+          </div>
+
+          <div class="artist__details__info__stats">
+            <div class="artist__details__info__stats__card">
+              <span>
+                {{> icon-heart}}
+              </span>
+              <div class="stats__card__data">
+                <span class="stats__card__title">Popularity</span>
+                <p class="stats__card__content">Well Know</p>
+              </div>
+            </div>
+            <div class="artist__details__info__stats__card">
+              <span>
+                {{> icon-foot-steps}}
+              </span>
+              <div class="stats__card__data">
+                <span class="stats__card__title">Followers</span>
+                <p class="stats__card__content">1.100</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="artist__details__top__tracks">
+            <div class="top__tracks__list">
+              <div class="top__tracks__item">
+                <div class="top__tracks__item__img">
+                  <img src="/web/files/?file=amon-amarth/album_cover_twilight-of-the-thunder-god.jpg" alt=""
+                    loading="lazy" />
+                </div>
+                <div class="top__tracks__item__info">
+                  <span>1. Twilight Of The Thunder God</span>
+                </div>
+              </div>
+              <div class="top__tracks__item">
+                <div class="top__tracks__item__img">
+                  <img src="/web/files/?file=amon-amarth/album_cover_twilight-of-the-thunder-god.jpg" alt=""
+                    loading="lazy" />
+                </div>
+                <div class="top__tracks__item__info">
+                  <span>2. Guardians Of Asgaard</span>
+                </div>
+              </div>
+              <div class="top__tracks__item">
+                <div class="top__tracks__item__img">
+                  <img src="/web/files/?file=amon-amarth/album_cover_twilight-of-the-thunder-god.jpg" alt=""
+                    loading="lazy" />
+                </div>
+                <div class="top__tracks__item__info">
+                  <span>1. Twilight Of The Thunder God</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="artist__details__info__stats">
+            <div class="artist__details__info__stats__card">
+              <span>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 30" height="34" width="34">
+                  <path fill="#FFFFFF" fill-rule="evenodd"
+                    d="M15 1C7.3 1 1 7.3 1 15s6.3 14 14 14 14-6.3 14-14S22.7 1 15 1zm0 20.6c-3.63 0-6.6-2.97-6.6-6.6 0-3.63 2.97-6.6 6.6-6.6 3.63 0 6.6 2.97 6.6 6.6 0 3.63-2.97 6.6-6.6 6.6zM12.2 15c0 1.54 1.26 2.8 2.8 2.8 1.54 0 2.8-1.26 2.8-2.8 0-1.54-1.26-2.8-2.8-2.8-1.54 0-2.8 1.26-2.8 2.8z">
+                  </path>
+                </svg>
+              </span>
+              <div class="stats__card__data">
+                <span class="stats__card__title">Discography</span>
+                <p class="stats__card__content">20 Albums, 13 Singles</p>
+              </div>
+            </div>
+            <div class="artist__details__info__stats__card">
+              <span>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 34 34" height="34" width="34">
+                  <g opacity="1">
+                    <g opacity="1">
+                      <path opacity="1" fill="#FFFFFF" fill-opacity="1" fill-rule="evenodd"
+                        d="M12.588845252990723,8.251387596130371 L16.454763412475586,4.736045837402344 C16.75201416015625,4.465766906738281 17.233932495117188,4.465766906738281 17.531169891357422,4.736032009124756 L25.277196884155273,11.781030654907227 C25.574316024780273,12.051313400268555 25.574260711669922,12.489412307739258 25.27707290649414,12.759634017944336 L22.52031707763672,15.266456604003906 C22.223079681396484,15.536722183227539 21.74116325378418,15.536722183227539 21.443925857543945,15.266456604003906 L17.529376983642578,11.706954002380371 C17.232086181640625,11.436737060546875 16.750171661376953,11.43681526184082 16.452987670898438,11.707128524780273 L12.556102752685547,15.252012252807617 C12.258865356445312,15.522275924682617 11.776948928833008,15.522275924682617 11.479711532592773,15.252012252807617 L8.722928047180176,12.74521255493164 C8.425690650939941,12.47494888305664 8.425690650939941,12.036762237548828 8.722928047180176,11.766498565673828 L12.588845252990723,8.251387596130371 L12.588845252990723,22.248897552490234 L16.454763412475586,18.733556747436523 C16.75201416015625,18.46327781677246 17.233932495117188,18.46327781677246 17.531169891357422,18.73354148864746 L25.277196884155273,25.778541564941406 C25.574316024780273,26.048824310302734 25.574260711669922,26.486923217773438 25.27707290649414,26.757144927978516 L22.52031707763672,29.263967514038086 C22.223079681396484,29.53423309326172 21.74116325378418,29.53423309326172 21.443925857543945,29.263967514038086 L17.529376983642578,25.704463958740234 C17.232086181640625,25.434247970581055 16.750171661376953,25.434326171875 16.452987670898438,25.704639434814453 L12.556102752685547,29.249523162841797 C12.258865356445312,29.519786834716797 11.776948928833008,29.519786834716797 11.479711532592773,29.249523162841797 L8.722928047180176,26.74272346496582 C8.425690650939941,26.472457885742188 8.425690650939941,26.034273147583008 8.722928047180176,25.764007568359375 L12.588845252990723,22.248897552490234 L12.588845252990723,8.251387596130371Z">
+                      </path>
+                    </g>
+                  </g>
+                </svg>
+              </span>
+              <div class="stats__card__data">
+                <span class="stats__card__title">Latest Release</span>
+                <p class="stats__card__content">May 2019</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

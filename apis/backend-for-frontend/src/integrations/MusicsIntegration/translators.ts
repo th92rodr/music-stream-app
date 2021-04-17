@@ -3,6 +3,7 @@ import { Genre as GenreEnum } from '@constants/index';
 import AlbumEntity from '@entities/Album';
 import ArtistEntity from '@entities/Artist';
 import MusicEntity from '@entities/Music';
+import { timestampToDate } from '@utils/index';
 
 export function translateMusicEntity(music: Music): MusicEntity {
   return new MusicEntity({
@@ -13,6 +14,7 @@ export function translateMusicEntity(music: Music): MusicEntity {
     composers: music.getComposersList(),
     lyrics: music.getLyrics(),
     albumId: music.getAlbumid(),
+    views: music.getViews(),
   });
 }
 
@@ -21,19 +23,16 @@ export function translateMusicEntityList(musicsList: MusicsList): Array<MusicEnt
 }
 
 export function translateAlbumEntity(album: Album): AlbumEntity {
-  const newAlbum = new AlbumEntity({
+  return new AlbumEntity({
     id: album.getId(),
     name: album.getName(),
-    year: new Date(album.getYear()),
+    releaseDate: timestampToDate(album.getReleasedate()),
     cover: album.getCover(),
     studio: album.getStudio(),
     producers: album.getProducersList(),
     artistId: album.getArtistid(),
+    tracks: album.getTracksList().map(track => translateMusicEntity(track)),
   });
-
-  newAlbum.setTracks(album.getTracksList().map(track => translateMusicEntity(track)));
-
-  return newAlbum;
 }
 
 export function translateAlbumEntityList(albumsList: AlbumsList): Array<AlbumEntity> {
@@ -41,17 +40,24 @@ export function translateAlbumEntityList(albumsList: AlbumsList): Array<AlbumEnt
 }
 
 export function translateArtistEntity(artist: Artist): ArtistEntity {
-  const newArtist = new ArtistEntity({
+  return new ArtistEntity({
     id: artist.getId(),
     name: artist.getName(),
+    country: artist.getCountry(),
+    foundationDate: timestampToDate(artist.getFoundationdate()),
+    members: artist.getMembersList(),
     description: artist.getDescription(),
     genre: translateGenre(artist.getGenre()),
     photos: artist.getPhotosList(),
+    facebookUrl: artist.getFacebookurl(),
+    twitterUrl: artist.getTwitterurl(),
+    instagramUrl: artist.getInstagramurl(),
+    wikipediaUrl: artist.getWikipediaurl(),
+    favorites: artist.getFavorites(),
+    followers: artist.getFollowers(),
+    albums: artist.getAlbumsList().map(album => translateAlbumEntity(album)),
+    popularTracks: artist.getPopulartracksList().map(track => translateMusicEntity(track)),
   });
-
-  newArtist.setAlbums(artist.getAlbumsList().map(album => translateAlbumEntity(album)));
-
-  return newArtist;
 }
 
 export function translateArtistEntityList(artistsList: ArtistsList): Array<ArtistEntity> {

@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 
+import { translateArtist, translateArtists } from './translators';
 import { HttpStatusCode } from '@constants/index';
 import BaseError from '@constants/BaseError';
 import { InternalError } from '@constants/errors';
@@ -12,7 +13,22 @@ export default class ArtistsController {
     this.musicsIntegration = musicsIntegration;
   }
 
-  public async index(request: Request, response: Response) {}
+  public async index(request: Request, response: Response) {
+    try {
+      const artists = await this.musicsIntegration.getArtists();
+
+      return response.status(HttpStatusCode.OK).json(translateArtists(artists));
+
+      //
+    } catch (error) {
+      if (error instanceof BaseError) {
+        return response.status(error.statusCode).json({ error: error.message });
+      }
+
+      const internalError = new InternalError();
+      return response.status(internalError.statusCode).json({ error: internalError.message });
+    }
+  }
 
   public async show(request: Request, response: Response) {
     const { id } = request.params;
@@ -20,7 +36,7 @@ export default class ArtistsController {
     try {
       const artist = await this.musicsIntegration.getArtist({ id });
 
-      return response.status(HttpStatusCode.OK).json(artist);
+      return response.status(HttpStatusCode.OK).json(translateArtist(artist));
 
       //
     } catch (error) {
@@ -34,12 +50,12 @@ export default class ArtistsController {
   }
 
   public async create(request: Request, response: Response) {
-    const { name, description, genre, photos } = request.body;
+    const { name, country, foundationDate, members, description, genre, photos, facebookUrl, twitterUrl, instagramUrl, wikipediaUrl } = request.body;
 
     try {
-      const artist = await this.musicsIntegration.createArtist({ name, description, genre, photos });
+      const artist = await this.musicsIntegration.createArtist({ name, country, foundationDate, members, description, genre, photos, facebookUrl, twitterUrl, instagramUrl, wikipediaUrl });
 
-      return response.status(HttpStatusCode.CREATED).json(artist);
+      return response.status(HttpStatusCode.CREATED).json(translateArtist(artist));
 
       //
     } catch (error) {
@@ -54,12 +70,12 @@ export default class ArtistsController {
 
   public async update(request: Request, response: Response) {
     const { id } = request.params;
-    const { name, description, genre, photos } = request.body;
+    const { name, country, foundationDate, members, description, genre, photos, facebookUrl, twitterUrl, instagramUrl, wikipediaUrl } = request.body;
 
     try {
-      const artist = await this.musicsIntegration.updateArtist({ id, name, description, genre, photos });
+      const artist = await this.musicsIntegration.updateArtist({ id, name, country, foundationDate, members, description, genre, photos, facebookUrl, twitterUrl, instagramUrl, wikipediaUrl });
 
-      return response.status(HttpStatusCode.OK).json(artist);
+      return response.status(HttpStatusCode.OK).json(translateArtist(artist));
 
       //
     } catch (error) {

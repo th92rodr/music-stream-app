@@ -1,0 +1,40 @@
+<section class="header">
+  <div class="search">
+    <div class="search__inactive">
+      <input class="search__inactive__input" type="text" placeholder="Search" />
+    </div>
+
+    <div class="search__active">
+      <div class="search__wrapper">
+        <div class="cancel">
+          {{> icon-cancel}}
+        </div>
+        <form action="#" class="search__form" onsubmit="HandleSearchForm();return false;">
+          <input class="search__active__input" type="text" placeholder="Search" />
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="user">
+    <div class="user__info">
+      <span class="user__info__img">
+        <img src="" alt="" loading="lazy" />
+      </span>
+      <span class="user__info__name"></span>
+    </div>
+
+    <div class="user__actions">
+      <div class="dropdown">
+        <button onclick="HandleUserActions()">
+          {{> icon-chevron-down}}
+        </button>
+        <ul class="dropdown__menu">
+          <li><a href="#">Account</a></li>
+          <li><a href="#">Settings</a></li>
+          <li><a href="#">Logout</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>

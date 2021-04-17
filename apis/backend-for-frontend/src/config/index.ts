@@ -11,6 +11,11 @@ export default {
       host: '0.0.0.0',
       port: Number(process.env.REST_PORT) || 8080,
     },
+
+    staticFiles: {
+      host: '0.0.0.0',
+      port: Number(process.env.STATIC_FILES_PORT) || 9090,
+    },
   },
 
   integrations: {
@@ -21,6 +26,10 @@ export default {
   logging: {
     redirect: 'console', // 'console' / 'file'
     filePath: 'logs/error.log',
+  },
+
+  staticFiles: {
+    path: path.resolve(__dirname, '..', 'staticFiles'),
   },
 
   storage: {

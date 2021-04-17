@@ -49,17 +49,17 @@ export default class SQLAlbumsRepository implements IAlbumsRepository {
     return translateAlbumsList(albums);
   }
 
-  public async store({ id, name, year, cover, studio, producers, artistId }: Album): Promise<void> {
+  public async store({ id, name, releaseDate, cover, studio, producers, artistId }: Album): Promise<void> {
     // prettier-ignore
     await this.databaseConnection<Album>(AlbumsTable)
-      .insert({ id, name, year, cover, studio, producers, artistId });
+      .insert({ id, name, releaseDate, cover, studio, producers, artistId });
   }
 
-  public async update({ id, name, year, cover, studio, producers, artistId }: Album): Promise<void> {
+  public async update({ id, name, releaseDate, cover, studio, producers, artistId }: Album): Promise<void> {
     // prettier-ignore
     await this.databaseConnection<Album>(AlbumsTable)
       .where({ id })
-      .update({ name, year, cover, studio, producers, artistId })
+      .update({ name, releaseDate, cover, studio, producers, artistId })
       .first();
   }
 
