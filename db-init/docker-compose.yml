@@ -1,0 +1,15 @@
+version: '3.7'
+
+services:
+  db:
+    image: 'postgres:alpine'
+    container_name: 'musics_stream_app_database'
+    ports:
+      - '5432:5432'
+    volumes:
+      - ./scripts:/docker-entrypoint-initdb.d
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      PGDATA: /usr/postgres/data/
+      POSTGRES_MULTIPLE_DATABASES: ${POSTGRES_MULTIPLE_DATABASES}
