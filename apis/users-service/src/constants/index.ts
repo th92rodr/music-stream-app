@@ -1,6 +1,3 @@
-export const AlbumsTable = 'albums';
-export const ArtistsTable = 'artists';
-export const MusicsTable = 'musics';
 export const UsersTable = 'users';
 
 export enum StatusCode {
