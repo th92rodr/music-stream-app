@@ -78,3 +78,33 @@ func (r playlistsRepository) StoreTrack(request StoreTrackRequest) error {
 
 	return nil
 }
+
+func (r playlistsRepository) UpdateTrack(request UpdateTrackRequest) error {
+	query := fmt.Sprintf(`
+		UPDATE %s
+		SET %s = $2
+		WHERE %s = $1`,
+		c.PlaylistsMusicsTable, fieldIndex, fieldId,
+	)
+
+	statement, err := r.databaseConnection.Prepare(query)
+	if err != nil {
+		customError := c.InternalError
+		customError.Details = err.Error()
+		return customError
+	}
+
+	if _, err = statement.Exec(request.Id, request.Index); err != nil {
+		customError := c.InternalError
+		customError.Details = err.Error()
+		return customError
+	}
+
+	if err = statement.Close(); err != nil {
+		customError := c.InternalError
+		customError.Details = err.Error()
+		return customError
+	}
+
+	return nil
+}
