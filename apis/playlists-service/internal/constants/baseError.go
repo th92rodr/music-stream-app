@@ -10,6 +10,7 @@ type BaseError struct {
 	Message       string
 	StatusCode    int32
 	IsOperational bool
+	Details       interface{}
 }
 
 func (e *BaseError) Error() string {
