@@ -50,3 +50,31 @@ func (r playlistsRepository) findTracks(playlistId string) (map[int32]string, er
 
 	return tracks, nil
 }
+
+func (r playlistsRepository) StoreTrack(request StoreTrackRequest) error {
+	query := fmt.Sprintf(`
+		INSERT INTO %s (%s, %s, %s, %s) VALUES ($1, $2, $3, $4)`,
+		c.PlaylistsMusicsTable, fieldId, fieldIndex, fieldPlaylistId, fieldMusicId,
+	)
+
+	statement, err := r.databaseConnection.Prepare(query)
+	if err != nil {
+		customError := c.InternalError
+		customError.Details = err.Error()
+		return customError
+	}
+
+	if _, err = statement.Exec(request.Id, request.Index, request.PlaylistId, request.MusicId); err != nil {
+		customError := c.InternalError
+		customError.Details = err.Error()
+		return customError
+	}
+
+	if err = statement.Close(); err != nil {
+		customError := c.InternalError
+		customError.Details = err.Error()
+		return customError
+	}
+
+	return nil
+}

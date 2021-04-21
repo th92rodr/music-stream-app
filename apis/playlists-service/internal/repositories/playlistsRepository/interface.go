@@ -8,4 +8,6 @@ type IPlaylistsRepository interface {
 	Store(request StorePlaylistRequest) error
 	Update(request UpdatePlaylistRequest) error
 	Delete(id string) error
+
+	StoreTrack(request StoreTrackRequest) error
 }

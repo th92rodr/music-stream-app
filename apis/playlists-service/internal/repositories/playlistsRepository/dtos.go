@@ -10,3 +10,10 @@ type UpdatePlaylistRequest struct {
 	Id   string
 	Name string
 }
+
+type StoreTrackRequest struct {
+	Id         string
+	Index      int32
+	PlaylistId string
+	MusicId    string
+}
