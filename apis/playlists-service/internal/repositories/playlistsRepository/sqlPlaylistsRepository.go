@@ -50,7 +50,50 @@ func (r playlistsRepository) Find(id string) (*e.Playlist, map[int32]string, err
 	return playlist, nil, nil
 }
 
-func (r playlistsRepository) FindAll(userId string) ([]e.Playlist, error) {}
+func (r playlistsRepository) FindAll(userId string) ([]e.Playlist, error) {
+	playlists := []e.Playlist{}
+
+	query := fmt.Sprintf(`
+		SELECT * FROM %s WHERE %s = '%s'`,
+		c.PlaylistsTable, fieldUserId, userId,
+	)
+
+	rows, err := r.databaseConnection.Query(query)
+	if err != nil {
+		customError := c.InternalError
+		customError.Details = err.Error()
+		return nil, customError
+	}
+
+	defer rows.Close()
+
+	for rows.Next() {
+		playlist := e.Playlist{}
+
+		if err := rows.Scan(&playlist.Id, &playlist.Name, &playlist.UserId); err != nil {
+			if err == sql.ErrNoRows {
+				customError := c.ErrorPlaylistNotFound
+				customError.Message = fmt.Sprintf("A playlist entity with the user_id %s was not found.", userId)
+				customError.Details = err.Error()
+				return nil, customError
+			}
+
+			customError := c.InternalError
+			customError.Details = err.Error()
+			return nil, customError
+		}
+
+		playlists = append(playlists, playlist)
+	}
+
+	if err = rows.Err(); err != nil {
+		customError := c.InternalError
+		customError.Details = err.Error()
+		return nil, customError
+	}
+
+	return playlists, nil
+}
 
 func (r playlistsRepository) Store(playlist *e.Playlist) error {}
 
