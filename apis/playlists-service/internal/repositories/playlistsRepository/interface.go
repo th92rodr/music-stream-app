@@ -11,4 +11,5 @@ type IPlaylistsRepository interface {
 
 	StoreTrack(request StoreTrackRequest) error
 	UpdateTrack(request UpdateTrackRequest) error
+	DeleteTrack(id string) error
 }

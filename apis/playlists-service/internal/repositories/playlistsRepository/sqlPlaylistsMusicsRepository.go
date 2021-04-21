@@ -108,3 +108,31 @@ func (r playlistsRepository) UpdateTrack(request UpdateTrackRequest) error {
 
 	return nil
 }
+
+func (r playlistsRepository) DeleteTrack(id string) error {
+	query := fmt.Sprintf(`
+		DELETE FROM %s WHERE %s = '%s'`,
+		c.PlaylistsMusicsTable, fieldId, id,
+	)
+
+	statement, err := r.databaseConnection.Prepare(query)
+	if err != nil {
+		customError := c.InternalError
+		customError.Details = err.Error()
+		return customError
+	}
+
+	if _, err = statement.Exec(); err != nil {
+		customError := c.InternalError
+		customError.Details = err.Error()
+		return customError
+	}
+
+	if err = statement.Close(); err != nil {
+		customError := c.InternalError
+		customError.Details = err.Error()
+		return customError
+	}
+
+	return nil
+}
