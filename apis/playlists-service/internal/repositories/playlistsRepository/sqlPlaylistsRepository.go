@@ -47,7 +47,12 @@ func (r playlistsRepository) Find(id string) (*e.Playlist, map[int32]string, err
 		return nil, nil, customError
 	}
 
-	return playlist, nil, nil
+	tracks, err := r.findTracks(id)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	return playlist, tracks, nil
 }
 
 func (r playlistsRepository) FindAll(userId string) ([]e.Playlist, error) {
