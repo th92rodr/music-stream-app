@@ -123,6 +123,34 @@ func (r playlistsRepository) Store(playlist *e.Playlist) error {
 	return nil
 }
 
-func (r playlistsRepository) Update(playlist *e.Playlist) error {}
+func (r playlistsRepository) Update(playlist *e.Playlist) error {
+	query := fmt.Sprintf(`
+		UPDATE %s
+		SET %s = $2, %s = $3
+		WHERE %s = $1`,
+		c.PlaylistsTable, fieldName, fieldUserId, fieldId,
+	)
+
+	statement, err := r.databaseConnection.Prepare(query)
+	if err != nil {
+		customError := c.InternalError
+		customError.Details = err.Error()
+		return customError
+	}
+
+	if _, err = statement.Exec(playlist.Id, playlist.Name, playlist.UserId); err != nil {
+		customError := c.InternalError
+		customError.Details = err.Error()
+		return customError
+	}
+
+	if err = statement.Close(); err != nil {
+		customError := c.InternalError
+		customError.Details = err.Error()
+		return customError
+	}
+
+	return nil
+}
 
 func (r playlistsRepository) Delete(id string) error {}
