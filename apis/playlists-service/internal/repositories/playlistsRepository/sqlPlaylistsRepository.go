@@ -95,7 +95,33 @@ func (r playlistsRepository) FindAll(userId string) ([]e.Playlist, error) {
 	return playlists, nil
 }
 
-func (r playlistsRepository) Store(playlist *e.Playlist) error {}
+func (r playlistsRepository) Store(playlist *e.Playlist) error {
+	query := fmt.Sprintf(`
+		INSERT INTO %s (%s, %s, %s) VALUES ($1, $2, $3)`,
+		c.PlaylistsTable, fieldId, fieldName, fieldUserId,
+	)
+
+	statement, err := r.databaseConnection.Prepare(query)
+	if err != nil {
+		customError := c.InternalError
+		customError.Details = err.Error()
+		return customError
+	}
+
+	if _, err = statement.Exec(playlist.Id, playlist.Name, playlist.UserId); err != nil {
+		customError := c.InternalError
+		customError.Details = err.Error()
+		return customError
+	}
+
+	if err = statement.Close(); err != nil {
+		customError := c.InternalError
+		customError.Details = err.Error()
+		return customError
+	}
+
+	return nil
+}
 
 func (r playlistsRepository) Update(playlist *e.Playlist) error {}
 
