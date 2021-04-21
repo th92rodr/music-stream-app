@@ -17,3 +17,8 @@ type StoreTrackRequest struct {
 	PlaylistId string
 	MusicId    string
 }
+
+type UpdateTrackRequest struct {
+	Id    string
+	Index int32
+}
