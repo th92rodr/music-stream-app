@@ -16,6 +16,8 @@ var (
 	DatabasePassword string
 	DatabaseName     string
 	DatabaseKind     string
+
+	MusicsServiceAddress string
 )
 
 func Initialize() {
@@ -47,4 +49,6 @@ func initVariables() {
 	DatabasePassword = viper.GetString("database.password")
 	DatabaseName = viper.GetString("database.name")
 	DatabaseKind = viper.GetString("database.kind")
+
+	MusicsServiceAddress = viper.GetString("integrations.musics_service_address")
 }
