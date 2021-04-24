@@ -1,6 +1,8 @@
 package playlistsService
 
 import (
+	"sync"
+
 	e "playlists-service/internal/entities"
 	m "playlists-service/internal/integrations/musicsIntegration"
 	i "playlists-service/internal/providers/idProvider"
@@ -21,7 +23,17 @@ func New(idProvider i.IIdProvider, musicsIntegration m.IMusicsIntegration, playl
 	}
 }
 
-func (s playlistsService) Get(request GetPlaylistRequest) (*e.Playlist, error) {}
+func (s playlistsService) Get(request GetPlaylistRequest) (*e.Playlist, error) {
+	playlist, tracks, err := s.playlistsRepository.Find(request.Id)
+
+	if err != nil {
+		return nil, err
+	}
+
+	playlist.Tracks, _ = s.getTracks(tracks)
+
+	return playlist, nil
+}
 
 func (s playlistsService) GetAll(request GetAllPlaylistsRequest) ([]e.Playlist, error) {
 	return s.playlistsRepository.FindAll(request.UserId)
@@ -70,4 +82,32 @@ func (s playlistsService) Update(request UpdatePlaylistRequest) (*e.Playlist, er
 
 func (s playlistsService) Delete(request DeletePlaylistRequest) error {
 	return s.playlistsRepository.Delete(request.Id)
+}
+
+func (s playlistsService) getTracks(t map[int32]string) (map[int32]*e.Music, []error) {
+	var waitGroup sync.WaitGroup
+	waitGroup.Add(len(t))
+
+	defer waitGroup.Wait()
+
+	tracks := make(map[int32]*e.Music)
+	var errors []error
+
+	for index, musicId := range t {
+		go func(index int32, musicId string) {
+			defer waitGroup.Done()
+
+			music, err := s.musicsIntegration.GetMusic(m.GetMusicRequest{
+				Id: musicId,
+			})
+
+			if err != nil {
+				errors = append(errors, err)
+			} else {
+				tracks[index] = music
+			}
+		}(index, musicId)
+	}
+
+	return tracks, errors
 }
