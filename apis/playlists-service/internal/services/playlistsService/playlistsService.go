@@ -43,6 +43,27 @@ func (s playlistsService) Create(request CreatePlaylistRequest) (*e.Playlist, er
 	return playlist, nil
 }
 
-func (s playlistsService) Update(request UpdatePlaylistRequest) (*e.Playlist, error) {}
+func (s playlistsService) Update(request UpdatePlaylistRequest) (*e.Playlist, error) {
+	playlist, _, err := s.playlistsRepository.Find(request.Id)
+
+	if err != nil {
+		return nil, err
+	}
+
+	newPlaylist := &e.Playlist{
+		Id:     playlist.Id,
+		UserId: playlist.UserId,
+		Name:   request.Name,
+	}
+
+	if err = s.playlistsRepository.Update(r.UpdatePlaylistRequest{
+		Id:   newPlaylist.Id,
+		Name: newPlaylist.Name,
+	}); err != nil {
+		return nil, err
+	}
+
+	return newPlaylist, nil
+}
 
 func (s playlistsService) Delete(request DeletePlaylistRequest) error {}
