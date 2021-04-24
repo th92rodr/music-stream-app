@@ -23,7 +23,9 @@ func New(idProvider i.IIdProvider, musicsIntegration m.IMusicsIntegration, playl
 
 func (s playlistsService) Get(request GetPlaylistRequest) (*e.Playlist, error) {}
 
-func (s playlistsService) GetAll(request GetAllPlaylistsRequest) ([]e.Playlist, error) {}
+func (s playlistsService) GetAll(request GetAllPlaylistsRequest) ([]e.Playlist, error) {
+	return s.playlistsRepository.FindAll(request.UserId)
+}
 
 func (s playlistsService) Create(request CreatePlaylistRequest) (*e.Playlist, error) {
 	playlist := &e.Playlist{
