@@ -66,4 +66,6 @@ func (s playlistsService) Update(request UpdatePlaylistRequest) (*e.Playlist, er
 	return newPlaylist, nil
 }
 
-func (s playlistsService) Delete(request DeletePlaylistRequest) error {}
+func (s playlistsService) Delete(request DeletePlaylistRequest) error {
+	return s.playlistsRepository.Delete(request.Id)
+}
