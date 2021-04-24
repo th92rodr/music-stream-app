@@ -45,14 +45,62 @@ func (c grpcChannel) Stop() {
 	c.server.Stop()
 }
 
-func (c grpcChannel) GetPlaylist(context.Context, *proto.Id) (*proto.Playlist, error) {}
+func (c grpcChannel) GetPlaylist(ctx context.Context, request *proto.Id) (*proto.Playlist, error) {
+	playlist, err := c.playlistsService.Get(s.GetPlaylistRequest{
+		Id: request.Id,
+	})
 
-func (c grpcChannel) GetPlaylists(context.Context, *proto.Id) (*proto.PlaylistsList, error) {}
+	if err != nil {
+		return nil, err
+	}
 
-func (c grpcChannel) CreatePlaylist(context.Context, *proto.CreatePlaylistRequest) (*proto.Playlist, error) {
+	return translatePlaylist(playlist), nil
 }
 
-func (c grpcChannel) UpdatePlaylist(context.Context, *proto.UpdatePlaylistRequest) (*proto.Playlist, error) {
+func (c grpcChannel) GetPlaylists(ctx context.Context, request *proto.Id) (*proto.PlaylistsList, error) {
+	playlists, err := c.playlistsService.GetAll(s.GetAllPlaylistsRequest{
+		UserId: request.Id,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	return translatePlaylistList(playlists), nil
 }
 
-func (c grpcChannel) DeletePlaylist(context.Context, *proto.Id) (*proto.Empty, error) {}
+func (c grpcChannel) CreatePlaylist(ctx context.Context, request *proto.CreatePlaylistRequest) (*proto.Playlist, error) {
+	playlist, err := c.playlistsService.Create(s.CreatePlaylistRequest{
+		Name:   request.Name,
+		UserId: request.UserId,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	return translatePlaylist(playlist), nil
+}
+
+func (c grpcChannel) UpdatePlaylist(ctx context.Context, request *proto.UpdatePlaylistRequest) (*proto.Playlist, error) {
+	playlist, err := c.playlistsService.Update(s.UpdatePlaylistRequest{
+		Id:   request.Id,
+		Name: request.Name,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	return translatePlaylist(playlist), nil
+}
+
+func (c grpcChannel) DeletePlaylist(ctx context.Context, request *proto.Id) (*proto.Empty, error) {
+	if err := c.playlistsService.Delete(s.DeletePlaylistRequest{
+		Id: request.Id,
+	}); err != nil {
+		return nil, err
+	}
+
+	return &proto.Empty{}, nil
+}
