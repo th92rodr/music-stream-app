@@ -109,3 +109,47 @@ func parseArray(str string) []string {
 
 	return array
 }
+
+func validateArtist(sent, received artist, method string) bool {
+	if method == "create" {
+		if sent.Name != received.Name ||
+			sent.Country != received.Country ||
+			!compareDate(sent.FoundationDate, received.FoundationDate) ||
+			!compareSlice(sent.Members, received.Members) ||
+			sent.Description != received.Description ||
+			sent.Genre != received.Genre ||
+			!compareSlice(sent.Photos, received.Photos) ||
+			sent.FacebookUrl != received.FacebookUrl ||
+			sent.TwitterUrl != received.TwitterUrl ||
+			sent.InstagramUrl != received.InstagramUrl ||
+			sent.WikipediaUrl != received.WikipediaUrl ||
+			received.Id == "" ||
+			received.Favorites != 0 ||
+			received.Followers != 0 {
+			return false
+		}
+		return true
+	}
+
+	if method == "get" || method == "update" {
+		if sent.Id != received.Id ||
+			sent.Name != received.Name ||
+			sent.Country != received.Country ||
+			!compareDate(sent.FoundationDate, received.FoundationDate) ||
+			!compareSlice(sent.Members, received.Members) ||
+			sent.Description != received.Description ||
+			sent.Genre != received.Genre ||
+			!compareSlice(sent.Photos, received.Photos) ||
+			sent.FacebookUrl != received.FacebookUrl ||
+			sent.TwitterUrl != received.TwitterUrl ||
+			sent.InstagramUrl != received.InstagramUrl ||
+			sent.WikipediaUrl != received.WikipediaUrl ||
+			sent.Favorites != received.Favorites ||
+			sent.Followers != received.Followers {
+			return false
+		}
+		return true
+	}
+
+	return true
+}
