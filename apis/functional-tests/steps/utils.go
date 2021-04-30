@@ -153,3 +153,33 @@ func validateArtist(sent, received artist, method string) bool {
 
 	return true
 }
+
+func validateAlbum(sent, received album, method string) bool {
+	if method == "create" {
+		if sent.Name != received.Name ||
+			!compareDate(sent.ReleaseDate, received.ReleaseDate) ||
+			sent.Cover != received.Cover ||
+			sent.Studio != received.Studio ||
+			!compareSlice(sent.Producers, received.Producers) ||
+			sent.ArtistId != received.ArtistId ||
+			received.Id == "" {
+			return false
+		}
+		return true
+	}
+
+	if method == "get" || method == "update" {
+		if sent.Id != received.Id ||
+			sent.Name != received.Name ||
+			// !compareDate(sent.ReleaseDate, received.ReleaseDate) ||
+			sent.Cover != received.Cover ||
+			sent.Studio != received.Studio ||
+			!compareSlice(sent.Producers, received.Producers) ||
+			sent.ArtistId != received.ArtistId {
+			return false
+		}
+		return true
+	}
+
+	return true
+}
