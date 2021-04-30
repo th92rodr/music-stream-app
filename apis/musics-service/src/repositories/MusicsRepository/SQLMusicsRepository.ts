@@ -54,15 +54,13 @@ export default class SQLMusicsRepository implements IMusicsRepository {
     // prettier-ignore
     await this.databaseConnection<Music>(MusicsTable)
       .where({ id })
-      .update({ title, durationInSeconds, file, composers, lyrics, albumId, views })
-      .first();
+      .update({ title, durationInSeconds, file, composers, lyrics, albumId, views });
   }
 
   public async delete(id: string): Promise<void> {
     // prettier-ignore
     await this.databaseConnection<Music>(MusicsTable)
       .where({ id })
-      .del()
-      .first();
+      .del();
   }
 }

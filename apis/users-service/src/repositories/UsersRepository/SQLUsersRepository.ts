@@ -48,15 +48,13 @@ export default class SQLUsersRepository implements IUsersRepository {
     // prettier-ignore
     await this.databaseConnection<User>(UsersTable)
       .where({ id })
-      .update({ username, email, password })
-      .first();
+      .update({ username, email, password });
   }
 
   public async delete(id: string): Promise<void> {
     // prettier-ignore
     await this.databaseConnection<User>(UsersTable)
       .where({ id })
-      .del()
-      .first();
+      .del();
   }
 }
