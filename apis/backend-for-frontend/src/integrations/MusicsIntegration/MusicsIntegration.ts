@@ -291,7 +291,7 @@ export default class MusicsIntegration implements IMusicsIntegration {
       updateArtistRequest.setFoundationdate(foundationDate ? dateToTimestamp(foundationDate) : 0);
       updateArtistRequest.setMembersList(members ? members : []);
       updateArtistRequest.setDescription(description ? description : '');
-      updateArtistRequest.setGenre(genre ? translateGenreEnum(genre) : 0);
+      updateArtistRequest.setGenre(genre ? translateGenreEnum(genre) : -1);
       updateArtistRequest.setPhotosList(photos ? photos : []);
       updateArtistRequest.setFacebookurl(facebookUrl ? facebookUrl : '');
       updateArtistRequest.setTwitterurl(twitterUrl ? twitterUrl : '');
