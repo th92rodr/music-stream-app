@@ -10,7 +10,6 @@ import { ErrorAlbumNotFound } from '@constants/errors';
 import Album from '@entities/Album';
 import IIdProvider from '@providers/IdProvider/interface';
 import IAlbumsRepository from '@repositories/AlbumsRepository/interface';
-import { arrayIntersection } from '@utils/index';
 
 export default class AlbumsService implements IAlbumsService {
   private albumsRepository: IAlbumsRepository;
@@ -64,13 +63,21 @@ export default class AlbumsService implements IAlbumsService {
       throw new ErrorAlbumNotFound(id);
     }
 
+    if (producers) {
+      producers.forEach(producer => {
+        if (!album.producers.includes(producer)) {
+          album.producers.push(producer);
+        }
+      });
+    }
+
     const newAlbum = new Album({
       id,
       name: name ? name : album.name,
       releaseDate: releaseDate ? releaseDate : album.releaseDate,
       cover: cover ? cover : album.cover,
       studio: studio ? studio : album.studio,
-      producers: producers ? arrayIntersection(producers, album.producers) : album.producers,
+      producers: album.producers,
       artistId: artistId ? artistId : album.artistId,
     });
 
