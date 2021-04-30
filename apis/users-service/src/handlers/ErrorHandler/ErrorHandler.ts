@@ -10,7 +10,11 @@ export default class ErrorHandler implements IErrorHandler {
   }
 
   public async handleError(error: Error): Promise<void> {
-    this.loggerProvider.error('', error);
+    if (this.isTrustedError(error)) {
+      this.loggerProvider.error('', error);
+    } else {
+      this.loggerProvider.fatal('', error);
+    }
   }
 
   public isTrustedError(error: Error): boolean {
