@@ -1,6 +1,9 @@
 package steps
 
 import (
+	"strconv"
+	"strings"
+
 	"github.com/cucumber/godog"
 )
 
@@ -78,4 +81,31 @@ func (t *testFeature) parseMusicData(data *godog.Table) {
 			t.music.AlbumId = parseString(value)
 		}
 	}
+}
+
+func parseString(str string) string {
+	str = strings.ReplaceAll(str, "\"", "")
+	str = strings.TrimPrefix(str, " ")
+	str = strings.TrimSuffix(str, " ")
+	return str
+}
+
+func parseNumber(str string) int32 {
+	number, _ := strconv.Atoi(str)
+	return int32(number)
+}
+
+func parseArray(str string) []string {
+	var array []string
+
+	str = strings.ReplaceAll(str, "[", "")
+	str = strings.ReplaceAll(str, "]", "")
+
+	strs := strings.Split(str, ",")
+
+	for _, str := range strs {
+		array = append(array, parseString(str))
+	}
+
+	return array
 }
