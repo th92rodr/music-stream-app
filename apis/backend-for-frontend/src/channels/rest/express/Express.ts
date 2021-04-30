@@ -12,6 +12,7 @@ import MusicsController from './controllers/MusicsController';
 import TokensController from './controllers/TokensController';
 import UsersController from './controllers/UsersController';
 import Authentication from '../middlewares/Authentication';
+import Validator from '../middlewares/Validator';
 import Config from '@config/index';
 import { HttpStatusCode } from '@constants/index';
 import BaseError from '@constants/BaseError';
@@ -49,15 +50,17 @@ export default class ExpressRestChannel implements IRestChannel {
     this.sockets = new Map();
 
     this.authenticationProvider = new Authentication();
+    const validationMiddleware = new Validator();
+
     this.errorHandler = errorHandler;
     this.loggerProvider = loggerProvider;
 
     this.usersController = new UsersController(usersIntegration);
     this.tokensController = new TokensController(usersIntegration);
 
-    this.albumsController = new AlbumsController(musicsIntegration);
-    this.artistsController = new ArtistsController(musicsIntegration);
-    this.musicsController = new MusicsController(musicsIntegration);
+    this.albumsController = new AlbumsController(musicsIntegration, validationMiddleware);
+    this.artistsController = new ArtistsController(musicsIntegration, validationMiddleware);
+    this.musicsController = new MusicsController(musicsIntegration, validationMiddleware);
   }
 
   public start(): void {
