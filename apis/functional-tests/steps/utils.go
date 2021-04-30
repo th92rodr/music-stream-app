@@ -35,3 +35,25 @@ func (t *testFeature) parseArtistData(data *godog.Table) {
 		}
 	}
 }
+
+func (t *testFeature) parseAlbumData(data *godog.Table) {
+	for _, row := range data.Rows {
+		key := row.Cells[0].Value
+		value := row.Cells[1].Value
+
+		switch key {
+		case "name":
+			t.album.Name = parseString(value)
+		case "releaseDate":
+			t.album.ReleaseDate = parseString(value)
+		case "cover":
+			t.album.Cover = parseString(value)
+		case "studio":
+			t.album.Studio = parseString(value)
+		case "producers":
+			t.album.Producers = append(t.album.Producers, parseArray(value)...)
+		case "artistId":
+			t.album.ArtistId = parseString(value)
+		}
+	}
+}
