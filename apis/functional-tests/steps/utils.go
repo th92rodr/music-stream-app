@@ -3,6 +3,7 @@ package steps
 import (
 	"strconv"
 	"strings"
+	"time"
 
 	"github.com/cucumber/godog"
 )
@@ -214,4 +215,28 @@ func validateMusic(sent, received music, method string) bool {
 	}
 
 	return true
+}
+
+func compareSlice(a, b []string) bool {
+	if len(a) != len(b) {
+		return false
+	}
+	for i, v := range a {
+		if v != b[i] {
+			return false
+		}
+	}
+	return true
+}
+
+func compareDate(a, b string) bool {
+	layout := "2006-01-02"
+
+	parsedA := strings.Split(a, "T")
+	parsedB := strings.Split(b, "T")
+
+	dateA, _ := time.Parse(layout, parsedA[0])
+	dateB, _ := time.Parse(layout, parsedB[0])
+
+	return dateA.Equal(dateB)
 }
