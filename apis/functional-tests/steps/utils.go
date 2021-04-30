@@ -57,3 +57,25 @@ func (t *testFeature) parseAlbumData(data *godog.Table) {
 		}
 	}
 }
+
+func (t *testFeature) parseMusicData(data *godog.Table) {
+	for _, row := range data.Rows {
+		key := row.Cells[0].Value
+		value := row.Cells[1].Value
+
+		switch key {
+		case "title":
+			t.music.Title = parseString(value)
+		case "durationInSeconds":
+			t.music.Duration = parseNumber(value)
+		case "file":
+			t.music.File = parseString(value)
+		case "composers":
+			t.music.Composers = append(t.music.Composers, parseArray(value)...)
+		case "lyrics":
+			t.music.Lyrics = parseString(value)
+		case "albumId":
+			t.music.AlbumId = parseString(value)
+		}
+	}
+}
