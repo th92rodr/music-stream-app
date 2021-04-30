@@ -183,3 +183,35 @@ func validateAlbum(sent, received album, method string) bool {
 
 	return true
 }
+
+func validateMusic(sent, received music, method string) bool {
+	if method == "create" {
+		if sent.Title != received.Title ||
+			sent.Duration != received.Duration ||
+			sent.File != received.File ||
+			!compareSlice(sent.Composers, received.Composers) ||
+			sent.Lyrics != received.Lyrics ||
+			sent.AlbumId != received.AlbumId ||
+			received.Id == "" ||
+			received.Views != 0 {
+			return false
+		}
+		return true
+	}
+
+	if method == "get" || method == "update" {
+		if sent.Id != received.Id ||
+			sent.Title != received.Title ||
+			sent.Duration != received.Duration ||
+			sent.File != received.File ||
+			!compareSlice(sent.Composers, received.Composers) ||
+			sent.Lyrics != received.Lyrics ||
+			sent.AlbumId != received.AlbumId ||
+			sent.Views != received.Views {
+			return false
+		}
+		return true
+	}
+
+	return true
+}
