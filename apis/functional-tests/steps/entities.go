@@ -1,7 +1,12 @@
 package steps
 
+import (
+	"encoding/json"
+	"fmt"
+)
+
 type artist struct {
-	Id             string   `json:"id"`
+	Id             string   `json:"id,omitempty"`
 	Name           string   `json:"name,omitempty"`
 	Country        string   `json:"country,omitempty"`
 	FoundationDate string   `json:"foundation_date,omitempty"`
@@ -13,12 +18,12 @@ type artist struct {
 	TwitterUrl     string   `json:"twitter_url,omitempty"`
 	InstagramUrl   string   `json:"instagram_url,omitempty"`
 	WikipediaUrl   string   `json:"wikipedia_url,omitempty"`
-	Favorites      int32    `json:"favorites"`
-	Followers      int32    `json:"followers"`
+	Favorites      int32    `json:"favorites,omitempty"`
+	Followers      int32    `json:"followers,omitempty"`
 }
 
 type album struct {
-	Id          string   `json:"id"`
+	Id          string   `json:"id,omitempty"`
 	Name        string   `json:"name,omitempty"`
 	ReleaseDate string   `json:"release_date,omitempty"`
 	Cover       string   `json:"cover,omitempty"`
@@ -28,12 +33,22 @@ type album struct {
 }
 
 type music struct {
-	Id        string   `json:"id"`
+	Id        string   `json:"id,omitempty"`
 	Title     string   `json:"title,omitempty"`
 	Duration  int32    `json:"duration,omitempty"`
 	File      string   `json:"file,omitempty"`
 	Composers []string `json:"composers,omitempty"`
 	Lyrics    string   `json:"lyrics,omitempty"`
 	AlbumId   string   `json:"album_id,omitempty"`
-	Views     int32    `json:"views"`
+	Views     int32    `json:"views,omitempty"`
+}
+
+func prettyPrint(data interface{}) {
+	var p []byte
+	p, err := json.MarshalIndent(data, "", "\t")
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	fmt.Printf("%s \n", p)
 }
