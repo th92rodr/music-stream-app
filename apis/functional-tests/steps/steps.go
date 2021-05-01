@@ -1,6 +1,9 @@
 package steps
 
 import (
+	"bytes"
+	"encoding/json"
+	"fmt"
 	"net/http"
 	"time"
 
@@ -66,4 +69,82 @@ func InitializeScenario(ctx *godog.ScenarioContext, mode string) {
 	ctx.Step(`^validate artist response body "([^"]*)"$`, test.validateArtistResponseBody)
 	ctx.Step(`^validate album response body "([^"]*)"$`, test.validateAlbumResponseBody)
 	ctx.Step(`^validate music response body "([^"]*)"$`, test.validateMusicResponseBody)
+}
+
+// Request
+
+// Artist
+
+func (t *testFeature) makeCreateArtistRequest(data *godog.Table) error {
+	t.parseArtistData(data)
+
+	var err error
+	t.requestBody, err = json.Marshal(t.artist)
+	if err != nil {
+		return err
+	}
+
+	if t.mode == "VERBOSE" {
+		fmt.Println("CREATE ARTIST BODY: ", string(t.requestBody))
+	}
+
+	url := fmt.Sprintf("%s/api/artists", baseURL)
+
+	t.request, err = http.NewRequest(http.MethodPost, url, bytes.NewBuffer(t.requestBody))
+	if err != nil {
+		return err
+	}
+
+	t.request.Header.Set("Content-Type", "application/json")
+
+	return nil
+}
+
+func (t *testFeature) makeGetArtistRequest() error {
+	url := fmt.Sprintf("%s/api/artists/%s", baseURL, t.artist.Id)
+
+	var err error
+	t.request, err = http.NewRequest(http.MethodGet, url, nil)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (t *testFeature) makeUpdateArtistRequest(data *godog.Table) error {
+	t.parseArtistData(data)
+
+	var err error
+	t.requestBody, err = json.Marshal(t.artist)
+	if err != nil {
+		return err
+	}
+
+	if t.mode == "VERBOSE" {
+		fmt.Println("UPDATE ARTIST BODY: ", string(t.requestBody))
+	}
+
+	url := fmt.Sprintf("%s/api/artists/%s", baseURL, t.artist.Id)
+
+	t.request, err = http.NewRequest(http.MethodPatch, url, bytes.NewBuffer(t.requestBody))
+	if err != nil {
+		return err
+	}
+
+	t.request.Header.Set("Content-Type", "application/json")
+
+	return nil
+}
+
+func (t *testFeature) makeDeleteArtistRequest() error {
+	url := fmt.Sprintf("%s/api/artists/%s", baseURL, t.artist.Id)
+
+	var err error
+	t.request, err = http.NewRequest(http.MethodDelete, url, nil)
+	if err != nil {
+		return err
+	}
+
+	return nil
 }
