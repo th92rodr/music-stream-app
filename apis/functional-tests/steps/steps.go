@@ -148,3 +148,79 @@ func (t *testFeature) makeDeleteArtistRequest() error {
 
 	return nil
 }
+
+// Album
+
+func (t *testFeature) makeCreateAlbumRequest(data *godog.Table) error {
+	t.parseAlbumData(data)
+
+	var err error
+	t.requestBody, err = json.Marshal(t.album)
+	if err != nil {
+		return err
+	}
+
+	if t.mode == "VERBOSE" {
+		fmt.Println("CREATE ALBUM BODY: ", string(t.requestBody))
+	}
+
+	url := fmt.Sprintf("%s/api/albums", baseURL)
+
+	t.request, err = http.NewRequest(http.MethodPost, url, bytes.NewBuffer(t.requestBody))
+	if err != nil {
+		return err
+	}
+
+	t.request.Header.Set("Content-Type", "application/json")
+
+	return nil
+}
+
+func (t *testFeature) makeGetAlbumRequest() error {
+	url := fmt.Sprintf("%s/api/albums/%s", baseURL, t.album.Id)
+
+	var err error
+	t.request, err = http.NewRequest(http.MethodGet, url, nil)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (t *testFeature) makeUpdateAlbumRequest(data *godog.Table) error {
+	t.parseAlbumData(data)
+
+	var err error
+	t.requestBody, err = json.Marshal(t.album)
+	if err != nil {
+		return err
+	}
+
+	if t.mode == "VERBOSE" {
+		fmt.Println("UPDATE ALBUM BODY: ", string(t.requestBody))
+	}
+
+	url := fmt.Sprintf("%s/api/albums/%s", baseURL, t.album.Id)
+
+	t.request, err = http.NewRequest(http.MethodPatch, url, bytes.NewBuffer(t.requestBody))
+	if err != nil {
+		return err
+	}
+
+	t.request.Header.Set("Content-Type", "application/json")
+
+	return nil
+}
+
+func (t *testFeature) makeDeleteAlbumRequest() error {
+	url := fmt.Sprintf("%s/api/albums/%s", baseURL, t.album.Id)
+
+	var err error
+	t.request, err = http.NewRequest(http.MethodDelete, url, nil)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
