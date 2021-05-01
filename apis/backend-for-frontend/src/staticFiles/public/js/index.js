@@ -141,24 +141,24 @@ function openArtistPage(id) {
   function buildArtistPage(artist) {
     console.log(artist);
 
-    artistFullImg.src = `/web/files/?file=${artist.fullImg}`;
+    artistFullImg.src = `/web/files/?file=${artist.full_img}`;
     artistFullImg.alt = artist.name;
 
-    artistVerticalImg.src = `/web/files/?file=${artist.verticalImg}`;
+    artistVerticalImg.src = `/web/files/?file=${artist.vertical_img}`;
     artistVerticalImg.alt = artist.name;
 
     artistName.innerHTML = artist.name;
-    artistFacebook.href = artist.facebookUrl;
-    artistTwitter.href = artist.twitterUrl;
-    artistInstagram.href = artist.instagramUrl;
-    artistWikipedia.href = artist.wikipediaUrl;
+    artistFacebook.href = artist.facebook_url;
+    artistTwitter.href = artist.twitter_url;
+    artistInstagram.href = artist.instagram_url;
+    artistWikipedia.href = artist.wikipedia_url;
 
     artistCountry.innerHTML = `
       {{> icon-sweden}}
       <p>${artist.country}</p>
     `;
     artistGenre.innerHTML = artist.genre;
-    artistFoundationDate.innerHTML = artist.foundationDate;
+    artistFoundationDate.innerHTML = artist.foundation_date;
 
     artistDescription.innerHTML = artist.description;
 
@@ -172,7 +172,7 @@ function openArtistPage(id) {
       trackItem.innerHTML = `
         <div class="track__play">{{> icon-play-outline}}</div>
         <div class="track__title">${track.title}</div>
-        <div class="track__length">${track.durationStr}</div>
+        <div class="track__length">${track.duration_str}</div>
       `;
 
       trackItem.addEventListener('click', openMusicModal.bind(trackItem, track.id));
@@ -191,7 +191,7 @@ function openArtistPage(id) {
         <img src="/web/files/?file=${album.cover}" alt=${album.name} loading="lazy" />
         <div class="albums__list__item__info">
           <span class="album__title">${album.name}</span>
-          <span class="album__year">${album.releaseDateStr}</span>
+          <span class="album__year">${album.release_date_str}</span>
         </div>
       `;
 
@@ -249,13 +249,13 @@ function openAlbumModal(id) {
   function buildAlbumModal(album) {
     albumImg.src = `/web/files/?file=${album.cover}`;
 
-    albumReleaseYear.innerHTML = album.releaseDateStr;
+    albumReleaseYear.innerHTML = album.release_date_str;
     albumName.innerHTML = album.name;
-    albumProducers.innerHTML = `Producers: ${album.producersStr}`;
+    albumProducers.innerHTML = `Producers: ${album.producers_str}`;
     albumStudio.innerHTML = `Studio: ${album.studio}`;
 
-    albumDurationNumberOfTracks.innerHTML = `${album.numberOfTracks} songs`;
-    albumDurationTime.innerHTML = album.fullDuration;
+    albumDurationNumberOfTracks.innerHTML = `${album.number_of_tracks} songs`;
+    albumDurationTime.innerHTML = album.full_duration;
 
     tracksList.innerHTML = '';
 
@@ -267,7 +267,7 @@ function openAlbumModal(id) {
       trackItem.innerHTML = `
           <div class="track__number">${index + 1}</div>
           <div class="track__title">${track.title}</div>
-          <div class="track__length">${track.durationStr}</div>
+          <div class="track__length">${track.duration_str}</div>
         `;
 
       trackItem.addEventListener('click', openMusicModal.bind(trackItem, track.id));
@@ -375,7 +375,7 @@ function openArtistModal(id) {
   }
 
   function buildArtistModal(artist) {
-    artistImg.src = `/web/files/?file=${artist.profileImg}`;
+    artistImg.src = `/web/files/?file=${artist.profile_img}`;
     artistName.innerHTML = artist.name;
 
     topTracksList.innerHTML = '';
