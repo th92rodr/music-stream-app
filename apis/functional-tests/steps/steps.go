@@ -73,6 +73,82 @@ func InitializeScenario(ctx *godog.ScenarioContext, mode string) {
 
 // Request
 
+// User
+
+func (t *testFeature) makeCreateUserRequest(data *godog.Table) error {
+	t.parseUserData(data)
+
+	var err error
+	t.requestBody, err = json.Marshal(t.user)
+	if err != nil {
+		return err
+	}
+
+	if t.mode == "VERBOSE" {
+		fmt.Println("CREATE USER BODY: ", string(t.requestBody))
+	}
+
+	url := fmt.Sprintf("%s/api/users", baseURL)
+
+	t.request, err = http.NewRequest(http.MethodPost, url, bytes.NewBuffer(t.requestBody))
+	if err != nil {
+		return err
+	}
+
+	t.request.Header.Set("Content-Type", "application/json")
+
+	return nil
+}
+
+func (t *testFeature) makeGetUserRequest() error {
+	url := fmt.Sprintf("%s/api/users/%s", baseURL, t.user.Id)
+
+	var err error
+	t.request, err = http.NewRequest(http.MethodGet, url, nil)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (t *testFeature) makeUpdateUserRequest(data *godog.Table) error {
+	t.parseUserData(data)
+
+	var err error
+	t.requestBody, err = json.Marshal(t.user)
+	if err != nil {
+		return err
+	}
+
+	if t.mode == "VERBOSE" {
+		fmt.Println("UPDATE USER BODY: ", string(t.requestBody))
+	}
+
+	url := fmt.Sprintf("%s/api/users/%s", baseURL, t.user.Id)
+
+	t.request, err = http.NewRequest(http.MethodPatch, url, bytes.NewBuffer(t.requestBody))
+	if err != nil {
+		return err
+	}
+
+	t.request.Header.Set("Content-Type", "application/json")
+
+	return nil
+}
+
+func (t *testFeature) makeDeleteUserRequest() error {
+	url := fmt.Sprintf("%s/api/users/%s", baseURL, t.user.Id)
+
+	var err error
+	t.request, err = http.NewRequest(http.MethodDelete, url, nil)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
 // Artist
 
 func (t *testFeature) makeCreateArtistRequest(data *godog.Table) error {
