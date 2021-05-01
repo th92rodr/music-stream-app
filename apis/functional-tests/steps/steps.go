@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
+	"io/ioutil"
 	"net/http"
 	"time"
 
@@ -71,7 +72,29 @@ func InitializeScenario(ctx *godog.ScenarioContext, mode string) {
 	ctx.Step(`^validate music response body "([^"]*)"$`, test.validateMusicResponseBody)
 }
 
+// ------------------------------------ //
+
 // Request
+
+func (t *testFeature) sendRequest() error {
+	client := &http.Client{}
+
+	timeBefore := time.Now()
+
+	var err error
+	t.response, err = client.Do(t.request)
+	if err != nil {
+		return err
+	}
+
+	if t.mode == "VERBOSE" {
+		fmt.Println("RESPONSE: ", t.response)
+	}
+
+	t.responseTimeDuration = time.Now().Sub(timeBefore)
+
+	return nil
+}
 
 // User
 
@@ -372,6 +395,28 @@ func (t *testFeature) makeDeleteMusicRequest() error {
 	t.request, err = http.NewRequest(http.MethodDelete, url, nil)
 	if err != nil {
 		return err
+	}
+
+	return nil
+}
+
+// ------------------------------------ //
+
+// Response
+
+func (t *testFeature) validateResponseStatusCode(code int) error {
+	if t.mode == "VERBOSE" {
+		fmt.Println("RESPONSE STATUS ", t.response.StatusCode)
+	}
+
+	if code != t.response.StatusCode {
+		if t.response.StatusCode >= 400 {
+			defer t.response.Body.Close()
+			body, _ := ioutil.ReadAll(t.response.Body)
+			return fmt.Errorf("Expected response code to be: %d, but actual is: %d, response message: %s", code, t.response.StatusCode, body)
+		}
+
+		return fmt.Errorf("Expected response code to be: %d, but actual is: %d", code, t.response.StatusCode)
 	}
 
 	return nil
