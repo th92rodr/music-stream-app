@@ -8,6 +8,22 @@ import (
 	"github.com/cucumber/godog"
 )
 
+func (t *testFeature) parseUserData(data *godog.Table) {
+	for _, row := range data.Rows {
+		key := row.Cells[0].Value
+		value := row.Cells[1].Value
+
+		switch key {
+		case "name":
+			t.user.Name = parseString(value)
+		case "email":
+			t.user.Email = parseString(value)
+		case "password":
+			t.user.Password = parseString(value)
+		}
+	}
+}
+
 func (t *testFeature) parseArtistData(data *godog.Table) {
 	for _, row := range data.Rows {
 		key := row.Cells[0].Value
@@ -109,6 +125,28 @@ func parseArray(str string) []string {
 	}
 
 	return array
+}
+
+func validateUser(sent, received user, method string) bool {
+	if method == "create" {
+		if sent.Name != received.Name ||
+			sent.Email != received.Email ||
+			received.Id == "" {
+			return false
+		}
+		return true
+	}
+
+	if method == "get" || method == "update" {
+		if sent.Id != received.Id ||
+			sent.Name != received.Name ||
+			sent.Email != received.Email {
+			return false
+		}
+		return true
+	}
+
+	return true
 }
 
 func validateArtist(sent, received artist, method string) bool {
