@@ -24,8 +24,7 @@ export default class Grpc implements IGrpcChannel {
     errorHandler: IErrorHandler,
     loggerProvider: ILoggerProvider,
   ) {
-    this.musicsHandler = new MusicsHandler(
-      albumsService, artistsService, musicsService, errorHandler);
+    this.musicsHandler = new MusicsHandler(albumsService, artistsService, musicsService, errorHandler, loggerProvider);
 
     this.errorHandler = errorHandler;
     this.loggerProvider = loggerProvider;
