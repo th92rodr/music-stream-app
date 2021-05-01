@@ -20,7 +20,7 @@ export default class Grpc implements IGrpcChannel {
     errorHandler: IErrorHandler,
     loggerProvider: ILoggerProvider,
   ) {
-    this.usersHandler = new UsersHandler(usersService, errorHandler);
+    this.usersHandler = new UsersHandler(usersService, errorHandler, loggerProvider);
 
     this.errorHandler = errorHandler;
     this.loggerProvider = loggerProvider;
