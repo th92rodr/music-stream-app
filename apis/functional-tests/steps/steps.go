@@ -224,3 +224,79 @@ func (t *testFeature) makeDeleteAlbumRequest() error {
 
 	return nil
 }
+
+// Music
+
+func (t *testFeature) makeCreateMusicRequest(data *godog.Table) error {
+	t.parseMusicData(data)
+
+	var err error
+	t.requestBody, err = json.Marshal(t.music)
+	if err != nil {
+		return err
+	}
+
+	if t.mode == "VERBOSE" {
+		fmt.Println("CREATE MUSIC BODY: ", string(t.requestBody))
+	}
+
+	url := fmt.Sprintf("%s/api/musics", baseURL)
+
+	t.request, err = http.NewRequest(http.MethodPost, url, bytes.NewBuffer(t.requestBody))
+	if err != nil {
+		return err
+	}
+
+	t.request.Header.Set("Content-Type", "application/json")
+
+	return nil
+}
+
+func (t *testFeature) makeGetMusicRequest() error {
+	url := fmt.Sprintf("%s/api/musics/%s", baseURL, t.music.Id)
+
+	var err error
+	t.request, err = http.NewRequest(http.MethodGet, url, nil)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (t *testFeature) makeUpdateMusicRequest(data *godog.Table) error {
+	t.parseMusicData(data)
+
+	var err error
+	t.requestBody, err = json.Marshal(t.music)
+	if err != nil {
+		return err
+	}
+
+	if t.mode == "VERBOSE" {
+		fmt.Println("UPDATE MUSIC BODY: ", string(t.requestBody))
+	}
+
+	url := fmt.Sprintf("%s/api/musics/%s", baseURL, t.music.Id)
+
+	t.request, err = http.NewRequest(http.MethodPatch, url, bytes.NewBuffer(t.requestBody))
+	if err != nil {
+		return err
+	}
+
+	t.request.Header.Set("Content-Type", "application/json")
+
+	return nil
+}
+
+func (t *testFeature) makeDeleteMusicRequest() error {
+	url := fmt.Sprintf("%s/api/musics/%s", baseURL, t.music.Id)
+
+	var err error
+	t.request, err = http.NewRequest(http.MethodDelete, url, nil)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
