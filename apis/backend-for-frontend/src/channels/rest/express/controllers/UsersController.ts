@@ -55,6 +55,11 @@ export default class UsersController {
   }
 
   public async update(request: Request, response: Response): Promise<Response> {
+    const errors = this.validator.validateUpdateUserRequest(request.body);
+    if (errors.length > 0) {
+      return response.status(HttpStatusCode.BAD_REQUEST).json({ errors });
+    }
+
     const id = request.userId;
     const { username, email, password } = request.body;
 

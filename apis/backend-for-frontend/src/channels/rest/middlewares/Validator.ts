@@ -1,18 +1,31 @@
 import { Genre } from '@constants/index';
 
 export default class Validator {
+  // prettier-ignore
+  private userRequest = [
+    { field: 'username' },
+    { field: 'password' },
+    { field: 'email', validator: this.validateEmail, dataType: 'email' },
+  ];
+
+  // prettier-ignore
+  private tokenRequest = [
+    { field: 'password' },
+    { field: 'email', validator: this.validateEmail, dataType: 'email' },
+  ];
+
   private artistRequest = [
     { field: 'name' },
     { field: 'country' },
     { field: 'description' },
     { field: 'members' },
     { field: 'photos' },
-    { field: 'foundation_date', validator: this.validateDate, errorMessage: 'date' },
-    { field: 'genre', validator: this.validateGenre, errorMessage: 'genre' },
-    { field: 'facebook_url', validator: this.validateURL, errorMessage: 'url' },
-    { field: 'twitter_url', validator: this.validateURL, errorMessage: 'url' },
-    { field: 'instagram_url', validator: this.validateURL, errorMessage: 'url' },
-    { field: 'wikipedia_url', validator: this.validateURL, errorMessage: 'url' },
+    { field: 'foundation_date', validator: this.validateDate, dataType: 'date' },
+    { field: 'genre', validator: this.validateGenre, dataType: 'genre' },
+    { field: 'facebook_url', validator: this.validateURL, dataType: 'url' },
+    { field: 'twitter_url', validator: this.validateURL, dataType: 'url' },
+    { field: 'instagram_url', validator: this.validateURL, dataType: 'url' },
+    { field: 'wikipedia_url', validator: this.validateURL, dataType: 'url' },
   ];
 
   private albumRequest = [
@@ -21,7 +34,7 @@ export default class Validator {
     { field: 'studio' },
     { field: 'producers' },
     { field: 'artist_id' },
-    { field: 'release_date', validator: this.validateDate, errorMessage: 'date' },
+    { field: 'release_date', validator: this.validateDate, dataType: 'date' },
   ];
 
   // prettier-ignore
@@ -31,8 +44,65 @@ export default class Validator {
     { field: 'file' },
     { field: 'composers' },
     { field: 'lyrics' },
-    { field: 'album_id' }
+    { field: 'album_id' },
   ];
+
+  // prettier-ignore
+  private playlistRequest = [
+    { field: 'name' },
+  ];
+
+  public validateCreateUserRequest(request: any): Array<string> {
+    let errors = [];
+
+    for (const i of this.userRequest) {
+      const value = request[i.field];
+
+      if (!this.required(value)) {
+        errors.push(`Field ${i.field} is required.`);
+        continue;
+      }
+
+      if (i.validator ? !i.validator(value) : false) {
+        errors.push(`Field ${i.field} must be a valid ${i.dataType}.`);
+      }
+    }
+
+    return errors;
+  }
+
+  public validateUpdateUserRequest(request: any): Array<string> {
+    let errors = [];
+
+    for (const i of this.userRequest) {
+      const value = request[i.field];
+
+      if (value && i.validator ? !i.validator(value) : false) {
+        errors.push(`Field ${i.field} must be a valid ${i.dataType}.`);
+      }
+    }
+
+    return errors;
+  }
+
+  public validateCreateTokenRequest(request: any): Array<string> {
+    let errors = [];
+
+    for (const i of this.tokenRequest) {
+      const value = request[i.field];
+
+      if (!this.required(value)) {
+        errors.push(`Field ${i.field} is required.`);
+        continue;
+      }
+
+      if (i.validator ? !i.validator(value) : false) {
+        errors.push(`Field ${i.field} must be a valid ${i.dataType}.`);
+      }
+    }
+
+    return errors;
+  }
 
   public validateCreateArtistRequest(request: any): Array<string> {
     let errors = [];
@@ -46,7 +116,7 @@ export default class Validator {
       }
 
       if (i.validator ? !i.validator(value) : false) {
-        errors.push(`Field ${i.field} must be a valid ${i.errorMessage}.`);
+        errors.push(`Field ${i.field} must be a valid ${i.dataType}.`);
       }
     }
 
@@ -109,6 +179,20 @@ export default class Validator {
       if (!this.required(value)) {
         errors.push(`Field ${i.field} is required.`);
         continue;
+      }
+    }
+
+    return errors;
+  }
+
+  public validateCreatePlaylistRequest(request: any): Array<string> {
+    let errors = [];
+
+    for (const i of this.playlistRequest) {
+      const value = request[i.field];
+
+      if (!this.required(value)) {
+        errors.push(`Field ${i.field} is required.`);
       }
     }
 
