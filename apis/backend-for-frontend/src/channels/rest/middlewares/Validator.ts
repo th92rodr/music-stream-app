@@ -206,6 +206,12 @@ export default class Validator {
     return false;
   }
 
+  private validateEmail(str: string): boolean {
+    const pattern = new RegExp(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
+
+    return !!pattern.test(str);
+  }
+
   private validateGenre(str: string): boolean {
     return Object.values(Genre).includes(str);
   }
