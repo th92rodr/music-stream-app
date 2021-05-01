@@ -421,3 +421,111 @@ func (t *testFeature) validateResponseStatusCode(code int) error {
 
 	return nil
 }
+
+func (t *testFeature) validateUserResponseBody(method string) error {
+	defer t.response.Body.Close()
+	responseBody, err := ioutil.ReadAll(t.response.Body)
+	if err != nil {
+		return err
+	}
+
+	receivedUser := &user{}
+	err = json.Unmarshal(responseBody, receivedUser)
+	if err != nil {
+		return err
+	}
+
+	if t.mode == "VERBOSE" {
+		prettyPrint(t.user)
+		prettyPrint(receivedUser)
+	}
+
+	if !validateUser(*t.user, *receivedUser, method) {
+		return fmt.Errorf("Response body validation failed.")
+	}
+
+	t.user = receivedUser
+
+	return nil
+}
+
+func (t *testFeature) validateArtistResponseBody(method string) error {
+	defer t.response.Body.Close()
+	responseBody, err := ioutil.ReadAll(t.response.Body)
+	if err != nil {
+		return err
+	}
+
+	receivedArtist := &artist{}
+	err = json.Unmarshal(responseBody, receivedArtist)
+	if err != nil {
+		return err
+	}
+
+	if t.mode == "VERBOSE" {
+		prettyPrint(t.artist)
+		prettyPrint(receivedArtist)
+	}
+
+	if !validateArtist(*t.artist, *receivedArtist, method) {
+		return fmt.Errorf("Response body validation failed.")
+	}
+
+	t.artist = receivedArtist
+
+	return nil
+}
+
+func (t *testFeature) validateAlbumResponseBody(method string) error {
+	defer t.response.Body.Close()
+	responseBody, err := ioutil.ReadAll(t.response.Body)
+	if err != nil {
+		return err
+	}
+
+	receivedAlbum := &album{}
+	err = json.Unmarshal(responseBody, receivedAlbum)
+	if err != nil {
+		return err
+	}
+
+	if t.mode == "VERBOSE" {
+		prettyPrint(t.album)
+		prettyPrint(receivedAlbum)
+	}
+
+	if !validateAlbum(*t.album, *receivedAlbum, method) {
+		return fmt.Errorf("Response body validation failed.")
+	}
+
+	t.album = receivedAlbum
+
+	return nil
+}
+
+func (t *testFeature) validateMusicResponseBody(method string) error {
+	defer t.response.Body.Close()
+	responseBody, err := ioutil.ReadAll(t.response.Body)
+	if err != nil {
+		return err
+	}
+
+	receivedMusic := &music{}
+	err = json.Unmarshal(responseBody, receivedMusic)
+	if err != nil {
+		return err
+	}
+
+	if t.mode == "VERBOSE" {
+		prettyPrint(t.music)
+		prettyPrint(receivedMusic)
+	}
+
+	if !validateMusic(*t.music, *receivedMusic, method) {
+		return fmt.Errorf("Response body validation failed.")
+	}
+
+	t.music = receivedMusic
+
+	return nil
+}
