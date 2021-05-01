@@ -73,7 +73,7 @@ func (t *testFeature) parseAlbumData(data *godog.Table) {
 		case "producers":
 			t.album.Producers = append(t.album.Producers, parseArray(value)...)
 		case "artistId":
-			t.album.ArtistId = parseString(value)
+			t.album.ArtistId = t.artist.Id
 		}
 	}
 }
@@ -95,7 +95,7 @@ func (t *testFeature) parseMusicData(data *godog.Table) {
 		case "lyrics":
 			t.music.Lyrics = parseString(value)
 		case "albumId":
-			t.music.AlbumId = parseString(value)
+			t.music.AlbumId = t.album.Id
 		}
 	}
 }
@@ -210,7 +210,7 @@ func validateAlbum(sent, received album, method string) bool {
 	if method == "get" || method == "update" {
 		if sent.Id != received.Id ||
 			sent.Name != received.Name ||
-			// !compareDate(sent.ReleaseDate, received.ReleaseDate) ||
+			!compareDate(sent.ReleaseDate, received.ReleaseDate) ||
 			sent.Cover != received.Cover ||
 			sent.Studio != received.Studio ||
 			!compareSlice(sent.Producers, received.Producers) ||

@@ -245,6 +245,8 @@ func (t *testFeature) makeDeleteArtistRequest() error {
 		return err
 	}
 
+	t.artist = &artist{}
+
 	return nil
 }
 
@@ -321,6 +323,8 @@ func (t *testFeature) makeDeleteAlbumRequest() error {
 		return err
 	}
 
+	t.album = &album{}
+
 	return nil
 }
 
@@ -396,6 +400,8 @@ func (t *testFeature) makeDeleteMusicRequest() error {
 	if err != nil {
 		return err
 	}
+
+	t.music = &music{}
 
 	return nil
 }
