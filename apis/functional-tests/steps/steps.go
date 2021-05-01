@@ -27,6 +27,7 @@ type testFeature struct {
 
 type entities struct {
 	user   *user
+	token  string
 	artist *artist
 	album  *album
 	music  *music
@@ -43,6 +44,7 @@ func InitializeScenario(ctx *godog.ScenarioContext, mode string) {
 	test.music = &music{}
 
 	ctx.Step(`^I want to create an user with the following data:$`, test.makeCreateUserRequest)
+	ctx.Step(`^I want to authenticate this user using the password "([^"]*)"$`, test.makeAuthenticateUserRequest)
 	ctx.Step(`^I want to consult this user`, test.makeGetUserRequest)
 	ctx.Step(`^I want to update this user with the following data:$`, test.makeUpdateUserRequest)
 	ctx.Step(`^I want to delete this user`, test.makeDeleteUserRequest)
@@ -67,6 +69,7 @@ func InitializeScenario(ctx *godog.ScenarioContext, mode string) {
 	ctx.Step(`^the response status code should be (\d+)$`, test.validateResponseStatusCode)
 
 	ctx.Step(`^validate user response body "([^"]*)"$`, test.validateUserResponseBody)
+	ctx.Step(`^validate authenticate response body`, test.validateAuthenticateResponseBody)
 	ctx.Step(`^validate artist response body "([^"]*)"$`, test.validateArtistResponseBody)
 	ctx.Step(`^validate album response body "([^"]*)"$`, test.validateAlbumResponseBody)
 	ctx.Step(`^validate music response body "([^"]*)"$`, test.validateMusicResponseBody)
@@ -123,14 +126,45 @@ func (t *testFeature) makeCreateUserRequest(data *godog.Table) error {
 	return nil
 }
 
+func (t *testFeature) makeAuthenticateUserRequest(password string) error {
+	var err error
+	t.requestBody, err = json.Marshal(struct {
+		Email    string `json:"email,omitempty"`
+		Password string `json:"password,omitempty"`
+	}{
+		Email:    t.user.Email,
+		Password: password,
+	})
+	if err != nil {
+		return err
+	}
+
+	if t.mode == "VERBOSE" {
+		fmt.Println("AUTHENTICATE USER BODY: ", string(t.requestBody))
+	}
+
+	url := fmt.Sprintf("%s/api/tokens", baseURL)
+
+	t.request, err = http.NewRequest(http.MethodPost, url, bytes.NewBuffer(t.requestBody))
+	if err != nil {
+		return err
+	}
+
+	t.request.Header.Set("Content-Type", "application/json")
+
+	return nil
+}
+
 func (t *testFeature) makeGetUserRequest() error {
-	url := fmt.Sprintf("%s/api/users/%s", baseURL, t.user.Id)
+	url := fmt.Sprintf("%s/api/users", baseURL)
 
 	var err error
 	t.request, err = http.NewRequest(http.MethodGet, url, nil)
 	if err != nil {
 		return err
 	}
+
+	t.request.Header.Add("Authorization", fmt.Sprintf("Bearer %s", t.token))
 
 	return nil
 }
@@ -148,26 +182,29 @@ func (t *testFeature) makeUpdateUserRequest(data *godog.Table) error {
 		fmt.Println("UPDATE USER BODY: ", string(t.requestBody))
 	}
 
-	url := fmt.Sprintf("%s/api/users/%s", baseURL, t.user.Id)
+	url := fmt.Sprintf("%s/api/users", baseURL)
 
 	t.request, err = http.NewRequest(http.MethodPatch, url, bytes.NewBuffer(t.requestBody))
 	if err != nil {
 		return err
 	}
 
+	t.request.Header.Add("Authorization", fmt.Sprintf("Bearer %s", t.token))
 	t.request.Header.Set("Content-Type", "application/json")
 
 	return nil
 }
 
 func (t *testFeature) makeDeleteUserRequest() error {
-	url := fmt.Sprintf("%s/api/users/%s", baseURL, t.user.Id)
+	url := fmt.Sprintf("%s/api/users", baseURL)
 
 	var err error
 	t.request, err = http.NewRequest(http.MethodDelete, url, nil)
 	if err != nil {
 		return err
 	}
+
+	t.request.Header.Add("Authorization", fmt.Sprintf("Bearer %s", t.token))
 
 	return nil
 }
@@ -451,6 +488,32 @@ func (t *testFeature) validateUserResponseBody(method string) error {
 	}
 
 	t.user = receivedUser
+
+	return nil
+}
+
+func (t *testFeature) validateAuthenticateResponseBody() error {
+	defer t.response.Body.Close()
+	responseBody, err := ioutil.ReadAll(t.response.Body)
+	if err != nil {
+		return err
+	}
+
+	receivedAuth := &struct {
+		Token string `json:"token,omitempty"`
+	}{
+		Token: "",
+	}
+	err = json.Unmarshal(responseBody, receivedAuth)
+	if err != nil {
+		return err
+	}
+
+	if t.mode == "VERBOSE" {
+		prettyPrint(receivedAuth)
+	}
+
+	t.token = receivedAuth.Token
 
 	return nil
 }

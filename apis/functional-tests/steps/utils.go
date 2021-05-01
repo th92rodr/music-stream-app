@@ -14,8 +14,8 @@ func (t *testFeature) parseUserData(data *godog.Table) {
 		value := row.Cells[1].Value
 
 		switch key {
-		case "name":
-			t.user.Name = parseString(value)
+		case "username":
+			t.user.Username = parseString(value)
 		case "email":
 			t.user.Email = parseString(value)
 		case "password":
@@ -129,7 +129,7 @@ func parseArray(str string) []string {
 
 func validateUser(sent, received user, method string) bool {
 	if method == "create" {
-		if sent.Name != received.Name ||
+		if sent.Username != received.Username ||
 			sent.Email != received.Email ||
 			received.Id == "" {
 			return false
@@ -139,7 +139,7 @@ func validateUser(sent, received user, method string) bool {
 
 	if method == "get" || method == "update" {
 		if sent.Id != received.Id ||
-			sent.Name != received.Name ||
+			sent.Username != received.Username ||
 			sent.Email != received.Email {
 			return false
 		}
