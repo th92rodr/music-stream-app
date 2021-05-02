@@ -1,7 +1,8 @@
 package playlistsService
 
 type GetPlaylistRequest struct {
-	Id string
+	Id     string
+	UserId string
 }
 
 type GetAllPlaylistsRequest struct {
@@ -9,15 +10,17 @@ type GetAllPlaylistsRequest struct {
 }
 
 type CreatePlaylistRequest struct {
-	Name   string
 	UserId string
+	Name   string
 }
 
 type UpdatePlaylistRequest struct {
-	Id   string
-	Name string
+	Id     string
+	UserId string
+	Name   string
 }
 
 type DeletePlaylistRequest struct {
-	Id string
+	Id     string
+	UserId string
 }
