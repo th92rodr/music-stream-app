@@ -4,11 +4,11 @@ package proto;
 option go_package = "grpc/proto";
 
 service Playlists {
-    rpc GetPlaylist(Id) returns (Playlist) {}
+    rpc GetPlaylist(GetPlaylistRequest) returns (Playlist) {}
     rpc GetPlaylists(Id) returns (PlaylistsList) {}
     rpc CreatePlaylist(CreatePlaylistRequest) returns (Playlist) {}
     rpc UpdatePlaylist(UpdatePlaylistRequest) returns (Playlist) {}
-    rpc DeletePlaylist(Id) returns (Empty) {}
+    rpc DeletePlaylist(DeletePlaylistRequest) returns (Empty) {}
 }
 
 message Id {
@@ -31,6 +31,11 @@ message PlaylistsList {
     repeated Playlist playlists = 1;
 }
 
+message GetPlaylistRequest {
+    string id = 1;
+    string userId = 2;
+}
+
 message CreatePlaylistRequest {
     string name = 1;
     string userId = 2;
@@ -39,6 +44,12 @@ message CreatePlaylistRequest {
 message UpdatePlaylistRequest {
     string id = 1;
     string name = 2;
+    string userId = 3;
+}
+
+message DeletePlaylistRequest {
+    string id = 1;
+    string userId = 2;
 }
 
 message Music {
