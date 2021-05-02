@@ -1,14 +1,34 @@
 package playlistsRepository
 
-type StorePlaylistRequest struct {
+type FindPlaylistByIdRequest struct {
+	UserId string
 	Id     string
+}
+
+type FindPlaylistByNameRequest struct {
+	UserId string
 	Name   string
+}
+
+type FindAllPlaylistsRequest struct {
 	UserId string
 }
 
+type StorePlaylistRequest struct {
+	UserId string
+	Id     string
+	Name   string
+}
+
 type UpdatePlaylistRequest struct {
-	Id   string
-	Name string
+	UserId string
+	Id     string
+	Name   string
+}
+
+type DeletePlaylistRequest struct {
+	UserId string
+	Id     string
 }
 
 type StoreTrackRequest struct {
