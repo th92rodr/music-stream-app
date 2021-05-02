@@ -55,8 +55,8 @@ export default class ExpressRestChannel implements IRestChannel {
     this.errorHandler = errorHandler;
     this.loggerProvider = loggerProvider;
 
-    this.usersController = new UsersController(usersIntegration);
-    this.tokensController = new TokensController(usersIntegration);
+    this.usersController = new UsersController(usersIntegration, validationMiddleware);
+    this.tokensController = new TokensController(usersIntegration, validationMiddleware);
 
     this.albumsController = new AlbumsController(musicsIntegration, validationMiddleware);
     this.artistsController = new ArtistsController(musicsIntegration, validationMiddleware);
