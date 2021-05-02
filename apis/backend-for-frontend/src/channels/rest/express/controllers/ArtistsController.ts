@@ -1,16 +1,19 @@
 import { Request, Response } from 'express';
 
 import { translateArtist, translateArtists } from './translators';
-import { HttpStatusCode } from '@constants/index';
+import Validator from '@channels/rest/middlewares/Validator';
+import { Genre, HttpStatusCode } from '@constants/index';
 import BaseError from '@constants/BaseError';
 import { InternalError } from '@constants/errors';
 import IMusicsIntegration from '@integrations/MusicsIntegration/interface';
 
 export default class ArtistsController {
   private musicsIntegration: IMusicsIntegration;
+  private validator: Validator;
 
-  constructor(musicsIntegration: IMusicsIntegration) {
+  constructor(musicsIntegration: IMusicsIntegration, validator: Validator) {
     this.musicsIntegration = musicsIntegration;
+    this.validator = validator;
   }
 
   public async index(request: Request, response: Response) {
@@ -37,8 +40,6 @@ export default class ArtistsController {
       const artist = await this.musicsIntegration.getArtist({ id });
 
       return response.status(HttpStatusCode.OK).json(translateArtist(artist));
-
-      //
     } catch (error) {
       if (error instanceof BaseError) {
         return response.status(error.statusCode).json({ error: error.message });
@@ -50,14 +51,41 @@ export default class ArtistsController {
   }
 
   public async create(request: Request, response: Response) {
-    const { name, country, foundationDate, members, description, genre, photos, facebookUrl, twitterUrl, instagramUrl, wikipediaUrl } = request.body;
+    const errors = this.validator.validateCreateArtistRequest(request.body);
+    if (errors.length > 0) {
+      return response.status(HttpStatusCode.BAD_REQUEST).json({ errors });
+    }
+
+    const {
+      name,
+      country,
+      foundation_date: foundationDate,
+      members,
+      description,
+      genre,
+      photos,
+      facebook_url: facebookUrl,
+      twitter_url: twitterUrl,
+      instagram_url: instagramUrl,
+      wikipedia_url: wikipediaUrl,
+    } = request.body;
 
     try {
-      const artist = await this.musicsIntegration.createArtist({ name, country, foundationDate, members, description, genre, photos, facebookUrl, twitterUrl, instagramUrl, wikipediaUrl });
+      const artist = await this.musicsIntegration.createArtist({
+        name,
+        country,
+        foundationDate: new Date(foundationDate),
+        members,
+        description,
+        genre: Genre[genre],
+        photos,
+        facebookUrl,
+        twitterUrl,
+        instagramUrl,
+        wikipediaUrl,
+      });
 
       return response.status(HttpStatusCode.CREATED).json(translateArtist(artist));
-
-      //
     } catch (error) {
       if (error instanceof BaseError) {
         return response.status(error.statusCode).json({ error: error.message });
@@ -69,15 +97,43 @@ export default class ArtistsController {
   }
 
   public async update(request: Request, response: Response) {
+    const errors = this.validator.validateUpdateArtistRequest(request.body);
+    if (errors.length > 0) {
+      return response.status(HttpStatusCode.BAD_REQUEST).json({ errors });
+    }
+
     const { id } = request.params;
-    const { name, country, foundationDate, members, description, genre, photos, facebookUrl, twitterUrl, instagramUrl, wikipediaUrl } = request.body;
+    const {
+      name,
+      country,
+      foundation_date: foundationDate,
+      members,
+      description,
+      genre,
+      photos,
+      facebook_url: facebookUrl,
+      twitter_url: twitterUrl,
+      instagram_url: instagramUrl,
+      wikipedia_url: wikipediaUrl,
+    } = request.body;
 
     try {
-      const artist = await this.musicsIntegration.updateArtist({ id, name, country, foundationDate, members, description, genre, photos, facebookUrl, twitterUrl, instagramUrl, wikipediaUrl });
+      const artist = await this.musicsIntegration.updateArtist({
+        id,
+        name,
+        country,
+        foundationDate: foundationDate ? new Date(foundationDate) : undefined,
+        members,
+        description,
+        genre: genre ? Genre[genre] : undefined,
+        photos,
+        facebookUrl,
+        twitterUrl,
+        instagramUrl,
+        wikipediaUrl,
+      });
 
       return response.status(HttpStatusCode.OK).json(translateArtist(artist));
-
-      //
     } catch (error) {
       if (error instanceof BaseError) {
         return response.status(error.statusCode).json({ error: error.message });
@@ -95,8 +151,6 @@ export default class ArtistsController {
       await this.musicsIntegration.deleteArtist({ id });
 
       return response.status(HttpStatusCode.OK).send();
-
-      //
     } catch (error) {
       if (error instanceof BaseError) {
         return response.status(error.statusCode).json({ error: error.message });

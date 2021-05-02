@@ -11,7 +11,6 @@ import { ErrorMusicNotFound } from '@constants/errors';
 import Music from '@entities/Music';
 import IIdProvider from '@providers/IdProvider/interface';
 import IMusicsRepository from '@repositories/MusicsRepository/interface';
-import { arrayIntersection } from '@utils/index';
 
 export default class MusicsService implements IMusicsService {
   private musicsRepository: IMusicsRepository;
@@ -66,12 +65,20 @@ export default class MusicsService implements IMusicsService {
       throw new ErrorMusicNotFound(id);
     }
 
+    if (composers) {
+      composers.forEach(composer => {
+        if (!music.composers.includes(composer)) {
+          music.composers.push(composer);
+        }
+      });
+    }
+
     const newMusic = new Music({
       id,
       title: title ? title : music.title,
       durationInSeconds: durationInSeconds ? durationInSeconds : music.durationInSeconds,
       file: file ? file : music.file,
-      composers: composers ? arrayIntersection(composers, music.composers) : music.composers,
+      composers: music.composers,
       lyrics: lyrics ? lyrics : music.lyrics,
       albumId: albumId ? albumId : music.albumId,
       views: music.views,

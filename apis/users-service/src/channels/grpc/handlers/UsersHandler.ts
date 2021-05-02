@@ -14,6 +14,7 @@ import {
 import { translateAuthenticateUser, translateUserEntity } from './translators';
 import { InternalError } from '@constants/errors';
 import IErrorHandler from '@handlers/ErrorHandler/interface';
+import ILoggerProvider from '@providers/LoggerProvider/interface';
 import IUsersService from '@services/UsersService/interface';
 
 export { UsersService } from '../proto/users_service_grpc_pb';
@@ -21,15 +22,19 @@ export { UsersService } from '../proto/users_service_grpc_pb';
 export class UsersHandler implements IUsersServer {
   private usersService: IUsersService;
   private errorHandler: IErrorHandler;
+  private loggerProvider: ILoggerProvider;
 
-  constructor(usersService: IUsersService, errorHandler: IErrorHandler) {
+  constructor(usersService: IUsersService, errorHandler: IErrorHandler, loggerProvider: ILoggerProvider) {
     this.usersService = usersService;
     this.errorHandler = errorHandler;
+    this.loggerProvider = loggerProvider;
   }
 
   get = async (call: grpc.ServerUnaryCall<Id>, callback: grpc.sendUnaryData<User>): Promise<void> => {
     try {
       const user = await this.usersService.get({ id: call.request.getId() });
+
+      this.loggerProvider.info('[GET USER]', { id: user.id });
 
       callback(null, translateUserEntity(user));
     } catch (error) {
@@ -50,6 +55,8 @@ export class UsersHandler implements IUsersServer {
         email: call.request.getEmail(),
         password: call.request.getPassword(),
       });
+
+      this.loggerProvider.info('[CREATE USER]');
 
       callback(null, translateUserEntity(user));
     } catch (error) {
@@ -72,6 +79,8 @@ export class UsersHandler implements IUsersServer {
         password: call.request.getPassword() != '' ? call.request.getPassword() : undefined,
       });
 
+      this.loggerProvider.info('[UPDATE USER]', { id: user.id });
+
       callback(null, translateUserEntity(user));
     } catch (error) {
       await this.errorHandler.handleError(error);
@@ -87,6 +96,8 @@ export class UsersHandler implements IUsersServer {
   delete = async (call: grpc.ServerUnaryCall<Id>, callback: grpc.sendUnaryData<Empty>): Promise<void> => {
     try {
       await this.usersService.delete({ id: call.request.getId() });
+
+      this.loggerProvider.info('[DELETE USER]', { id: call.request.getId() });
 
       callback(null, new Empty());
     } catch (error) {
@@ -106,6 +117,8 @@ export class UsersHandler implements IUsersServer {
         email: call.request.getEmail(),
         password: call.request.getPassword(),
       });
+
+      this.loggerProvider.info('[AUTHENTICATE USER]', { id: user.id });
 
       callback(null, translateAuthenticateUser(token, user));
     } catch (error) {

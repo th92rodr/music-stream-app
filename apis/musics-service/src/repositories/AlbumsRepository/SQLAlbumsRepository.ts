@@ -59,15 +59,13 @@ export default class SQLAlbumsRepository implements IAlbumsRepository {
     // prettier-ignore
     await this.databaseConnection<Album>(AlbumsTable)
       .where({ id })
-      .update({ name, releaseDate, cover, studio, producers, artistId })
-      .first();
+      .update({ name, releaseDate, cover, studio, producers, artistId });
   }
 
   public async delete(id: string): Promise<void> {
     // prettier-ignore
     await this.databaseConnection<Album>(AlbumsTable)
       .where({ id })
-      .del()
-      .first();
+      .del();
   }
 }

@@ -18,12 +18,12 @@ process.on('SIGTERM', function onSigterm() {
 });
 
 process.on('unhandledRejection', (error: Error, promise: Promise<any>) => {
-  loggerProvider.info('Unhandled rejection caught.');
+  // loggerProvider.error('Unhandled rejection caught.', error);
   throw error;
 });
 
 process.on('uncaughtException', (error: Error) => {
-  loggerProvider.info('Unhandled exception caught.');
+  // loggerProvider.error('Unhandled exception caught.', error);
 
   errorHandler.handleError(error);
   if (!errorHandler.isTrustedError(error)) {

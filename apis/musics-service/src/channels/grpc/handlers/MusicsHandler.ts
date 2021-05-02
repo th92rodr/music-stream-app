@@ -31,6 +31,7 @@ import {
 } from './translators';
 import { InternalError } from '@constants/errors';
 import IErrorHandler from '@handlers/ErrorHandler/interface';
+import ILoggerProvider from '@providers/LoggerProvider/interface';
 import IAlbumsService from '@services/AlbumsService/interface';
 import IArtistsService from '@services/ArtistsService/interface';
 import IMusicsService from '@services/MusicsService/interface';
@@ -43,6 +44,7 @@ export class MusicsHandler implements IMusicsServer {
   private artistsService: IArtistsService;
   private musicsService: IMusicsService;
   private errorHandler: IErrorHandler;
+  private loggerProvider: ILoggerProvider;
 
   // prettier-ignore
   constructor(
@@ -50,16 +52,20 @@ export class MusicsHandler implements IMusicsServer {
     artistsService: IArtistsService,
     musicsService: IMusicsService,
     errorHandler: IErrorHandler,
+    loggerProvider: ILoggerProvider,
   ) {
     this.albumsService = albumsService;
     this.artistsService = artistsService;
     this.musicsService = musicsService;
     this.errorHandler = errorHandler;
+    this.loggerProvider = loggerProvider;
   }
 
   getMusic = async (call: grpc.ServerUnaryCall<Id>, callback: grpc.sendUnaryData<Music>): Promise<void> => {
     try {
       const music = await this.musicsService.get({ id: call.request.getId() });
+
+      this.loggerProvider.info('[GET MUSIC]', { id: music.id });
 
       callback(null, translateMusicEntity(music));
     } catch (error) {
@@ -76,6 +82,8 @@ export class MusicsHandler implements IMusicsServer {
   getMusics = async (call: grpc.ServerUnaryCall<Empty>, callback: grpc.sendUnaryData<MusicsList>): Promise<void> => {
     try {
       const musics = await this.musicsService.getAll();
+
+      this.loggerProvider.info('[GET MUSICS]');
 
       callback(null, translateMusicEntityList(musics));
     } catch (error) {
@@ -99,6 +107,8 @@ export class MusicsHandler implements IMusicsServer {
         lyrics: call.request.getLyrics(),
         albumId: call.request.getAlbumid(),
       });
+
+      this.loggerProvider.info('[CREATE MUSIC]');
 
       callback(null, translateMusicEntity(music));
     } catch (error) {
@@ -124,6 +134,8 @@ export class MusicsHandler implements IMusicsServer {
         albumId: call.request.getAlbumid() != '' ? call.request.getAlbumid() : undefined,
       });
 
+      this.loggerProvider.info('[UPDATE MUSIC]', { id: music.id });
+
       callback(null, translateMusicEntity(music));
     } catch (error) {
       await this.errorHandler.handleError(error);
@@ -139,6 +151,8 @@ export class MusicsHandler implements IMusicsServer {
   deleteMusic = async (call: grpc.ServerUnaryCall<Id>, callback: grpc.sendUnaryData<Empty>): Promise<void> => {
     try {
       await this.musicsService.delete({ id: call.request.getId() });
+
+      this.loggerProvider.info('[DELETE MUSIC]', { id: call.request.getId() });
 
       callback(null, new Empty());
     } catch (error) {
@@ -156,6 +170,8 @@ export class MusicsHandler implements IMusicsServer {
     try {
       const music = await this.musicsService.addView({ id: call.request.getId() });
 
+      this.loggerProvider.info('[VIEW MUSIC]', { id: music.id });
+
       callback(null, translateMusicEntity(music));
     } catch (error) {
       await this.errorHandler.handleError(error);
@@ -172,6 +188,8 @@ export class MusicsHandler implements IMusicsServer {
     try {
       const album = await this.albumsService.get({ id: call.request.getId() });
 
+      this.loggerProvider.info('[GET ALBUM]', { id: album.id });
+
       callback(null, translateAlbumEntity(album));
     } catch (error) {
       await this.errorHandler.handleError(error);
@@ -187,6 +205,8 @@ export class MusicsHandler implements IMusicsServer {
   getAlbums = async (call: grpc.ServerUnaryCall<Empty>, callback: grpc.sendUnaryData<AlbumsList>): Promise<void> => {
     try {
       const albums = await this.albumsService.getAll();
+
+      this.loggerProvider.info('[GET ALBUMS]');
 
       callback(null, translateAlbumEntityList(albums));
     } catch (error) {
@@ -210,6 +230,8 @@ export class MusicsHandler implements IMusicsServer {
         producers: call.request.getProducersList(),
         artistId: call.request.getArtistid(),
       });
+
+      this.loggerProvider.info('[CREATE ALBUM]');
 
       callback(null, translateAlbumEntity(album));
     } catch (error) {
@@ -235,6 +257,8 @@ export class MusicsHandler implements IMusicsServer {
         artistId: call.request.getArtistid() != '' ? call.request.getArtistid() : undefined,
       });
 
+      this.loggerProvider.info('[UPDATE ALBUM]', { id: album.id });
+
       callback(null, translateAlbumEntity(album));
     } catch (error) {
       await this.errorHandler.handleError(error);
@@ -250,6 +274,8 @@ export class MusicsHandler implements IMusicsServer {
   deleteAlbum = async (call: grpc.ServerUnaryCall<Id>, callback: grpc.sendUnaryData<Empty>): Promise<void> => {
     try {
       await this.albumsService.delete({ id: call.request.getId() });
+
+      this.loggerProvider.info('[DELETE ALBUM]', { id: call.request.getId() });
 
       callback(null, new Empty());
     } catch (error) {
@@ -267,6 +293,8 @@ export class MusicsHandler implements IMusicsServer {
     try {
       const artist = await this.artistsService.get({ id: call.request.getId() });
 
+      this.loggerProvider.info('[GET ARTIST]', { id: artist.id });
+
       callback(null, translateArtistEntity(artist));
     } catch (error) {
       await this.errorHandler.handleError(error);
@@ -282,6 +310,8 @@ export class MusicsHandler implements IMusicsServer {
   getArtists = async (call: grpc.ServerUnaryCall<Empty>, callback: grpc.sendUnaryData<ArtistsList>): Promise<void> => {
     try {
       const artists = await this.artistsService.getAll();
+
+      this.loggerProvider.info('[GET ARTISTS]');
 
       callback(null, translateArtistEntityList(artists));
     } catch (error) {
@@ -327,6 +357,8 @@ export class MusicsHandler implements IMusicsServer {
         wikipediaUrl: call.request.getWikipediaurl(),
       });
 
+      this.loggerProvider.info('[CREATE ARTIST]');
+
       callback(null, translateArtistEntity(artist));
     } catch (error) {
       await this.errorHandler.handleError(error);
@@ -356,6 +388,8 @@ export class MusicsHandler implements IMusicsServer {
         wikipediaUrl: call.request.getWikipediaurl() != '' ? call.request.getWikipediaurl() : undefined,
       });
 
+      this.loggerProvider.info('[UPDATE ARTIST]', { id: artist.id });
+
       callback(null, translateArtistEntity(artist));
     } catch (error) {
       await this.errorHandler.handleError(error);
@@ -371,6 +405,8 @@ export class MusicsHandler implements IMusicsServer {
   deleteArtist = async (call: grpc.ServerUnaryCall<Id>, callback: grpc.sendUnaryData<Empty>): Promise<void> => {
     try {
       await this.artistsService.delete({ id: call.request.getId() });
+
+      this.loggerProvider.info('[DELETE ARTIST]', { id: call.request.getId() });
 
       callback(null, new Empty());
     } catch (error) {
@@ -388,6 +424,8 @@ export class MusicsHandler implements IMusicsServer {
     try {
       const artist = await this.artistsService.addFavorite({ id: call.request.getId() });
 
+      this.loggerProvider.info('[FAVORITE ARTIST]', { id: artist.id });
+
       callback(null, translateArtistEntity(artist));
     } catch (error) {
       await this.errorHandler.handleError(error);
@@ -403,6 +441,8 @@ export class MusicsHandler implements IMusicsServer {
   unfavoriteArtist = async (call: grpc.ServerUnaryCall<Id>, callback: grpc.sendUnaryData<Artist>): Promise<void> => {
     try {
       const artist = await this.artistsService.removeFavorite({ id: call.request.getId() });
+
+      this.loggerProvider.info('[UNFAVORITE ARTIST]', { id: artist.id });
 
       callback(null, translateArtistEntity(artist));
     } catch (error) {
@@ -420,6 +460,8 @@ export class MusicsHandler implements IMusicsServer {
     try {
       const artist = await this.artistsService.addFollower({ id: call.request.getId() });
 
+      this.loggerProvider.info('[FOLLOW ARTIST]', { id: artist.id });
+
       callback(null, translateArtistEntity(artist));
     } catch (error) {
       await this.errorHandler.handleError(error);
@@ -435,6 +477,8 @@ export class MusicsHandler implements IMusicsServer {
   unfollowArtist = async (call: grpc.ServerUnaryCall<Id>, callback: grpc.sendUnaryData<Artist>): Promise<void> => {
     try {
       const artist = await this.artistsService.removeFollower({ id: call.request.getId() });
+
+      this.loggerProvider.info('[UNFOLLOW ARTIST]', { id: artist.id });
 
       callback(null, translateArtistEntity(artist));
     } catch (error) {

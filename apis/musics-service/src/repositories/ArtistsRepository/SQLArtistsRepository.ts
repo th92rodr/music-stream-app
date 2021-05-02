@@ -67,15 +67,13 @@ export default class SQLArtistsRepository implements IArtistsRepository {
     // prettier-ignore
     await this.databaseConnection<Artist>(ArtistsTable)
       .where({ id })
-      .update({ name, country, foundationDate, members, description, genre, photos, facebookUrl, twitterUrl, instagramUrl, wikipediaUrl, favorites, followers })
-      .first();
+      .update({ name, country, foundationDate, members, description, genre, photos, facebookUrl, twitterUrl, instagramUrl, wikipediaUrl, favorites, followers });
   }
 
   public async delete(id: string): Promise<void> {
     // prettier-ignore
     await this.databaseConnection<Artist>(ArtistsTable)
       .where({ id })
-      .del()
-      .first();
+      .del();
   }
 }

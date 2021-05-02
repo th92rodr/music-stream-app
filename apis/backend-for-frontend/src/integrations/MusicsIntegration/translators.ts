@@ -98,6 +98,6 @@ export function translateGenreEnum(genre: GenreEnum): Genre {
     case GenreEnum['Black Metal']:
       return Genre.BLACK_METAL;
     default:
-      return 0;
+      return -1;
   }
 }

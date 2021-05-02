@@ -15,7 +15,6 @@ import { ErrorArtistNotFound } from '@constants/errors';
 import Artist from '@entities/Artist';
 import IIdProvider from '@providers/IdProvider/interface';
 import IArtistsRepository from '@repositories/ArtistsRepository/interface';
-import { arrayIntersection } from '@utils/index';
 
 export default class ArtistsService implements IArtistsService {
   private artistsRepository: IArtistsRepository;
@@ -82,15 +81,31 @@ export default class ArtistsService implements IArtistsService {
       throw new ErrorArtistNotFound(id);
     }
 
+    if (members) {
+      members.forEach(member => {
+        if (!artist.members.includes(member)) {
+          artist.members.push(member);
+        }
+      });
+    }
+
+    if (photos) {
+      photos.forEach(photo => {
+        if (!artist.photos.includes(photo)) {
+          artist.photos.push(photo);
+        }
+      });
+    }
+
     const newArtist = new Artist({
       id,
       name: name ? name : artist.name,
       country: country ? country : artist.country,
       foundationDate: foundationDate ? foundationDate : artist.foundationDate,
-      members: members ? arrayIntersection(members, artist.members) : artist.members,
+      members: artist.members,
       description: description ? description : artist.description,
       genre: genre ? genre : artist.genre,
-      photos: photos ? arrayIntersection(photos, artist.photos) : artist.photos,
+      photos: artist.photos,
       facebookUrl: facebookUrl ? facebookUrl : artist.facebookUrl,
       twitterUrl: twitterUrl ? twitterUrl : artist.twitterUrl,
       instagramUrl: instagramUrl ? instagramUrl : artist.instagramUrl,
