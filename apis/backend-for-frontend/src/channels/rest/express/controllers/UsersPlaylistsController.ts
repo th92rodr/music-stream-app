@@ -34,10 +34,11 @@ export default class UsersPlaylistsController {
   }
 
   public async show(request: Request, response: Response): Promise<Response> {
+    const userId = request.userId;
     const { id } = request.params;
 
     try {
-      const playlist = await this.playlistsIntegration.getPlaylist({ id });
+      const playlist = await this.playlistsIntegration.getPlaylist({ id, userId });
 
       return response.status(HttpStatusCode.OK).json(translatePlaylist(playlist));
     } catch (error) {
@@ -74,11 +75,12 @@ export default class UsersPlaylistsController {
   }
 
   public async update(request: Request, response: Response): Promise<Response> {
+    const userId = request.userId;
     const { id } = request.params;
     const { name } = request.body;
 
     try {
-      const playlist = await this.playlistsIntegration.updatePlaylist({ id, name });
+      const playlist = await this.playlistsIntegration.updatePlaylist({ id, userId, name });
 
       return response.status(HttpStatusCode.OK).json(translatePlaylist(playlist));
     } catch (error) {
@@ -92,10 +94,11 @@ export default class UsersPlaylistsController {
   }
 
   public async delete(request: Request, response: Response): Promise<Response> {
+    const userId = request.userId;
     const { id } = request.params;
 
     try {
-      await this.playlistsIntegration.deletePlaylist({ id });
+      await this.playlistsIntegration.deletePlaylist({ id, userId });
 
       return response.status(HttpStatusCode.OK).send();
     } catch (error) {
