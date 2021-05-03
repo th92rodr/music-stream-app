@@ -100,6 +100,18 @@ func (t *testFeature) parseMusicData(data *godog.Table) {
 	}
 }
 
+func (t *testFeature) parsePlaylistData(data *godog.Table) {
+	for _, row := range data.Rows {
+		key := row.Cells[0].Value
+		value := row.Cells[1].Value
+
+		switch key {
+		case "name":
+			t.playlist.Name = parseString(value)
+		}
+	}
+}
+
 func parseString(str string) string {
 	str = strings.ReplaceAll(str, "\"", "")
 	str = strings.TrimPrefix(str, " ")
@@ -247,6 +259,28 @@ func validateMusic(sent, received music, method string) bool {
 			sent.Lyrics != received.Lyrics ||
 			sent.AlbumId != received.AlbumId ||
 			sent.Views != received.Views {
+			return false
+		}
+		return true
+	}
+
+	return true
+}
+
+func (t *testFeature) validatePlaylist(sent, received playlist, method string) bool {
+	if method == "create" {
+		if sent.Name != received.Name ||
+			t.user.Id != received.UserId ||
+			received.Id == "" {
+			return false
+		}
+		return true
+	}
+
+	if method == "get" || method == "update" {
+		if sent.Id != received.Id ||
+			sent.Name != received.Name ||
+			t.user.Id != received.UserId {
 			return false
 		}
 		return true
