@@ -24,12 +24,12 @@ func New(databaseConnection *sql.DB) IPlaylistsRepository {
 	}
 }
 
-func (r playlistsRepository) Find(id string) (*e.Playlist, map[int32]string, error) {
+func (r playlistsRepository) FindById(request FindPlaylistByIdRequest) (*e.Playlist, error) {
 	playlist := &e.Playlist{}
 
 	query := fmt.Sprintf(`
-		SELECT * FROM %s WHERE %s = '%s'`,
-		c.PlaylistsTable, fieldId, id,
+		SELECT * FROM %s WHERE %s = '%s' AND %s = '%s'`,
+		c.PlaylistsTable, fieldId, request.Id, fieldUserId, request.UserId,
 	)
 
 	row := r.databaseConnection.QueryRow(query)
@@ -37,30 +37,51 @@ func (r playlistsRepository) Find(id string) (*e.Playlist, map[int32]string, err
 	if err := row.Scan(&playlist.Id, &playlist.Name, &playlist.UserId); err != nil {
 		if err == sql.ErrNoRows {
 			customError := c.ErrorPlaylistNotFound
-			customError.Message = fmt.Sprintf("A playlist entity with the id %s was not found.", id)
+			customError.Message = fmt.Sprintf("A playlist entity from the user %s with id %s was not found.", request.UserId, request.Id)
 			customError.Details = err.Error()
-			return nil, nil, customError
+			return nil, customError
 		}
 
 		customError := c.InternalError
 		customError.Details = err.Error()
-		return nil, nil, customError
+		return nil, customError
 	}
 
-	tracks, err := r.findTracks(id)
-	if err != nil {
-		return nil, nil, err
-	}
-
-	return playlist, tracks, nil
+	return playlist, nil
 }
 
-func (r playlistsRepository) FindAll(userId string) ([]e.Playlist, error) {
+func (r playlistsRepository) FindByName(request FindPlaylistByNameRequest) (*e.Playlist, error) {
+	playlist := &e.Playlist{}
+
+	query := fmt.Sprintf(`
+		SELECT * FROM %s WHERE %s = '%s' AND %s = '%s'`,
+		c.PlaylistsTable, fieldUserId, request.UserId, fieldName, request.Name,
+	)
+
+	row := r.databaseConnection.QueryRow(query)
+
+	if err := row.Scan(&playlist.Id, &playlist.Name, &playlist.UserId); err != nil {
+		if err == sql.ErrNoRows {
+			customError := c.ErrorPlaylistNotFound
+			customError.Message = fmt.Sprintf("A playlist entity from the user %s with the name %s was not found.", request.UserId, request.Name)
+			customError.Details = err.Error()
+			return nil, customError
+		}
+
+		customError := c.InternalError
+		customError.Details = err.Error()
+		return nil, customError
+	}
+
+	return playlist, nil
+}
+
+func (r playlistsRepository) FindAll(request FindAllPlaylistsRequest) ([]e.Playlist, error) {
 	playlists := []e.Playlist{}
 
 	query := fmt.Sprintf(`
 		SELECT * FROM %s WHERE %s = '%s'`,
-		c.PlaylistsTable, fieldUserId, userId,
+		c.PlaylistsTable, fieldUserId, request.UserId,
 	)
 
 	rows, err := r.databaseConnection.Query(query)
@@ -76,13 +97,6 @@ func (r playlistsRepository) FindAll(userId string) ([]e.Playlist, error) {
 		playlist := e.Playlist{}
 
 		if err := rows.Scan(&playlist.Id, &playlist.Name, &playlist.UserId); err != nil {
-			if err == sql.ErrNoRows {
-				customError := c.ErrorPlaylistNotFound
-				customError.Message = fmt.Sprintf("A playlist entity with the user_id %s was not found.", userId)
-				customError.Details = err.Error()
-				return nil, customError
-			}
-
 			customError := c.InternalError
 			customError.Details = err.Error()
 			return nil, customError
@@ -98,6 +112,20 @@ func (r playlistsRepository) FindAll(userId string) ([]e.Playlist, error) {
 	}
 
 	return playlists, nil
+}
+
+func (r playlistsRepository) FindByIdWithTracks(request FindPlaylistByIdRequest) (*e.Playlist, map[int32]string, error) {
+	playlist, err := r.FindById(request)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	tracks, err := r.findTracks(request.Id)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	return playlist, tracks, nil
 }
 
 func (r playlistsRepository) Store(request StorePlaylistRequest) error {
@@ -131,9 +159,9 @@ func (r playlistsRepository) Store(request StorePlaylistRequest) error {
 func (r playlistsRepository) Update(request UpdatePlaylistRequest) error {
 	query := fmt.Sprintf(`
 		UPDATE %s
-		SET %s = $2
-		WHERE %s = $1`,
-		c.PlaylistsTable, fieldName, fieldId,
+		SET %s = $1
+		WHERE %s = '%s' AND %s = '%s'`,
+		c.PlaylistsTable, fieldName, fieldId, request.Id, fieldUserId, request.UserId,
 	)
 
 	statement, err := r.databaseConnection.Prepare(query)
@@ -143,7 +171,7 @@ func (r playlistsRepository) Update(request UpdatePlaylistRequest) error {
 		return customError
 	}
 
-	if _, err = statement.Exec(request.Id, request.Name); err != nil {
+	if _, err = statement.Exec(request.Name); err != nil {
 		customError := c.InternalError
 		customError.Details = err.Error()
 		return customError
@@ -158,10 +186,10 @@ func (r playlistsRepository) Update(request UpdatePlaylistRequest) error {
 	return nil
 }
 
-func (r playlistsRepository) Delete(id string) error {
+func (r playlistsRepository) Delete(request DeletePlaylistRequest) error {
 	query := fmt.Sprintf(`
-		DELETE FROM %s WHERE %s = '%s'`,
-		c.PlaylistsTable, fieldId, id,
+		DELETE FROM %s WHERE %s = '%s' AND %s = '%s'`,
+		c.PlaylistsTable, fieldId, request.Id, fieldUserId, request.UserId,
 	)
 
 	statement, err := r.databaseConnection.Prepare(query)

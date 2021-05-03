@@ -1,8 +1,10 @@
 package playlistsService
 
 import (
+	"fmt"
 	"sync"
 
+	c "playlists-service/internal/constants"
 	e "playlists-service/internal/entities"
 	m "playlists-service/internal/integrations/musicsIntegration"
 	i "playlists-service/internal/providers/idProvider"
@@ -24,32 +26,44 @@ func New(idProvider i.IIdProvider, musicsIntegration m.IMusicsIntegration, playl
 }
 
 func (s playlistsService) Get(request GetPlaylistRequest) (*e.Playlist, error) {
-	playlist, tracks, err := s.playlistsRepository.Find(request.Id)
-
+	playlist, err := s.playlistsRepository.FindById(r.FindPlaylistByIdRequest{
+		UserId: request.UserId,
+		Id:     request.Id,
+	})
 	if err != nil {
 		return nil, err
 	}
-
-	playlist.Tracks, _ = s.getTracks(tracks)
 
 	return playlist, nil
 }
 
 func (s playlistsService) GetAll(request GetAllPlaylistsRequest) ([]e.Playlist, error) {
-	return s.playlistsRepository.FindAll(request.UserId)
+	return s.playlistsRepository.FindAll(r.FindAllPlaylistsRequest{
+		UserId: request.UserId,
+	})
 }
 
 func (s playlistsService) Create(request CreatePlaylistRequest) (*e.Playlist, error) {
+	playlistExists, _ := s.playlistsRepository.FindByName(r.FindPlaylistByNameRequest{
+		UserId: request.UserId,
+		Name:   request.Name,
+	})
+	if playlistExists != nil {
+		customError := c.ErrorPlaylistAlreadyExists
+		customError.Message = fmt.Sprintf("A playlist entity from the user %s with the name %s already exists.", request.UserId, request.Name)
+		return nil, customError
+	}
+
 	playlist := &e.Playlist{
 		Id:     s.idProvider.Generate(),
-		Name:   request.Name,
 		UserId: request.UserId,
+		Name:   request.Name,
 	}
 
 	if err := s.playlistsRepository.Store(r.StorePlaylistRequest{
 		Id:     playlist.Id,
-		Name:   playlist.Name,
 		UserId: playlist.UserId,
+		Name:   playlist.Name,
 	}); err != nil {
 		return nil, err
 	}
@@ -58,8 +72,10 @@ func (s playlistsService) Create(request CreatePlaylistRequest) (*e.Playlist, er
 }
 
 func (s playlistsService) Update(request UpdatePlaylistRequest) (*e.Playlist, error) {
-	playlist, _, err := s.playlistsRepository.Find(request.Id)
-
+	playlist, err := s.playlistsRepository.FindById(r.FindPlaylistByIdRequest{
+		UserId: request.UserId,
+		Id:     request.Id,
+	})
 	if err != nil {
 		return nil, err
 	}
@@ -71,8 +87,9 @@ func (s playlistsService) Update(request UpdatePlaylistRequest) (*e.Playlist, er
 	}
 
 	if err = s.playlistsRepository.Update(r.UpdatePlaylistRequest{
-		Id:   newPlaylist.Id,
-		Name: newPlaylist.Name,
+		UserId: newPlaylist.UserId,
+		Id:     newPlaylist.Id,
+		Name:   newPlaylist.Name,
 	}); err != nil {
 		return nil, err
 	}
@@ -81,7 +98,10 @@ func (s playlistsService) Update(request UpdatePlaylistRequest) (*e.Playlist, er
 }
 
 func (s playlistsService) Delete(request DeletePlaylistRequest) error {
-	return s.playlistsRepository.Delete(request.Id)
+	return s.playlistsRepository.Delete(r.DeletePlaylistRequest{
+		UserId: request.UserId,
+		Id:     request.Id,
+	})
 }
 
 func (s playlistsService) getTracks(t map[int32]string) (map[int32]*e.Music, []error) {

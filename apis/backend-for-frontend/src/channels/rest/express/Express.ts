@@ -11,6 +11,7 @@ import ArtistsController from './controllers/ArtistsController';
 import MusicsController from './controllers/MusicsController';
 import TokensController from './controllers/TokensController';
 import UsersController from './controllers/UsersController';
+import UsersPlaylistsController from './controllers/UsersPlaylistsController';
 import Authentication from '../middlewares/Authentication';
 import Validator from '../middlewares/Validator';
 import Config from '@config/index';
@@ -19,6 +20,7 @@ import BaseError from '@constants/BaseError';
 import { ErrorInvalidToken, InternalError } from '@constants/errors';
 import IErrorHandler from '@handlers/ErrorHandler/interface';
 import IMusicsIntegration from '@integrations/MusicsIntegration/interface';
+import IPlaylistsIntegration from '@integrations/PlaylistsIntegration/interface';
 import IUsersIntegration from '@integrations/UsersIntegration/interface';
 import ILoggerProvider from '@providers/LoggerProvider/interface';
 import { delay } from '@utils/index';
@@ -37,10 +39,12 @@ export default class ExpressRestChannel implements IRestChannel {
   private musicsController: MusicsController;
   private tokensController: TokensController;
   private usersController: UsersController;
+  private usersPlaylistsController: UsersPlaylistsController;
 
   // prettier-ignore
   constructor(
     musicsIntegration: IMusicsIntegration,
+    playlistsIntegration: IPlaylistsIntegration,
     usersIntegration: IUsersIntegration,
     errorHandler: IErrorHandler,
     loggerProvider: ILoggerProvider,
@@ -55,12 +59,12 @@ export default class ExpressRestChannel implements IRestChannel {
     this.errorHandler = errorHandler;
     this.loggerProvider = loggerProvider;
 
-    this.usersController = new UsersController(usersIntegration, validationMiddleware);
-    this.tokensController = new TokensController(usersIntegration, validationMiddleware);
-
     this.albumsController = new AlbumsController(musicsIntegration, validationMiddleware);
     this.artistsController = new ArtistsController(musicsIntegration, validationMiddleware);
     this.musicsController = new MusicsController(musicsIntegration, validationMiddleware);
+    this.tokensController = new TokensController(usersIntegration, validationMiddleware);
+    this.usersController = new UsersController(usersIntegration, validationMiddleware);
+    this.usersPlaylistsController = new UsersPlaylistsController(playlistsIntegration, validationMiddleware);
   }
 
   public start(): void {
@@ -166,6 +170,12 @@ export default class ExpressRestChannel implements IRestChannel {
     router.delete('/api/musics/:id', this.musicsController.delete.bind(this.musicsController));
 
     router.get('/api/musics/:id/audio', this.musicsController.stream.bind(this.musicsController));
+
+    router.get('/api/playlists/:id', this.checkAccess.bind(this), this.usersPlaylistsController.show.bind(this.usersPlaylistsController));
+    router.get('/api/playlists', this.checkAccess.bind(this), this.usersPlaylistsController.index.bind(this.usersPlaylistsController));
+    router.post('/api/playlists', this.checkAccess.bind(this), this.usersPlaylistsController.create.bind(this.usersPlaylistsController));
+    router.patch('/api/playlists/:id', this.checkAccess.bind(this), this.usersPlaylistsController.update.bind(this.usersPlaylistsController));
+    router.delete('/api/playlists/:id', this.checkAccess.bind(this), this.usersPlaylistsController.delete.bind(this.usersPlaylistsController));
 
     router.use('*', (request: Request, response: Response) => {
       response.status(HttpStatusCode.NOT_FOUND).json({ message: 'Not Found' });

@@ -26,11 +26,12 @@ type testFeature struct {
 }
 
 type entities struct {
-	user   *user
-	token  string
-	artist *artist
-	album  *album
-	music  *music
+	user     *user
+	token    string
+	artist   *artist
+	album    *album
+	music    *music
+	playlist *playlist
 }
 
 func InitializeScenario(ctx *godog.ScenarioContext, mode string) {
@@ -42,6 +43,7 @@ func InitializeScenario(ctx *godog.ScenarioContext, mode string) {
 	test.artist = &artist{}
 	test.album = &album{}
 	test.music = &music{}
+	test.playlist = &playlist{}
 
 	ctx.Step(`^I want to create an user with the following data:$`, test.makeCreateUserRequest)
 	ctx.Step(`^I want to authenticate this user using the password "([^"]*)"$`, test.makeAuthenticateUserRequest)
@@ -64,6 +66,11 @@ func InitializeScenario(ctx *godog.ScenarioContext, mode string) {
 	ctx.Step(`^I want to update this music with the following data:$`, test.makeUpdateMusicRequest)
 	ctx.Step(`^I want to delete this music`, test.makeDeleteMusicRequest)
 
+	ctx.Step(`^I want to create a playlist with the following data:$`, test.makeCreatePlaylistRequest)
+	ctx.Step(`^I want to consult this playlist`, test.makeGetPlaylistRequest)
+	ctx.Step(`^I want to update this playlist with the following data:$`, test.makeUpdatePlaylistRequest)
+	ctx.Step(`^I want to delete this playlist`, test.makeDeletePlaylistRequest)
+
 	ctx.Step(`^I send the request`, test.sendRequest)
 
 	ctx.Step(`^the response status code should be (\d+)$`, test.validateResponseStatusCode)
@@ -73,6 +80,7 @@ func InitializeScenario(ctx *godog.ScenarioContext, mode string) {
 	ctx.Step(`^validate artist response body "([^"]*)"$`, test.validateArtistResponseBody)
 	ctx.Step(`^validate album response body "([^"]*)"$`, test.validateAlbumResponseBody)
 	ctx.Step(`^validate music response body "([^"]*)"$`, test.validateMusicResponseBody)
+	ctx.Step(`^validate playlist response body "([^"]*)"$`, test.validatePlaylistResponseBody)
 }
 
 // ------------------------------------ //
@@ -205,6 +213,8 @@ func (t *testFeature) makeDeleteUserRequest() error {
 	}
 
 	t.request.Header.Add("Authorization", fmt.Sprintf("Bearer %s", t.token))
+
+	t.user = &user{}
 
 	return nil
 }
@@ -443,6 +453,90 @@ func (t *testFeature) makeDeleteMusicRequest() error {
 	return nil
 }
 
+// Playlist
+
+func (t *testFeature) makeCreatePlaylistRequest(data *godog.Table) error {
+	t.parsePlaylistData(data)
+
+	var err error
+	t.requestBody, err = json.Marshal(t.playlist)
+	if err != nil {
+		return err
+	}
+
+	if t.mode == "VERBOSE" {
+		fmt.Println("CREATE PLAYLIST BODY: ", string(t.requestBody))
+	}
+
+	url := fmt.Sprintf("%s/api/playlists", baseURL)
+
+	t.request, err = http.NewRequest(http.MethodPost, url, bytes.NewBuffer(t.requestBody))
+	if err != nil {
+		return err
+	}
+
+	t.request.Header.Set("Content-Type", "application/json")
+	t.request.Header.Add("Authorization", fmt.Sprintf("Bearer %s", t.token))
+
+	return nil
+}
+
+func (t *testFeature) makeGetPlaylistRequest() error {
+	url := fmt.Sprintf("%s/api/playlists/%s", baseURL, t.playlist.Id)
+
+	var err error
+	t.request, err = http.NewRequest(http.MethodGet, url, nil)
+	if err != nil {
+		return err
+	}
+
+	t.request.Header.Add("Authorization", fmt.Sprintf("Bearer %s", t.token))
+
+	return nil
+}
+
+func (t *testFeature) makeUpdatePlaylistRequest(data *godog.Table) error {
+	t.parsePlaylistData(data)
+
+	var err error
+	t.requestBody, err = json.Marshal(t.playlist)
+	if err != nil {
+		return err
+	}
+
+	if t.mode == "VERBOSE" {
+		fmt.Println("UPDATE PLAYLIST BODY: ", string(t.requestBody))
+	}
+
+	url := fmt.Sprintf("%s/api/playlists/%s", baseURL, t.playlist.Id)
+
+	t.request, err = http.NewRequest(http.MethodPatch, url, bytes.NewBuffer(t.requestBody))
+	if err != nil {
+		return err
+	}
+
+	t.request.Header.Add("Authorization", fmt.Sprintf("Bearer %s", t.token))
+	t.request.Header.Set("Content-Type", "application/json")
+
+	return nil
+}
+
+func (t *testFeature) makeDeletePlaylistRequest() error {
+	url := fmt.Sprintf("%s/api/playlists/%s", baseURL, t.playlist.Id)
+
+	var err error
+	t.request, err = http.NewRequest(http.MethodDelete, url, nil)
+	if err != nil {
+		return err
+	}
+
+	t.request.Header.Add("Authorization", fmt.Sprintf("Bearer %s", t.token))
+
+	t.playlist = &playlist{}
+
+	return nil
+}
+
 // ------------------------------------ //
 
 // Response
@@ -595,6 +689,33 @@ func (t *testFeature) validateMusicResponseBody(method string) error {
 	}
 
 	t.music = receivedMusic
+
+	return nil
+}
+
+func (t *testFeature) validatePlaylistResponseBody(method string) error {
+	defer t.response.Body.Close()
+	responseBody, err := ioutil.ReadAll(t.response.Body)
+	if err != nil {
+		return err
+	}
+
+	receivedPlaylist := &playlist{}
+	err = json.Unmarshal(responseBody, receivedPlaylist)
+	if err != nil {
+		return err
+	}
+
+	if t.mode == "VERBOSE" {
+		prettyPrint(t.playlist)
+		prettyPrint(receivedPlaylist)
+	}
+
+	if !t.validatePlaylist(*t.playlist, *receivedPlaylist, method) {
+		return fmt.Errorf("Response body validation failed.")
+	}
+
+	t.playlist = receivedPlaylist
 
 	return nil
 }
