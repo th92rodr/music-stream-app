@@ -8,4 +8,8 @@ type IPlaylistsService interface {
 	Create(request CreatePlaylistRequest) (*e.Playlist, error)
 	Update(request UpdatePlaylistRequest) (*e.Playlist, error)
 	Delete(request DeletePlaylistRequest) error
+
+	AddTrack(request AddTrackRequest) error
+	UpdateTrack(request UpdateTrackRequest) error
+	RemoveTrack(request RemoveTrackRequest) error
 }
