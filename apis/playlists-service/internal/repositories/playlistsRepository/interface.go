@@ -11,7 +11,8 @@ type IPlaylistsRepository interface {
 	Update(request UpdatePlaylistRequest) error
 	Delete(request DeletePlaylistRequest) error
 
+	FindTrack(request FindTrackRequest) (*FindTrackResponse, error)
 	StoreTrack(request StoreTrackRequest) error
 	UpdateTrack(request UpdateTrackRequest) error
-	DeleteTrack(id string) error
+	DeleteTrack(request DeleteTrackRequest) error
 }
