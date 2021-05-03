@@ -1,5 +1,6 @@
 export interface GetPlaylist {
   id: string;
+  userId: string;
 }
 
 export interface GetPlaylists {
@@ -13,9 +14,11 @@ export interface CreatePlaylist {
 
 export interface UpdatePlaylist {
   id: string;
+  userId: string;
   name?: string;
 }
 
 export interface DeletePlaylist {
   id: string;
+  userId: string;
 }
