@@ -120,7 +120,7 @@ func (r playlistsRepository) FindByIdWithTracks(request FindPlaylistByIdRequest)
 		return nil, nil, err
 	}
 
-	tracks, err := r.findTracks(request.Id)
+	tracks, err := r.findAllTracks(request.Id)
 	if err != nil {
 		return nil, nil, err
 	}
