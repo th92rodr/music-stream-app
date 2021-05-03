@@ -1,7 +1,7 @@
 import * as grpc from 'grpc';
 
 import { PlaylistsClient } from './proto/playlists_service_grpc_pb';
-import { CreatePlaylistRequest, Id, Playlist, PlaylistsList, UpdatePlaylistRequest } from './proto/playlists_service_pb';
+import { CreatePlaylistRequest, DeletePlaylistRequest, GetPlaylistRequest, Id, Playlist, PlaylistsList, UpdatePlaylistRequest } from './proto/playlists_service_pb';
 import { CreatePlaylist, DeletePlaylist, GetPlaylist, GetPlaylists, UpdatePlaylist } from './dtos';
 import IPlaylistsIntegration from './interface';
 import { translatePlaylistEntity, translatePlaylistEntityList } from './translators';
@@ -17,12 +17,13 @@ export default class PlaylistsIntegration implements IPlaylistsIntegration {
     this.client = new PlaylistsClient(ADDRESS, grpc.credentials.createInsecure());
   }
 
-  public getPlaylist = async ({ id }: GetPlaylist): Promise<PlaylistEntity> => {
+  public getPlaylist = async ({ id, userId }: GetPlaylist): Promise<PlaylistEntity> => {
     return new Promise((resolve, reject) => {
-      const playlistId = new Id();
-      playlistId.setId(id);
+      const getPlaylistRequest = new GetPlaylistRequest();
+      getPlaylistRequest.setId(id);
+      getPlaylistRequest.setUserid(userId);
 
-      this.client.getPlaylist(playlistId, (error: Error | null, playlist: Playlist) => {
+      this.client.getPlaylist(getPlaylistRequest, (error: Error | null, playlist: Playlist) => {
         if (error != null) reject(error);
         else resolve(translatePlaylistEntity(playlist));
       });
@@ -54,10 +55,11 @@ export default class PlaylistsIntegration implements IPlaylistsIntegration {
     });
   };
 
-  public updatePlaylist = async ({ id, name }: UpdatePlaylist): Promise<PlaylistEntity> => {
+  public updatePlaylist = async ({ id, userId, name }: UpdatePlaylist): Promise<PlaylistEntity> => {
     return new Promise((resolve, reject) => {
       const updatePlaylistRequest = new UpdatePlaylistRequest();
       updatePlaylistRequest.setId(id);
+      updatePlaylistRequest.setUserid(userId);
       updatePlaylistRequest.setName(name ? name : '');
 
       this.client.updatePlaylist(updatePlaylistRequest, (error: Error | null, playlist: Playlist) => {
@@ -67,12 +69,13 @@ export default class PlaylistsIntegration implements IPlaylistsIntegration {
     });
   };
 
-  public deletePlaylist = async ({ id }: DeletePlaylist): Promise<void> => {
+  public deletePlaylist = async ({ id, userId }: DeletePlaylist): Promise<void> => {
     return new Promise((resolve, reject) => {
-      const playlistId = new Id();
-      playlistId.setId(id);
+      const deletePlaylistRequest = new DeletePlaylistRequest();
+      deletePlaylistRequest.setId(id);
+      deletePlaylistRequest.setUserid(userId);
 
-      this.client.deletePlaylist(playlistId, (error: Error | null) => {
+      this.client.deletePlaylist(deletePlaylistRequest, (error: Error | null) => {
         if (error != null) reject(error);
         else resolve();
       });
