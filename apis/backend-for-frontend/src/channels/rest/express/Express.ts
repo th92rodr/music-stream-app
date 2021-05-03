@@ -171,7 +171,7 @@ export default class ExpressRestChannel implements IRestChannel {
 
     router.get('/api/musics/:id/audio', this.musicsController.stream.bind(this.musicsController));
 
-    router.get('/api/playlists/:id', this.usersPlaylistsController.show.bind(this.usersPlaylistsController));
+    router.get('/api/playlists/:id', this.checkAccess.bind(this), this.usersPlaylistsController.show.bind(this.usersPlaylistsController));
     router.get('/api/playlists', this.checkAccess.bind(this), this.usersPlaylistsController.index.bind(this.usersPlaylistsController));
     router.post('/api/playlists', this.checkAccess.bind(this), this.usersPlaylistsController.create.bind(this.usersPlaylistsController));
     router.patch('/api/playlists/:id', this.checkAccess.bind(this), this.usersPlaylistsController.update.bind(this.usersPlaylistsController));
