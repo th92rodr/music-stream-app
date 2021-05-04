@@ -11,6 +11,10 @@ service Playlists {
     rpc CreatePlaylist(CreatePlaylistRequest) returns (Playlist) {}
     rpc UpdatePlaylist(UpdatePlaylistRequest) returns (Playlist) {}
     rpc DeletePlaylist(DeletePlaylistRequest) returns (Empty) {}
+
+    rpc AddTrack(AddTrackRequest) returns (Track) {}
+    rpc UpdateTrack(UpdateTrackRequest) returns (Track) {}
+    rpc RemoveTrack(RemoveTrackRequest) returns (Empty) {}
 }
 
 message Playlist {
@@ -18,12 +22,12 @@ message Playlist {
     string name = 2;
     string userId = 3;
     repeated Track tracks = 4;
+}
 
-    message Track {
-        string id = 1;
-        int32 index = 2;
-        Music music = 3;
-    }
+message Track {
+    string id = 1;
+    int32 index = 2;
+    Music music = 3;
 }
 
 message PlaylistsList {
@@ -53,4 +57,23 @@ message UpdatePlaylistRequest {
 message DeletePlaylistRequest {
     string id = 1;
     string userId = 2;
+}
+
+message AddTrackRequest {
+    string userId = 1;
+    string playlistId = 2;
+    string musicId = 3;
+}
+
+message UpdateTrackRequest {
+    string userId = 1;
+    string playlistId = 2;
+    string id = 3;
+    int32 index = 4;
+}
+
+message RemoveTrackRequest {
+    string userId = 1;
+    string playlistId = 2;
+    string id = 3;
 }

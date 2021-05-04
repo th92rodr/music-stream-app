@@ -6,14 +6,10 @@ import (
 )
 
 func translatePlaylist(playlist *e.Playlist) *proto.Playlist {
-	tracks := []*proto.Playlist_Track{}
+	tracks := []*proto.Track{}
 
 	for _, track := range playlist.Tracks {
-		tracks = append(tracks, &proto.Playlist_Track{
-			Id:    track.Id,
-			Index: track.Index,
-			Music: translateMusic(track.Music),
-		})
+		tracks = append(tracks, translatePlaylistTrack(track))
 	}
 
 	return &proto.Playlist{
@@ -33,6 +29,14 @@ func translatePlaylistList(playlists []e.Playlist) *proto.PlaylistsList {
 
 	return &proto.PlaylistsList{
 		Playlists: playlistList,
+	}
+}
+
+func translatePlaylistTrack(track *e.Track) *proto.Track {
+	return &proto.Track{
+		Id:    track.Id,
+		Index: track.Index,
+		Music: translateMusic(track.Music),
 	}
 }
 
