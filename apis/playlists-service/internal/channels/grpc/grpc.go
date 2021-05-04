@@ -2,6 +2,7 @@ package grpc
 
 import (
 	"context"
+	"fmt"
 	"net"
 
 	"google.golang.org/grpc"
@@ -27,7 +28,7 @@ func New(loggerProvider l.ILoggerProvider, playlistsService s.IPlaylistsService)
 }
 
 func (c grpcChannel) Start() {
-	listener, err := net.Listen("tcp", config.GrpcPort)
+	listener, err := net.Listen("tcp", fmt.Sprintf(":%s", config.GrpcPort))
 	if err != nil {
 		panic(err)
 	}
@@ -39,6 +40,8 @@ func (c grpcChannel) Start() {
 	if err := c.server.Serve(listener); err != nil {
 		panic(err)
 	}
+
+	c.loggerProvider.Info(fmt.Sprintf("gRPC Channel running on port %s", config.GrpcPort), nil)
 }
 
 func (c grpcChannel) Stop() {
@@ -55,6 +58,8 @@ func (c grpcChannel) GetPlaylist(ctx context.Context, request *proto.GetPlaylist
 		return nil, err
 	}
 
+	c.loggerProvider.Info("GET PLAYLIST", request.Id)
+
 	return translatePlaylist(playlist), nil
 }
 
@@ -66,6 +71,8 @@ func (c grpcChannel) GetPlaylists(ctx context.Context, request *proto.Id) (*prot
 	if err != nil {
 		return nil, err
 	}
+
+	c.loggerProvider.Info("GET PLAYLISTS", nil)
 
 	return translatePlaylistList(playlists), nil
 }
@@ -79,6 +86,8 @@ func (c grpcChannel) CreatePlaylist(ctx context.Context, request *proto.CreatePl
 	if err != nil {
 		return nil, err
 	}
+
+	c.loggerProvider.Info("CREATE PLAYLIST", nil)
 
 	return translatePlaylist(playlist), nil
 }
@@ -94,6 +103,8 @@ func (c grpcChannel) UpdatePlaylist(ctx context.Context, request *proto.UpdatePl
 		return nil, err
 	}
 
+	c.loggerProvider.Info("UPDATE PLAYLIST", request.Id)
+
 	return translatePlaylist(playlist), nil
 }
 
@@ -104,6 +115,8 @@ func (c grpcChannel) DeletePlaylist(ctx context.Context, request *proto.DeletePl
 	}); err != nil {
 		return nil, err
 	}
+
+	c.loggerProvider.Info("DELETE PLAYLIST", request.Id)
 
 	return &proto.Empty{}, nil
 }
