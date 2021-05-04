@@ -28,7 +28,6 @@ type DeletePlaylistRequest struct {
 type AddTrackRequest struct {
 	UserId     string
 	PlaylistId string
-	Index      int32
 	MusicId    string
 }
 

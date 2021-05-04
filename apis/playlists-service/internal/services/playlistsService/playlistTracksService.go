@@ -8,36 +8,60 @@ import (
 	r "playlists-service/internal/repositories/playlistsRepository"
 )
 
-func (s playlistsService) AddTrack(request AddTrackRequest) error {
+func (s playlistsService) AddTrack(request AddTrackRequest) (*e.Track, error) {
 	// Verify if there is a playlist with this id, from this user
-	if _, err := s.playlistsRepository.FindById(r.FindPlaylistByIdRequest{
+	playlist, err := s.playlistsRepository.FindByIdWithTracks(r.FindPlaylistByIdRequest{
 		UserId: request.UserId,
 		Id:     request.PlaylistId,
-	}); err != nil {
-		return err
+	})
+	if err != nil {
+		return nil, err
 	}
 
-	return s.playlistsRepository.StoreTrack(r.StoreTrackRequest{
-		Id:         s.idProvider.Generate(),
-		Index:      request.Index,
+	newTrack := &e.Track{
+		Id:      s.idProvider.Generate(),
+		Index:   int32(len(playlist.Tracks) + 1),
+		MusicId: request.MusicId,
+	}
+
+	if err = s.playlistsRepository.StoreTrack(r.StoreTrackRequest{
+		Id:         newTrack.Id,
+		Index:      newTrack.Index,
 		PlaylistId: request.PlaylistId,
-		MusicId:    request.MusicId,
-	})
+		MusicId:    newTrack.MusicId,
+	}); err != nil {
+		return nil, err
+	}
+
+	return newTrack, nil
 }
 
-func (s playlistsService) UpdateTrack(request UpdateTrackRequest) error {
+func (s playlistsService) UpdateTrack(request UpdateTrackRequest) (*e.Track, error) {
 	// Verify if there is a playlist with this id, from this user
-	if _, err := s.playlistsRepository.FindById(r.FindPlaylistByIdRequest{
+	if _, err := s.playlistsRepository.FindByIdWithTracks(r.FindPlaylistByIdRequest{
 		UserId: request.UserId,
 		Id:     request.PlaylistId,
 	}); err != nil {
-		return err
+		return nil, err
 	}
 
-	return s.playlistsRepository.UpdateTrack(r.UpdateTrackRequest{
-		Id:    request.Id,
-		Index: request.Index,
+	track, err := s.playlistsRepository.FindTrack(r.FindTrackRequest{
+		Id: request.Id,
 	})
+	if err != nil {
+		return nil, err
+	}
+
+	track.Index = request.Index
+
+	if err = s.playlistsRepository.UpdateTrack(r.UpdateTrackRequest{
+		Id:    track.Id,
+		Index: track.Index,
+	}); err != nil {
+		return nil, err
+	}
+
+	return track, nil
 }
 
 func (s playlistsService) RemoveTrack(request RemoveTrackRequest) error {
@@ -54,29 +78,28 @@ func (s playlistsService) RemoveTrack(request RemoveTrackRequest) error {
 	})
 }
 
-func (s playlistsService) getTracks(t map[int32]string) (map[int32]*e.Music, []error) {
+func (s playlistsService) getTracks(tracks []*e.Track) ([]*e.Track, []error) {
 	var waitGroup sync.WaitGroup
-	waitGroup.Add(len(t))
+	waitGroup.Add(len(tracks))
 
 	defer waitGroup.Wait()
 
-	tracks := make(map[int32]*e.Music)
 	var errors []error
 
-	for index, musicId := range t {
-		go func(index int32, musicId string) {
+	for _, track := range tracks {
+		go func(track *e.Track) {
 			defer waitGroup.Done()
 
 			music, err := s.musicsIntegration.GetMusic(m.GetMusicRequest{
-				Id: musicId,
+				Id: track.MusicId,
 			})
 
 			if err != nil {
 				errors = append(errors, err)
 			} else {
-				tracks[index] = music
+				track.Music = music
 			}
-		}(index, musicId)
+		}(track)
 	}
 
 	return tracks, errors
