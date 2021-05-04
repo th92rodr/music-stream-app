@@ -1,24 +1,5 @@
 import * as grpc from 'grpc';
 
-import { MusicsClient } from './proto/musics_service_grpc_pb';
-// prettier-ignore
-import {
-  Album,
-  AlbumsList,
-  Artist,
-  ArtistsList,
-  CreateAlbumRequest,
-  CreateArtistRequest,
-  CreateMusicRequest,
-  Empty,
-  GetArtistByGenreRequest,
-  Id,
-  Music,
-  MusicsList,
-  UpdateAlbumRequest,
-  UpdateArtistRequest,
-  UpdateMusicRequest,
-} from './proto/musics_service_pb';
 // prettier-ignore
 import {
   CreateAlbum,
@@ -41,6 +22,25 @@ import {
   ViewMusic,
 } from './dtos';
 import IMusicsIntegration from './interface';
+import { MusicsClient } from '../proto/musics_service_grpc_pb';
+// prettier-ignore
+import {
+  Album,
+  AlbumsList,
+  Artist,
+  ArtistsList,
+  CreateAlbumRequest,
+  CreateArtistRequest,
+  CreateMusicRequest,
+  Empty,
+  GetArtistByGenreRequest,
+  Id,
+  Music,
+  MusicsList,
+  UpdateAlbumRequest,
+  UpdateArtistRequest,
+  UpdateMusicRequest,
+} from '../proto/musics_service_pb';
 // prettier-ignore
 import {
   translateAlbumEntity,
@@ -50,7 +50,7 @@ import {
   translateGenreEnum,
   translateMusicEntity,
   translateMusicEntityList
-} from './translators';
+} from '../translators';
 import Config from '@config/index';
 import AlbumEntity from '@entities/Album';
 import ArtistEntity from '@entities/Artist';
