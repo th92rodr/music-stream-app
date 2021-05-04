@@ -10,6 +10,7 @@ func translatePlaylist(playlist *e.Playlist) *proto.Playlist {
 
 	for _, track := range playlist.Tracks {
 		tracks = append(tracks, &proto.Playlist_Track{
+			Id:    track.Id,
 			Index: track.Index,
 			Music: translateMusic(track.Music),
 		})
