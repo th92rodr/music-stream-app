@@ -25,16 +25,19 @@ func New(databaseConnection *sql.DB) IPlaylistsRepository {
 }
 
 func (r playlistsRepository) FindById(request FindPlaylistByIdRequest) (*e.Playlist, error) {
-	playlist := &e.Playlist{}
+	playlist := &e.Playlist{
+		Id:     request.Id,
+		UserId: request.UserId,
+	}
 
 	query := fmt.Sprintf(`
-		SELECT * FROM %s WHERE %s = '%s' AND %s = '%s'`,
-		c.PlaylistsTable, fieldId, request.Id, fieldUserId, request.UserId,
+		SELECT %s FROM %s WHERE %s = '%s' AND %s = '%s'`,
+		fieldName, c.PlaylistsTable, fieldId, request.Id, fieldUserId, request.UserId,
 	)
 
 	row := r.databaseConnection.QueryRow(query)
 
-	if err := row.Scan(&playlist.Id, &playlist.Name, &playlist.UserId); err != nil {
+	if err := row.Scan(&playlist.Name); err != nil {
 		if err == sql.ErrNoRows {
 			customError := c.ErrorPlaylistNotFound
 			customError.Message = fmt.Sprintf("A playlist entity from the user %s with id %s was not found.", request.UserId, request.Id)
@@ -51,16 +54,19 @@ func (r playlistsRepository) FindById(request FindPlaylistByIdRequest) (*e.Playl
 }
 
 func (r playlistsRepository) FindByName(request FindPlaylistByNameRequest) (*e.Playlist, error) {
-	playlist := &e.Playlist{}
+	playlist := &e.Playlist{
+		Name:   request.Name,
+		UserId: request.UserId,
+	}
 
 	query := fmt.Sprintf(`
-		SELECT * FROM %s WHERE %s = '%s' AND %s = '%s'`,
-		c.PlaylistsTable, fieldUserId, request.UserId, fieldName, request.Name,
+		SELECT %s FROM %s WHERE %s = '%s' AND %s = '%s'`,
+		fieldId, c.PlaylistsTable, fieldUserId, request.UserId, fieldName, request.Name,
 	)
 
 	row := r.databaseConnection.QueryRow(query)
 
-	if err := row.Scan(&playlist.Id, &playlist.Name, &playlist.UserId); err != nil {
+	if err := row.Scan(&playlist.Id); err != nil {
 		if err == sql.ErrNoRows {
 			customError := c.ErrorPlaylistNotFound
 			customError.Message = fmt.Sprintf("A playlist entity from the user %s with the name %s was not found.", request.UserId, request.Name)
@@ -80,8 +86,8 @@ func (r playlistsRepository) FindAll(request FindAllPlaylistsRequest) ([]e.Playl
 	playlists := []e.Playlist{}
 
 	query := fmt.Sprintf(`
-		SELECT * FROM %s WHERE %s = '%s'`,
-		c.PlaylistsTable, fieldUserId, request.UserId,
+		SELECT %s, %s FROM %s WHERE %s = '%s'`,
+		fieldId, fieldName, c.PlaylistsTable, fieldUserId, request.UserId,
 	)
 
 	rows, err := r.databaseConnection.Query(query)
@@ -94,9 +100,11 @@ func (r playlistsRepository) FindAll(request FindAllPlaylistsRequest) ([]e.Playl
 	defer rows.Close()
 
 	for rows.Next() {
-		playlist := e.Playlist{}
+		playlist := e.Playlist{
+			UserId: request.UserId,
+		}
 
-		if err := rows.Scan(&playlist.Id, &playlist.Name, &playlist.UserId); err != nil {
+		if err := rows.Scan(&playlist.Id, &playlist.Name); err != nil {
 			customError := c.InternalError
 			customError.Details = err.Error()
 			return nil, customError
