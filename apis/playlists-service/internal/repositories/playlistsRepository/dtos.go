@@ -50,10 +50,3 @@ type UpdateTrackRequest struct {
 type DeleteTrackRequest struct {
 	Id string
 }
-
-type FindTrackResponse struct {
-	Id         string
-	Index      int32
-	PlaylistId string
-	MusicId    string
-}

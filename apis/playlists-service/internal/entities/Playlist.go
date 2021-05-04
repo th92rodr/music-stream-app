@@ -4,5 +4,12 @@ type Playlist struct {
 	Id     string
 	Name   string
 	UserId string
-	Tracks map[int32]*Music
+	Tracks []*Track
+}
+
+type Track struct {
+	Id      string
+	Index   int32
+	MusicId string
+	Music   *Music
 }

@@ -5,6 +5,7 @@ import (
 	"fmt"
 
 	c "playlists-service/internal/constants"
+	e "playlists-service/internal/entities"
 )
 
 const (
@@ -13,17 +14,19 @@ const (
 	fieldMusicId    = "music_id"
 )
 
-func (r playlistsRepository) FindTrack(request FindTrackRequest) (*FindTrackResponse, error) {
-	response := &FindTrackResponse{}
+func (r playlistsRepository) FindTrack(request FindTrackRequest) (*e.Track, error) {
+	track := &e.Track{
+		Id: request.Id,
+	}
 
 	query := fmt.Sprintf(`
-		SELECT * FROM %s WHERE %s = '%s'`,
-		c.PlaylistsMusicsTable, fieldId, request.Id,
+		SELECT %s, %s FROM %s WHERE %s = '%s'`,
+		fieldIndex, fieldMusicId, c.PlaylistsMusicsTable, fieldId, request.Id,
 	)
 
 	row := r.databaseConnection.QueryRow(query)
 
-	if err := row.Scan(&response.Id, &response.Index, &response.MusicId, &response.PlaylistId); err != nil {
+	if err := row.Scan(&track.Index, &track.MusicId); err != nil {
 		if err == sql.ErrNoRows {
 			customError := c.ErrorPlaylistNotFound
 			customError.Message = fmt.Sprintf("A playlist track with the id %s was not found.", request.Id)
@@ -36,7 +39,7 @@ func (r playlistsRepository) FindTrack(request FindTrackRequest) (*FindTrackResp
 		return nil, customError
 	}
 
-	return response, nil
+	return track, nil
 }
 
 func (r playlistsRepository) StoreTrack(request StoreTrackRequest) error {
@@ -71,7 +74,7 @@ func (r playlistsRepository) UpdateTrack(request UpdateTrackRequest) error {
 	query := fmt.Sprintf(`
 		UPDATE %s
 		SET %s = $1
-		WHERE %s = %s`,
+		WHERE %s = '%s'`,
 		c.PlaylistsMusicsTable, fieldIndex, fieldId, request.Id,
 	)
 
@@ -132,12 +135,12 @@ func (r playlistsRepository) DeleteTrack(request DeleteTrackRequest) error {
 	return nil
 }
 
-func (r playlistsRepository) findAllTracks(playlistId string) (map[int32]string, error) {
-	tracks := map[int32]string{}
+func (r playlistsRepository) findAllTracks(playlistId string) ([]*e.Track, error) {
+	tracks := []*e.Track{}
 
 	query := fmt.Sprintf(`
-		SELECT %s, %s FROM %s WHERE %s = '%s'`,
-		fieldIndex, fieldMusicId, c.PlaylistsMusicsTable, fieldPlaylistId, playlistId,
+		SELECT %s, %s, %s FROM %s WHERE %s = '%s'`,
+		fieldId, fieldIndex, fieldMusicId, c.PlaylistsMusicsTable, fieldPlaylistId, playlistId,
 	)
 
 	rows, err := r.databaseConnection.Query(query)
@@ -150,16 +153,15 @@ func (r playlistsRepository) findAllTracks(playlistId string) (map[int32]string,
 	defer rows.Close()
 
 	for rows.Next() {
-		var index int32
-		var musicId string
+		track := &e.Track{}
 
-		if err := rows.Scan(&index, &musicId); err != nil {
+		if err := rows.Scan(&track.Id, &track.Index, &track.MusicId); err != nil {
 			customError := c.InternalError
 			customError.Details = err.Error()
 			return nil, customError
 		}
 
-		tracks[index] = musicId
+		tracks = append(tracks, track)
 	}
 
 	if err = rows.Err(); err != nil {

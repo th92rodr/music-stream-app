@@ -114,18 +114,20 @@ func (r playlistsRepository) FindAll(request FindAllPlaylistsRequest) ([]e.Playl
 	return playlists, nil
 }
 
-func (r playlistsRepository) FindByIdWithTracks(request FindPlaylistByIdRequest) (*e.Playlist, map[int32]string, error) {
+func (r playlistsRepository) FindByIdWithTracks(request FindPlaylistByIdRequest) (*e.Playlist, error) {
 	playlist, err := r.FindById(request)
 	if err != nil {
-		return nil, nil, err
+		return nil, err
 	}
 
 	tracks, err := r.findAllTracks(request.Id)
 	if err != nil {
-		return nil, nil, err
+		return nil, err
 	}
 
-	return playlist, tracks, nil
+	playlist.Tracks = tracks
+
+	return playlist, nil
 }
 
 func (r playlistsRepository) Store(request StorePlaylistRequest) error {
