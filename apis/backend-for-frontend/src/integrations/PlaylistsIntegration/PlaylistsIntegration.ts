@@ -1,12 +1,24 @@
 import * as grpc from 'grpc';
 
-import { PlaylistsClient } from './proto/playlists_service_grpc_pb';
-import { CreatePlaylistRequest, DeletePlaylistRequest, GetPlaylistRequest, Id, Playlist, PlaylistsList, UpdatePlaylistRequest } from './proto/playlists_service_pb';
-import { CreatePlaylist, DeletePlaylist, GetPlaylist, GetPlaylists, UpdatePlaylist } from './dtos';
+import { AddTrack, CreatePlaylist, DeletePlaylist, GetPlaylist, GetPlaylists, RemoveTrack, UpdatePlaylist, UpdateTrack } from './dtos';
 import IPlaylistsIntegration from './interface';
-import { translatePlaylistEntity, translatePlaylistEntityList } from './translators';
+import { PlaylistsClient } from '../proto/playlists_service_grpc_pb';
+import {
+  AddTrackRequest,
+  CreatePlaylistRequest,
+  DeletePlaylistRequest,
+  GetPlaylistRequest,
+  GetPlaylistsRequest,
+  Playlist,
+  PlaylistsList,
+  RemoveTrackRequest,
+  Track,
+  UpdatePlaylistRequest,
+  UpdateTrackRequest,
+} from '../proto/playlists_service_pb';
+import { translatePlaylistEntity, translatePlaylistEntityList, translateTrackEntity } from '../translators';
 import Config from '@config/index';
-import PlaylistEntity from '@entities/Playlist';
+import PlaylistEntity, { Track as TrackEntity } from '@entities/Playlist';
 
 export default class PlaylistsIntegration implements IPlaylistsIntegration {
   private client: PlaylistsClient;
@@ -32,10 +44,10 @@ export default class PlaylistsIntegration implements IPlaylistsIntegration {
 
   public getPlaylists = async ({ userId }: GetPlaylists): Promise<Array<PlaylistEntity>> => {
     return new Promise((resolve, reject) => {
-      const id = new Id();
-      id.setId(userId);
+      const getPlaylistsRequest = new GetPlaylistsRequest();
+      getPlaylistsRequest.setUserid(userId);
 
-      this.client.getPlaylists(id, (error: Error | null, playlistsList: PlaylistsList) => {
+      this.client.getPlaylists(getPlaylistsRequest, (error: Error | null, playlistsList: PlaylistsList) => {
         if (error != null) reject(error);
         else resolve(translatePlaylistEntityList(playlistsList));
       });
@@ -76,6 +88,49 @@ export default class PlaylistsIntegration implements IPlaylistsIntegration {
       deletePlaylistRequest.setUserid(userId);
 
       this.client.deletePlaylist(deletePlaylistRequest, (error: Error | null) => {
+        if (error != null) reject(error);
+        else resolve();
+      });
+    });
+  };
+
+  public addTrack = async ({ musicId, playlistId, userId }: AddTrack): Promise<TrackEntity> => {
+    return new Promise((resolve, reject) => {
+      const addTrackRequest = new AddTrackRequest();
+      addTrackRequest.setMusicid(musicId);
+      addTrackRequest.setPlaylistid(playlistId);
+      addTrackRequest.setUserid(userId);
+
+      this.client.addTrack(addTrackRequest, (error: Error | null, track: Track) => {
+        if (error != null) reject(error);
+        else resolve(translateTrackEntity(track));
+      });
+    });
+  };
+
+  public updateTrack = async ({ id, index, playlistId, userId }: UpdateTrack): Promise<TrackEntity> => {
+    return new Promise((resolve, reject) => {
+      const updateTrackRequest = new UpdateTrackRequest();
+      updateTrackRequest.setId(id);
+      updateTrackRequest.setIndex(index);
+      updateTrackRequest.setPlaylistid(playlistId);
+      updateTrackRequest.setUserid(userId);
+
+      this.client.updateTrack(updateTrackRequest, (error: Error | null, track: Track) => {
+        if (error != null) reject(error);
+        else resolve(translateTrackEntity(track));
+      });
+    });
+  };
+
+  public removeTrack = async ({ id, playlistId, userId }: RemoveTrack): Promise<void> => {
+    return new Promise((resolve, reject) => {
+      const removeTrackRequest = new RemoveTrackRequest();
+      removeTrackRequest.setId(id);
+      removeTrackRequest.setPlaylistid(playlistId);
+      removeTrackRequest.setUserid(userId);
+
+      this.client.removeTrack(removeTrackRequest, (error: Error | null) => {
         if (error != null) reject(error);
         else resolve();
       });

@@ -6,7 +6,7 @@ import { Genre as GenreEnum } from '@constants/index';
 import AlbumEntity from '@entities/Album';
 import ArtistEntity from '@entities/Artist';
 import MusicEntity from '@entities/Music';
-import PlaylistEntity from '@entities/Playlist';
+import PlaylistEntity, { Track as TrackEntity } from '@entities/Playlist';
 import UserEntity from '@entities/User';
 import { timestampToDate } from '@utils/index';
 
@@ -146,4 +146,12 @@ export function translatePlaylistEntity(playlist: Playlist): PlaylistEntity {
 
 export function translatePlaylistEntityList(playlistsList: PlaylistsList): Array<PlaylistEntity> {
   return playlistsList.getPlaylistsList().map(playlist => translatePlaylistEntity(playlist));
+}
+
+export function translateTrackEntity(track: Track): TrackEntity {
+  return new TrackEntity({
+    id: track.getId(),
+    index: track.getIndex(),
+    music: translateMusicEntity(track.getMusic()),
+  });
 }
