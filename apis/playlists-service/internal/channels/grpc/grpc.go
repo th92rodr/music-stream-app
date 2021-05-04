@@ -63,9 +63,9 @@ func (c grpcChannel) GetPlaylist(ctx context.Context, request *proto.GetPlaylist
 	return translatePlaylist(playlist), nil
 }
 
-func (c grpcChannel) GetPlaylists(ctx context.Context, request *proto.Id) (*proto.PlaylistsList, error) {
+func (c grpcChannel) GetPlaylists(ctx context.Context, request *proto.GetPlaylistsRequest) (*proto.PlaylistsList, error) {
 	playlists, err := c.playlistsService.GetAll(s.GetAllPlaylistsRequest{
-		UserId: request.Id,
+		UserId: request.UserId,
 	})
 
 	if err != nil {
