@@ -1,26 +1,26 @@
 import * as grpc from 'grpc';
 
-import { UsersClient } from './proto/users_service_grpc_pb';
 // prettier-ignore
 import {
-  User,
-  Id,
-  CreateUserRequest,
-  UpdateUserRequest,
-  AuthenticateUserRequest,
-  AuthenticateUserResponse,
-} from './proto/users_service_pb';
-// prettier-ignore
-import {
-  GetUser,
-  CreateUser,
-  UpdateUser,
-  DeleteUser,
-  AuthenticateUser,
   AuthenticateResponse,
+  AuthenticateUser,
+  CreateUser,
+  DeleteUser,
+  GetUser,
+  UpdateUser,
 } from './dtos';
 import IUsersIntegration from './interface';
-import { translateAuthenticateUser, translateUserEntity } from './translators';
+import { UsersClient } from '../proto/users_service_grpc_pb';
+// prettier-ignore
+import {
+  AuthenticateUserRequest,
+  AuthenticateUserResponse,
+  CreateUserRequest,
+  Id,
+  UpdateUserRequest,
+  User,
+} from '../proto/users_service_pb';
+import { translateAuthenticateUser, translateUserEntity } from '../translators';
 import Config from '@config/index';
 import UserEntity from '@entities/User';
 

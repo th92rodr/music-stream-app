@@ -1,26 +1,14 @@
 import { Album, AlbumsList, Artist, ArtistsList, Genre, Music, MusicsList } from './proto/musics_service_pb';
+import { Playlist, PlaylistsList, Track } from './proto/playlists_service_pb';
+import { AuthenticateUserResponse, User } from './proto/users_service_pb';
+import { AuthenticateResponse } from './UsersIntegration/dtos';
 import { Genre as GenreEnum } from '@constants/index';
 import AlbumEntity from '@entities/Album';
 import ArtistEntity from '@entities/Artist';
 import MusicEntity from '@entities/Music';
+import PlaylistEntity from '@entities/Playlist';
+import UserEntity from '@entities/User';
 import { timestampToDate } from '@utils/index';
-
-export function translateMusicEntity(music: Music): MusicEntity {
-  return new MusicEntity({
-    id: music.getId(),
-    title: music.getTitle(),
-    durationInSeconds: music.getDurationinseconds(),
-    file: music.getFile(),
-    composers: music.getComposersList(),
-    lyrics: music.getLyrics(),
-    albumId: music.getAlbumid(),
-    views: music.getViews(),
-  });
-}
-
-export function translateMusicEntityList(musicsList: MusicsList): Array<MusicEntity> {
-  return musicsList.getMusicsList().map(music => translateMusicEntity(music));
-}
 
 export function translateAlbumEntity(album: Album): AlbumEntity {
   return new AlbumEntity({
@@ -64,6 +52,23 @@ export function translateArtistEntityList(artistsList: ArtistsList): Array<Artis
   return artistsList.getArtistsList().map(artist => translateArtistEntity(artist));
 }
 
+export function translateMusicEntity(music: Music): MusicEntity {
+  return new MusicEntity({
+    id: music.getId(),
+    title: music.getTitle(),
+    durationInSeconds: music.getDurationinseconds(),
+    file: music.getFile(),
+    composers: music.getComposersList(),
+    lyrics: music.getLyrics(),
+    albumId: music.getAlbumid(),
+    views: music.getViews(),
+  });
+}
+
+export function translateMusicEntityList(musicsList: MusicsList): Array<MusicEntity> {
+  return musicsList.getMusicsList().map(music => translateMusicEntity(music));
+}
+
 export function translateGenre(genre: Genre): GenreEnum {
   switch (genre) {
     case Genre.HEAVY_METAL:
@@ -100,4 +105,45 @@ export function translateGenreEnum(genre: GenreEnum): Genre {
     default:
       return -1;
   }
+}
+
+export function translateUserEntity(user: User): UserEntity {
+  return new UserEntity({
+    id: user.getId(),
+    username: user.getUsername(),
+    email: user.getEmail(),
+    password: user.getPassword(),
+  });
+}
+
+export function translateAuthenticateUser(authenticateUserResponse: AuthenticateUserResponse): AuthenticateResponse {
+  const user = authenticateUserResponse.getUser();
+  return {
+    token: authenticateUserResponse.getToken(),
+    user: user ? translateUserEntity(user) : undefined,
+  };
+}
+
+export function translatePlaylistEntity(playlist: Playlist): PlaylistEntity {
+  const tracks = new Map<number, MusicEntity>();
+
+  playlist.getTracksList().map(track => {
+    const music = track.getMusic();
+    const index = track.getIndex();
+
+    if (music) {
+      tracks.set(index, translateMusicEntity(music));
+    }
+  });
+
+  return new PlaylistEntity({
+    id: playlist.getId(),
+    name: playlist.getName(),
+    userId: playlist.getUserid(),
+    tracks: [],
+  });
+}
+
+export function translatePlaylistEntityList(playlistsList: PlaylistsList): Array<PlaylistEntity> {
+  return playlistsList.getPlaylistsList().map(playlist => translatePlaylistEntity(playlist));
 }
