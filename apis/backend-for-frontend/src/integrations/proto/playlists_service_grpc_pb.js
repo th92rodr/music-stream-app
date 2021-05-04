@@ -3,6 +3,18 @@
 'use strict';
 var grpc = require('grpc');
 var playlists_service_pb = require('./playlists_service_pb.js');
+var musics_service_pb = require('./musics_service_pb.js');
+
+function serialize_proto_AddTrackRequest(arg) {
+  if (!(arg instanceof playlists_service_pb.AddTrackRequest)) {
+    throw new Error('Expected argument of type proto.AddTrackRequest');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_proto_AddTrackRequest(buffer_arg) {
+  return playlists_service_pb.AddTrackRequest.deserializeBinary(new Uint8Array(buffer_arg));
+}
 
 function serialize_proto_CreatePlaylistRequest(arg) {
   if (!(arg instanceof playlists_service_pb.CreatePlaylistRequest)) {
@@ -27,14 +39,14 @@ function deserialize_proto_DeletePlaylistRequest(buffer_arg) {
 }
 
 function serialize_proto_Empty(arg) {
-  if (!(arg instanceof playlists_service_pb.Empty)) {
+  if (!(arg instanceof musics_service_pb.Empty)) {
     throw new Error('Expected argument of type proto.Empty');
   }
   return Buffer.from(arg.serializeBinary());
 }
 
 function deserialize_proto_Empty(buffer_arg) {
-  return playlists_service_pb.Empty.deserializeBinary(new Uint8Array(buffer_arg));
+  return musics_service_pb.Empty.deserializeBinary(new Uint8Array(buffer_arg));
 }
 
 function serialize_proto_GetPlaylistRequest(arg) {
@@ -48,15 +60,15 @@ function deserialize_proto_GetPlaylistRequest(buffer_arg) {
   return playlists_service_pb.GetPlaylistRequest.deserializeBinary(new Uint8Array(buffer_arg));
 }
 
-function serialize_proto_Id(arg) {
-  if (!(arg instanceof playlists_service_pb.Id)) {
-    throw new Error('Expected argument of type proto.Id');
+function serialize_proto_GetPlaylistsRequest(arg) {
+  if (!(arg instanceof playlists_service_pb.GetPlaylistsRequest)) {
+    throw new Error('Expected argument of type proto.GetPlaylistsRequest');
   }
   return Buffer.from(arg.serializeBinary());
 }
 
-function deserialize_proto_Id(buffer_arg) {
-  return playlists_service_pb.Id.deserializeBinary(new Uint8Array(buffer_arg));
+function deserialize_proto_GetPlaylistsRequest(buffer_arg) {
+  return playlists_service_pb.GetPlaylistsRequest.deserializeBinary(new Uint8Array(buffer_arg));
 }
 
 function serialize_proto_Playlist(arg) {
@@ -81,6 +93,28 @@ function deserialize_proto_PlaylistsList(buffer_arg) {
   return playlists_service_pb.PlaylistsList.deserializeBinary(new Uint8Array(buffer_arg));
 }
 
+function serialize_proto_RemoveTrackRequest(arg) {
+  if (!(arg instanceof playlists_service_pb.RemoveTrackRequest)) {
+    throw new Error('Expected argument of type proto.RemoveTrackRequest');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_proto_RemoveTrackRequest(buffer_arg) {
+  return playlists_service_pb.RemoveTrackRequest.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
+function serialize_proto_Track(arg) {
+  if (!(arg instanceof playlists_service_pb.Track)) {
+    throw new Error('Expected argument of type proto.Track');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_proto_Track(buffer_arg) {
+  return playlists_service_pb.Track.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
 function serialize_proto_UpdatePlaylistRequest(arg) {
   if (!(arg instanceof playlists_service_pb.UpdatePlaylistRequest)) {
     throw new Error('Expected argument of type proto.UpdatePlaylistRequest');
@@ -90,6 +124,17 @@ function serialize_proto_UpdatePlaylistRequest(arg) {
 
 function deserialize_proto_UpdatePlaylistRequest(buffer_arg) {
   return playlists_service_pb.UpdatePlaylistRequest.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
+function serialize_proto_UpdateTrackRequest(arg) {
+  if (!(arg instanceof playlists_service_pb.UpdateTrackRequest)) {
+    throw new Error('Expected argument of type proto.UpdateTrackRequest');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_proto_UpdateTrackRequest(buffer_arg) {
+  return playlists_service_pb.UpdateTrackRequest.deserializeBinary(new Uint8Array(buffer_arg));
 }
 
 
@@ -109,10 +154,10 @@ var PlaylistsService = exports.PlaylistsService = {
     path: '/proto.Playlists/GetPlaylists',
     requestStream: false,
     responseStream: false,
-    requestType: playlists_service_pb.Id,
+    requestType: playlists_service_pb.GetPlaylistsRequest,
     responseType: playlists_service_pb.PlaylistsList,
-    requestSerialize: serialize_proto_Id,
-    requestDeserialize: deserialize_proto_Id,
+    requestSerialize: serialize_proto_GetPlaylistsRequest,
+    requestDeserialize: deserialize_proto_GetPlaylistsRequest,
     responseSerialize: serialize_proto_PlaylistsList,
     responseDeserialize: deserialize_proto_PlaylistsList,
   },
@@ -143,9 +188,42 @@ var PlaylistsService = exports.PlaylistsService = {
     requestStream: false,
     responseStream: false,
     requestType: playlists_service_pb.DeletePlaylistRequest,
-    responseType: playlists_service_pb.Empty,
+    responseType: musics_service_pb.Empty,
     requestSerialize: serialize_proto_DeletePlaylistRequest,
     requestDeserialize: deserialize_proto_DeletePlaylistRequest,
+    responseSerialize: serialize_proto_Empty,
+    responseDeserialize: deserialize_proto_Empty,
+  },
+  addTrack: {
+    path: '/proto.Playlists/AddTrack',
+    requestStream: false,
+    responseStream: false,
+    requestType: playlists_service_pb.AddTrackRequest,
+    responseType: playlists_service_pb.Track,
+    requestSerialize: serialize_proto_AddTrackRequest,
+    requestDeserialize: deserialize_proto_AddTrackRequest,
+    responseSerialize: serialize_proto_Track,
+    responseDeserialize: deserialize_proto_Track,
+  },
+  updateTrack: {
+    path: '/proto.Playlists/UpdateTrack',
+    requestStream: false,
+    responseStream: false,
+    requestType: playlists_service_pb.UpdateTrackRequest,
+    responseType: playlists_service_pb.Track,
+    requestSerialize: serialize_proto_UpdateTrackRequest,
+    requestDeserialize: deserialize_proto_UpdateTrackRequest,
+    responseSerialize: serialize_proto_Track,
+    responseDeserialize: deserialize_proto_Track,
+  },
+  removeTrack: {
+    path: '/proto.Playlists/RemoveTrack',
+    requestStream: false,
+    responseStream: false,
+    requestType: playlists_service_pb.RemoveTrackRequest,
+    responseType: musics_service_pb.Empty,
+    requestSerialize: serialize_proto_RemoveTrackRequest,
+    requestDeserialize: deserialize_proto_RemoveTrackRequest,
     responseSerialize: serialize_proto_Empty,
     responseDeserialize: deserialize_proto_Empty,
   },
