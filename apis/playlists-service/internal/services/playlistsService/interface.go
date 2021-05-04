@@ -9,7 +9,7 @@ type IPlaylistsService interface {
 	Update(request UpdatePlaylistRequest) (*e.Playlist, error)
 	Delete(request DeletePlaylistRequest) error
 
-	AddTrack(request AddTrackRequest) error
-	UpdateTrack(request UpdateTrackRequest) error
+	AddTrack(request AddTrackRequest) (*e.Track, error)
+	UpdateTrack(request UpdateTrackRequest) (*e.Track, error)
 	RemoveTrack(request RemoveTrackRequest) error
 }

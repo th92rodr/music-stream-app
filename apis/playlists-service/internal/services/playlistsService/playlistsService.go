@@ -25,13 +25,15 @@ func New(idProvider i.IIdProvider, musicsIntegration m.IMusicsIntegration, playl
 }
 
 func (s playlistsService) Get(request GetPlaylistRequest) (*e.Playlist, error) {
-	playlist, err := s.playlistsRepository.FindById(r.FindPlaylistByIdRequest{
+	playlist, err := s.playlistsRepository.FindByIdWithTracks(r.FindPlaylistByIdRequest{
 		UserId: request.UserId,
 		Id:     request.Id,
 	})
 	if err != nil {
 		return nil, err
 	}
+
+	playlist.Tracks, _ = s.getTracks(playlist.Tracks)
 
 	return playlist, nil
 }
