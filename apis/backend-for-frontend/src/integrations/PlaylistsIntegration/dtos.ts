@@ -22,3 +22,22 @@ export interface DeletePlaylist {
   id: string;
   userId: string;
 }
+
+export interface AddTrack {
+  userId: string;
+  playlistId: string;
+  musicId: string;
+}
+
+export interface UpdateTrack {
+  userId: string;
+  playlistId: string;
+  id: string;
+  index: number;
+}
+
+export interface RemoveTrack {
+  userId: string;
+  playlistId: string;
+  id: string;
+}
