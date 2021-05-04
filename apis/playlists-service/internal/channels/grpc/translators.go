@@ -8,13 +8,11 @@ import (
 func translatePlaylist(playlist *e.Playlist) *proto.Playlist {
 	tracks := []*proto.Playlist_Track{}
 
-	for index, music := range playlist.Tracks {
-		track := &proto.Playlist_Track{
-			Index: index,
-			Music: translateMusic(music),
-		}
-
-		tracks = append(tracks, track)
+	for _, track := range playlist.Tracks {
+		tracks = append(tracks, &proto.Playlist_Track{
+			Index: track.Index,
+			Music: translateMusic(track.Music),
+		})
 	}
 
 	return &proto.Playlist{
