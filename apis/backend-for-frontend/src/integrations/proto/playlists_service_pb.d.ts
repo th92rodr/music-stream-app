@@ -5,26 +5,7 @@
 /* eslint-disable */
 
 import * as jspb from "google-protobuf";
-
-export class Id extends jspb.Message { 
-    getId(): string;
-    setId(value: string): Id;
-
-    serializeBinary(): Uint8Array;
-    toObject(includeInstance?: boolean): Id.AsObject;
-    static toObject(includeInstance: boolean, msg: Id): Id.AsObject;
-    static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
-    static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
-    static serializeBinaryToWriter(message: Id, writer: jspb.BinaryWriter): void;
-    static deserializeBinary(bytes: Uint8Array): Id;
-    static deserializeBinaryFromReader(message: Id, reader: jspb.BinaryReader): Id;
-}
-
-export namespace Id {
-    export type AsObject = {
-        id: string,
-    }
-}
+import * as musics_service_pb from "./musics_service_pb";
 
 export class Playlist extends jspb.Message { 
     getId(): string;
@@ -34,9 +15,9 @@ export class Playlist extends jspb.Message {
     getUserid(): string;
     setUserid(value: string): Playlist;
     clearTracksList(): void;
-    getTracksList(): Array<Playlist.Track>;
-    setTracksList(value: Array<Playlist.Track>): Playlist;
-    addTracks(value?: Playlist.Track, index?: number): Playlist.Track;
+    getTracksList(): Array<Track>;
+    setTracksList(value: Array<Track>): Playlist;
+    addTracks(value?: Track, index?: number): Track;
 
     serializeBinary(): Uint8Array;
     toObject(includeInstance?: boolean): Playlist.AsObject;
@@ -53,36 +34,37 @@ export namespace Playlist {
         id: string,
         name: string,
         userid: string,
-        tracksList: Array<Playlist.Track.AsObject>,
+        tracksList: Array<Track.AsObject>,
     }
+}
 
+export class Track extends jspb.Message { 
+    getId(): string;
+    setId(value: string): Track;
+    getIndex(): number;
+    setIndex(value: number): Track;
 
-    export class Track extends jspb.Message { 
-        getIndex(): number;
-        setIndex(value: number): Track;
+    hasMusic(): boolean;
+    clearMusic(): void;
+    getMusic(): musics_service_pb.Music | undefined;
+    setMusic(value?: musics_service_pb.Music): Track;
 
-        hasMusic(): boolean;
-        clearMusic(): void;
-        getMusic(): Music | undefined;
-        setMusic(value?: Music): Track;
+    serializeBinary(): Uint8Array;
+    toObject(includeInstance?: boolean): Track.AsObject;
+    static toObject(includeInstance: boolean, msg: Track): Track.AsObject;
+    static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+    static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+    static serializeBinaryToWriter(message: Track, writer: jspb.BinaryWriter): void;
+    static deserializeBinary(bytes: Uint8Array): Track;
+    static deserializeBinaryFromReader(message: Track, reader: jspb.BinaryReader): Track;
+}
 
-        serializeBinary(): Uint8Array;
-        toObject(includeInstance?: boolean): Track.AsObject;
-        static toObject(includeInstance: boolean, msg: Track): Track.AsObject;
-        static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
-        static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
-        static serializeBinaryToWriter(message: Track, writer: jspb.BinaryWriter): void;
-        static deserializeBinary(bytes: Uint8Array): Track;
-        static deserializeBinaryFromReader(message: Track, reader: jspb.BinaryReader): Track;
+export namespace Track {
+    export type AsObject = {
+        id: string,
+        index: number,
+        music?: musics_service_pb.Music.AsObject,
     }
-
-    export namespace Track {
-        export type AsObject = {
-            index: number,
-            music?: Music.AsObject,
-        }
-    }
-
 }
 
 export class PlaylistsList extends jspb.Message { 
@@ -126,6 +108,26 @@ export class GetPlaylistRequest extends jspb.Message {
 export namespace GetPlaylistRequest {
     export type AsObject = {
         id: string,
+        userid: string,
+    }
+}
+
+export class GetPlaylistsRequest extends jspb.Message { 
+    getUserid(): string;
+    setUserid(value: string): GetPlaylistsRequest;
+
+    serializeBinary(): Uint8Array;
+    toObject(includeInstance?: boolean): GetPlaylistsRequest.AsObject;
+    static toObject(includeInstance: boolean, msg: GetPlaylistsRequest): GetPlaylistsRequest.AsObject;
+    static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+    static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+    static serializeBinaryToWriter(message: GetPlaylistsRequest, writer: jspb.BinaryWriter): void;
+    static deserializeBinary(bytes: Uint8Array): GetPlaylistsRequest;
+    static deserializeBinaryFromReader(message: GetPlaylistsRequest, reader: jspb.BinaryReader): GetPlaylistsRequest;
+}
+
+export namespace GetPlaylistsRequest {
+    export type AsObject = {
         userid: string,
     }
 }
@@ -202,62 +204,83 @@ export namespace DeletePlaylistRequest {
     }
 }
 
-export class Music extends jspb.Message { 
-    getId(): string;
-    setId(value: string): Music;
-    getTitle(): string;
-    setTitle(value: string): Music;
-    getDurationinseconds(): number;
-    setDurationinseconds(value: number): Music;
-    getFile(): string;
-    setFile(value: string): Music;
-    clearComposersList(): void;
-    getComposersList(): Array<string>;
-    setComposersList(value: Array<string>): Music;
-    addComposers(value: string, index?: number): string;
-    getLyrics(): string;
-    setLyrics(value: string): Music;
-    getAlbumid(): string;
-    setAlbumid(value: string): Music;
-    getViews(): number;
-    setViews(value: number): Music;
+export class AddTrackRequest extends jspb.Message { 
+    getUserid(): string;
+    setUserid(value: string): AddTrackRequest;
+    getPlaylistid(): string;
+    setPlaylistid(value: string): AddTrackRequest;
+    getMusicid(): string;
+    setMusicid(value: string): AddTrackRequest;
 
     serializeBinary(): Uint8Array;
-    toObject(includeInstance?: boolean): Music.AsObject;
-    static toObject(includeInstance: boolean, msg: Music): Music.AsObject;
+    toObject(includeInstance?: boolean): AddTrackRequest.AsObject;
+    static toObject(includeInstance: boolean, msg: AddTrackRequest): AddTrackRequest.AsObject;
     static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
     static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
-    static serializeBinaryToWriter(message: Music, writer: jspb.BinaryWriter): void;
-    static deserializeBinary(bytes: Uint8Array): Music;
-    static deserializeBinaryFromReader(message: Music, reader: jspb.BinaryReader): Music;
+    static serializeBinaryToWriter(message: AddTrackRequest, writer: jspb.BinaryWriter): void;
+    static deserializeBinary(bytes: Uint8Array): AddTrackRequest;
+    static deserializeBinaryFromReader(message: AddTrackRequest, reader: jspb.BinaryReader): AddTrackRequest;
 }
 
-export namespace Music {
+export namespace AddTrackRequest {
     export type AsObject = {
-        id: string,
-        title: string,
-        durationinseconds: number,
-        file: string,
-        composersList: Array<string>,
-        lyrics: string,
-        albumid: string,
-        views: number,
+        userid: string,
+        playlistid: string,
+        musicid: string,
     }
 }
 
-export class Empty extends jspb.Message { 
+export class UpdateTrackRequest extends jspb.Message { 
+    getUserid(): string;
+    setUserid(value: string): UpdateTrackRequest;
+    getPlaylistid(): string;
+    setPlaylistid(value: string): UpdateTrackRequest;
+    getId(): string;
+    setId(value: string): UpdateTrackRequest;
+    getIndex(): number;
+    setIndex(value: number): UpdateTrackRequest;
 
     serializeBinary(): Uint8Array;
-    toObject(includeInstance?: boolean): Empty.AsObject;
-    static toObject(includeInstance: boolean, msg: Empty): Empty.AsObject;
+    toObject(includeInstance?: boolean): UpdateTrackRequest.AsObject;
+    static toObject(includeInstance: boolean, msg: UpdateTrackRequest): UpdateTrackRequest.AsObject;
     static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
     static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
-    static serializeBinaryToWriter(message: Empty, writer: jspb.BinaryWriter): void;
-    static deserializeBinary(bytes: Uint8Array): Empty;
-    static deserializeBinaryFromReader(message: Empty, reader: jspb.BinaryReader): Empty;
+    static serializeBinaryToWriter(message: UpdateTrackRequest, writer: jspb.BinaryWriter): void;
+    static deserializeBinary(bytes: Uint8Array): UpdateTrackRequest;
+    static deserializeBinaryFromReader(message: UpdateTrackRequest, reader: jspb.BinaryReader): UpdateTrackRequest;
 }
 
-export namespace Empty {
+export namespace UpdateTrackRequest {
     export type AsObject = {
+        userid: string,
+        playlistid: string,
+        id: string,
+        index: number,
+    }
+}
+
+export class RemoveTrackRequest extends jspb.Message { 
+    getUserid(): string;
+    setUserid(value: string): RemoveTrackRequest;
+    getPlaylistid(): string;
+    setPlaylistid(value: string): RemoveTrackRequest;
+    getId(): string;
+    setId(value: string): RemoveTrackRequest;
+
+    serializeBinary(): Uint8Array;
+    toObject(includeInstance?: boolean): RemoveTrackRequest.AsObject;
+    static toObject(includeInstance: boolean, msg: RemoveTrackRequest): RemoveTrackRequest.AsObject;
+    static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+    static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+    static serializeBinaryToWriter(message: RemoveTrackRequest, writer: jspb.BinaryWriter): void;
+    static deserializeBinary(bytes: Uint8Array): RemoveTrackRequest;
+    static deserializeBinaryFromReader(message: RemoveTrackRequest, reader: jspb.BinaryReader): RemoveTrackRequest;
+}
+
+export namespace RemoveTrackRequest {
+    export type AsObject = {
+        userid: string,
+        playlistid: string,
+        id: string,
     }
 }
