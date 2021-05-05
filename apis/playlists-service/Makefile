@@ -23,7 +23,7 @@ build: ##
 	$(GO_BUILD) -o $(BINARY_NAME) -v
 
 run: ##
-	$(GO_RUN) main.go -config $(CONFIG_FILE)
+	export GOLANG_PROTOBUF_REGISTRATION_CONFLICT=warn && $(GO_RUN) main.go -config $(CONFIG_FILE)
 
 test: ##
 	$(GO_TEST) -v ./...
