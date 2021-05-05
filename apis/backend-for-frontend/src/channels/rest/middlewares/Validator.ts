@@ -60,7 +60,7 @@ export default class Validator {
 
   // prettier-ignore
   private createPlaylistTrackRequest = [
-    { field: 'musicId' },
+    { field: 'music_id' },
   ];
 
   // prettier-ignore

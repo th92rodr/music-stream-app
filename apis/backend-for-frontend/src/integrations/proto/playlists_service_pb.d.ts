@@ -46,7 +46,7 @@ export class Track extends jspb.Message {
 
   hasMusic(): boolean;
   clearMusic(): void;
-  getMusic(): musics_service_pb.Music;
+  getMusic(): musics_service_pb.Music | undefined;
   setMusic(value?: musics_service_pb.Music): Track;
 
   serializeBinary(): Uint8Array;
