@@ -31,6 +31,10 @@ type DeletePlaylistRequest struct {
 	Id     string
 }
 
+type FindTrackRequest struct {
+	Id string
+}
+
 type StoreTrackRequest struct {
 	Id         string
 	Index      int32
@@ -41,4 +45,8 @@ type StoreTrackRequest struct {
 type UpdateTrackRequest struct {
 	Id    string
 	Index int32
+}
+
+type DeleteTrackRequest struct {
+	Id string
 }

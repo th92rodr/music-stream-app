@@ -56,6 +56,12 @@ type playlist struct {
 	UserId string `json:"user_id,omitempty"`
 }
 
+type track struct {
+	Id    string `json:"id,omitempty"`
+	Index int32  `json:"index,omitempty"`
+	Music music  `json:"music:omitempty"`
+}
+
 func prettyPrint(data interface{}) {
 	var p []byte
 	p, err := json.MarshalIndent(data, "", "\t")

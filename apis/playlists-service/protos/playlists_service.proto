@@ -1,18 +1,20 @@
 syntax = "proto3";
 
+import "protos/musics_service.proto";
+
 package proto;
 option go_package = "grpc/proto";
 
 service Playlists {
     rpc GetPlaylist(GetPlaylistRequest) returns (Playlist) {}
-    rpc GetPlaylists(Id) returns (PlaylistsList) {}
+    rpc GetPlaylists(GetPlaylistsRequest) returns (PlaylistsList) {}
     rpc CreatePlaylist(CreatePlaylistRequest) returns (Playlist) {}
     rpc UpdatePlaylist(UpdatePlaylistRequest) returns (Playlist) {}
     rpc DeletePlaylist(DeletePlaylistRequest) returns (Empty) {}
-}
 
-message Id {
-    string id = 1;
+    rpc AddTrack(AddTrackRequest) returns (Track) {}
+    rpc UpdateTrack(UpdateTrackRequest) returns (Track) {}
+    rpc RemoveTrack(RemoveTrackRequest) returns (Empty) {}
 }
 
 message Playlist {
@@ -20,11 +22,12 @@ message Playlist {
     string name = 2;
     string userId = 3;
     repeated Track tracks = 4;
+}
 
-    message Track {
-        int32 index = 1;
-        Music music = 2;
-    }
+message Track {
+    string id = 1;
+    int32 index = 2;
+    Music music = 3;
 }
 
 message PlaylistsList {
@@ -34,6 +37,10 @@ message PlaylistsList {
 message GetPlaylistRequest {
     string id = 1;
     string userId = 2;
+}
+
+message GetPlaylistsRequest {
+    string userId = 1;
 }
 
 message CreatePlaylistRequest {
@@ -52,15 +59,21 @@ message DeletePlaylistRequest {
     string userId = 2;
 }
 
-message Music {
-    string id = 1;
-    string title = 2;
-    int32 durationInSeconds = 3;
-    string file = 4;
-    repeated string composers = 5;
-    string lyrics = 6;
-    string albumId = 7;
-    int32 views = 8;
+message AddTrackRequest {
+    string userId = 1;
+    string playlistId = 2;
+    string musicId = 3;
 }
 
-message Empty {}
+message UpdateTrackRequest {
+    string userId = 1;
+    string playlistId = 2;
+    string id = 3;
+    int32 index = 4;
+}
+
+message RemoveTrackRequest {
+    string userId = 1;
+    string playlistId = 2;
+    string id = 3;
+}

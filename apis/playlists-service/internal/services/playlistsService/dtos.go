@@ -24,3 +24,22 @@ type DeletePlaylistRequest struct {
 	Id     string
 	UserId string
 }
+
+type AddTrackRequest struct {
+	UserId     string
+	PlaylistId string
+	MusicId    string
+}
+
+type UpdateTrackRequest struct {
+	UserId     string
+	PlaylistId string
+	Id         string
+	Index      int32
+}
+
+type RemoveTrackRequest struct {
+	UserId     string
+	PlaylistId string
+	Id         string
+}

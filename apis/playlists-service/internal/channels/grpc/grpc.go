@@ -1,7 +1,7 @@
 package grpc
 
 import (
-	"context"
+	"fmt"
 	"net"
 
 	"google.golang.org/grpc"
@@ -27,7 +27,7 @@ func New(loggerProvider l.ILoggerProvider, playlistsService s.IPlaylistsService)
 }
 
 func (c grpcChannel) Start() {
-	listener, err := net.Listen("tcp", config.GrpcPort)
+	listener, err := net.Listen("tcp", fmt.Sprintf(":%s", config.GrpcPort))
 	if err != nil {
 		panic(err)
 	}
@@ -39,71 +39,10 @@ func (c grpcChannel) Start() {
 	if err := c.server.Serve(listener); err != nil {
 		panic(err)
 	}
+
+	c.loggerProvider.Info(fmt.Sprintf("gRPC Channel running on port %s", config.GrpcPort), nil)
 }
 
 func (c grpcChannel) Stop() {
 	c.server.Stop()
-}
-
-func (c grpcChannel) GetPlaylist(ctx context.Context, request *proto.GetPlaylistRequest) (*proto.Playlist, error) {
-	playlist, err := c.playlistsService.Get(s.GetPlaylistRequest{
-		Id:     request.Id,
-		UserId: request.UserId,
-	})
-
-	if err != nil {
-		return nil, err
-	}
-
-	return translatePlaylist(playlist), nil
-}
-
-func (c grpcChannel) GetPlaylists(ctx context.Context, request *proto.Id) (*proto.PlaylistsList, error) {
-	playlists, err := c.playlistsService.GetAll(s.GetAllPlaylistsRequest{
-		UserId: request.Id,
-	})
-
-	if err != nil {
-		return nil, err
-	}
-
-	return translatePlaylistList(playlists), nil
-}
-
-func (c grpcChannel) CreatePlaylist(ctx context.Context, request *proto.CreatePlaylistRequest) (*proto.Playlist, error) {
-	playlist, err := c.playlistsService.Create(s.CreatePlaylistRequest{
-		Name:   request.Name,
-		UserId: request.UserId,
-	})
-
-	if err != nil {
-		return nil, err
-	}
-
-	return translatePlaylist(playlist), nil
-}
-
-func (c grpcChannel) UpdatePlaylist(ctx context.Context, request *proto.UpdatePlaylistRequest) (*proto.Playlist, error) {
-	playlist, err := c.playlistsService.Update(s.UpdatePlaylistRequest{
-		Id:     request.Id,
-		Name:   request.Name,
-		UserId: request.UserId,
-	})
-
-	if err != nil {
-		return nil, err
-	}
-
-	return translatePlaylist(playlist), nil
-}
-
-func (c grpcChannel) DeletePlaylist(ctx context.Context, request *proto.DeletePlaylistRequest) (*proto.Empty, error) {
-	if err := c.playlistsService.Delete(s.DeletePlaylistRequest{
-		Id:     request.Id,
-		UserId: request.UserId,
-	}); err != nil {
-		return nil, err
-	}
-
-	return &proto.Empty{}, nil
 }

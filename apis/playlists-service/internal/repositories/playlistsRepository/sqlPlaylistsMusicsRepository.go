@@ -1,9 +1,11 @@
 package playlistsRepository
 
 import (
+	"database/sql"
 	"fmt"
 
 	c "playlists-service/internal/constants"
+	e "playlists-service/internal/entities"
 )
 
 const (
@@ -12,43 +14,32 @@ const (
 	fieldMusicId    = "music_id"
 )
 
-func (r playlistsRepository) findTracks(playlistId string) (map[int32]string, error) {
-	tracks := map[int32]string{}
+func (r playlistsRepository) FindTrack(request FindTrackRequest) (*e.Track, error) {
+	track := &e.Track{
+		Id: request.Id,
+	}
 
 	query := fmt.Sprintf(`
 		SELECT %s, %s FROM %s WHERE %s = '%s'`,
-		fieldIndex, fieldMusicId, c.PlaylistsMusicsTable, fieldPlaylistId, playlistId,
+		fieldIndex, fieldMusicId, c.PlaylistsMusicsTable, fieldId, request.Id,
 	)
 
-	rows, err := r.databaseConnection.Query(query)
-	if err != nil {
-		customError := c.InternalError
-		customError.Details = err.Error()
-		return nil, customError
-	}
+	row := r.databaseConnection.QueryRow(query)
 
-	defer rows.Close()
-
-	for rows.Next() {
-		var index int32
-		var musicId string
-
-		if err := rows.Scan(&index, &musicId); err != nil {
-			customError := c.InternalError
+	if err := row.Scan(&track.Index, &track.MusicId); err != nil {
+		if err == sql.ErrNoRows {
+			customError := c.ErrorPlaylistNotFound
+			customError.Message = fmt.Sprintf("A playlist track with the id %s was not found.", request.Id)
 			customError.Details = err.Error()
 			return nil, customError
 		}
 
-		tracks[index] = musicId
-	}
-
-	if err = rows.Err(); err != nil {
 		customError := c.InternalError
 		customError.Details = err.Error()
 		return nil, customError
 	}
 
-	return tracks, nil
+	return track, nil
 }
 
 func (r playlistsRepository) StoreTrack(request StoreTrackRequest) error {
@@ -82,9 +73,9 @@ func (r playlistsRepository) StoreTrack(request StoreTrackRequest) error {
 func (r playlistsRepository) UpdateTrack(request UpdateTrackRequest) error {
 	query := fmt.Sprintf(`
 		UPDATE %s
-		SET %s = $2
-		WHERE %s = $1`,
-		c.PlaylistsMusicsTable, fieldIndex, fieldId,
+		SET %s = $1
+		WHERE %s = '%s'`,
+		c.PlaylistsMusicsTable, fieldIndex, fieldId, request.Id,
 	)
 
 	statement, err := r.databaseConnection.Prepare(query)
@@ -94,7 +85,14 @@ func (r playlistsRepository) UpdateTrack(request UpdateTrackRequest) error {
 		return customError
 	}
 
-	if _, err = statement.Exec(request.Id, request.Index); err != nil {
+	if _, err = statement.Exec(request.Index); err != nil {
+		if err == sql.ErrNoRows {
+			customError := c.ErrorPlaylistNotFound
+			customError.Message = fmt.Sprintf("A playlist track with the id %s was not found.", request.Id)
+			customError.Details = err.Error()
+			return customError
+		}
+
 		customError := c.InternalError
 		customError.Details = err.Error()
 		return customError
@@ -109,10 +107,10 @@ func (r playlistsRepository) UpdateTrack(request UpdateTrackRequest) error {
 	return nil
 }
 
-func (r playlistsRepository) DeleteTrack(id string) error {
+func (r playlistsRepository) DeleteTrack(request DeleteTrackRequest) error {
 	query := fmt.Sprintf(`
 		DELETE FROM %s WHERE %s = '%s'`,
-		c.PlaylistsMusicsTable, fieldId, id,
+		c.PlaylistsMusicsTable, fieldId, request.Id,
 	)
 
 	statement, err := r.databaseConnection.Prepare(query)
@@ -135,4 +133,42 @@ func (r playlistsRepository) DeleteTrack(id string) error {
 	}
 
 	return nil
+}
+
+func (r playlistsRepository) findAllTracks(playlistId string) ([]*e.Track, error) {
+	tracks := []*e.Track{}
+
+	query := fmt.Sprintf(`
+		SELECT %s, %s, %s FROM %s WHERE %s = '%s'`,
+		fieldId, fieldIndex, fieldMusicId, c.PlaylistsMusicsTable, fieldPlaylistId, playlistId,
+	)
+
+	rows, err := r.databaseConnection.Query(query)
+	if err != nil {
+		customError := c.InternalError
+		customError.Details = err.Error()
+		return nil, customError
+	}
+
+	defer rows.Close()
+
+	for rows.Next() {
+		track := &e.Track{}
+
+		if err := rows.Scan(&track.Id, &track.Index, &track.MusicId); err != nil {
+			customError := c.InternalError
+			customError.Details = err.Error()
+			return nil, customError
+		}
+
+		tracks = append(tracks, track)
+	}
+
+	if err = rows.Err(); err != nil {
+		customError := c.InternalError
+		customError.Details = err.Error()
+		return nil, customError
+	}
+
+	return tracks, nil
 }

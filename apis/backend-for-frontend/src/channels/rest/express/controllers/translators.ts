@@ -2,7 +2,7 @@ import { Genre } from '@constants/index';
 import Album from '@entities/Album';
 import Artist from '@entities/Artist';
 import Music from '@entities/Music';
-import Playlist from '@entities/Playlist';
+import Playlist, { Track } from '@entities/Playlist';
 import { convertMonthToString, getAlbumDuration, getMusicDuration } from '@utils/index';
 
 export function translateArtist(artist: Artist): any {
@@ -68,23 +68,22 @@ export function translateMusic(music: Music): any {
 }
 
 export function translatePlaylist(playlist: Playlist): any {
-  let tracks: any[] = [];
-
-  playlist.tracks.forEach((track, index) => {
-    tracks.push({
-      index,
-      track: translateMusic(track),
-    });
-  });
-
   return {
     id: playlist.id,
     name: playlist.name,
     user_id: playlist.userId,
-    tracks,
+    tracks: playlist.tracks.map(track => translatePlaylistTrack(track)),
   };
 }
 
 export function translatePlaylists(playlists: Array<Playlist>): any {
   return playlists.map(playlist => translatePlaylist(playlist));
+}
+
+export function translatePlaylistTrack(track: Track): any {
+  return {
+    id: track.id,
+    index: track.index,
+    music: track.music ? translateMusic(track.music) : null,
+  };
 }

@@ -1,26 +1,26 @@
 import * as grpc from 'grpc';
 
-import { UsersClient } from './proto/users_service_grpc_pb';
 // prettier-ignore
 import {
-  User,
-  Id,
-  CreateUserRequest,
-  UpdateUserRequest,
-  AuthenticateUserRequest,
-  AuthenticateUserResponse,
-} from './proto/users_service_pb';
-// prettier-ignore
-import {
-  GetUser,
-  CreateUser,
-  UpdateUser,
-  DeleteUser,
-  AuthenticateUser,
   AuthenticateResponse,
+  AuthenticateUser,
+  CreateUser,
+  DeleteUser,
+  GetUser,
+  UpdateUser,
 } from './dtos';
 import IUsersIntegration from './interface';
-import { translateAuthenticateUser, translateUserEntity } from './translators';
+import { UsersClient } from '../proto/users_service_grpc_pb';
+// prettier-ignore
+import {
+  AuthenticateUserRequest,
+  AuthenticateUserResponse,
+  CreateUserRequest,
+  Id,
+  UpdateUserRequest,
+  User,
+} from '../proto/users_service_pb';
+import { translateAuthenticateUser, translateUserEntity } from '../translators';
 import Config from '@config/index';
 import UserEntity from '@entities/User';
 
@@ -45,12 +45,12 @@ export default class UsersIntegration implements IUsersIntegration {
     });
   };
 
-  public createUser = async ({ username, email, password }: CreateUser): Promise<UserEntity> => {
+  public createUser = async ({ email, password, username }: CreateUser): Promise<UserEntity> => {
     return new Promise((resolve, reject) => {
       const createUserRequest = new CreateUserRequest();
-      createUserRequest.setUsername(username);
       createUserRequest.setEmail(email);
       createUserRequest.setPassword(password);
+      createUserRequest.setUsername(username);
 
       this.client.create(createUserRequest, (error: Error | null, user: User) => {
         if (error != null) reject(error);
@@ -59,13 +59,13 @@ export default class UsersIntegration implements IUsersIntegration {
     });
   };
 
-  public updateUser = async ({ id, username, email, password }: UpdateUser): Promise<UserEntity> => {
+  public updateUser = async ({ id, email, password, username }: UpdateUser): Promise<UserEntity> => {
     return new Promise((resolve, reject) => {
       const updateUserRequest = new UpdateUserRequest();
       updateUserRequest.setId(id);
-      updateUserRequest.setUsername(username ? username : '');
       updateUserRequest.setEmail(email ? email : '');
       updateUserRequest.setPassword(password ? password : '');
+      updateUserRequest.setUsername(username ? username : '');
 
       this.client.update(updateUserRequest, (error: Error | null, user: User) => {
         if (error != null) reject(error);

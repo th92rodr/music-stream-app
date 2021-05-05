@@ -12,6 +12,7 @@ import MusicsController from './controllers/MusicsController';
 import TokensController from './controllers/TokensController';
 import UsersController from './controllers/UsersController';
 import UsersPlaylistsController from './controllers/UsersPlaylistsController';
+import UsersPlaylistsTracksController from './controllers/UsersPlaylistsTracksController';
 import Authentication from '../middlewares/Authentication';
 import Validator from '../middlewares/Validator';
 import Config from '@config/index';
@@ -40,6 +41,7 @@ export default class ExpressRestChannel implements IRestChannel {
   private tokensController: TokensController;
   private usersController: UsersController;
   private usersPlaylistsController: UsersPlaylistsController;
+  private usersPlaylistsTracksController: UsersPlaylistsTracksController;
 
   // prettier-ignore
   constructor(
@@ -65,6 +67,7 @@ export default class ExpressRestChannel implements IRestChannel {
     this.tokensController = new TokensController(usersIntegration, validationMiddleware);
     this.usersController = new UsersController(usersIntegration, validationMiddleware);
     this.usersPlaylistsController = new UsersPlaylistsController(playlistsIntegration, validationMiddleware);
+    this.usersPlaylistsTracksController = new UsersPlaylistsTracksController(playlistsIntegration, validationMiddleware);
   }
 
   public start(): void {
@@ -171,11 +174,15 @@ export default class ExpressRestChannel implements IRestChannel {
 
     router.get('/api/musics/:id/audio', this.musicsController.stream.bind(this.musicsController));
 
-    router.get('/api/playlists/:id', this.checkAccess.bind(this), this.usersPlaylistsController.show.bind(this.usersPlaylistsController));
     router.get('/api/playlists', this.checkAccess.bind(this), this.usersPlaylistsController.index.bind(this.usersPlaylistsController));
+    router.get('/api/playlists/:id', this.checkAccess.bind(this), this.usersPlaylistsController.show.bind(this.usersPlaylistsController));
     router.post('/api/playlists', this.checkAccess.bind(this), this.usersPlaylistsController.create.bind(this.usersPlaylistsController));
     router.patch('/api/playlists/:id', this.checkAccess.bind(this), this.usersPlaylistsController.update.bind(this.usersPlaylistsController));
     router.delete('/api/playlists/:id', this.checkAccess.bind(this), this.usersPlaylistsController.delete.bind(this.usersPlaylistsController));
+
+    router.post('/api/playlists/:playlistId/tracks', this.checkAccess.bind(this), this.usersPlaylistsTracksController.create.bind(this.usersPlaylistsTracksController));
+    router.patch('/api/playlists/:playlistId/tracks/:id', this.checkAccess.bind(this), this.usersPlaylistsTracksController.update.bind(this.usersPlaylistsTracksController));
+    router.delete('/api/playlists/:playlistId/tracks/:id', this.checkAccess.bind(this), this.usersPlaylistsTracksController.delete.bind(this.usersPlaylistsTracksController));
 
     router.use('*', (request: Request, response: Response) => {
       response.status(HttpStatusCode.NOT_FOUND).json({ message: 'Not Found' });
