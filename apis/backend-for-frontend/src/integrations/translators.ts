@@ -125,22 +125,11 @@ export function translateAuthenticateUser(authenticateUserResponse: Authenticate
 }
 
 export function translatePlaylistEntity(playlist: Playlist): PlaylistEntity {
-  const tracks = new Map<number, MusicEntity>();
-
-  playlist.getTracksList().map(track => {
-    const music = track.getMusic();
-    const index = track.getIndex();
-
-    if (music) {
-      tracks.set(index, translateMusicEntity(music));
-    }
-  });
-
   return new PlaylistEntity({
     id: playlist.getId(),
     name: playlist.getName(),
     userId: playlist.getUserid(),
-    tracks: [],
+    tracks: playlist.getTracksList().map(track => translateTrackEntity(track)),
   });
 }
 
@@ -149,9 +138,10 @@ export function translatePlaylistEntityList(playlistsList: PlaylistsList): Array
 }
 
 export function translateTrackEntity(track: Track): TrackEntity {
+  const music = track.getMusic();
   return new TrackEntity({
     id: track.getId(),
     index: track.getIndex(),
-    music: translateMusicEntity(track.getMusic()),
+    music: music ? translateMusicEntity(music) : null,
   });
 }

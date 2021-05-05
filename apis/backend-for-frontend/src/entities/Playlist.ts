@@ -17,7 +17,7 @@ export default class Playlist {
 export class Track {
   public readonly id: string;
   public readonly index: number;
-  public readonly music: Music;
+  public readonly music: Music | null;
 
   constructor({ id, index, music }: Track) {
     this.id = id;

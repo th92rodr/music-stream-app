@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 
+import { translatePlaylistTrack } from './translators';
 import Validator from '@channels/rest/middlewares/Validator';
 import { HttpStatusCode } from '@constants/index';
 import BaseError from '@constants/BaseError';
@@ -23,12 +24,12 @@ export default class UsersPlaylistsTracksController {
 
     const userId = request.userId;
     const { playlistId } = request.params;
-    const { musicId } = request.body;
+    const { music_id: musicId } = request.body;
 
     try {
       const track = await this.playlistsIntegration.addTrack({ musicId, playlistId, userId });
 
-      return response.status(HttpStatusCode.CREATED).json(track);
+      return response.status(HttpStatusCode.CREATED).json(translatePlaylistTrack(track));
     } catch (error) {
       if (error instanceof BaseError) {
         return response.status(error.statusCode).json({ error: error.message });
@@ -52,7 +53,7 @@ export default class UsersPlaylistsTracksController {
     try {
       const track = await this.playlistsIntegration.updateTrack({ id, index, playlistId, userId });
 
-      return response.status(HttpStatusCode.OK).json(track);
+      return response.status(HttpStatusCode.OK).json(translatePlaylistTrack(track));
     } catch (error) {
       if (error instanceof BaseError) {
         return response.status(error.statusCode).json({ error: error.message });

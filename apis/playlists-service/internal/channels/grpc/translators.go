@@ -33,10 +33,15 @@ func translatePlaylistList(playlists []e.Playlist) *proto.PlaylistsList {
 }
 
 func translatePlaylistTrack(track *e.Track) *proto.Track {
+	var music *proto.Music = nil
+	if track.Music != nil {
+		music = translateMusic(track.Music)
+	}
+
 	return &proto.Track{
 		Id:    track.Id,
 		Index: track.Index,
-		Music: translateMusic(track.Music),
+		Music: music,
 	}
 }
 
