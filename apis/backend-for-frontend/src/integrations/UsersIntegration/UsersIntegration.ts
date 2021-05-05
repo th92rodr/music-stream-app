@@ -45,12 +45,12 @@ export default class UsersIntegration implements IUsersIntegration {
     });
   };
 
-  public createUser = async ({ username, email, password }: CreateUser): Promise<UserEntity> => {
+  public createUser = async ({ email, password, username }: CreateUser): Promise<UserEntity> => {
     return new Promise((resolve, reject) => {
       const createUserRequest = new CreateUserRequest();
-      createUserRequest.setUsername(username);
       createUserRequest.setEmail(email);
       createUserRequest.setPassword(password);
+      createUserRequest.setUsername(username);
 
       this.client.create(createUserRequest, (error: Error | null, user: User) => {
         if (error != null) reject(error);
@@ -59,13 +59,13 @@ export default class UsersIntegration implements IUsersIntegration {
     });
   };
 
-  public updateUser = async ({ id, username, email, password }: UpdateUser): Promise<UserEntity> => {
+  public updateUser = async ({ id, email, password, username }: UpdateUser): Promise<UserEntity> => {
     return new Promise((resolve, reject) => {
       const updateUserRequest = new UpdateUserRequest();
       updateUserRequest.setId(id);
-      updateUserRequest.setUsername(username ? username : '');
       updateUserRequest.setEmail(email ? email : '');
       updateUserRequest.setPassword(password ? password : '');
+      updateUserRequest.setUsername(username ? username : '');
 
       this.client.update(updateUserRequest, (error: Error | null, user: User) => {
         if (error != null) reject(error);
