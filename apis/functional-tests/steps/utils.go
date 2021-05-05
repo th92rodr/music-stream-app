@@ -289,6 +289,34 @@ func (t *testFeature) validatePlaylist(sent, received playlist, method string) b
 	return true
 }
 
+func validatePlaylistTrack(sent, received track, method string) bool {
+	if method == "create" {
+		if received.Index != 1 ||
+			received.Id == "" {
+			return false
+		}
+		return true
+	}
+
+	if method == "get" {
+		if sent.Id != received.Id ||
+			sent.Index != received.Index {
+			return false
+		}
+		return true
+	}
+
+	if method == "update" {
+		if sent.Id != received.Id ||
+			received.Index != 2 {
+			return false
+		}
+		return true
+	}
+
+	return true
+}
+
 func compareSlice(a, b []string) bool {
 	if len(a) != len(b) {
 		return false

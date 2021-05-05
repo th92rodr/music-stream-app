@@ -32,6 +32,7 @@ type entities struct {
 	album    *album
 	music    *music
 	playlist *playlist
+	track    *track
 }
 
 func InitializeScenario(ctx *godog.ScenarioContext, mode string) {
@@ -44,6 +45,7 @@ func InitializeScenario(ctx *godog.ScenarioContext, mode string) {
 	test.album = &album{}
 	test.music = &music{}
 	test.playlist = &playlist{}
+	test.track = &track{}
 
 	ctx.Step(`^I want to create an user with the following data:$`, test.makeCreateUserRequest)
 	ctx.Step(`^I want to authenticate this user using the password "([^"]*)"$`, test.makeAuthenticateUserRequest)
@@ -71,6 +73,10 @@ func InitializeScenario(ctx *godog.ScenarioContext, mode string) {
 	ctx.Step(`^I want to update this playlist with the following data:$`, test.makeUpdatePlaylistRequest)
 	ctx.Step(`^I want to delete this playlist`, test.makeDeletePlaylistRequest)
 
+	ctx.Step(`^I want to add this music to this playlist`, test.makeAddPlaylistTrackRequest)
+	ctx.Step(`^I want to update this track from this playlist`, test.makeUpdatePlaylistTrackRequest)
+	ctx.Step(`^I want to remove this track from this playlist`, test.makeRemovePlaylistTrackRequest)
+
 	ctx.Step(`^I send the request`, test.sendRequest)
 
 	ctx.Step(`^the response status code should be (\d+)$`, test.validateResponseStatusCode)
@@ -81,6 +87,7 @@ func InitializeScenario(ctx *godog.ScenarioContext, mode string) {
 	ctx.Step(`^validate album response body "([^"]*)"$`, test.validateAlbumResponseBody)
 	ctx.Step(`^validate music response body "([^"]*)"$`, test.validateMusicResponseBody)
 	ctx.Step(`^validate playlist response body "([^"]*)"$`, test.validatePlaylistResponseBody)
+	ctx.Step(`^validate playlist track response body "([^"]*)"$`, test.validatePlaylistTrackResponseBody)
 }
 
 // ------------------------------------ //
@@ -537,6 +544,81 @@ func (t *testFeature) makeDeletePlaylistRequest() error {
 	return nil
 }
 
+// Playlist Tracks
+
+func (t *testFeature) makeAddPlaylistTrackRequest() error {
+	var err error
+	t.requestBody, err = json.Marshal(struct {
+		MusicId string `json:"music_id,omitempty"`
+	}{
+		MusicId: t.music.Id,
+	})
+	if err != nil {
+		return err
+	}
+
+	if t.mode == "VERBOSE" {
+		fmt.Println("ADD PLAYLIST TRACK BODY: ", string(t.requestBody))
+	}
+
+	url := fmt.Sprintf("%s/api/playlists/%s/tracks", baseURL, t.playlist.Id)
+
+	t.request, err = http.NewRequest(http.MethodPost, url, bytes.NewBuffer(t.requestBody))
+	if err != nil {
+		return err
+	}
+
+	t.request.Header.Set("Content-Type", "application/json")
+	t.request.Header.Add("Authorization", fmt.Sprintf("Bearer %s", t.token))
+
+	return nil
+}
+
+func (t *testFeature) makeUpdatePlaylistTrackRequest() error {
+	var err error
+	t.requestBody, err = json.Marshal(struct {
+		Index int32 `json:"index,omitempty"`
+	}{
+		Index: 2,
+	})
+	if err != nil {
+		return err
+	}
+
+	if t.mode == "VERBOSE" {
+		fmt.Println("UPDATE PLAYLIST TRACK BODY: ", string(t.requestBody))
+	}
+
+	url := fmt.Sprintf("%s/api/playlists/%s/tracks/%s", baseURL, t.playlist.Id, t.track.Id)
+
+	t.request, err = http.NewRequest(http.MethodPatch, url, bytes.NewBuffer(t.requestBody))
+	if err != nil {
+		return err
+	}
+
+	t.request.Header.Set("Content-Type", "application/json")
+	t.request.Header.Add("Authorization", fmt.Sprintf("Bearer %s", t.token))
+
+	return nil
+}
+
+func (t *testFeature) makeRemovePlaylistTrackRequest() error {
+	url := fmt.Sprintf("%s/api/playlists/%s/tracks/%s", baseURL, t.playlist.Id, t.track.Id)
+
+	var err error
+	t.request, err = http.NewRequest(http.MethodDelete, url, nil)
+	if err != nil {
+		return err
+	}
+
+	t.request.Header.Set("Content-Type", "application/json")
+	t.request.Header.Add("Authorization", fmt.Sprintf("Bearer %s", t.token))
+
+	t.track = &track{}
+
+	return nil
+}
+
 // ------------------------------------ //
 
 // Response
@@ -716,6 +798,33 @@ func (t *testFeature) validatePlaylistResponseBody(method string) error {
 	}
 
 	t.playlist = receivedPlaylist
+
+	return nil
+}
+
+func (t *testFeature) validatePlaylistTrackResponseBody(method string) error {
+	defer t.response.Body.Close()
+	responseBody, err := ioutil.ReadAll(t.response.Body)
+	if err != nil {
+		return err
+	}
+
+	receivedTrack := &track{}
+	err = json.Unmarshal(responseBody, receivedTrack)
+	if err != nil {
+		return err
+	}
+
+	if t.mode == "VERBOSE" {
+		prettyPrint(t.track)
+		prettyPrint(receivedTrack)
+	}
+
+	if !validatePlaylistTrack(*t.track, *receivedTrack, method) {
+		return fmt.Errorf("Response body validation failed.")
+	}
+
+	t.track = receivedTrack
 
 	return nil
 }
