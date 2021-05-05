@@ -67,12 +67,12 @@ export default class PlaylistsIntegration implements IPlaylistsIntegration {
     });
   };
 
-  public updatePlaylist = async ({ id, userId, name }: UpdatePlaylist): Promise<PlaylistEntity> => {
+  public updatePlaylist = async ({ id, name, userId }: UpdatePlaylist): Promise<PlaylistEntity> => {
     return new Promise((resolve, reject) => {
       const updatePlaylistRequest = new UpdatePlaylistRequest();
       updatePlaylistRequest.setId(id);
       updatePlaylistRequest.setUserid(userId);
-      updatePlaylistRequest.setName(name ? name : '');
+      updatePlaylistRequest.setName(name);
 
       this.client.updatePlaylist(updatePlaylistRequest, (error: Error | null, playlist: Playlist) => {
         if (error != null) reject(error);

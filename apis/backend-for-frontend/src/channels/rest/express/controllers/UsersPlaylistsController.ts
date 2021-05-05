@@ -52,7 +52,7 @@ export default class UsersPlaylistsController {
   }
 
   public async create(request: Request, response: Response): Promise<Response> {
-    const errors = this.validator.validateCreatePlaylistRequest(request.body);
+    const errors = this.validator.validatePlaylistRequest(request.body);
     if (errors.length > 0) {
       return response.status(HttpStatusCode.BAD_REQUEST).json({ errors });
     }
@@ -75,6 +75,11 @@ export default class UsersPlaylistsController {
   }
 
   public async update(request: Request, response: Response): Promise<Response> {
+    const errors = this.validator.validatePlaylistRequest(request.body);
+    if (errors.length > 0) {
+      return response.status(HttpStatusCode.BAD_REQUEST).json({ errors });
+    }
+
     const userId = request.userId;
     const { id } = request.params;
     const { name } = request.body;

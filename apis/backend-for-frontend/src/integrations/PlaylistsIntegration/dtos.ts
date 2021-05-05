@@ -15,7 +15,7 @@ export interface CreatePlaylist {
 export interface UpdatePlaylist {
   id: string;
   userId: string;
-  name?: string;
+  name: string;
 }
 
 export interface DeletePlaylist {
