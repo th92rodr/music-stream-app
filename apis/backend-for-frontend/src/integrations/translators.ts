@@ -1,8 +1,10 @@
+import { status as grpcStatus } from 'grpc';
+
 import { Album, AlbumsList, Artist, ArtistsList, Genre, Music, MusicsList } from './proto/musics_service_pb';
 import { Playlist, PlaylistsList, Track } from './proto/playlists_service_pb';
 import { AuthenticateUserResponse, User } from './proto/users_service_pb';
 import { AuthenticateResponse } from './UsersIntegration/dtos';
-import { Genre as GenreEnum } from '@constants/index';
+import { Genre as GenreEnum, HttpStatusCode } from '@constants/index';
 import AlbumEntity from '@entities/Album';
 import ArtistEntity from '@entities/Artist';
 import MusicEntity from '@entities/Music';
@@ -144,4 +146,21 @@ export function translateTrackEntity(track: Track): TrackEntity {
     index: track.getIndex(),
     music: music ? translateMusicEntity(music) : null,
   });
+}
+
+export function translateGrpcError(statusCode?: grpcStatus): HttpStatusCode {
+  if (!statusCode) {
+    return HttpStatusCode.INTERNAL_SERVER_ERROR;
+  }
+
+  switch (statusCode) {
+    case grpcStatus.INVALID_ARGUMENT:
+      return HttpStatusCode.BAD_REQUEST;
+    case grpcStatus.NOT_FOUND:
+      return HttpStatusCode.NOT_FOUND;
+    case grpcStatus.INTERNAL:
+      return HttpStatusCode.INTERNAL_SERVER_ERROR;
+    default:
+      return HttpStatusCode.INTERNAL_SERVER_ERROR;
+  }
 }

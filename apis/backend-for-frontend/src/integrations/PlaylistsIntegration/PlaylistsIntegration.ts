@@ -17,6 +17,7 @@ import {
   UpdateTrackRequest,
 } from '../proto/playlists_service_pb';
 import { translatePlaylistEntity, translatePlaylistEntityList, translateTrackEntity } from '../translators';
+import { handleError } from '../utils';
 import Config from '@config/index';
 import PlaylistEntity, { Track as TrackEntity } from '@entities/Playlist';
 
@@ -36,7 +37,7 @@ export default class PlaylistsIntegration implements IPlaylistsIntegration {
       getPlaylistRequest.setUserid(userId);
 
       this.client.getPlaylist(getPlaylistRequest, (error: Error | null, playlist: Playlist) => {
-        if (error != null) reject(error);
+        if (error != null) reject(handleError(error));
         else resolve(translatePlaylistEntity(playlist));
       });
     });
@@ -48,7 +49,7 @@ export default class PlaylistsIntegration implements IPlaylistsIntegration {
       getPlaylistsRequest.setUserid(userId);
 
       this.client.getPlaylists(getPlaylistsRequest, (error: Error | null, playlistsList: PlaylistsList) => {
-        if (error != null) reject(error);
+        if (error != null) reject(handleError(error));
         else resolve(translatePlaylistEntityList(playlistsList));
       });
     });
@@ -61,7 +62,7 @@ export default class PlaylistsIntegration implements IPlaylistsIntegration {
       createPlaylistRequest.setUserid(userId);
 
       this.client.createPlaylist(createPlaylistRequest, (error: Error | null, playlist: Playlist) => {
-        if (error != null) reject(error);
+        if (error != null) reject(handleError(error));
         else resolve(translatePlaylistEntity(playlist));
       });
     });
@@ -75,7 +76,7 @@ export default class PlaylistsIntegration implements IPlaylistsIntegration {
       updatePlaylistRequest.setName(name);
 
       this.client.updatePlaylist(updatePlaylistRequest, (error: Error | null, playlist: Playlist) => {
-        if (error != null) reject(error);
+        if (error != null) reject(handleError(error));
         else resolve(translatePlaylistEntity(playlist));
       });
     });
@@ -88,7 +89,7 @@ export default class PlaylistsIntegration implements IPlaylistsIntegration {
       deletePlaylistRequest.setUserid(userId);
 
       this.client.deletePlaylist(deletePlaylistRequest, (error: Error | null) => {
-        if (error != null) reject(error);
+        if (error != null) reject(handleError(error));
         else resolve();
       });
     });
@@ -102,7 +103,7 @@ export default class PlaylistsIntegration implements IPlaylistsIntegration {
       addTrackRequest.setUserid(userId);
 
       this.client.addTrack(addTrackRequest, (error: Error | null, track: Track) => {
-        if (error != null) reject(error);
+        if (error != null) reject(handleError(error));
         else resolve(translateTrackEntity(track));
       });
     });
@@ -117,7 +118,7 @@ export default class PlaylistsIntegration implements IPlaylistsIntegration {
       updateTrackRequest.setUserid(userId);
 
       this.client.updateTrack(updateTrackRequest, (error: Error | null, track: Track) => {
-        if (error != null) reject(error);
+        if (error != null) reject(handleError(error));
         else resolve(translateTrackEntity(track));
       });
     });
@@ -131,7 +132,7 @@ export default class PlaylistsIntegration implements IPlaylistsIntegration {
       removeTrackRequest.setUserid(userId);
 
       this.client.removeTrack(removeTrackRequest, (error: Error | null) => {
-        if (error != null) reject(error);
+        if (error != null) reject(handleError(error));
         else resolve();
       });
     });

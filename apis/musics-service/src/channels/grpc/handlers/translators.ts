@@ -1,5 +1,7 @@
+import { status as grpcStatus } from 'grpc';
+
 import { Album, AlbumsList, Artist, ArtistsList, Genre, Music, MusicsList } from '../proto/musics_service_pb';
-import { Genre as GenreEnum } from '@constants/index';
+import { Genre as GenreEnum, StatusCode } from '@constants/index';
 import AlbumEntity from '@entities/Album';
 import ArtistEntity from '@entities/Artist';
 import MusicEntity from '@entities/Music';
@@ -117,5 +119,18 @@ export function translateGenreEnum(genre: Genre): GenreEnum {
       return GenreEnum['Black Metal'];
     default:
       return 0;
+  }
+}
+
+export function translateGrpcError(statusCode: StatusCode): grpcStatus {
+  switch (statusCode) {
+    case StatusCode.BAD_REQUEST:
+      return grpcStatus.INVALID_ARGUMENT;
+    case StatusCode.NOT_FOUND:
+      return grpcStatus.NOT_FOUND;
+    case StatusCode.INTERNAL_SERVER_ERROR:
+      return grpcStatus.INTERNAL;
+    default:
+      return grpcStatus.UNKNOWN;
   }
 }

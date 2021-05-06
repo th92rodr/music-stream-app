@@ -6,6 +6,7 @@ import { Genre, HttpStatusCode } from '@constants/index';
 import BaseError from '@constants/BaseError';
 import { InternalError } from '@constants/errors';
 import IMusicsIntegration from '@integrations/MusicsIntegration/interface';
+import { newDate } from '@utils/index';
 
 export default class ArtistsController {
   private musicsIntegration: IMusicsIntegration;
@@ -21,8 +22,6 @@ export default class ArtistsController {
       const artists = await this.musicsIntegration.getArtists();
 
       return response.status(HttpStatusCode.OK).json(translateArtists(artists));
-
-      //
     } catch (error) {
       if (error instanceof BaseError) {
         return response.status(error.statusCode).json({ error: error.message });
@@ -74,7 +73,7 @@ export default class ArtistsController {
       const artist = await this.musicsIntegration.createArtist({
         name,
         country,
-        foundationDate: new Date(foundationDate),
+        foundationDate: newDate(foundationDate),
         members,
         description,
         genre: Genre[genre],
@@ -122,7 +121,7 @@ export default class ArtistsController {
         id,
         name,
         country,
-        foundationDate: foundationDate ? new Date(foundationDate) : undefined,
+        foundationDate: foundationDate ? newDate(foundationDate) : undefined,
         members,
         description,
         genre: genre ? Genre[genre] : undefined,
