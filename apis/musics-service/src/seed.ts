@@ -7,6 +7,7 @@ import Artist from '@entities/Artist';
 import Music from '@entities/Music';
 import { idProvider } from '@providers/index';
 import { albumsRepository, artistsRepository, musicsRepository } from '@repositories/index';
+import { newDate } from '@utils/index';
 
 export async function seed(deleteData: boolean): Promise<void> {
   if (deleteData) {
@@ -22,7 +23,7 @@ export async function seed(deleteData: boolean): Promise<void> {
       id: idProvider.generate(),
       name: 'Amon Amarth',
       country: 'Sweden',
-      foundationDate: new Date(1992, 0),
+      foundationDate: newDate('1992-01-01'),
       members: ['Olavi Mikkonen', 'Johan Hegg', 'Ted Lundström', 'Johan Söderberg', 'Jocke Wallgren'],
       description: `Amon Amarth is a Swedish melodic death metal band from Tumba, formed in 1992. The band takes its name from the Sindarin name of Mount Doom, a volcano in J. R. R. Tolkien′s Middle-earth.\nTheir lyrics mostly deal with Viking mythology and history, and so they have been linked with Viking metal, although the band themselves prefer to be referred to as melodic death metal.\nThe band is composed of lead guitarist Olavi Mikkonen, vocalist Johan Hegg, bassist Ted Lundström, rhythm guitarist Johan Söderberg, and drummer Jocke Wallgren.\nAmon Amarth has released eleven studio albums, one compilation album, one EP, one video album, and ten music videos. Their first studio album, Once Sent from the Golden Hall, debuted in 1998. Five more studio releases followed, before the band saw its breakthrough with the 2008 album Twilight of the Thunder God, which debuted at No. 10 on the Swedish album charts and No. 50 on the US Billboard 200. Four more albums, Surtur Rising, Deceiver of the Gods, Jomsviking, and Berserker followed in 2011, 2013, 2016, and 2019 respectively.`,
       genre: Genre['Death Metal'],
@@ -35,60 +36,60 @@ export async function seed(deleteData: boolean): Promise<void> {
       followers: 0,
     });
 
-    const twilightOfTheThunderGod = new Album({
-      id: idProvider.generate(),
-      name: 'Twilight of the Thunder God',
-      releaseDate: new Date(2008, 8),
-      studio: 'Fascination Street Studio',
-      producers: ['Jens Bogren'],
-      cover: 'amon-amarth/album_cover_twilight-of-the-thunder-god.jpg',
-      artistId: amonAmarth.id,
-    });
-
-    const surturRising = new Album({
-      id: idProvider.generate(),
-      name: 'Surtur Rising',
-      releaseDate: new Date(2011, 2),
-      studio: 'Fascination Street Studio',
-      producers: ['Jens Bogren'],
-      cover: 'amon-amarth/album_cover_surtur-rising.jpg',
-      artistId: amonAmarth.id,
-    });
-
-    const deceiverOfTheGods = new Album({
-      id: idProvider.generate(),
-      name: 'Deceiver of the Gods',
-      releaseDate: new Date(2013, 5),
-      studio: 'Backstage Productions',
-      producers: ['Andy Sneap'],
-      cover: 'amon-amarth/album_cover_deceiver-of-the-gods.jpg',
-      artistId: amonAmarth.id,
-    });
-
-    const jomsviking = new Album({
-      id: idProvider.generate(),
-      name: 'Jomsviking',
-      releaseDate: new Date(2016, 2),
-      studio: 'Backstage Productions',
-      producers: ['Andy Sneap'],
-      cover: 'amon-amarth/album_cover_jomsviking.jpg',
-      artistId: amonAmarth.id,
-    });
-
     const berserker = new Album({
       id: idProvider.generate(),
       name: 'Berserker',
-      releaseDate: new Date(2019, 4),
+      releaseDate: newDate('2019-05-03'), // 3 May 2019
       studio: 'Backstage Productions',
       producers: ['Jay Ruston'],
       cover: 'amon-amarth/album_cover_berserker.jpg',
       artistId: amonAmarth.id,
     });
 
+    const jomsviking = new Album({
+      id: idProvider.generate(),
+      name: 'Jomsviking',
+      releaseDate: newDate('2016-03-25'), // 25 March 2016
+      studio: 'Backstage Productions',
+      producers: ['Andy Sneap'],
+      cover: 'amon-amarth/album_cover_jomsviking.jpg',
+      artistId: amonAmarth.id,
+    });
+
+    const deceiverOfTheGods = new Album({
+      id: idProvider.generate(),
+      name: 'Deceiver of the Gods',
+      releaseDate: newDate('2013-06-25'), // 25 June 2013
+      studio: 'Backstage Productions',
+      producers: ['Andy Sneap'],
+      cover: 'amon-amarth/album_cover_deceiver-of-the-gods.jpg',
+      artistId: amonAmarth.id,
+    });
+
+    const surturRising = new Album({
+      id: idProvider.generate(),
+      name: 'Surtur Rising',
+      releaseDate: newDate('2011-03-29'), // 29 March 2011
+      studio: 'Fascination Street Studio',
+      producers: ['Jens Bogren'],
+      cover: 'amon-amarth/album_cover_surtur-rising.jpg',
+      artistId: amonAmarth.id,
+    });
+
+    const twilightOfTheThunderGod = new Album({
+      id: idProvider.generate(),
+      name: 'Twilight of the Thunder God',
+      releaseDate: newDate('2008-09-17'), // 17 September 2008
+      studio: 'Fascination Street Studio',
+      producers: ['Jens Bogren'],
+      cover: 'amon-amarth/album_cover_twilight-of-the-thunder-god.jpg',
+      artistId: amonAmarth.id,
+    });
+
     const withOdenOnOurSide = new Album({
       id: idProvider.generate(),
       name: 'With Oden On Our Side',
-      releaseDate: new Date(2006, 8),
+      releaseDate: newDate('2006-09-22'), // 22 September 2006
       studio: 'Fascination Street Studio',
       producers: ['Jens Bogren'],
       cover: 'amon-amarth/album_cover_with-oden-on-our-side.jpg',
@@ -98,7 +99,7 @@ export async function seed(deleteData: boolean): Promise<void> {
     const fateOfNorns = new Album({
       id: idProvider.generate(),
       name: 'Fate of Norns',
-      releaseDate: new Date(2004, 8),
+      releaseDate: newDate('2004-09-06'), // 6 September 2004
       studio: 'Berno Studios',
       producers: ['Berno Paulsson'],
       cover: 'amon-amarth/album_cover_fate-of-norns.jpg',
@@ -108,7 +109,7 @@ export async function seed(deleteData: boolean): Promise<void> {
     const versusTheWorld = new Album({
       id: idProvider.generate(),
       name: 'Versus the World',
-      releaseDate: new Date(2002, 10),
+      releaseDate: newDate('2002-11-18'), // 18 November 2002
       studio: 'Berno Studios',
       producers: ['Berno Paulsson'],
       cover: 'amon-amarth/album_cover_versus-the-world.jpg',
@@ -118,7 +119,7 @@ export async function seed(deleteData: boolean): Promise<void> {
     const theCrusher = new Album({
       id: idProvider.generate(),
       name: 'The Crusher',
-      releaseDate: new Date(2001, 4),
+      releaseDate: newDate('2001-05-08'), // 8 May 2001
       studio: 'The Abyss',
       producers: ['Peter Tägtgren'],
       cover: 'amon-amarth/album_cover_the-crusher.jpg',
@@ -128,7 +129,7 @@ export async function seed(deleteData: boolean): Promise<void> {
     const theAvenger = new Album({
       id: idProvider.generate(),
       name: 'The Avenger',
-      releaseDate: new Date(1999, 8),
+      releaseDate: newDate('1999-09-02'), // 2 September 1999
       studio: 'The Abyss',
       producers: ['Peter Tägtgren'],
       cover: 'amon-amarth/album_cover_the-avenger.jpeg',
@@ -138,7 +139,7 @@ export async function seed(deleteData: boolean): Promise<void> {
     const onceSentFromTheGoldenHall = new Album({
       id: idProvider.generate(),
       name: 'Once Sent from the Golden Hall',
-      releaseDate: new Date(1998, 1),
+      releaseDate: newDate('1998-02-10'), // 10 February 1998
       studio: 'The Abyss',
       producers: ['Peter Tägtgren'],
       cover: 'amon-amarth/album_cover_once-sent-from-the-golden-hall.jpg',
@@ -313,7 +314,7 @@ export async function seed(deleteData: boolean): Promise<void> {
       id: idProvider.generate(),
       name: 'Iron Maiden',
       country: 'England',
-      foundationDate: new Date(1975, 0),
+      foundationDate: newDate('1975-01-01'),
       members: ['Steve Harris', 'Dave Murray', 'Adrian Smith', 'Bruce Dickinson', 'Nicko McBrain', 'Janick Gers'],
       description: `Iron Maiden are an English heavy metal band formed in Leyton, East London, in 1975 by bassist and primary songwriter Steve Harris. The band's discography has grown to thirty-nine albums, including sixteen studio albums, twelve live albums, four EPs, and seven compilations.`,
       genre: Genre['Heavy Metal'],
@@ -329,7 +330,7 @@ export async function seed(deleteData: boolean): Promise<void> {
     const ironMaidenAlbum = new Album({
       id: idProvider.generate(),
       name: 'Iron Maiden',
-      releaseDate: new Date(1980, 3),
+      releaseDate: newDate('1980-04-14'), // 14 April 1980
       studio: 'Kingsway',
       producers: ['Wil Malone'],
       cover: 'iron-maiden/album_cover_iron-maiden.jpg',
@@ -339,7 +340,7 @@ export async function seed(deleteData: boolean): Promise<void> {
     const theNumberOfTheBeast = new Album({
       id: idProvider.generate(),
       name: 'The Number of the Beast',
-      releaseDate: new Date(1982, 2),
+      releaseDate: newDate('1982-03-22'), // 22 March 1982
       studio: 'Battery',
       producers: ['Martin Birch'],
       cover: 'iron-maiden/album_cover_the-number-of-the-beast.jpg',
@@ -349,7 +350,7 @@ export async function seed(deleteData: boolean): Promise<void> {
     const fearOfTheDark = new Album({
       id: idProvider.generate(),
       name: 'Fear of the Dark',
-      releaseDate: new Date(1992, 4),
+      releaseDate: newDate('1992-05-11'), // 11 May 1992
       studio: 'Barnyard',
       producers: ['Martin Birch', 'Steve Harris'],
       cover: 'iron-maiden/album_cover_fear-of-the-dark.jpg',
@@ -359,7 +360,7 @@ export async function seed(deleteData: boolean): Promise<void> {
     const braveNewWorld = new Album({
       id: idProvider.generate(),
       name: 'Brave New World',
-      releaseDate: new Date(2000, 4),
+      releaseDate: newDate('2000-05-29'), // 29 May 2000
       studio: 'EMI, Portrait',
       producers: ['Kevin Shirley', 'Steve Harris'],
       cover: 'iron-maiden/album_cover_brave-new-world.jpg',
@@ -421,7 +422,7 @@ export async function seed(deleteData: boolean): Promise<void> {
       id: idProvider.generate(),
       name: 'Sabaton',
       country: 'Sweden',
-      foundationDate: new Date(1999, 0),
+      foundationDate: newDate('1999-01-01'),
       members: ['Joakim Brodén', 'Pär Sundström', 'Chris Rörland', 'Hannes Van Dahl', 'Tommy Johansson'],
       description: `In the two decades since their launch, Swedish metallers Sabaton have carved out a reputation as one of the hardest working bands in the business – gaining a legion of loyal fans across the globe, delivering nine highly-rated studio albums (including 5 gold and 2 platinum certified sellers), and scoring multiple industry award wins and nominations. Not to mention launching their own annual festival and cruise.\nCombining soaring power riffs with vocalist Joakim Brodén’s instantly-recognisable gruff baritone, the band refuses to be simply slotted into a genre. Fans need only know them as Sabaton: the heavy metal band that sings of real life wars and the people who played a part in them – of gruelling campaigns and dazzling acts of bravery, of magnificent victories and touching personal struggles – true stories more fantastic than any fiction.\nSabaton are perhaps best known for their electrifying live shows, combining accomplished musical performances and a finely-crafted stage show – including their full-sized tank drum-riser – with energy and laughter. The band has headlined as far afield as North America, Australia and Japan, and regularly fills arenas and takes top-billed slots at festivals across Europe. They are also a favourite support act for metal titans Iron Maiden and Scorpions. Sabaton’s live show has won top industry accolades in Germany (Metal Hammer Award), Sweden (Bandit Rock Award), as well as being nominated for two Metal Hammer Golden Gods awards in the UK.`,
       genre: Genre['Power Metal'],
@@ -437,7 +438,7 @@ export async function seed(deleteData: boolean): Promise<void> {
     const theArtOfWar = new Album({
       id: idProvider.generate(),
       name: 'The Art of War',
-      releaseDate: new Date(2008, 4),
+      releaseDate: newDate('2008-05-30'), // 30 May 2008
       studio: 'The Abyss Studios',
       producers: ['Tommy Tägtgren', 'Peter Tägtgren'],
       cover: 'sabaton/album_cover_the-art-of-war.jpg',
@@ -447,7 +448,7 @@ export async function seed(deleteData: boolean): Promise<void> {
     const heroes = new Album({
       id: idProvider.generate(),
       name: 'Heroes',
-      releaseDate: new Date(2014, 4),
+      releaseDate: newDate('2014-05-16'), // 16 May 2014
       studio: 'The Abyss Studios',
       producers: ['Peter Tägtgren'],
       cover: 'sabaton/album_cover_heroes.jpg',
@@ -457,7 +458,7 @@ export async function seed(deleteData: boolean): Promise<void> {
     const theLastStand = new Album({
       id: idProvider.generate(),
       name: 'The Last Stand',
-      releaseDate: new Date(2016, 7),
+      releaseDate: newDate('2016-08-19'), // 19 August 2016
       studio: 'The Abyss Studios',
       producers: ['Peter Tägtgren'],
       cover: 'sabaton/album_cover_the-last-stand.jpg',
@@ -467,7 +468,7 @@ export async function seed(deleteData: boolean): Promise<void> {
     const theGreatWar = new Album({
       id: idProvider.generate(),
       name: 'The Great War',
-      releaseDate: new Date(2019, 6),
+      releaseDate: newDate('2019-07-19'), // 19 July 2019
       studio: 'The Abyss Studios',
       producers: ['Tommy Tägtgren', 'Peter Tägtgren'],
       cover: 'sabaton/album_cover_the-great-war.jpg',
@@ -504,7 +505,7 @@ export async function seed(deleteData: boolean): Promise<void> {
       id: idProvider.generate(),
       name: 'Kreator',
       country: 'Germany',
-      foundationDate: new Date(1982, 0),
+      foundationDate: newDate('1982-01-01'),
       members: ['Miland Mille Petrozza', 'Jürgen Ventor Reil', 'Sami Yli-Sirniö', 'Frédéric Leclercq'],
       description: `Kreator is a German thrash metal band from Essen, formed in 1982. Their current lineup consists of lead vocalist and rhythm guitarist Miland "Mille" Petrozza, drummer Jürgen "Ventor" Reil, lead guitarist Sami Yli-Sirniö, and bassist Frédéric Leclercq. The band's lineup has changed multiple times over its 39-year career, most noticeably with their bassists and lead guitarists. Petrozza and Reil are the only two original members left in Kreator, though the latter had been out of the band from 1994 to 1996. Yli-Sirniö has been the lead guitarist of Kreator since 2001, while Leclercq joined in 2019 as the replacement of Christian "Speesy" Giesler, who had been a member of the band since 1994.`,
       genre: Genre['Thrash Metal'],
@@ -525,7 +526,7 @@ export async function seed(deleteData: boolean): Promise<void> {
       id: idProvider.generate(),
       name: 'Avantasia',
       country: 'Germany',
-      foundationDate: new Date(1999, 0),
+      foundationDate: newDate('1999-01-01'),
       members: ['Tobias Sammet', 'Sascha Paeth', 'Miro', 'Felix Bohnke'],
       description: `Avantasia is a German supergroup metal opera project created by Tobias Sammet, vocalist of the band Edguy. It has been characterized as a rock opera, as it features the contributions of various vocalists and musicians and it consists of concept albums.\nConceived in 1999 as studio-only, two-album project, Avantasia has since released six other studio albums and has toured the world multiple times. It can be divided into four periods of activity. The first, 1999–2002, saw the release of a self-titled single and the full-length albums The Metal Opera and The Metal Opera Part II. The second, 2006–2011, consists of the EPs Lost in Space Part I & II and The Wicked Trilogy, composed of the albums The Scarecrow, The Wicked Symphony and Angel of Babylon. The third, 2013–2016, includes the albums The Mystery of Time and Ghostlights. The fourth period began with the release of the Moonglow album in 2019.`,
       genre: Genre['Power Metal'],
@@ -546,7 +547,7 @@ export async function seed(deleteData: boolean): Promise<void> {
       id: idProvider.generate(),
       name: 'Slayer',
       country: 'USA',
-      foundationDate: new Date(1981, 0),
+      foundationDate: newDate('1981-01-01'),
       members: ['Kerry King', 'Tom Araya', 'Jeff Hanneman', 'Dave Lombardo', 'Paul Bostaph', 'Jon Dette', 'Gary Holt'],
       description: `Slayer was an American thrash metal band from Huntington Park, California. The band was formed in 1981 by guitarists Kerry King and Jeff Hanneman, drummer Dave Lombardo, and bassist and vocalist Tom Araya. Slayer's fast and aggressive musical style made them one of the "big four" bands of thrash metal, alongside Metallica, Megadeth, and Anthrax.`,
       genre: Genre['Thrash Metal'],
@@ -567,7 +568,7 @@ export async function seed(deleteData: boolean): Promise<void> {
       id: idProvider.generate(),
       name: 'Korpiklaani',
       country: 'Finland',
-      foundationDate: new Date(1993, 0),
+      foundationDate: newDate('1993-01-01'),
       members: ['Jonne Järvelä', 'Kalle "Cane" Savijärvi', 'Jarkko Aaltonen', 'Tuomas Rounakari', 'Sami Perttula', 'Samuli Mikkonen'],
       description: `The foundation of Korpiklaani in 2003 in Lahti, Finland brought the traditional folk music back to life. No one could have foreseen that such a large audience would be interested in Finnish and English mythological texts.`,
       genre: Genre['Folk Metal'],
@@ -588,7 +589,7 @@ export async function seed(deleteData: boolean): Promise<void> {
       id: idProvider.generate(),
       name: 'Black Sabbath',
       country: 'England',
-      foundationDate: new Date(1968, 0),
+      foundationDate: newDate('1968-01-01'),
       members: ['Tony Iommi', 'Bill Ward', 'Terence Geezer Butler', 'Ozzy Osbourne', 'Ronnie James Dio', 'Geoff Nicholls'],
       description: `Black Sabbath were an English rock band formed in Birmingham in 1968 by guitarist Tony Iommi, drummer Bill Ward, bassist Geezer Butler and vocalist Ozzy Osbourne. They are often cited as pioneers of heavy metal music. The band helped define the genre with releases such as Black Sabbath (1970), Paranoid (1970), and Master of Reality (1971). The band had multiple line-up changes following Osbourne's departure in 1979, with Iommi being the only constant member throughout its history.`,
       genre: Genre['Heavy Metal'],
@@ -609,7 +610,7 @@ export async function seed(deleteData: boolean): Promise<void> {
       id: idProvider.generate(),
       name: 'Alestorm',
       country: 'Scotland',
-      foundationDate: new Date(2004, 0),
+      foundationDate: newDate('2004-01-01'),
       members: ['Christopher Bowes', 'Gareth Murdock', 'Peter Alcorn', 'Elliot Vernon', 'Máté Bodor'],
       description: `Alestorm is a Scottish heavy metal band formed in Perth, Scotland. Their music is characterised by a pirate theme, and as a result, they have been dubbed a "pirate metal" band by many critics and their fanbase. The group currently consists of lead vocalist Christopher Bowes, who also plays the keytar, guitarist Máté Bodor, bassist Gareth Murdock, drummer Peter Alcorn, and keyboardist Elliot Vernon, who also provides screamed vocals.\nAfter signing to Napalm Records in 2007, their debut album Captain Morgan's Revenge, was released on 25 January 2008. Black Sails at Midnight, the band's second album, was released on 27 May 2009. The band's third album, Back Through Time, was released on 3 June 2011. The fourth album from the band, Sunset on the Golden Age, was released in August 2014. Their fifth album No Grave But the Sea was released on 26 May 2017. Their sixth and latest album, Curse of the Crystal Coconut, was released on 29 May 2020. The band has also released one live album and five EPs. The lead vocalist Christopher Bowes provides the announcer voice for the Pirate team in the video game "Pirates, Vikings and Knights II".`,
       genre: Genre['Power Metal'],
@@ -630,7 +631,7 @@ export async function seed(deleteData: boolean): Promise<void> {
       id: idProvider.generate(),
       name: 'Metallica',
       country: 'USA',
-      foundationDate: new Date(1981, 0),
+      foundationDate: newDate('1981-01-01'),
       members: ['James Hetfield', 'Lars Ulrich', 'Kirk Hammett', 'Robert Trujillo'],
       description: `Metallica is an American heavy metal band. The band was formed in 1981 in Los Angeles by vocalist/guitarist James Hetfield and drummer Lars Ulrich, and has been based in San Francisco for most of its career. The band's fast tempos, instrumentals and aggressive musicianship made them one of the founding "big four" bands of thrash metal, alongside Megadeth, Anthrax and Slayer.`,
       genre: Genre['Heavy Metal'],
@@ -651,7 +652,7 @@ export async function seed(deleteData: boolean): Promise<void> {
       id: idProvider.generate(),
       name: 'Blind Guardian',
       country: 'Germany',
-      foundationDate: new Date(1984, 0),
+      foundationDate: newDate('1984-01-01'),
       members: ['Hansi Kürsch', 'André Olbrich', 'Marcus Siepen', 'Frederik Ehmke'],
       description: `Blind Guardian is a German power metal band formed in 1984 in Krefeld, West Germany. They are often credited as one of the seminal and most influential bands in the power metal and speed metal subgenres. Nine musicians have been a part of the band's line-up in its history, which has consisted of singer Hansi Kürsch, guitarists André Olbrich and Marcus Siepen, and drummer Frederik Ehmke since 2005.`,
       genre: Genre['Power Metal'],
@@ -672,7 +673,7 @@ export async function seed(deleteData: boolean): Promise<void> {
       id: idProvider.generate(),
       name: 'Sonata Arctica',
       country: 'Finland',
-      foundationDate: new Date(1995, 0),
+      foundationDate: newDate('1995-01-01'),
       members: ['Tommy Portimo', 'Tony Kakko', 'Henrik Klingenberg', 'Elias Viljanen', 'Pasi Kauppinen'],
       description: `Sonata Arctica is a Finnish power metal band from the town of Kemi, Finland. Created as a hard rock band named Tricky Beans, they later changed to Tricky Means and finally to Sonata Arctica, when they shifted to power metal.`,
       genre: Genre['Power Metal'],
@@ -693,7 +694,7 @@ export async function seed(deleteData: boolean): Promise<void> {
       id: idProvider.generate(),
       name: 'Black Label Society',
       country: 'USA',
-      foundationDate: new Date(1998, 0),
+      foundationDate: newDate('1998-01-01'),
       members: ['Zakk Wylde', 'John DeServio', 'Dario Lorina', 'Jeff Fabb'],
       description: `Black Label Society is an American heavy metal band from Los Angeles, California, formed in 1998 by guitarist/singer Zakk Wylde. To date, the band has released ten studio albums, two live albums, two compilation albums, one EP, and three video albums.`,
       genre: Genre['Heavy Metal'],
