@@ -2,10 +2,10 @@ import Knex from 'knex';
 
 import { PaginationRequest } from './dtos';
 import IAlbumsRepository from './interface';
+import { AlbumsDb, MusicsDb } from '../databaseEntities';
 import { translateAlbum, translateAlbumsList } from '../translators';
 import { AlbumsTable, MusicsTable } from '@constants/index';
 import Album from '@entities/Album';
-import Music from '@entities/Music';
 
 export default class SQLAlbumsRepository implements IAlbumsRepository {
   private databaseConnection: Knex;
@@ -16,7 +16,7 @@ export default class SQLAlbumsRepository implements IAlbumsRepository {
 
   public async find(id: string): Promise<Album | undefined> {
     // prettier-ignore
-    const album = await this.databaseConnection<Album>(AlbumsTable)
+    const album = await this.databaseConnection<AlbumsDb>(AlbumsTable)
       .where({ id })
       .first();
 
@@ -25,8 +25,8 @@ export default class SQLAlbumsRepository implements IAlbumsRepository {
     }
 
     // prettier-ignore
-    const tracks = await this.databaseConnection<Music>(MusicsTable)
-      .where({ albumId: album.id });
+    const tracks = await this.databaseConnection<MusicsDb>(MusicsTable)
+      .where({ album_id: album.id });
 
     return translateAlbum(album, tracks);
   }
@@ -36,7 +36,7 @@ export default class SQLAlbumsRepository implements IAlbumsRepository {
       const { offset, limit } = paginationRequest;
 
       // prettier-ignore
-      const albums = await this.databaseConnection<Album>(AlbumsTable)
+      const albums = await this.databaseConnection<AlbumsDb>(AlbumsTable)
         .offset(offset)
         .limit(limit)
         .orderBy('name', 'asc');
@@ -44,27 +44,27 @@ export default class SQLAlbumsRepository implements IAlbumsRepository {
       return translateAlbumsList(albums);
     }
 
-    const albums = await this.databaseConnection<Album>(AlbumsTable);
+    const albums = await this.databaseConnection<AlbumsDb>(AlbumsTable);
 
     return translateAlbumsList(albums);
   }
 
   public async store({ id, name, releaseDate, cover, studio, producers, artistId }: Album): Promise<void> {
     // prettier-ignore
-    await this.databaseConnection<Album>(AlbumsTable)
-      .insert({ id, name, releaseDate, cover, studio, producers, artistId });
+    await this.databaseConnection<AlbumsDb>(AlbumsTable)
+      .insert({ id, name, release_date: releaseDate, cover, studio, producers, artist_id: artistId });
   }
 
   public async update({ id, name, releaseDate, cover, studio, producers, artistId }: Album): Promise<void> {
     // prettier-ignore
-    await this.databaseConnection<Album>(AlbumsTable)
+    await this.databaseConnection<AlbumsDb>(AlbumsTable)
       .where({ id })
-      .update({ name, releaseDate, cover, studio, producers, artistId });
+      .update({ name, release_date: releaseDate, cover, studio, producers, artist_id: artistId });
   }
 
   public async delete(id: string): Promise<void> {
     // prettier-ignore
-    await this.databaseConnection<Album>(AlbumsTable)
+    await this.databaseConnection<AlbumsDb>(AlbumsTable)
       .where({ id })
       .del();
   }
