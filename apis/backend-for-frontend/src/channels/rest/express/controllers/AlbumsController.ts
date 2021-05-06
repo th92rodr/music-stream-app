@@ -6,6 +6,7 @@ import { HttpStatusCode } from '@constants/index';
 import BaseError from '@constants/BaseError';
 import { InternalError } from '@constants/errors';
 import IMusicsIntegration from '@integrations/MusicsIntegration/interface';
+import { newDate } from '@utils/index';
 
 export default class AlbumsController {
   private musicsIntegration: IMusicsIntegration;
@@ -42,7 +43,14 @@ export default class AlbumsController {
     const { name, release_date: releaseDate, cover, studio, producers, artist_id: artistId } = request.body;
 
     try {
-      const album = await this.musicsIntegration.createAlbum({ name, releaseDate: new Date(releaseDate), cover, studio, producers, artistId });
+      const album = await this.musicsIntegration.createAlbum({
+        name,
+        releaseDate: newDate(releaseDate),
+        cover,
+        studio,
+        producers,
+        artistId,
+      });
 
       return response.status(HttpStatusCode.CREATED).json(translateAlbum(album));
     } catch (error) {
@@ -65,7 +73,15 @@ export default class AlbumsController {
     const { name, release_date: releaseDate, cover, studio, producers, artist_id: artistId } = request.body;
 
     try {
-      const album = await this.musicsIntegration.updateAlbum({ id, name, releaseDate: releaseDate ? new Date(releaseDate) : undefined, cover, studio, producers, artistId });
+      const album = await this.musicsIntegration.updateAlbum({
+        id,
+        name,
+        releaseDate: releaseDate ? newDate(releaseDate) : undefined,
+        cover,
+        studio,
+        producers,
+        artistId,
+      });
 
       return response.status(HttpStatusCode.OK).json(translateAlbum(album));
     } catch (error) {
