@@ -21,6 +21,7 @@ import {
   User,
 } from '../proto/users_service_pb';
 import { translateAuthenticateUser, translateUserEntity } from '../translators';
+import { handleError } from '../utils';
 import Config from '@config/index';
 import UserEntity from '@entities/User';
 
@@ -39,7 +40,7 @@ export default class UsersIntegration implements IUsersIntegration {
       userId.setId(id);
 
       this.client.get(userId, (error: Error | null, user: User) => {
-        if (error != null) reject(error);
+        if (error != null) reject(handleError(error));
         else resolve(translateUserEntity(user));
       });
     });
@@ -53,7 +54,7 @@ export default class UsersIntegration implements IUsersIntegration {
       createUserRequest.setUsername(username);
 
       this.client.create(createUserRequest, (error: Error | null, user: User) => {
-        if (error != null) reject(error);
+        if (error != null) reject(handleError(error));
         else resolve(translateUserEntity(user));
       });
     });
@@ -68,7 +69,7 @@ export default class UsersIntegration implements IUsersIntegration {
       updateUserRequest.setUsername(username ? username : '');
 
       this.client.update(updateUserRequest, (error: Error | null, user: User) => {
-        if (error != null) reject(error);
+        if (error != null) reject(handleError(error));
         else resolve(translateUserEntity(user));
       });
     });
@@ -80,7 +81,7 @@ export default class UsersIntegration implements IUsersIntegration {
       userId.setId(id);
 
       this.client.delete(userId, (error: Error | null) => {
-        if (error != null) reject(error);
+        if (error != null) reject(handleError(error));
         else resolve();
       });
     });
@@ -93,7 +94,7 @@ export default class UsersIntegration implements IUsersIntegration {
       authenticateUserRequest.setPassword(password);
 
       this.client.authenticate(authenticateUserRequest, (error: Error | null, response: AuthenticateUserResponse) => {
-        if (error != null) reject(error);
+        if (error != null) reject(handleError(error));
         else resolve(translateAuthenticateUser(response));
       });
     });
