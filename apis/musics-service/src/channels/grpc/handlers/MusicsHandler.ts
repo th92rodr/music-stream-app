@@ -1,4 +1,5 @@
 import * as grpc from 'grpc';
+import { ServiceError } from 'grpc';
 
 import { IMusicsServer } from '../proto/musics_service_grpc_pb';
 // prettier-ignore
@@ -26,9 +27,11 @@ import {
   translateArtistEntity,
   translateArtistEntityList,
   translateGenreEnum,
+  translateGrpcError,
   translateMusicEntity,
   translateMusicEntityList,
 } from './translators';
+import BaseError from '@constants/BaseError';
 import { InternalError } from '@constants/errors';
 import IErrorHandler from '@handlers/ErrorHandler/interface';
 import ILoggerProvider from '@providers/LoggerProvider/interface';
@@ -61,6 +64,24 @@ export class MusicsHandler implements IMusicsServer {
     this.loggerProvider = loggerProvider;
   }
 
+  private async handleError<T>(callback: grpc.sendUnaryData<T>, error: Error): Promise<void> {
+    await this.errorHandler.handleError(error);
+
+    let customError: BaseError;
+
+    if (!this.errorHandler.isTrustedError(error)) {
+      customError = new InternalError();
+    } else {
+      customError = error as BaseError;
+    }
+
+    const grpcError: ServiceError = new Error();
+    grpcError.code = translateGrpcError(customError.statusCode);
+    grpcError.details = customError.message;
+
+    callback(grpcError, null);
+  }
+
   getMusic = async (call: grpc.ServerUnaryCall<Id>, callback: grpc.sendUnaryData<Music>): Promise<void> => {
     try {
       const music = await this.musicsService.get({ id: call.request.getId() });
@@ -69,13 +90,7 @@ export class MusicsHandler implements IMusicsServer {
 
       callback(null, translateMusicEntity(music));
     } catch (error) {
-      await this.errorHandler.handleError(error);
-
-      if (!this.errorHandler.isTrustedError(error)) {
-        callback(new InternalError(), null);
-      }
-
-      callback(error, null);
+      this.handleError<Music>(callback, error);
     }
   };
 
@@ -87,13 +102,7 @@ export class MusicsHandler implements IMusicsServer {
 
       callback(null, translateMusicEntityList(musics));
     } catch (error) {
-      await this.errorHandler.handleError(error);
-
-      if (!this.errorHandler.isTrustedError(error)) {
-        callback(new InternalError(), null);
-      }
-
-      callback(error, null);
+      this.handleError<MusicsList>(callback, error);
     }
   };
 
@@ -112,13 +121,7 @@ export class MusicsHandler implements IMusicsServer {
 
       callback(null, translateMusicEntity(music));
     } catch (error) {
-      await this.errorHandler.handleError(error);
-
-      if (!this.errorHandler.isTrustedError(error)) {
-        callback(new InternalError(), null);
-      }
-
-      callback(error, null);
+      this.handleError<Music>(callback, error);
     }
   };
 
@@ -138,13 +141,7 @@ export class MusicsHandler implements IMusicsServer {
 
       callback(null, translateMusicEntity(music));
     } catch (error) {
-      await this.errorHandler.handleError(error);
-
-      if (!this.errorHandler.isTrustedError(error)) {
-        callback(new InternalError(), null);
-      }
-
-      callback(error, null);
+      this.handleError<Music>(callback, error);
     }
   };
 
@@ -156,13 +153,7 @@ export class MusicsHandler implements IMusicsServer {
 
       callback(null, new Empty());
     } catch (error) {
-      await this.errorHandler.handleError(error);
-
-      if (!this.errorHandler.isTrustedError(error)) {
-        callback(new InternalError(), null);
-      }
-
-      callback(error, null);
+      this.handleError<Empty>(callback, error);
     }
   };
 
@@ -174,13 +165,7 @@ export class MusicsHandler implements IMusicsServer {
 
       callback(null, translateMusicEntity(music));
     } catch (error) {
-      await this.errorHandler.handleError(error);
-
-      if (!this.errorHandler.isTrustedError(error)) {
-        callback(new InternalError(), null);
-      }
-
-      callback(error, null);
+      this.handleError<Music>(callback, error);
     }
   };
 
@@ -192,13 +177,7 @@ export class MusicsHandler implements IMusicsServer {
 
       callback(null, translateAlbumEntity(album));
     } catch (error) {
-      await this.errorHandler.handleError(error);
-
-      if (!this.errorHandler.isTrustedError(error)) {
-        callback(new InternalError(), null);
-      }
-
-      callback(error, null);
+      this.handleError<Album>(callback, error);
     }
   };
 
@@ -210,13 +189,7 @@ export class MusicsHandler implements IMusicsServer {
 
       callback(null, translateAlbumEntityList(albums));
     } catch (error) {
-      await this.errorHandler.handleError(error);
-
-      if (!this.errorHandler.isTrustedError(error)) {
-        callback(new InternalError(), null);
-      }
-
-      callback(error, null);
+      this.handleError<AlbumsList>(callback, error);
     }
   };
 
@@ -235,13 +208,7 @@ export class MusicsHandler implements IMusicsServer {
 
       callback(null, translateAlbumEntity(album));
     } catch (error) {
-      await this.errorHandler.handleError(error);
-
-      if (!this.errorHandler.isTrustedError(error)) {
-        callback(new InternalError(), null);
-      }
-
-      callback(error, null);
+      this.handleError<Album>(callback, error);
     }
   };
 
@@ -261,13 +228,7 @@ export class MusicsHandler implements IMusicsServer {
 
       callback(null, translateAlbumEntity(album));
     } catch (error) {
-      await this.errorHandler.handleError(error);
-
-      if (!this.errorHandler.isTrustedError(error)) {
-        callback(new InternalError(), null);
-      }
-
-      callback(error, null);
+      this.handleError<Album>(callback, error);
     }
   };
 
@@ -279,13 +240,7 @@ export class MusicsHandler implements IMusicsServer {
 
       callback(null, new Empty());
     } catch (error) {
-      await this.errorHandler.handleError(error);
-
-      if (!this.errorHandler.isTrustedError(error)) {
-        callback(new InternalError(), null);
-      }
-
-      callback(error, null);
+      this.handleError<Empty>(callback, error);
     }
   };
 
@@ -297,13 +252,7 @@ export class MusicsHandler implements IMusicsServer {
 
       callback(null, translateArtistEntity(artist));
     } catch (error) {
-      await this.errorHandler.handleError(error);
-
-      if (!this.errorHandler.isTrustedError(error)) {
-        callback(new InternalError(), null);
-      }
-
-      callback(error, null);
+      this.handleError<Artist>(callback, error);
     }
   };
 
@@ -315,13 +264,7 @@ export class MusicsHandler implements IMusicsServer {
 
       callback(null, translateArtistEntityList(artists));
     } catch (error) {
-      await this.errorHandler.handleError(error);
-
-      if (!this.errorHandler.isTrustedError(error)) {
-        callback(new InternalError(), null);
-      }
-
-      callback(error, null);
+      this.handleError<ArtistsList>(callback, error);
     }
   };
 
@@ -331,13 +274,7 @@ export class MusicsHandler implements IMusicsServer {
 
       callback(null, translateArtistEntityList(artists));
     } catch (error) {
-      await this.errorHandler.handleError(error);
-
-      if (!this.errorHandler.isTrustedError(error)) {
-        callback(new InternalError(), null);
-      }
-
-      callback(error, null);
+      this.handleError<ArtistsList>(callback, error);
     }
   };
 
@@ -361,13 +298,7 @@ export class MusicsHandler implements IMusicsServer {
 
       callback(null, translateArtistEntity(artist));
     } catch (error) {
-      await this.errorHandler.handleError(error);
-
-      if (!this.errorHandler.isTrustedError(error)) {
-        callback(new InternalError(), null);
-      }
-
-      callback(error, null);
+      this.handleError<Artist>(callback, error);
     }
   };
 
@@ -392,13 +323,7 @@ export class MusicsHandler implements IMusicsServer {
 
       callback(null, translateArtistEntity(artist));
     } catch (error) {
-      await this.errorHandler.handleError(error);
-
-      if (!this.errorHandler.isTrustedError(error)) {
-        callback(new InternalError(), null);
-      }
-
-      callback(error, null);
+      this.handleError<Artist>(callback, error);
     }
   };
 
@@ -410,13 +335,7 @@ export class MusicsHandler implements IMusicsServer {
 
       callback(null, new Empty());
     } catch (error) {
-      await this.errorHandler.handleError(error);
-
-      if (!this.errorHandler.isTrustedError(error)) {
-        callback(new InternalError(), null);
-      }
-
-      callback(error, null);
+      this.handleError<Empty>(callback, error);
     }
   };
 
@@ -428,13 +347,7 @@ export class MusicsHandler implements IMusicsServer {
 
       callback(null, translateArtistEntity(artist));
     } catch (error) {
-      await this.errorHandler.handleError(error);
-
-      if (!this.errorHandler.isTrustedError(error)) {
-        callback(new InternalError(), null);
-      }
-
-      callback(error, null);
+      this.handleError<Artist>(callback, error);
     }
   };
 
@@ -446,13 +359,7 @@ export class MusicsHandler implements IMusicsServer {
 
       callback(null, translateArtistEntity(artist));
     } catch (error) {
-      await this.errorHandler.handleError(error);
-
-      if (!this.errorHandler.isTrustedError(error)) {
-        callback(new InternalError(), null);
-      }
-
-      callback(error, null);
+      this.handleError<Artist>(callback, error);
     }
   };
 
@@ -464,13 +371,7 @@ export class MusicsHandler implements IMusicsServer {
 
       callback(null, translateArtistEntity(artist));
     } catch (error) {
-      await this.errorHandler.handleError(error);
-
-      if (!this.errorHandler.isTrustedError(error)) {
-        callback(new InternalError(), null);
-      }
-
-      callback(error, null);
+      this.handleError<Artist>(callback, error);
     }
   };
 
@@ -482,13 +383,7 @@ export class MusicsHandler implements IMusicsServer {
 
       callback(null, translateArtistEntity(artist));
     } catch (error) {
-      await this.errorHandler.handleError(error);
-
-      if (!this.errorHandler.isTrustedError(error)) {
-        callback(new InternalError(), null);
-      }
-
-      callback(error, null);
+      this.handleError<Artist>(callback, error);
     }
   };
 }
