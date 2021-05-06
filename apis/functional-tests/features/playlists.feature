@@ -4,8 +4,8 @@ Feature: Playlists Service
   @sucess
   Scenario: Create, Consult, Update and Delete a Playlist
     Given I want to create an user with the following data:
-      | username | "john doe" |
-      | email | "john.doe@mail.com" |
+      | username | "john doe 2" |
+      | email | "john.doe2@mail.com" |
       | password | "12345" |
     When I send the request
     Then the response status code should be 201
@@ -35,6 +35,9 @@ Feature: Playlists Service
     Given I want to delete this playlist
     When I send the request
     Then the response status code should be 200
+    Given I want to consult this playlist
+    When I send the request
+    Then the response status code should be 404
     Given I want to delete this user
     When I send the request
     Then the response status code should be 200
@@ -42,8 +45,8 @@ Feature: Playlists Service
   @sucess
   Scenario: Add, Update and Remove Playlist Tracks
     Given I want to create an user with the following data:
-      | username | "john doe" |
-      | email | "john.doe@mail.com" |
+      | username | "john doe 3" |
+      | email | "john.doe3@mail.com" |
       | password | "12345" |
     When I send the request
     Then the response status code should be 201

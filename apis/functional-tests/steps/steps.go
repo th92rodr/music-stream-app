@@ -221,8 +221,6 @@ func (t *testFeature) makeDeleteUserRequest() error {
 
 	t.request.Header.Add("Authorization", fmt.Sprintf("Bearer %s", t.token))
 
-	t.user = &user{}
-
 	return nil
 }
 
@@ -298,8 +296,6 @@ func (t *testFeature) makeDeleteArtistRequest() error {
 	if err != nil {
 		return err
 	}
-
-	t.artist = &artist{}
 
 	return nil
 }
@@ -377,8 +373,6 @@ func (t *testFeature) makeDeleteAlbumRequest() error {
 		return err
 	}
 
-	t.album = &album{}
-
 	return nil
 }
 
@@ -454,8 +448,6 @@ func (t *testFeature) makeDeleteMusicRequest() error {
 	if err != nil {
 		return err
 	}
-
-	t.music = &music{}
 
 	return nil
 }
@@ -539,8 +531,6 @@ func (t *testFeature) makeDeletePlaylistRequest() error {
 
 	t.request.Header.Add("Authorization", fmt.Sprintf("Bearer %s", t.token))
 
-	t.playlist = &playlist{}
-
 	return nil
 }
 
@@ -613,8 +603,6 @@ func (t *testFeature) makeRemovePlaylistTrackRequest() error {
 
 	t.request.Header.Set("Content-Type", "application/json")
 	t.request.Header.Add("Authorization", fmt.Sprintf("Bearer %s", t.token))
-
-	t.track = &track{}
 
 	return nil
 }
