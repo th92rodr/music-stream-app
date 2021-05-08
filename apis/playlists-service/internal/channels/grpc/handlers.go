@@ -2,31 +2,11 @@ package grpc
 
 import (
 	"context"
-
-	"google.golang.org/grpc/codes"
-	"google.golang.org/grpc/status"
+	"fmt"
 
 	"playlists-service/internal/channels/grpc/proto"
-	"playlists-service/internal/constants"
 	s "playlists-service/internal/services/playlistsService"
 )
-
-func handleError(err error) error {
-	customError := err.(*constants.BaseError)
-
-	var statusCode codes.Code
-
-	switch customError.StatusCode {
-	case int32(constants.BAD_REQUEST):
-		statusCode = codes.InvalidArgument
-	case int32(constants.NOT_FOUND):
-		statusCode = codes.NotFound
-	case int32(constants.INTERNAL_SERVER_ERROR):
-		statusCode = codes.Internal
-	}
-
-	return status.Error(statusCode, customError.Message)
-}
 
 func (c grpcChannel) GetPlaylist(ctx context.Context, request *proto.GetPlaylistRequest) (*proto.Playlist, error) {
 	playlist, err := c.playlistsService.Get(s.GetPlaylistRequest{
@@ -35,10 +15,10 @@ func (c grpcChannel) GetPlaylist(ctx context.Context, request *proto.GetPlaylist
 	})
 
 	if err != nil {
-		return nil, handleError(err)
+		return nil, c.handleError(err)
 	}
 
-	c.loggerProvider.Info("GET PLAYLIST", request.Id)
+	c.loggerProvider.Info(fmt.Sprintf("[GET PLAYLIST] id: %s", request.Id))
 
 	return translatePlaylist(playlist), nil
 }
@@ -49,10 +29,10 @@ func (c grpcChannel) GetPlaylists(ctx context.Context, request *proto.GetPlaylis
 	})
 
 	if err != nil {
-		return nil, handleError(err)
+		return nil, c.handleError(err)
 	}
 
-	c.loggerProvider.Info("GET PLAYLISTS", nil)
+	c.loggerProvider.Info(fmt.Sprintf("[GET PLAYLISTS]"))
 
 	return translatePlaylistList(playlists), nil
 }
@@ -64,10 +44,10 @@ func (c grpcChannel) CreatePlaylist(ctx context.Context, request *proto.CreatePl
 	})
 
 	if err != nil {
-		return nil, handleError(err)
+		return nil, c.handleError(err)
 	}
 
-	c.loggerProvider.Info("CREATE PLAYLIST", nil)
+	c.loggerProvider.Info(fmt.Sprintf("[CREATE PLAYLIST]"))
 
 	return translatePlaylist(playlist), nil
 }
@@ -80,10 +60,10 @@ func (c grpcChannel) UpdatePlaylist(ctx context.Context, request *proto.UpdatePl
 	})
 
 	if err != nil {
-		return nil, handleError(err)
+		return nil, c.handleError(err)
 	}
 
-	c.loggerProvider.Info("UPDATE PLAYLIST", request.Id)
+	c.loggerProvider.Info(fmt.Sprintf("[UPDATE PLAYLIST] id: %s", request.Id))
 
 	return translatePlaylist(playlist), nil
 }
@@ -93,10 +73,10 @@ func (c grpcChannel) DeletePlaylist(ctx context.Context, request *proto.DeletePl
 		Id:     request.Id,
 		UserId: request.UserId,
 	}); err != nil {
-		return nil, handleError(err)
+		return nil, c.handleError(err)
 	}
 
-	c.loggerProvider.Info("DELETE PLAYLIST", request.Id)
+	c.loggerProvider.Info(fmt.Sprintf("[DELETE PLAYLIST] id: %s", request.Id))
 
 	return &proto.Empty{}, nil
 }
@@ -109,10 +89,10 @@ func (c grpcChannel) AddTrack(ctx context.Context, request *proto.AddTrackReques
 	})
 
 	if err != nil {
-		return nil, handleError(err)
+		return nil, c.handleError(err)
 	}
 
-	c.loggerProvider.Info("ADD TRACK", nil)
+	c.loggerProvider.Info(fmt.Sprintf("[ADD TRACK]"))
 
 	return translatePlaylistTrack(track), nil
 }
@@ -126,10 +106,10 @@ func (c grpcChannel) UpdateTrack(ctx context.Context, request *proto.UpdateTrack
 	})
 
 	if err != nil {
-		return nil, handleError(err)
+		return nil, c.handleError(err)
 	}
 
-	c.loggerProvider.Info("UPDATE TRACK", request.Id)
+	c.loggerProvider.Info(fmt.Sprintf("[UPDATE TRACK] id: %s", request.Id))
 
 	return translatePlaylistTrack(track), nil
 }
@@ -140,10 +120,10 @@ func (c grpcChannel) RemoveTrack(ctx context.Context, request *proto.RemoveTrack
 		PlaylistId: request.PlaylistId,
 		Id:         request.Id,
 	}); err != nil {
-		return nil, handleError(err)
+		return nil, c.handleError(err)
 	}
 
-	c.loggerProvider.Info("DELETE TRACK", request.Id)
+	c.loggerProvider.Info(fmt.Sprintf("[DELETE TRACK] id: %s", request.Id))
 
 	return &proto.Empty{}, nil
 }
