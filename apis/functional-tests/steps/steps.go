@@ -88,6 +88,8 @@ func InitializeScenario(ctx *godog.ScenarioContext, mode string) {
 	ctx.Step(`^validate music response body "([^"]*)"$`, test.validateMusicResponseBody)
 	ctx.Step(`^validate playlist response body "([^"]*)"$`, test.validatePlaylistResponseBody)
 	ctx.Step(`^validate playlist track response body "([^"]*)"$`, test.validatePlaylistTrackResponseBody)
+
+	ctx.Step(`^validate error response body:$`, test.validateErrorResponseBody)
 }
 
 // ------------------------------------ //
@@ -637,8 +639,7 @@ func (t *testFeature) validateUserResponseBody(method string) error {
 	}
 
 	receivedUser := &user{}
-	err = json.Unmarshal(responseBody, receivedUser)
-	if err != nil {
+	if err = json.Unmarshal(responseBody, receivedUser); err != nil {
 		return err
 	}
 
@@ -668,8 +669,7 @@ func (t *testFeature) validateAuthenticateResponseBody() error {
 	}{
 		Token: "",
 	}
-	err = json.Unmarshal(responseBody, receivedAuth)
-	if err != nil {
+	if err = json.Unmarshal(responseBody, receivedAuth); err != nil {
 		return err
 	}
 
@@ -690,8 +690,7 @@ func (t *testFeature) validateArtistResponseBody(method string) error {
 	}
 
 	receivedArtist := &artist{}
-	err = json.Unmarshal(responseBody, receivedArtist)
-	if err != nil {
+	if err = json.Unmarshal(responseBody, receivedArtist); err != nil {
 		return err
 	}
 
@@ -717,8 +716,7 @@ func (t *testFeature) validateAlbumResponseBody(method string) error {
 	}
 
 	receivedAlbum := &album{}
-	err = json.Unmarshal(responseBody, receivedAlbum)
-	if err != nil {
+	if err = json.Unmarshal(responseBody, receivedAlbum); err != nil {
 		return err
 	}
 
@@ -744,8 +742,7 @@ func (t *testFeature) validateMusicResponseBody(method string) error {
 	}
 
 	receivedMusic := &music{}
-	err = json.Unmarshal(responseBody, receivedMusic)
-	if err != nil {
+	if err = json.Unmarshal(responseBody, receivedMusic); err != nil {
 		return err
 	}
 
@@ -771,8 +768,7 @@ func (t *testFeature) validatePlaylistResponseBody(method string) error {
 	}
 
 	receivedPlaylist := &playlist{}
-	err = json.Unmarshal(responseBody, receivedPlaylist)
-	if err != nil {
+	if err = json.Unmarshal(responseBody, receivedPlaylist); err != nil {
 		return err
 	}
 
@@ -798,8 +794,7 @@ func (t *testFeature) validatePlaylistTrackResponseBody(method string) error {
 	}
 
 	receivedTrack := &track{}
-	err = json.Unmarshal(responseBody, receivedTrack)
-	if err != nil {
+	if err = json.Unmarshal(responseBody, receivedTrack); err != nil {
 		return err
 	}
 
@@ -813,6 +808,36 @@ func (t *testFeature) validatePlaylistTrackResponseBody(method string) error {
 	}
 
 	t.track = receivedTrack
+
+	return nil
+}
+
+func (t *testFeature) validateErrorResponseBody(data *godog.Table) error {
+	defer t.response.Body.Close()
+	responseBody, err := ioutil.ReadAll(t.response.Body)
+	if err != nil {
+		return err
+	}
+
+	type errorBody struct {
+		Errors []string `json:"errors"`
+	}
+
+	receivedBody := &errorBody{}
+
+	if err = json.Unmarshal(responseBody, receivedBody); err != nil {
+		return err
+	}
+
+	if t.mode == "VERBOSE" {
+		prettyPrint(receivedBody)
+	}
+
+	fieldsToValidate := getFieldsToValidate(data)
+
+	if !validateErrors(fieldsToValidate, receivedBody.Errors) {
+		return fmt.Errorf("Response body validation failed.")
+	}
 
 	return nil
 }
