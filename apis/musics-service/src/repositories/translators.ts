@@ -1,21 +1,22 @@
+import { AlbumsDb, ArtistsDb, MusicsDb } from './databaseEntities';
 import Album from '@entities/Album';
 import Artist from '@entities/Artist';
 import Music from '@entities/Music';
 
-export function translateArtist(artist: Artist, albums: Array<Album>): Artist {
+export function translateArtist(artist: ArtistsDb, albums: Array<AlbumsDb>): Artist {
   const newArtist = new Artist({
     id: artist.id,
     name: artist.name,
     country: artist.country,
-    foundationDate: artist.foundationDate,
+    foundationDate: artist.foundation_date,
     members: artist.members,
     description: artist.description,
     genre: artist.genre,
     photos: artist.photos,
-    facebookUrl: artist.facebookUrl,
-    twitterUrl: artist.twitterUrl,
-    instagramUrl: artist.instagramUrl,
-    wikipediaUrl: artist.wikipediaUrl,
+    facebookUrl: artist.facebook_url,
+    twitterUrl: artist.twitter_url,
+    instagramUrl: artist.instagram_url,
+    wikipediaUrl: artist.wikipedia_url,
     favorites: artist.favorites,
     followers: artist.followers,
   });
@@ -25,19 +26,19 @@ export function translateArtist(artist: Artist, albums: Array<Album>): Artist {
   return newArtist;
 }
 
-export function translateArtistsList(artists: Array<Artist>): Array<Artist> {
+export function translateArtistsList(artists: Array<ArtistsDb>): Array<Artist> {
   return artists.map(artist => translateArtist(artist, []));
 }
 
-export function translateAlbum(album: Album, tracks: Array<Music>): Album {
+export function translateAlbum(album: AlbumsDb, tracks: Array<MusicsDb>): Album {
   const newAlbum = new Album({
     id: album.id,
     name: album.name,
-    releaseDate: album.releaseDate,
+    releaseDate: album.release_date,
     cover: album.cover,
     studio: album.studio,
     producers: album.producers,
-    artistId: album.artistId,
+    artistId: album.artist_id,
   });
 
   newAlbum.setTracks(tracks.map(track => translateMusic(track)));
@@ -45,23 +46,23 @@ export function translateAlbum(album: Album, tracks: Array<Music>): Album {
   return newAlbum;
 }
 
-export function translateAlbumsList(albums: Array<Album>): Array<Album> {
+export function translateAlbumsList(albums: Array<AlbumsDb>): Array<Album> {
   return albums.map(album => translateAlbum(album, []));
 }
 
-export function translateMusic(music: Music): Music {
+export function translateMusic(music: MusicsDb): Music {
   return new Music({
     id: music.id,
     title: music.title,
-    durationInSeconds: music.durationInSeconds,
+    durationInSeconds: music.duration,
     file: music.file,
     composers: music.composers,
     lyrics: music.lyrics,
-    albumId: music.albumId,
+    albumId: music.album_id,
     views: music.views,
   });
 }
 
-export function translateMusicsList(musics: Array<Music>): Array<Music> {
+export function translateMusicsList(musics: Array<MusicsDb>): Array<Music> {
   return musics.map(music => translateMusic(music));
 }

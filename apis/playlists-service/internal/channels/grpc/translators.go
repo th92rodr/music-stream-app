@@ -1,7 +1,10 @@
 package grpc
 
 import (
+	"google.golang.org/grpc/codes"
+
 	"playlists-service/internal/channels/grpc/proto"
+	"playlists-service/internal/constants"
 	e "playlists-service/internal/entities"
 )
 
@@ -56,4 +59,17 @@ func translateMusic(music *e.Music) *proto.Music {
 		AlbumId:           music.AlbumId,
 		Views:             music.Views,
 	}
+}
+
+func translateGrpcError(statusCode int32) codes.Code {
+	switch statusCode {
+	case int32(constants.BAD_REQUEST):
+		return codes.InvalidArgument
+	case int32(constants.NOT_FOUND):
+		return codes.NotFound
+	case int32(constants.INTERNAL_SERVER_ERROR):
+		return codes.Internal
+	}
+
+	return codes.Internal
 }
