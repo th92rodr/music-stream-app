@@ -340,3 +340,43 @@ func compareDate(a, b string) bool {
 
 	return dateA.Equal(dateB)
 }
+
+var errors = map[string]string{
+	"email":    "Field email must be a valid email.",
+	"username": "Field username is required.",
+	"password": "Field password is required.",
+}
+
+func getFieldsToValidate(data *godog.Table) []string {
+	for _, row := range data.Rows {
+		key := row.Cells[0].Value
+		value := row.Cells[1].Value
+
+		if key == "fields_to_validate" {
+			return parseArray(value)
+		}
+	}
+
+	return []string{}
+}
+
+func validateErrors(fieldsToValidate []string, receivedErrors []string) bool {
+	for _, field := range fieldsToValidate {
+		message := errors[field]
+
+		if !contains(receivedErrors, message) {
+			return false
+		}
+	}
+
+	return true
+}
+
+func contains(slice []string, str string) bool {
+	for _, s := range slice {
+		if s == str {
+			return true
+		}
+	}
+	return false
+}
