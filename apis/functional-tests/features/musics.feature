@@ -1,7 +1,7 @@
 @music
 Feature: Musics Service
 
-  @sucess
+  @successful_case
   Scenario: Create, Consult, Update and Delete an Artist
     Given I want to create an artist with the following data:
       | name | "name_test" |
@@ -42,7 +42,7 @@ Feature: Musics Service
     When I send the request
     Then the response status code should be 404
 
-  @sucess
+  @successful_case
   Scenario: Create, Consult, Update and Delete an Album
     Given I want to create an artist with the following data:
       | name | "name_test" |
@@ -95,7 +95,7 @@ Feature: Musics Service
     When I send the request
     Then the response status code should be 404
 
-  @sucess
+  @successful_case
   Scenario: Create, Consult, Update and Delete a Music
     Given I want to create an artist with the following data:
       | name | "name_test" |
@@ -160,3 +160,50 @@ Feature: Musics Service
     Given I want to consult this music
     When I send the request
     Then the response status code should be 404
+
+  @error_case
+  Scenario: Create an Artist With Invalid Fields
+    Given I want to create an artist with the following data:
+      | name | "name_test" |
+      | country | "" |
+      | foundationDate | "22" |
+      | members | ["members_test"] |
+      | description | "description_test" |
+      | genre | "aaa" |
+      | photos | [] |
+      | facebookUrl | "test" |
+      | twitterUrl | "http://test.com" |
+      | instagramUrl | "http://test.com" |
+      | wikipediaUrl | "http://test.com" |
+    When I send the request
+    Then the response status code should be 400
+    And validate error response body:
+      | fields_to_validate | ["country", "foundationDate", "genre", "photos", "facebookUrl"] |
+
+  @error_case
+  Scenario: Create an Album With Invalid Fields
+    Given I want to create an album with the following data:
+      | name | "name_test" |
+      | releaseDate | "20" |
+      | cover | "cover_test" |
+      | studio | "" |
+      | producers | [] |
+      | artistId |  |
+    When I send the request
+    Then the response status code should be 400
+    And validate error response body:
+      | fields_to_validate | ["releaseDate", "studio", "producers"] |
+
+  @error_case
+  Scenario: Create a Music With Invalid Fields
+    Given I want to create a music with the following data:
+      | title | "" |
+      | durationInSeconds | 355 |
+      | file | "file_test" |
+      | composers | [] |
+      | lyrics |  "" |
+      | albumId |  |
+    When I send the request
+    Then the response status code should be 400
+    And validate error response body:
+      | fields_to_validate | ["title", "composers", "lyrics"] |

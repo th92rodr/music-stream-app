@@ -342,9 +342,38 @@ func compareDate(a, b string) bool {
 }
 
 var errors = map[string]string{
+	// User
 	"email":    "Field email must be a valid email.",
 	"username": "Field username is required.",
 	"password": "Field password is required.",
+
+	// Artist
+	"name":           "Field name is required.",
+	"country":        "Field country is required.",
+	"description":    "Field description is required.",
+	"members":        "Field members is required.",
+	"photos":         "Field photos is required.",
+	"foundationDate": "Field foundation_date must be a valid date.",
+	"genre":          "Field genre must be a valid genre.",
+	"facebookUrl":    "Field facebook_url must be a valid url.",
+	"twitterUrl":     "Field twitter_url must be a valid url.",
+	"instagramUrl":   "Field instagram_url must be a valid url.",
+	"wikipediaUrl":   "Field wikipedia_url must be a valid url.",
+
+	// Album
+	"cover":       "Field cover is required.",
+	"studio":      "Field studio is required.",
+	"producers":   "Field producers is required.",
+	"artistId":    "Field artist_id is required.",
+	"releaseDate": "Field release_date must be a valid date.",
+
+	// Music
+	"title":     "Field title is required.",
+	"duration":  "Field duration is required.",
+	"file":      "Field file is required.",
+	"composers": "Field composers is required.",
+	"lyrics":    "Field lyrics is required.",
+	"albumId":   "Field album_id is required.",
 }
 
 func getFieldsToValidate(data *godog.Table) []string {
