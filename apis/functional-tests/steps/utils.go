@@ -374,6 +374,10 @@ var errors = map[string]string{
 	"composers": "Field composers is required.",
 	"lyrics":    "Field lyrics is required.",
 	"albumId":   "Field album_id is required.",
+
+	// Playlist
+	"musicId": "Field music_id is required.",
+	"index":   "Field index is required.",
 }
 
 func getFieldsToValidate(data *godog.Table) []string {
