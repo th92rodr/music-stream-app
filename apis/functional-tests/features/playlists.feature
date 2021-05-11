@@ -1,7 +1,7 @@
 @playlist
 Feature: Playlists Service
 
-  @sucess
+  @successful_case
   Scenario: Create, Consult, Update and Delete a Playlist
     Given I want to create an user with the following data:
       | username | "john doe 2" |
@@ -42,7 +42,7 @@ Feature: Playlists Service
     When I send the request
     Then the response status code should be 200
 
-  @sucess
+  @successful_case
   Scenario: Add, Update and Remove Playlist Tracks
     Given I want to create an user with the following data:
       | username | "john doe 3" |
@@ -118,6 +118,29 @@ Feature: Playlists Service
     Given I want to delete this playlist
     When I send the request
     Then the response status code should be 200
+    Given I want to delete this user
+    When I send the request
+    Then the response status code should be 200
+
+  @error_case
+  Scenario: Create a Playlist With Invalid Fields
+    Given I want to create an user with the following data:
+      | username | "john doe 3" |
+      | email | "john.doe3@mail.com" |
+      | password | "12345" |
+    When I send the request
+    Then the response status code should be 201
+    And validate user response body "create"
+    Given I want to authenticate this user using the password "12345"
+    When I send the request
+    Then the response status code should be 200
+    And validate authenticate response body
+    Given I want to create a playlist with the following data:
+      | name | "" |
+    When I send the request
+    Then the response status code should be 400
+    And validate error response body:
+      | fields_to_validate | ["name"] |
     Given I want to delete this user
     When I send the request
     Then the response status code should be 200
