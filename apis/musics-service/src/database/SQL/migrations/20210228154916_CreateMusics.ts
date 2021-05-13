@@ -1,4 +1,4 @@
-import * as Knex from 'knex';
+import { Knex } from 'knex';
 
 import { AlbumsTable, MusicsTable } from '../../../constants/index';
 
