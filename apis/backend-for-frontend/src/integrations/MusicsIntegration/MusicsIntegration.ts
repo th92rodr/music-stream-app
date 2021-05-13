@@ -1,24 +1,5 @@
 import * as grpc from 'grpc';
 
-import { MusicsClient } from './proto/musics_service_grpc_pb';
-// prettier-ignore
-import {
-  Album,
-  AlbumsList,
-  Artist,
-  ArtistsList,
-  CreateAlbumRequest,
-  CreateArtistRequest,
-  CreateMusicRequest,
-  Empty,
-  GetArtistByGenreRequest,
-  Id,
-  Music,
-  MusicsList,
-  UpdateAlbumRequest,
-  UpdateArtistRequest,
-  UpdateMusicRequest,
-} from './proto/musics_service_pb';
 // prettier-ignore
 import {
   CreateAlbum,
@@ -41,6 +22,25 @@ import {
   ViewMusic,
 } from './dtos';
 import IMusicsIntegration from './interface';
+import { MusicsClient } from '../proto/musics_service_grpc_pb';
+// prettier-ignore
+import {
+  Album,
+  AlbumsList,
+  Artist,
+  ArtistsList,
+  CreateAlbumRequest,
+  CreateArtistRequest,
+  CreateMusicRequest,
+  Empty,
+  GetArtistByGenreRequest,
+  Id,
+  Music,
+  MusicsList,
+  UpdateAlbumRequest,
+  UpdateArtistRequest,
+  UpdateMusicRequest,
+} from '../proto/musics_service_pb';
 // prettier-ignore
 import {
   translateAlbumEntity,
@@ -50,7 +50,8 @@ import {
   translateGenreEnum,
   translateMusicEntity,
   translateMusicEntityList
-} from './translators';
+} from '../translators';
+import { handleError } from '../utils';
 import Config from '@config/index';
 import AlbumEntity from '@entities/Album';
 import ArtistEntity from '@entities/Artist';
@@ -72,7 +73,7 @@ export default class MusicsIntegration implements IMusicsIntegration {
       musicId.setId(id);
 
       this.client.getMusic(musicId, (error: Error | null, music: Music) => {
-        if (error != null) reject(error);
+        if (error != null) reject(handleError(error));
         else resolve(translateMusicEntity(music));
       });
     });
@@ -81,7 +82,7 @@ export default class MusicsIntegration implements IMusicsIntegration {
   public getMusics = async (): Promise<Array<MusicEntity>> => {
     return new Promise((resolve, reject) => {
       this.client.getMusics(new Empty(), (error: Error | null, musicsList: MusicsList) => {
-        if (error != null) reject(error);
+        if (error != null) reject(handleError(error));
         else resolve(translateMusicEntityList(musicsList));
       });
     });
@@ -98,7 +99,7 @@ export default class MusicsIntegration implements IMusicsIntegration {
       createMusicRequest.setAlbumid(albumId);
 
       this.client.createMusic(createMusicRequest, (error: Error | null, music: Music) => {
-        if (error != null) reject(error);
+        if (error != null) reject(handleError(error));
         else resolve(translateMusicEntity(music));
       });
     });
@@ -116,7 +117,7 @@ export default class MusicsIntegration implements IMusicsIntegration {
       updateMusicRequest.setAlbumid(albumId ? albumId : '');
 
       this.client.updateMusic(updateMusicRequest, (error: Error | null, music: Music) => {
-        if (error != null) reject(error);
+        if (error != null) reject(handleError(error));
         else resolve(translateMusicEntity(music));
       });
     });
@@ -128,7 +129,7 @@ export default class MusicsIntegration implements IMusicsIntegration {
       musicId.setId(id);
 
       this.client.deleteMusic(musicId, (error: Error | null) => {
-        if (error != null) reject(error);
+        if (error != null) reject(handleError(error));
         else resolve();
       });
     });
@@ -140,7 +141,7 @@ export default class MusicsIntegration implements IMusicsIntegration {
       musicId.setId(id);
 
       this.client.viewMusic(musicId, (error: Error | null, music: Music) => {
-        if (error != null) reject(error);
+        if (error != null) reject(handleError(error));
         else resolve(translateMusicEntity(music));
       });
     });
@@ -152,7 +153,7 @@ export default class MusicsIntegration implements IMusicsIntegration {
       albumId.setId(id);
 
       this.client.getAlbum(albumId, (error: Error | null, album: Album) => {
-        if (error != null) reject(error);
+        if (error != null) reject(handleError(error));
         else resolve(translateAlbumEntity(album));
       });
     });
@@ -161,7 +162,7 @@ export default class MusicsIntegration implements IMusicsIntegration {
   public getAlbums = async (): Promise<Array<AlbumEntity>> => {
     return new Promise((resolve, reject) => {
       this.client.getAlbums(new Empty(), (error: Error | null, albumsList: AlbumsList) => {
-        if (error != null) reject(error);
+        if (error != null) reject(handleError(error));
         else resolve(translateAlbumEntityList(albumsList));
       });
     });
@@ -178,7 +179,7 @@ export default class MusicsIntegration implements IMusicsIntegration {
       createAlbumRequest.setArtistid(artistId);
 
       this.client.createAlbum(createAlbumRequest, (error: Error | null, album: Album) => {
-        if (error != null) reject(error);
+        if (error != null) reject(handleError(error));
         else resolve(translateAlbumEntity(album));
       });
     });
@@ -196,7 +197,7 @@ export default class MusicsIntegration implements IMusicsIntegration {
       updateAlbumRequest.setArtistid(artistId ? artistId : '');
 
       this.client.updateAlbum(updateAlbumRequest, (error: Error | null, album: Album) => {
-        if (error != null) reject(error);
+        if (error != null) reject(handleError(error));
         else resolve(translateAlbumEntity(album));
       });
     });
@@ -208,7 +209,7 @@ export default class MusicsIntegration implements IMusicsIntegration {
       albumId.setId(id);
 
       this.client.deleteAlbum(albumId, (error: Error | null) => {
-        if (error != null) reject(error);
+        if (error != null) reject(handleError(error));
         else resolve();
       });
     });
@@ -220,7 +221,7 @@ export default class MusicsIntegration implements IMusicsIntegration {
       artistId.setId(id);
 
       this.client.getArtist(artistId, (error: Error | null, artist: Artist) => {
-        if (error != null) reject(error);
+        if (error != null) reject(handleError(error));
         else resolve(translateArtistEntity(artist));
       });
     });
@@ -229,7 +230,7 @@ export default class MusicsIntegration implements IMusicsIntegration {
   public getArtists = async (): Promise<Array<ArtistEntity>> => {
     return new Promise((resolve, reject) => {
       this.client.getArtists(new Empty(), (error: Error | null, artistsList: ArtistsList) => {
-        if (error != null) reject(error);
+        if (error != null) reject(handleError(error));
         else resolve(translateArtistEntityList(artistsList));
       });
     });
@@ -241,7 +242,7 @@ export default class MusicsIntegration implements IMusicsIntegration {
       getArtistByGenreRequest.setGenre(translateGenreEnum(genre));
 
       this.client.getArtistByGenre(getArtistByGenreRequest, (error: Error | null, artistsList: ArtistsList) => {
-        if (error != null) reject(error);
+        if (error != null) reject(handleError(error));
         else resolve(translateArtistEntityList(artistsList));
       });
     });
@@ -263,7 +264,7 @@ export default class MusicsIntegration implements IMusicsIntegration {
       createArtistRequest.setWikipediaurl(wikipediaUrl);
 
       this.client.createArtist(createArtistRequest, (error: Error | null, artist: Artist) => {
-        if (error != null) reject(error);
+        if (error != null) reject(handleError(error));
         else resolve(translateArtistEntity(artist));
       });
     });
@@ -291,7 +292,7 @@ export default class MusicsIntegration implements IMusicsIntegration {
       updateArtistRequest.setFoundationdate(foundationDate ? dateToTimestamp(foundationDate) : 0);
       updateArtistRequest.setMembersList(members ? members : []);
       updateArtistRequest.setDescription(description ? description : '');
-      updateArtistRequest.setGenre(genre ? translateGenreEnum(genre) : 0);
+      updateArtistRequest.setGenre(genre ? translateGenreEnum(genre) : -1);
       updateArtistRequest.setPhotosList(photos ? photos : []);
       updateArtistRequest.setFacebookurl(facebookUrl ? facebookUrl : '');
       updateArtistRequest.setTwitterurl(twitterUrl ? twitterUrl : '');
@@ -299,7 +300,7 @@ export default class MusicsIntegration implements IMusicsIntegration {
       updateArtistRequest.setWikipediaurl(wikipediaUrl ? wikipediaUrl : '');
 
       this.client.updateArtist(updateArtistRequest, (error: Error | null, artist: Artist) => {
-        if (error != null) reject(error);
+        if (error != null) reject(handleError(error));
         else resolve(translateArtistEntity(artist));
       });
     });
@@ -311,7 +312,7 @@ export default class MusicsIntegration implements IMusicsIntegration {
       artistId.setId(id);
 
       this.client.deleteArtist(artistId, (error: Error | null) => {
-        if (error != null) reject(error);
+        if (error != null) reject(handleError(error));
         else resolve();
       });
     });
@@ -323,7 +324,7 @@ export default class MusicsIntegration implements IMusicsIntegration {
       artistId.setId(id);
 
       this.client.favoriteArtist(artistId, (error: Error | null, artist: Artist) => {
-        if (error != null) reject(error);
+        if (error != null) reject(handleError(error));
         else resolve(translateArtistEntity(artist));
       });
     });
@@ -335,7 +336,7 @@ export default class MusicsIntegration implements IMusicsIntegration {
       artistId.setId(id);
 
       this.client.unfavoriteArtist(artistId, (error: Error | null, artist: Artist) => {
-        if (error != null) reject(error);
+        if (error != null) reject(handleError(error));
         else resolve(translateArtistEntity(artist));
       });
     });
@@ -347,7 +348,7 @@ export default class MusicsIntegration implements IMusicsIntegration {
       artistId.setId(id);
 
       this.client.followArtist(artistId, (error: Error | null, artist: Artist) => {
-        if (error != null) reject(error);
+        if (error != null) reject(handleError(error));
         else resolve(translateArtistEntity(artist));
       });
     });
@@ -359,7 +360,7 @@ export default class MusicsIntegration implements IMusicsIntegration {
       artistId.setId(id);
 
       this.client.unfollowArtist(artistId, (error: Error | null, artist: Artist) => {
-        if (error != null) reject(error);
+        if (error != null) reject(handleError(error));
         else resolve(translateArtistEntity(artist));
       });
     });

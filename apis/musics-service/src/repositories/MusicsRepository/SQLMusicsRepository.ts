@@ -2,6 +2,7 @@ import Knex from 'knex';
 
 import { PaginationRequest } from './dtos';
 import IMusicsRepository from './interface';
+import { MusicsDb } from '../databaseEntities';
 import { translateMusic, translateMusicsList } from '../translators';
 import { MusicsTable } from '@constants/index';
 import Music from '@entities/Music';
@@ -15,7 +16,7 @@ export default class SQLMusicsRepository implements IMusicsRepository {
 
   public async find(id: string): Promise<Music | undefined> {
     // prettier-ignore
-    const music = await this.databaseConnection<Music>(MusicsTable)
+    const music = await this.databaseConnection<MusicsDb>(MusicsTable)
       .where({ id })
       .first();
 
@@ -31,7 +32,7 @@ export default class SQLMusicsRepository implements IMusicsRepository {
       const { offset, limit } = paginationRequest;
 
       // prettier-ignore
-      const musics = await this.databaseConnection<Music>(MusicsTable)
+      const musics = await this.databaseConnection<MusicsDb>(MusicsTable)
         .offset(offset)
         .limit(limit)
         .orderBy('title', 'asc');
@@ -39,30 +40,28 @@ export default class SQLMusicsRepository implements IMusicsRepository {
       return translateMusicsList(musics);
     }
 
-    const musics = await this.databaseConnection<Music>(MusicsTable);
+    const musics = await this.databaseConnection<MusicsDb>(MusicsTable);
 
     return translateMusicsList(musics);
   }
 
   public async store({ id, title, durationInSeconds, file, composers, lyrics, albumId, views }: Music): Promise<void> {
     // prettier-ignore
-    await this.databaseConnection<Music>(MusicsTable)
-      .insert({ id, title, durationInSeconds, file, composers, lyrics, albumId, views });
+    await this.databaseConnection<MusicsDb>(MusicsTable)
+      .insert({ id, title, duration: durationInSeconds, file, composers, lyrics, album_id: albumId, views });
   }
 
   public async update({ id, title, durationInSeconds, file, composers, lyrics, albumId, views }: Music): Promise<void> {
     // prettier-ignore
-    await this.databaseConnection<Music>(MusicsTable)
+    await this.databaseConnection<MusicsDb>(MusicsTable)
       .where({ id })
-      .update({ title, durationInSeconds, file, composers, lyrics, albumId, views })
-      .first();
+      .update({ title, duration: durationInSeconds, file, composers, lyrics, album_id: albumId, views });
   }
 
   public async delete(id: string): Promise<void> {
     // prettier-ignore
-    await this.databaseConnection<Music>(MusicsTable)
+    await this.databaseConnection<MusicsDb>(MusicsTable)
       .where({ id })
-      .del()
-      .first();
+      .del();
   }
 }

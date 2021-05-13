@@ -40,6 +40,10 @@ func buildDatabaseSourceName() string {
 	)
 }
 
+func (d database) GetConnection() *sql.DB {
+	return d.connection
+}
+
 func (d database) Close() error {
 	return d.connection.Close()
 }

@@ -1,6 +1,7 @@
 syntax = "proto3";
 
 package proto;
+option go_package = "grpc/proto";
 
 service Musics {
     rpc GetMusic(Id) returns (Music) {}

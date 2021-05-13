@@ -1,4 +1,5 @@
 import * as grpc from 'grpc';
+import { ServiceError } from 'grpc';
 
 import { IMusicsServer } from '../proto/musics_service_grpc_pb';
 // prettier-ignore
@@ -26,11 +27,14 @@ import {
   translateArtistEntity,
   translateArtistEntityList,
   translateGenreEnum,
+  translateGrpcError,
   translateMusicEntity,
   translateMusicEntityList,
 } from './translators';
+import BaseError from '@constants/BaseError';
 import { InternalError } from '@constants/errors';
 import IErrorHandler from '@handlers/ErrorHandler/interface';
+import ILoggerProvider from '@providers/LoggerProvider/interface';
 import IAlbumsService from '@services/AlbumsService/interface';
 import IArtistsService from '@services/ArtistsService/interface';
 import IMusicsService from '@services/MusicsService/interface';
@@ -43,6 +47,7 @@ export class MusicsHandler implements IMusicsServer {
   private artistsService: IArtistsService;
   private musicsService: IMusicsService;
   private errorHandler: IErrorHandler;
+  private loggerProvider: ILoggerProvider;
 
   // prettier-ignore
   constructor(
@@ -50,26 +55,42 @@ export class MusicsHandler implements IMusicsServer {
     artistsService: IArtistsService,
     musicsService: IMusicsService,
     errorHandler: IErrorHandler,
+    loggerProvider: ILoggerProvider,
   ) {
     this.albumsService = albumsService;
     this.artistsService = artistsService;
     this.musicsService = musicsService;
     this.errorHandler = errorHandler;
+    this.loggerProvider = loggerProvider;
+  }
+
+  private async handleError<T>(callback: grpc.sendUnaryData<T>, error: Error): Promise<void> {
+    await this.errorHandler.handleError(error);
+
+    let customError: BaseError;
+
+    if (!this.errorHandler.isTrustedError(error)) {
+      customError = new InternalError();
+    } else {
+      customError = error as BaseError;
+    }
+
+    const grpcError: ServiceError = new Error();
+    grpcError.code = translateGrpcError(customError.statusCode);
+    grpcError.details = customError.message;
+
+    callback(grpcError, null);
   }
 
   getMusic = async (call: grpc.ServerUnaryCall<Id>, callback: grpc.sendUnaryData<Music>): Promise<void> => {
     try {
       const music = await this.musicsService.get({ id: call.request.getId() });
 
+      this.loggerProvider.info('[GET MUSIC]', { id: music.id });
+
       callback(null, translateMusicEntity(music));
     } catch (error) {
-      await this.errorHandler.handleError(error);
-
-      if (!this.errorHandler.isTrustedError(error)) {
-        callback(new InternalError(), null);
-      }
-
-      callback(error, null);
+      this.handleError<Music>(callback, error);
     }
   };
 
@@ -77,15 +98,11 @@ export class MusicsHandler implements IMusicsServer {
     try {
       const musics = await this.musicsService.getAll();
 
+      this.loggerProvider.info('[GET MUSICS]');
+
       callback(null, translateMusicEntityList(musics));
     } catch (error) {
-      await this.errorHandler.handleError(error);
-
-      if (!this.errorHandler.isTrustedError(error)) {
-        callback(new InternalError(), null);
-      }
-
-      callback(error, null);
+      this.handleError<MusicsList>(callback, error);
     }
   };
 
@@ -100,15 +117,11 @@ export class MusicsHandler implements IMusicsServer {
         albumId: call.request.getAlbumid(),
       });
 
+      this.loggerProvider.info('[CREATE MUSIC]');
+
       callback(null, translateMusicEntity(music));
     } catch (error) {
-      await this.errorHandler.handleError(error);
-
-      if (!this.errorHandler.isTrustedError(error)) {
-        callback(new InternalError(), null);
-      }
-
-      callback(error, null);
+      this.handleError<Music>(callback, error);
     }
   };
 
@@ -124,15 +137,11 @@ export class MusicsHandler implements IMusicsServer {
         albumId: call.request.getAlbumid() != '' ? call.request.getAlbumid() : undefined,
       });
 
+      this.loggerProvider.info('[UPDATE MUSIC]', { id: music.id });
+
       callback(null, translateMusicEntity(music));
     } catch (error) {
-      await this.errorHandler.handleError(error);
-
-      if (!this.errorHandler.isTrustedError(error)) {
-        callback(new InternalError(), null);
-      }
-
-      callback(error, null);
+      this.handleError<Music>(callback, error);
     }
   };
 
@@ -140,15 +149,11 @@ export class MusicsHandler implements IMusicsServer {
     try {
       await this.musicsService.delete({ id: call.request.getId() });
 
+      this.loggerProvider.info('[DELETE MUSIC]', { id: call.request.getId() });
+
       callback(null, new Empty());
     } catch (error) {
-      await this.errorHandler.handleError(error);
-
-      if (!this.errorHandler.isTrustedError(error)) {
-        callback(new InternalError(), null);
-      }
-
-      callback(error, null);
+      this.handleError<Empty>(callback, error);
     }
   };
 
@@ -156,15 +161,11 @@ export class MusicsHandler implements IMusicsServer {
     try {
       const music = await this.musicsService.addView({ id: call.request.getId() });
 
+      this.loggerProvider.info('[VIEW MUSIC]', { id: music.id });
+
       callback(null, translateMusicEntity(music));
     } catch (error) {
-      await this.errorHandler.handleError(error);
-
-      if (!this.errorHandler.isTrustedError(error)) {
-        callback(new InternalError(), null);
-      }
-
-      callback(error, null);
+      this.handleError<Music>(callback, error);
     }
   };
 
@@ -172,15 +173,11 @@ export class MusicsHandler implements IMusicsServer {
     try {
       const album = await this.albumsService.get({ id: call.request.getId() });
 
+      this.loggerProvider.info('[GET ALBUM]', { id: album.id });
+
       callback(null, translateAlbumEntity(album));
     } catch (error) {
-      await this.errorHandler.handleError(error);
-
-      if (!this.errorHandler.isTrustedError(error)) {
-        callback(new InternalError(), null);
-      }
-
-      callback(error, null);
+      this.handleError<Album>(callback, error);
     }
   };
 
@@ -188,15 +185,11 @@ export class MusicsHandler implements IMusicsServer {
     try {
       const albums = await this.albumsService.getAll();
 
+      this.loggerProvider.info('[GET ALBUMS]');
+
       callback(null, translateAlbumEntityList(albums));
     } catch (error) {
-      await this.errorHandler.handleError(error);
-
-      if (!this.errorHandler.isTrustedError(error)) {
-        callback(new InternalError(), null);
-      }
-
-      callback(error, null);
+      this.handleError<AlbumsList>(callback, error);
     }
   };
 
@@ -211,15 +204,11 @@ export class MusicsHandler implements IMusicsServer {
         artistId: call.request.getArtistid(),
       });
 
+      this.loggerProvider.info('[CREATE ALBUM]');
+
       callback(null, translateAlbumEntity(album));
     } catch (error) {
-      await this.errorHandler.handleError(error);
-
-      if (!this.errorHandler.isTrustedError(error)) {
-        callback(new InternalError(), null);
-      }
-
-      callback(error, null);
+      this.handleError<Album>(callback, error);
     }
   };
 
@@ -235,15 +224,11 @@ export class MusicsHandler implements IMusicsServer {
         artistId: call.request.getArtistid() != '' ? call.request.getArtistid() : undefined,
       });
 
+      this.loggerProvider.info('[UPDATE ALBUM]', { id: album.id });
+
       callback(null, translateAlbumEntity(album));
     } catch (error) {
-      await this.errorHandler.handleError(error);
-
-      if (!this.errorHandler.isTrustedError(error)) {
-        callback(new InternalError(), null);
-      }
-
-      callback(error, null);
+      this.handleError<Album>(callback, error);
     }
   };
 
@@ -251,15 +236,11 @@ export class MusicsHandler implements IMusicsServer {
     try {
       await this.albumsService.delete({ id: call.request.getId() });
 
+      this.loggerProvider.info('[DELETE ALBUM]', { id: call.request.getId() });
+
       callback(null, new Empty());
     } catch (error) {
-      await this.errorHandler.handleError(error);
-
-      if (!this.errorHandler.isTrustedError(error)) {
-        callback(new InternalError(), null);
-      }
-
-      callback(error, null);
+      this.handleError<Empty>(callback, error);
     }
   };
 
@@ -267,15 +248,11 @@ export class MusicsHandler implements IMusicsServer {
     try {
       const artist = await this.artistsService.get({ id: call.request.getId() });
 
+      this.loggerProvider.info('[GET ARTIST]', { id: artist.id });
+
       callback(null, translateArtistEntity(artist));
     } catch (error) {
-      await this.errorHandler.handleError(error);
-
-      if (!this.errorHandler.isTrustedError(error)) {
-        callback(new InternalError(), null);
-      }
-
-      callback(error, null);
+      this.handleError<Artist>(callback, error);
     }
   };
 
@@ -283,15 +260,11 @@ export class MusicsHandler implements IMusicsServer {
     try {
       const artists = await this.artistsService.getAll();
 
+      this.loggerProvider.info('[GET ARTISTS]');
+
       callback(null, translateArtistEntityList(artists));
     } catch (error) {
-      await this.errorHandler.handleError(error);
-
-      if (!this.errorHandler.isTrustedError(error)) {
-        callback(new InternalError(), null);
-      }
-
-      callback(error, null);
+      this.handleError<ArtistsList>(callback, error);
     }
   };
 
@@ -301,13 +274,7 @@ export class MusicsHandler implements IMusicsServer {
 
       callback(null, translateArtistEntityList(artists));
     } catch (error) {
-      await this.errorHandler.handleError(error);
-
-      if (!this.errorHandler.isTrustedError(error)) {
-        callback(new InternalError(), null);
-      }
-
-      callback(error, null);
+      this.handleError<ArtistsList>(callback, error);
     }
   };
 
@@ -327,15 +294,11 @@ export class MusicsHandler implements IMusicsServer {
         wikipediaUrl: call.request.getWikipediaurl(),
       });
 
+      this.loggerProvider.info('[CREATE ARTIST]');
+
       callback(null, translateArtistEntity(artist));
     } catch (error) {
-      await this.errorHandler.handleError(error);
-
-      if (!this.errorHandler.isTrustedError(error)) {
-        callback(new InternalError(), null);
-      }
-
-      callback(error, null);
+      this.handleError<Artist>(callback, error);
     }
   };
 
@@ -356,15 +319,11 @@ export class MusicsHandler implements IMusicsServer {
         wikipediaUrl: call.request.getWikipediaurl() != '' ? call.request.getWikipediaurl() : undefined,
       });
 
+      this.loggerProvider.info('[UPDATE ARTIST]', { id: artist.id });
+
       callback(null, translateArtistEntity(artist));
     } catch (error) {
-      await this.errorHandler.handleError(error);
-
-      if (!this.errorHandler.isTrustedError(error)) {
-        callback(new InternalError(), null);
-      }
-
-      callback(error, null);
+      this.handleError<Artist>(callback, error);
     }
   };
 
@@ -372,15 +331,11 @@ export class MusicsHandler implements IMusicsServer {
     try {
       await this.artistsService.delete({ id: call.request.getId() });
 
+      this.loggerProvider.info('[DELETE ARTIST]', { id: call.request.getId() });
+
       callback(null, new Empty());
     } catch (error) {
-      await this.errorHandler.handleError(error);
-
-      if (!this.errorHandler.isTrustedError(error)) {
-        callback(new InternalError(), null);
-      }
-
-      callback(error, null);
+      this.handleError<Empty>(callback, error);
     }
   };
 
@@ -388,15 +343,11 @@ export class MusicsHandler implements IMusicsServer {
     try {
       const artist = await this.artistsService.addFavorite({ id: call.request.getId() });
 
+      this.loggerProvider.info('[FAVORITE ARTIST]', { id: artist.id });
+
       callback(null, translateArtistEntity(artist));
     } catch (error) {
-      await this.errorHandler.handleError(error);
-
-      if (!this.errorHandler.isTrustedError(error)) {
-        callback(new InternalError(), null);
-      }
-
-      callback(error, null);
+      this.handleError<Artist>(callback, error);
     }
   };
 
@@ -404,15 +355,11 @@ export class MusicsHandler implements IMusicsServer {
     try {
       const artist = await this.artistsService.removeFavorite({ id: call.request.getId() });
 
+      this.loggerProvider.info('[UNFAVORITE ARTIST]', { id: artist.id });
+
       callback(null, translateArtistEntity(artist));
     } catch (error) {
-      await this.errorHandler.handleError(error);
-
-      if (!this.errorHandler.isTrustedError(error)) {
-        callback(new InternalError(), null);
-      }
-
-      callback(error, null);
+      this.handleError<Artist>(callback, error);
     }
   };
 
@@ -420,15 +367,11 @@ export class MusicsHandler implements IMusicsServer {
     try {
       const artist = await this.artistsService.addFollower({ id: call.request.getId() });
 
+      this.loggerProvider.info('[FOLLOW ARTIST]', { id: artist.id });
+
       callback(null, translateArtistEntity(artist));
     } catch (error) {
-      await this.errorHandler.handleError(error);
-
-      if (!this.errorHandler.isTrustedError(error)) {
-        callback(new InternalError(), null);
-      }
-
-      callback(error, null);
+      this.handleError<Artist>(callback, error);
     }
   };
 
@@ -436,15 +379,11 @@ export class MusicsHandler implements IMusicsServer {
     try {
       const artist = await this.artistsService.removeFollower({ id: call.request.getId() });
 
+      this.loggerProvider.info('[UNFOLLOW ARTIST]', { id: artist.id });
+
       callback(null, translateArtistEntity(artist));
     } catch (error) {
-      await this.errorHandler.handleError(error);
-
-      if (!this.errorHandler.isTrustedError(error)) {
-        callback(new InternalError(), null);
-      }
-
-      callback(error, null);
+      this.handleError<Artist>(callback, error);
     }
   };
 }

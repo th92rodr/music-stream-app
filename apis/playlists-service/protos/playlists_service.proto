@@ -1,0 +1,79 @@
+syntax = "proto3";
+
+import "protos/musics_service.proto";
+
+package proto;
+option go_package = "grpc/proto";
+
+service Playlists {
+    rpc GetPlaylist(GetPlaylistRequest) returns (Playlist) {}
+    rpc GetPlaylists(GetPlaylistsRequest) returns (PlaylistsList) {}
+    rpc CreatePlaylist(CreatePlaylistRequest) returns (Playlist) {}
+    rpc UpdatePlaylist(UpdatePlaylistRequest) returns (Playlist) {}
+    rpc DeletePlaylist(DeletePlaylistRequest) returns (Empty) {}
+
+    rpc AddTrack(AddTrackRequest) returns (Track) {}
+    rpc UpdateTrack(UpdateTrackRequest) returns (Track) {}
+    rpc RemoveTrack(RemoveTrackRequest) returns (Empty) {}
+}
+
+message Playlist {
+    string id = 1;
+    string name = 2;
+    string userId = 3;
+    repeated Track tracks = 4;
+}
+
+message Track {
+    string id = 1;
+    int32 index = 2;
+    Music music = 3;
+}
+
+message PlaylistsList {
+    repeated Playlist playlists = 1;
+}
+
+message GetPlaylistRequest {
+    string id = 1;
+    string userId = 2;
+}
+
+message GetPlaylistsRequest {
+    string userId = 1;
+}
+
+message CreatePlaylistRequest {
+    string name = 1;
+    string userId = 2;
+}
+
+message UpdatePlaylistRequest {
+    string id = 1;
+    string name = 2;
+    string userId = 3;
+}
+
+message DeletePlaylistRequest {
+    string id = 1;
+    string userId = 2;
+}
+
+message AddTrackRequest {
+    string userId = 1;
+    string playlistId = 2;
+    string musicId = 3;
+}
+
+message UpdateTrackRequest {
+    string userId = 1;
+    string playlistId = 2;
+    string id = 3;
+    int32 index = 4;
+}
+
+message RemoveTrackRequest {
+    string userId = 1;
+    string playlistId = 2;
+    string id = 3;
+}

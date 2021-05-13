@@ -26,7 +26,7 @@ export class ErrorInvalidCredentials extends BaseError {
 export class ErrorEmailInUse extends BaseError {
   constructor(email: string) {
     super({
-      name: 'INVALID CREDENTIALS',
+      name: 'BAD REQUEST',
       statusCode: StatusCode.BAD_REQUEST,
       isOperational: true,
       message: `The email ${email} is already in use.`,
