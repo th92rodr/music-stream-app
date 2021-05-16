@@ -1,0 +1,140 @@
+@import '../../styles/global.scss';
+
+header.header {
+  & {
+    height: 60px;
+    padding: 10px 20px;
+    border-bottom: 1px solid $color-border-main;
+    background: $color-background-main;
+    display: flex;
+    flex-flow: row wrap;
+    align-items: center;
+  }
+
+  .search {
+    .search__inactive {
+      .search__inactive__input {
+        & {
+          border-radius: 15px;
+          padding: 5px 5px 5px 35px;
+          background: $color-background-white;
+          background-image: url('../../assets/icons/search.svg');
+          background-repeat: no-repeat;
+          background-size: 10%;
+          background-position: 5px;
+        }
+
+        &::placeholder {
+          color: $color-text-dark;
+        }
+      }
+    }
+  }
+
+  .user {
+    & {
+      margin-left: auto;
+      display: flex;
+      flex-flow: row wrap;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .user__info {
+      & {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+      }
+
+      .user__info__img img {
+        display: inline-block;
+        max-width: 30px;
+        max-height: 30px;
+        border-radius: 50%;
+      }
+
+      .user__info__name {
+        margin-left: 10px;
+      }
+    }
+
+    .user__actions {
+      & {
+        margin-left: 10px;
+      }
+
+      .dropdown {
+        & {
+          position: relative;
+        }
+
+        button {
+          & {
+            padding: 5px 15px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+          }
+
+          svg {
+            & {
+              width: 24px;
+              height: 24px;
+            }
+
+            &:hover {
+              path {
+                stroke: $color-text-highlight;
+              }
+            }
+
+            path {
+              stroke: $color-text-main;
+              transition: color $transition-duration $transition-smooth;
+            }
+          }
+        }
+
+        .dropdown__menu {
+          & {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            min-width: 160px;
+            margin-top: 25px;
+            background: $color-background-main;
+            box-shadow: 0 6px 12px rgb(0 0 0 / 18%);
+            display: none;
+            z-index: $z-index-header-1;
+            text-align: left;
+          }
+
+          li {
+            & {
+              padding: 10px;
+              border-radius: 2px;
+              transition: all $transition-duration-long $transition-smooth;
+            }
+
+            &:hover {
+              & {
+                background: $color-background-active;
+              }
+
+              a {
+                color: $color-text-highlight;
+              }
+            }
+
+            a {
+              display: block;
+              padding: 3px 20px;
+              white-space: nowrap;
+            }
+          }
+        }
+      }
+    }
+  }
+}
