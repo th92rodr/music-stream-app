@@ -1,0 +1,62 @@
+@import '../../styles/global.scss';
+
+aside.sidebar {
+  & {
+    grid-area: sidebar;
+    position: fixed;
+    padding: 20px;
+    background: $color-background-main;
+    font-family: $font-noto-sans;
+    z-index: $z-index-sidebar-0;
+  }
+
+  .sidebar__main,
+  .sidebar__music,
+  .sidebar__playlists {
+    & {
+      margin-bottom: 20px;
+    }
+
+    .sidebar__header {
+      margin-bottom: 5px;
+      text-transform: uppercase;
+    }
+
+    li {
+      & {
+        line-height: 2;
+        padding-bottom: 5px;
+        transition: color $transition-duration $transition-smooth;
+      }
+
+      &:last-of-type {
+        padding-bottom: 0;
+      }
+
+      &:hover {
+        & {
+          color: $color-text-highlight;
+        }
+
+        svg {
+          margin-right: 10px;
+        }
+      }
+
+      a {
+        & {
+          display: flex;
+          justify-content: flex-start;
+          align-items: center;
+        }
+
+        svg {
+          width: 24px;
+          height: 24px;
+          margin-right: 5px;
+          transition: all $transition-duration $transition-smooth;
+        }
+      }
+    }
+  }
+}
