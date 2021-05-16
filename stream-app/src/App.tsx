@@ -1,9 +1,10 @@
 import React from 'react';
+import { BrowserRouter } from 'react-router-dom';
 
-export function App() {
-  return (
-    <div className='App'>
-      <h1>Hello World</h1>
-    </div>
-  );
-}
+import { Routes } from './routes';
+
+export const App: React.FC = () => (
+  <BrowserRouter>
+    <Routes />;
+  </BrowserRouter>
+);
