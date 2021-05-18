@@ -1,0 +1,107 @@
+@import '../../styles/global.scss';
+
+.bands {
+  & {
+    margin-top: 80px;
+    padding-bottom: 40px;
+    border-bottom: 1px solid $color-border-main;
+  }
+
+  .bands__header {
+    & {
+      margin-bottom: 20px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid $color-border-main;
+    }
+
+    h2 {
+      font-size: $font-size-medium-2;
+    }
+  }
+
+  .bands__list {
+    & {
+      display: grid;
+      grid-template-columns: minmax(250px, auto);
+      grid-gap: 20px;
+      width: 100%;
+    }
+
+    @media (min-width: 550px) {
+      grid-template-columns: repeat(2, minmax(250px, 1fr));
+    }
+
+    @media (min-width: 1100px) {
+      grid-template-columns: repeat(3, minmax(250px, 1fr));
+    }
+
+    @media (min-width: 1400px) {
+      grid-template-columns: repeat(4, minmax(250px, 1fr));
+    }
+
+    @media (min-width: 1600px) {
+      grid-template-columns: repeat(5, minmax(250px, 1fr));
+    }
+
+    .bands__list__item {
+      & {
+        min-height: 300px;
+        border-radius: 12px;
+        display: flex;
+        cursor: pointer;
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
+        opacity: 0.5;
+        transition: all $transition-duration-long $transition-smooth;
+      }
+
+      &:hover {
+        & {
+          opacity: 1;
+          transform: scale3d(1.05, 1.05, 1.05);
+        }
+
+        .bands__list__item__info {
+          & {
+            background: rgba(0, 0, 0, 0.8);
+          }
+
+          .band__name {
+            font-size: $font-size-medium-2;
+            letter-spacing: 2px;
+          }
+
+          .band__genre {
+            font-size: $font-size-small-2;
+          }
+        }
+      }
+
+      .bands__list__item__info {
+        & {
+          align-self: flex-end;
+          width: 100%;
+          padding: 5px 10px;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: flex-start;
+          background: rgba(0, 0, 0, 0.7);
+          color: $color-text-highlight;
+          transition: all $transition-duration-long $transition-smooth;
+        }
+
+        .band__name {
+          font-size: $font-size-medium-1;
+          transition: all $transition-duration-long $transition-smooth;
+        }
+
+        .band__genre {
+          font-size: $font-size-small-1;
+          transition: all $transition-duration-long $transition-smooth;
+        }
+      }
+    }
+  }
+}
