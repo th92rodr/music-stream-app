@@ -1,0 +1,21 @@
+.loader__wrapper {
+  & {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: 100vh;
+    background: #202020;
+  }
+
+  .loader {
+    & {
+      display: inline-block;
+    }
+
+    svg path,
+    svg rect {
+      fill: #176087;
+    }
+  }
+}
