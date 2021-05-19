@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 
-import { Band } from './types';
+import { Artist as Band } from '../../types';
 import { api, staticFilesAddress } from '../../services/api';
 
 // styles
 import './styles.scss';
 
 export const BandsList: React.FC = () => {
+  const history = useHistory();
+
   const [bands, setBands] = useState<Band[]>([]);
 
   useEffect(() => {
@@ -15,6 +18,7 @@ export const BandsList: React.FC = () => {
 
   function handleBandClick(id: string) {
     console.log('Band click ', id);
+    history.push(`/artists/${id}`);
   }
 
   return (
