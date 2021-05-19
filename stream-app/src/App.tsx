@@ -7,6 +7,6 @@ import './styles/global.scss';
 
 export const App: React.FC = () => (
   <BrowserRouter>
-    <Routes />;
+    <Routes />
   </BrowserRouter>
 );
