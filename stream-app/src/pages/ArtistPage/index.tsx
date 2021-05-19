@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useRouteMatch } from 'react-router-dom';
 
 import { Header } from '../../components/Header';
+import { Loading } from '../../components/Loading';
 import { Sidebar } from '../../components/Sidebar';
 import { api, staticFilesAddress } from '../../services/api';
 import { Artist } from '../../types';
@@ -225,7 +226,7 @@ export const ArtistPage: React.FC = () => {
           </section>
         </div>
       ) : (
-        ''
+        <Loading />
       )}
     </>
   );
