@@ -59,7 +59,11 @@ export const AlbumModal: React.FC<AlbumModalProps> = ({ albumId, closeAlbumModal
             <div className='album__modal__content__area'>
               <div className='album__info'>
                 <div className='album__info__img'>
-                  <img src={`${staticFilesAddress}/files/?file=${album.cover}`} alt={album.name} loading='lazy' />
+                  <img
+                    src={`${staticFilesAddress}/files/?file=${album.cover}`}
+                    alt={album.name}
+                    loading='lazy'
+                  />
                 </div>
 
                 <div className='album__info__data'>
@@ -71,7 +75,9 @@ export const AlbumModal: React.FC<AlbumModalProps> = ({ albumId, closeAlbumModal
                   </div>
 
                   <div className='album__duration'>
-                    <span className='album__duration__number__tracks'>{album.number_of_tracks} songs</span>
+                    <span className='album__duration__number__tracks'>
+                      {album.number_of_tracks} songs
+                    </span>
                     <IconCircle />
                     <span className='album__duration__time'>{album.full_duration}</span>
                   </div>

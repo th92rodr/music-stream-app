@@ -17,7 +17,6 @@ export const BandsList: React.FC = () => {
   }, []);
 
   function handleBandClick(id: string) {
-    console.log('Band click ', id);
     history.push(`/artists/${id}`);
   }
 
