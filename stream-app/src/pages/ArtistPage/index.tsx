@@ -37,6 +37,18 @@ export const ArtistPage: React.FC = () => {
       .then(response => setArtist(response.data));
   }, [params.artist]);
 
+  function handleFavoriteArtist() {}
+
+  function handleFollowArtist() {}
+
+  function handlePlay() {}
+
+  function handlePlayMix() {}
+
+  function handlePlayMusic(musicId: string) {}
+
+  function handleOpenAlbum(albumId: string) {}
+
   return (
     <>
       {artist ? (
@@ -47,7 +59,7 @@ export const ArtistPage: React.FC = () => {
             <div className='artist__page__full__img'>
               <div className='artist__page__full__img__wrapper'>
                 <img
-                  src={`${staticFilesAddress}/web/files/?file=${artist.full_img}`}
+                  src={`${staticFilesAddress}/files/?file=${artist.full_img}`}
                   alt={artist.name}
                   loading='lazy'
                 />
@@ -59,11 +71,11 @@ export const ArtistPage: React.FC = () => {
             <section className='artist__page__main'>
               <div className='band__header'>
                 <div className='band__header__favorite'>
-                  <div className='favorite'>
+                  <div className='favorite' onClick={handleFavoriteArtist}>
                     <IconHeart />
                     <span>Favorite</span>
                   </div>
-                  <div className='follow'>
+                  <div className='follow' onClick={handleFollowArtist}>
                     <IconFootSteps />
                     <span>Follow</span>
                   </div>
@@ -113,11 +125,14 @@ export const ArtistPage: React.FC = () => {
 
               <div className='band__subheader'>
                 <div className='band__actions'>
-                  <button className='band__actions__play'>
+                  <button className='band__actions__play' onClick={handlePlay}>
                     <IconPlayFilled />
                     <span>Play</span>
                   </button>
-                  <button className='band__actions__mix'>
+                  <button
+                    className='band__actions__mix'
+                    onClick={handlePlayMix}
+                  >
                     <IconSync />
                     <span>Mix</span>
                   </button>
@@ -140,7 +155,7 @@ export const ArtistPage: React.FC = () => {
 
                   <div className='band__stats__card'>
                     <div className='stats__card__content date'>
-                      <p>{artist.foundation_date}</p>
+                      <p>{artist.foundation_date_str}</p>
                     </div>
                     <span className='stats__card__title'>Foundation Date</span>
                   </div>
@@ -164,7 +179,7 @@ export const ArtistPage: React.FC = () => {
                     <div
                       className='track'
                       key={track.id}
-                      // onClick='OnClickMusic(this.id)'
+                      onClick={() => handlePlayMusic(track.id)}
                     >
                       <div className='track__play'>
                         <IconPlayOutline />
@@ -186,10 +201,10 @@ export const ArtistPage: React.FC = () => {
                     <li
                       className='albums__list__item'
                       key={album.id}
-                      // onClick='openAlbumModal(this.id)'
+                      onClick={() => handleOpenAlbum(album.id)}
                     >
                       <img
-                        src={`${staticFilesAddress}/web/files/?file=${album.cover}`}
+                        src={`${staticFilesAddress}/files/?file=${album.cover}`}
                         alt={album.name}
                         loading='lazy'
                       />
@@ -208,7 +223,7 @@ export const ArtistPage: React.FC = () => {
                 <div className='band__info__img'>
                   <div className='band__info__img__wrapper'>
                     <img
-                      src={`${staticFilesAddress}/web/files/?file=${artist.vertical_img}`}
+                      src={`${staticFilesAddress}/files/?file=${artist.vertical_img}`}
                       alt={artist.name}
                       loading='lazy'
                     />
