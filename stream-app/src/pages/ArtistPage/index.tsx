@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { createRef, useEffect, useState } from 'react';
 import { useRouteMatch } from 'react-router-dom';
 
 import { AlbumModal } from '../../components/AlbumModal';
@@ -33,11 +33,19 @@ export const ArtistPage: React.FC = () => {
   const [artist, setArtist] = useState<Artist | null>(null);
   const [selectedAlbum, setSelectedAlbum] = useState<string | null>(null);
 
+  const bandHeaderNameRef = createRef<HTMLDivElement>();
+
   useEffect(() => {
     api
       .get(`/artists/${params.artist}`)
       .then(response => setArtist(response.data));
   }, [params.artist]);
+
+  useEffect(() => {
+    if (artist && bandHeaderNameRef.current) {
+      bandHeaderNameRef.current.style.fontFamily = artist.font;
+    }
+  }, [artist, bandHeaderNameRef]);
 
   function handleFavoriteArtist() {}
 
@@ -90,7 +98,7 @@ export const ArtistPage: React.FC = () => {
                 </div>
 
                 <div className='band__header__name__wrapper'>
-                  <div className='band__header__name'>
+                  <div className='band__header__name' ref={bandHeaderNameRef}>
                     <p>{artist.name}</p>
                   </div>
 
