@@ -20,6 +20,7 @@ export interface Artist {
   followers: number;
   albums: Album[];
   popular_tracks: Music[];
+  font: string;
 }
 
 export interface Album {
