@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useRouteMatch } from 'react-router-dom';
 
+import { AlbumModal } from '../../components/AlbumModal';
 import { Header } from '../../components/Header';
 import { Loading } from '../../components/Loading';
 import { Sidebar } from '../../components/Sidebar';
@@ -30,6 +31,7 @@ export const ArtistPage: React.FC = () => {
   const { params } = useRouteMatch<ArtistPageParams>();
 
   const [artist, setArtist] = useState<Artist | null>(null);
+  const [selectedAlbum, setSelectedAlbum] = useState<string | null>(null);
 
   useEffect(() => {
     api
@@ -47,7 +49,13 @@ export const ArtistPage: React.FC = () => {
 
   function handlePlayMusic(musicId: string) {}
 
-  function handleOpenAlbum(albumId: string) {}
+  function handleOpenAlbumModal(albumId: string) {
+    setSelectedAlbum(albumId);
+  }
+
+  function handleCloseAlbumModal() {
+    setSelectedAlbum(null);
+  }
 
   return (
     <>
@@ -201,7 +209,7 @@ export const ArtistPage: React.FC = () => {
                     <li
                       className='albums__list__item'
                       key={album.id}
-                      onClick={() => handleOpenAlbum(album.id)}
+                      onClick={() => handleOpenAlbumModal(album.id)}
                     >
                       <img
                         src={`${staticFilesAddress}/files/?file=${album.cover}`}
@@ -217,6 +225,13 @@ export const ArtistPage: React.FC = () => {
                     </li>
                   ))}
                 </ul>
+
+                {selectedAlbum && (
+                  <AlbumModal
+                    albumId={selectedAlbum}
+                    closeAlbumModal={handleCloseAlbumModal}
+                  />
+                )}
               </div>
 
               <div className='band__info__wrapper'>
