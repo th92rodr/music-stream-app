@@ -77,7 +77,7 @@ export const Carousel: React.FC = () => {
                   <div className='carousel__bands'>
                     <div className='carousel__bands__unique'>
                       <img
-                        src={`${staticFilesAddress}/web/files/?file=${carouselItem.image}`}
+                        src={`${staticFilesAddress}/files/?file=${carouselItem.image}`}
                         alt={carouselItem.artist_name}
                         loading='lazy'
                       />

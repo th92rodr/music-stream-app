@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 
-import { Band } from './types';
 import { api, staticFilesAddress } from '../../services/api';
+import { Artist as Band } from '../../types';
 
 // styles
 import './styles.scss';
 
 export const BandsList: React.FC = () => {
+  const history = useHistory();
+
   const [bands, setBands] = useState<Band[]>([]);
 
   useEffect(() => {
@@ -15,6 +18,7 @@ export const BandsList: React.FC = () => {
 
   function handleBandClick(id: string) {
     console.log('Band click ', id);
+    history.push(`/artists/${id}`);
   }
 
   return (
@@ -30,7 +34,7 @@ export const BandsList: React.FC = () => {
             key={band.id}
             onClick={() => handleBandClick(band.id)}
             style={{
-              backgroundImage: `url(${staticFilesAddress}/web/files/?file=${band.profile_img}`,
+              backgroundImage: `url(${staticFilesAddress}/files/?file=${band.profile_img}`,
             }}
           >
             <div className='bands__list__item__info'>
