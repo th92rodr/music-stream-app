@@ -7,6 +7,6 @@ import { MainPage } from '../pages/MainPage';
 export const Routes: React.FC = () => (
   <Switch>
     <Route path='/' exact component={MainPage} />
-    <Route path='/artists/:artist+' component={ArtistPage} />
+    <Route path='/artists/:artistId+' component={ArtistPage} />
   </Switch>
 );
