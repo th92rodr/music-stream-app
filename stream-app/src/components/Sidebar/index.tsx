@@ -5,9 +5,9 @@ import './styles.scss';
 
 // icons
 import { ReactComponent as IconHome } from '../../assets/icons/icon-home.svg';
+import { ReactComponent as IconLibrary } from '../../assets/icons/icon-library.svg';
 import { ReactComponent as IconSearch } from '../../assets/icons/icon-search.svg';
 import { ReactComponent as IconUser } from '../../assets/icons/icon-user.svg';
-import { ReactComponent as IconLibrary } from '../../assets/icons/icon-library.svg';
 
 export const Sidebar: React.FC = () => {
   return (

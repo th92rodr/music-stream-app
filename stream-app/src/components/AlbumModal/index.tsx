@@ -1,15 +1,16 @@
 import React, { createRef, useCallback, useEffect, useState } from 'react';
 
 import { Loading } from '../Loading';
-import { api, staticFilesAddress } from '../../services/api';
+import { api } from '../../services/api';
 import { Album } from '../../types';
+import { staticFilesUrl } from '../../utils';
 
 // styles
 import './styles.scss';
 
 // icons
-import { ReactComponent as IconClock } from '../../assets/icons/icon-clock.svg';
 import { ReactComponent as IconCircle } from '../../assets/icons/icon-circle.svg';
+import { ReactComponent as IconClock } from '../../assets/icons/icon-clock.svg';
 
 interface AlbumModalProps {
   albumId: string;
@@ -59,11 +60,7 @@ export const AlbumModal: React.FC<AlbumModalProps> = ({ albumId, closeAlbumModal
             <div className='album__modal__content__area'>
               <div className='album__info'>
                 <div className='album__info__img'>
-                  <img
-                    src={`${staticFilesAddress}/files/?file=${album.cover}`}
-                    alt={album.name}
-                    loading='lazy'
-                  />
+                  <img src={staticFilesUrl(album.cover)} alt={album.name} loading='lazy' />
                 </div>
 
                 <div className='album__info__data'>
