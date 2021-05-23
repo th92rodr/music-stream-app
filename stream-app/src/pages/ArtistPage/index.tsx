@@ -1,41 +1,52 @@
-import React, { useEffect, useState } from 'react';
+import React, { createRef, useEffect, useState } from 'react';
 import { useRouteMatch } from 'react-router-dom';
 
+import { AlbumModal } from '../../components/AlbumModal';
 import { Header } from '../../components/Header';
 import { Loading } from '../../components/Loading';
 import { Sidebar } from '../../components/Sidebar';
-import { api, staticFilesAddress } from '../../services/api';
+import { api } from '../../services/api';
 import { Artist } from '../../types';
+import { staticFilesUrl } from '../../utils';
 
 // styles
 import './styles.scss';
 
 // icons
-import { ReactComponent as IconHeart } from '../../assets/icons/icon-heart.svg';
-import { ReactComponent as IconFootSteps } from '../../assets/icons/icon-foot-steps.svg';
-import { ReactComponent as IconFacebook } from '../../assets/icons/icon-facebook.svg';
-import { ReactComponent as IconTwitter } from '../../assets/icons/icon-twitter.svg';
-import { ReactComponent as IconInstagram } from '../../assets/icons/icon-instagram.svg';
-import { ReactComponent as IconWikipedia } from '../../assets/icons/icon-wikipedia.svg';
-import { ReactComponent as IconPlayFilled } from '../../assets/icons/icon-play-filled.svg';
-import { ReactComponent as IconSync } from '../../assets/icons/icon-sync.svg';
 import { ReactComponent as IconClock } from '../../assets/icons/icon-clock.svg';
+import { ReactComponent as IconFacebook } from '../../assets/icons/icon-facebook.svg';
+import { ReactComponent as IconFootSteps } from '../../assets/icons/icon-foot-steps.svg';
+import { ReactComponent as IconHeart } from '../../assets/icons/icon-heart.svg';
+import { ReactComponent as IconInstagram } from '../../assets/icons/icon-instagram.svg';
+import { ReactComponent as IconPlayFilled } from '../../assets/icons/icon-play-filled.svg';
 import { ReactComponent as IconPlayOutline } from '../../assets/icons/icon-play-outline.svg';
+import { ReactComponent as IconSync } from '../../assets/icons/icon-sync.svg';
+import { ReactComponent as IconTwitter } from '../../assets/icons/icon-twitter.svg';
+import { ReactComponent as IconWikipedia } from '../../assets/icons/icon-wikipedia.svg';
 
 interface ArtistPageParams {
-  artist: string;
+  artistId: string;
 }
 
 export const ArtistPage: React.FC = () => {
   const { params } = useRouteMatch<ArtistPageParams>();
 
   const [artist, setArtist] = useState<Artist | null>(null);
+  const [selectedAlbum, setSelectedAlbum] = useState<string | null>(null);
+
+  const bandHeaderNameRef = createRef<HTMLDivElement>();
 
   useEffect(() => {
     api
-      .get(`/artists/${params.artist}`)
+      .get(`/artists/${params.artistId}`)
       .then(response => setArtist(response.data));
-  }, [params.artist]);
+  }, [params.artistId]);
+
+  useEffect(() => {
+    if (artist && bandHeaderNameRef.current) {
+      bandHeaderNameRef.current.style.fontFamily = artist.font;
+    }
+  }, [artist, bandHeaderNameRef]);
 
   function handleFavoriteArtist() {}
 
@@ -47,7 +58,13 @@ export const ArtistPage: React.FC = () => {
 
   function handlePlayMusic(musicId: string) {}
 
-  function handleOpenAlbum(albumId: string) {}
+  function handleOpenAlbumModal(albumId: string) {
+    setSelectedAlbum(albumId);
+  }
+
+  function handleCloseAlbumModal() {
+    setSelectedAlbum(null);
+  }
 
   return (
     <>
@@ -59,7 +76,7 @@ export const ArtistPage: React.FC = () => {
             <div className='artist__page__full__img'>
               <div className='artist__page__full__img__wrapper'>
                 <img
-                  src={`${staticFilesAddress}/files/?file=${artist.full_img}`}
+                  src={staticFilesUrl(artist.full_img)}
                   alt={artist.name}
                   loading='lazy'
                 />
@@ -82,7 +99,7 @@ export const ArtistPage: React.FC = () => {
                 </div>
 
                 <div className='band__header__name__wrapper'>
-                  <div className='band__header__name'>
+                  <div className='band__header__name' ref={bandHeaderNameRef}>
                     <p>{artist.name}</p>
                   </div>
 
@@ -201,10 +218,10 @@ export const ArtistPage: React.FC = () => {
                     <li
                       className='albums__list__item'
                       key={album.id}
-                      onClick={() => handleOpenAlbum(album.id)}
+                      onClick={() => handleOpenAlbumModal(album.id)}
                     >
                       <img
-                        src={`${staticFilesAddress}/files/?file=${album.cover}`}
+                        src={staticFilesUrl(album.cover)}
                         alt={album.name}
                         loading='lazy'
                       />
@@ -217,13 +234,20 @@ export const ArtistPage: React.FC = () => {
                     </li>
                   ))}
                 </ul>
+
+                {selectedAlbum && (
+                  <AlbumModal
+                    albumId={selectedAlbum}
+                    closeAlbumModal={handleCloseAlbumModal}
+                  />
+                )}
               </div>
 
               <div className='band__info__wrapper'>
                 <div className='band__info__img'>
                   <div className='band__info__img__wrapper'>
                     <img
-                      src={`${staticFilesAddress}/files/?file=${artist.vertical_img}`}
+                      src={staticFilesUrl(artist.vertical_img)}
                       alt={artist.name}
                       loading='lazy'
                     />

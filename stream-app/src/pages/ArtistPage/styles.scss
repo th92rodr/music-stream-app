@@ -1,4 +1,4 @@
-@import '../../styles/global.scss';
+@import '../../styles/vars.scss';
 
 .artist__page {
   .artist__page__wrapper {
@@ -142,7 +142,6 @@
           .band__header__name {
             & {
               align-self: flex-end;
-              font-family: $font-omnia;
               font-size: 10vh;
               color: $color-text-highlight;
               line-height: normal;

@@ -42,7 +42,6 @@ export const MainPage: React.FC = () => {
 
           <section className='main__content'>
             <Carousel />
-
             <BandsList />
           </section>
         </section>
