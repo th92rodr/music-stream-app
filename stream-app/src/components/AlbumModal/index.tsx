@@ -1,6 +1,7 @@
 import React, { createRef, useCallback, useEffect, useState } from 'react';
 
 import { Loading } from '../Loading';
+import { usePlayer } from '../../contexts/PlayerContext';
 import { api } from '../../services/api';
 import { Album } from '../../types';
 import { staticFilesUrl } from '../../utils';
@@ -21,6 +22,8 @@ export const AlbumModal: React.FC<AlbumModalProps> = ({ albumId, closeAlbumModal
   const [album, setAlbum] = useState<Album | null>(null);
 
   const albumModalContentRef = createRef<HTMLDivElement>();
+
+  const { play } = usePlayer();
 
   useEffect(() => {
     api.get(`/albums/${albumId}`).then(response => setAlbum(response.data));
@@ -92,7 +95,7 @@ export const AlbumModal: React.FC<AlbumModalProps> = ({ albumId, closeAlbumModal
 
                 <div className='tracks'>
                   {album.tracks.map((track, index) => (
-                    <div key={track.id} className='track'>
+                    <div key={track.id} className='track' onClick={() => play(album.tracks, index)}>
                       <div className='track__number'>{index + 1}</div>
                       <div className='track__title'>{track.title}</div>
                       <div className='track__length'>{track.duration_str}</div>
