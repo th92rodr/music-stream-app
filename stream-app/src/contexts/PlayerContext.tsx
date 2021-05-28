@@ -3,7 +3,7 @@ import React, { createContext, ReactNode, useContext, useState } from 'react';
 import { Music } from '../types';
 
 type PlayerContextData = {
-  musicsList: Array<Music>;
+  musicsList: Music[];
   currentMusicIndex: number;
   isPlaying: boolean;
 
@@ -19,10 +19,10 @@ type PlayerContextProviderProps = {
   children: ReactNode;
 };
 
-export const PlayerContext = createContext({} as PlayerContextData);
+const PlayerContext = createContext({} as PlayerContextData);
 
 // prettier-ignore
-export function PlayerContextProvider({ children }: PlayerContextProviderProps) {
+export const PlayerContextProvider: React.FC<PlayerContextProviderProps> = ({ children }) => {
   const [musicsList, setMusicsList] = useState<Music[]>([]);
   const [currentMusicIndex, setCurrentMusicIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
