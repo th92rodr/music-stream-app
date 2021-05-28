@@ -8,11 +8,12 @@ export function convertDurationToTimeString(duration: number): string {
 }
 
 export function formatFoundationDate(date: Date): string {
-  return date.getFullYear().toString();
+  return new Date(date).getFullYear().toString();
 }
 
 export function formatReleaseDate(date: Date): string {
-  return `${convertMonthToString(date.getMonth())}, ${date.getFullYear()}`;
+  // prettier-ignore
+  return `${convertMonthToString(new Date(date).getMonth())}, ${new Date(date).getFullYear()}`;
 }
 
 function convertMonthToString(month: number): string {
