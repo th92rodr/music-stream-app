@@ -3,7 +3,7 @@ import Album from '@entities/Album';
 import Artist from '@entities/Artist';
 import Music from '@entities/Music';
 import Playlist, { Track } from '@entities/Playlist';
-import { convertMonthToString, getAlbumDuration, getMusicDuration } from '@utils/index';
+import { getAlbumDuration } from '@utils/index';
 
 export function translateArtist(artist: Artist): any {
   return {
@@ -11,9 +11,7 @@ export function translateArtist(artist: Artist): any {
     name: artist.name,
     country: artist.country,
     foundation_date: artist.foundationDate,
-    foundation_date_str: `${artist.foundationDate.getFullYear()}`,
     members: artist.members,
-    members_str: artist.members.join(', '),
     description: artist.description,
     genre: Genre[artist.genre],
     photos: artist.photos,
@@ -41,11 +39,9 @@ export function translateAlbum(album: Album): any {
     id: album.id,
     name: album.name,
     release_date: album.releaseDate,
-    release_date_str: `${convertMonthToString(album.releaseDate.getMonth())}, ${album.releaseDate.getFullYear()}`,
     cover: album.cover,
     studio: album.studio,
     producers: album.producers,
-    producers_str: album.producers.join(', '),
     artist_id: album.artistId,
     tracks: album.tracks.map(track => translateMusic(track)),
     number_of_tracks: album.tracks.length,
@@ -58,10 +54,8 @@ export function translateMusic(music: Music): any {
     id: music.id,
     title: music.title,
     duration: music.durationInSeconds,
-    duration_str: getMusicDuration(music.durationInSeconds),
     file: music.file,
     composers: music.composers,
-    composers_str: music.composers.join(', '),
     lyrics: music.lyrics,
     album_id: music.albumId,
     artist_id: music.artistId,

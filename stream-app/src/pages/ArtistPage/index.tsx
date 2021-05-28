@@ -45,7 +45,11 @@ export const ArtistPage: React.FC = () => {
 
   useEffect(() => {
     if (artist && bandHeaderNameRef.current) {
-      bandHeaderNameRef.current.style.fontFamily = artist.font;
+      if (artist.font != '') {
+        bandHeaderNameRef.current.style.fontFamily = artist.font;
+      } else {
+        bandHeaderNameRef.current.style.fontFamily = 'Abril Fatface';
+      }
     }
   }, [artist, bandHeaderNameRef]);
 
