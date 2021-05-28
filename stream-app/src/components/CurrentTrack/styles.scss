@@ -1,0 +1,121 @@
+@import '../../styles/vars.scss';
+
+section.current__track {
+  & {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    height: 100px;
+    padding: 10px 20px;
+    border-top: 1px solid $color-border-main;
+    z-index: $z-index-footer-0;
+    background: $color-background-main;
+    display: grid;
+    grid-template-columns: 300px auto 200px;
+    grid-template-areas: 'name progress lyrics';
+  }
+
+  .current__track__name {
+    grid-area: name;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    color: $color-text-highlight;
+    font-size: $font-size-small-1;
+  }
+
+  .current__track__progress__wrapper {
+    & {
+      grid-area: progress;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .current__track__actions {
+      & {
+        display: flex;
+        flex-flow: row nowrap;
+        justify-content: center;
+        align-items: center;
+      }
+
+      a {
+        & {
+          margin: 0 10px;
+        }
+
+        svg {
+          & {
+            width: 16px;
+            height: 16px;
+          }
+
+          path {
+            fill: $color-text-main;
+          }
+        }
+
+        &.play {
+          svg {
+            width: 30px;
+            height: 30px;
+          }
+        }
+
+        &:hover {
+          svg path {
+            color: $color-text-highlight;
+            cursor: pointer;
+          }
+        }
+      }
+    }
+
+    .current__track__progress {
+      & {
+        width: 100%;
+        padding: 0 10px;
+        display: flex;
+        flex-flow: row;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .current__track__progress__start,
+      .current__track__progress__finish {
+        font-size: $font-size-small-1;
+      }
+
+      .current__track__progress__slider {
+        flex: 1;
+        margin: 0 15px;
+      }
+    }
+  }
+
+  .current__track__lyrics {
+    & {
+      grid-area: lyrics;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .lyrics {
+      & {
+        font-size: $font-size-small-1;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        transition: color $transition-duration $transition-timing-function;
+      }
+
+      &:hover {
+        color: $color-text-highlight;
+      }
+    }
+  }
+}
