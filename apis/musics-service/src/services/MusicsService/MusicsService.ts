@@ -41,7 +41,7 @@ export default class MusicsService implements IMusicsService {
     return musics;
   }
 
-  public async create({ title, durationInSeconds, file, composers, lyrics, albumId }: CreateMusicRequest): Promise<Music> {
+  public async create({ title, durationInSeconds, file, composers, lyrics, albumId, artistId }: CreateMusicRequest): Promise<Music> {
     const music = new Music({
       id: this.idProvider.generate(),
       title,
@@ -50,6 +50,7 @@ export default class MusicsService implements IMusicsService {
       composers,
       lyrics,
       albumId,
+      artistId,
       views: 0,
     });
 
@@ -58,7 +59,7 @@ export default class MusicsService implements IMusicsService {
     return music;
   }
 
-  public async update({ id, title, durationInSeconds, file, composers, lyrics, albumId }: UpdateMusicRequest): Promise<Music> {
+  public async update({ id, title, durationInSeconds, file, composers, lyrics, albumId, artistId }: UpdateMusicRequest): Promise<Music> {
     const music = await this.musicsRepository.find(id);
 
     if (!music) {
@@ -81,6 +82,7 @@ export default class MusicsService implements IMusicsService {
       composers: music.composers,
       lyrics: lyrics ? lyrics : music.lyrics,
       albumId: albumId ? albumId : music.albumId,
+      artistId: artistId ? artistId : music.artistId,
       views: music.views,
     });
 

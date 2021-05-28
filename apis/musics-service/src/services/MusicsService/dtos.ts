@@ -9,6 +9,7 @@ export interface CreateMusicRequest {
   composers: Array<string>;
   lyrics: string;
   albumId: string;
+  artistId: string;
 }
 
 export interface UpdateMusicRequest {
@@ -19,6 +20,7 @@ export interface UpdateMusicRequest {
   composers?: Array<string>;
   lyrics?: string;
   albumId?: string;
+  artistId?: string;
 }
 
 export interface DeleteMusicRequest {

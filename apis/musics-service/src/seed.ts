@@ -32,6 +32,7 @@ export async function seed(deleteData: boolean): Promise<void> {
       twitterUrl: 'https://twitter.com/AmonAmarthband',
       instagramUrl: 'https://www.instagram.com/amonamarth/',
       wikipediaUrl: 'https://en.wikipedia.org/wiki/Amon_Amarth',
+      font: 'Omnia',
       favorites: 0,
       followers: 0,
     });
@@ -154,6 +155,7 @@ export async function seed(deleteData: boolean): Promise<void> {
       composers: ['Johan Söderberg'],
       lyrics: '',
       albumId: twilightOfTheThunderGod.id,
+      artistId: amonAmarth.id,
       views: 0,
     });
 
@@ -165,6 +167,7 @@ export async function seed(deleteData: boolean): Promise<void> {
       composers: ['Johan Söderberg'],
       lyrics: '',
       albumId: twilightOfTheThunderGod.id,
+      artistId: amonAmarth.id,
       views: 0,
     });
 
@@ -176,6 +179,7 @@ export async function seed(deleteData: boolean): Promise<void> {
       composers: ['Johan Söderberg'],
       lyrics: '',
       albumId: twilightOfTheThunderGod.id,
+      artistId: amonAmarth.id,
       views: 0,
     });
 
@@ -187,6 +191,7 @@ export async function seed(deleteData: boolean): Promise<void> {
       composers: ['Johan Söderberg'],
       lyrics: '',
       albumId: twilightOfTheThunderGod.id,
+      artistId: amonAmarth.id,
       views: 0,
     });
 
@@ -198,6 +203,7 @@ export async function seed(deleteData: boolean): Promise<void> {
       composers: ['Johan Söderberg'],
       lyrics: '',
       albumId: twilightOfTheThunderGod.id,
+      artistId: amonAmarth.id,
       views: 0,
     });
 
@@ -209,6 +215,7 @@ export async function seed(deleteData: boolean): Promise<void> {
       composers: ['Johan Söderberg'],
       lyrics: '',
       albumId: twilightOfTheThunderGod.id,
+      artistId: amonAmarth.id,
       views: 0,
     });
 
@@ -220,6 +227,7 @@ export async function seed(deleteData: boolean): Promise<void> {
       composers: ['Johan Söderberg'],
       lyrics: '',
       albumId: twilightOfTheThunderGod.id,
+      artistId: amonAmarth.id,
       views: 0,
     });
 
@@ -231,6 +239,7 @@ export async function seed(deleteData: boolean): Promise<void> {
       composers: ['Johan Söderberg'],
       lyrics: '',
       albumId: twilightOfTheThunderGod.id,
+      artistId: amonAmarth.id,
       views: 0,
     });
 
@@ -242,6 +251,7 @@ export async function seed(deleteData: boolean): Promise<void> {
       composers: ['Johan Söderberg'],
       lyrics: '',
       albumId: twilightOfTheThunderGod.id,
+      artistId: amonAmarth.id,
       views: 0,
     });
 
@@ -253,6 +263,7 @@ export async function seed(deleteData: boolean): Promise<void> {
       composers: ['Johan Söderberg'],
       lyrics: '',
       albumId: twilightOfTheThunderGod.id,
+      artistId: amonAmarth.id,
       views: 0,
     });
 
@@ -323,6 +334,7 @@ export async function seed(deleteData: boolean): Promise<void> {
       twitterUrl: 'https://twitter.com/ironmaiden',
       instagramUrl: 'https://www.instagram.com/ironmaiden/',
       wikipediaUrl: 'https://en.wikipedia.org/wiki/Iron_Maiden',
+      font: 'Maiden',
       favorites: 0,
       followers: 0,
     });
@@ -375,6 +387,7 @@ export async function seed(deleteData: boolean): Promise<void> {
       composers: ['Steve Harris'],
       lyrics: '',
       albumId: fearOfTheDark.id,
+      artistId: ironMaiden.id,
       views: 0,
     });
 
@@ -386,6 +399,7 @@ export async function seed(deleteData: boolean): Promise<void> {
       composers: ['Smith', 'Harris', 'Dickinson'],
       lyrics: '',
       albumId: braveNewWorld.id,
+      artistId: ironMaiden.id,
       views: 0,
     });
 
@@ -397,6 +411,7 @@ export async function seed(deleteData: boolean): Promise<void> {
       composers: ['Gers', 'Dickinson', 'Harris'],
       lyrics: '',
       albumId: braveNewWorld.id,
+      artistId: ironMaiden.id,
       views: 0,
     });
 
@@ -431,6 +446,7 @@ export async function seed(deleteData: boolean): Promise<void> {
       twitterUrl: 'https://twitter.com/sabaton',
       instagramUrl: 'https://www.instagram.com/sabatonofficial/',
       wikipediaUrl: 'https://en.wikipedia.org/wiki/Sabaton_(band)',
+      font: '',
       favorites: 0,
       followers: 0,
     });
@@ -483,6 +499,7 @@ export async function seed(deleteData: boolean): Promise<void> {
       composers: ['Joakim Brodén'],
       lyrics: '',
       albumId: theArtOfWar.id,
+      artistId: sabaton.id,
       views: 0,
     });
 
@@ -514,6 +531,7 @@ export async function seed(deleteData: boolean): Promise<void> {
       twitterUrl: 'https://twitter.com/kreator?ref_src=twsrc%5Egoogle%7Ctwcamp%5Eserp%7Ctwgr%5Eauthor',
       instagramUrl: 'https://www.instagram.com/kreatorofficial/?hl=en',
       wikipediaUrl: 'https://en.wikipedia.org/wiki/Kreator',
+      font: '',
       favorites: 0,
       followers: 0,
     });
@@ -535,6 +553,7 @@ export async function seed(deleteData: boolean): Promise<void> {
       twitterUrl: 'https://twitter.com/_avantasia?lang=en',
       instagramUrl: 'https://www.instagram.com/tobiassammetofficial/',
       wikipediaUrl: 'https://en.wikipedia.org/wiki/Avantasia',
+      font: '',
       favorites: 0,
       followers: 0,
     });
@@ -556,6 +575,7 @@ export async function seed(deleteData: boolean): Promise<void> {
       twitterUrl: 'https://twitter.com/Slayer',
       instagramUrl: 'https://www.instagram.com/slayerbandofficial/',
       wikipediaUrl: 'https://en.wikipedia.org/wiki/Slayer',
+      font: 'Slaytanic',
       favorites: 0,
       followers: 0,
     });
@@ -577,6 +597,7 @@ export async function seed(deleteData: boolean): Promise<void> {
       twitterUrl: 'https://twitter.com/_korpiklaani',
       instagramUrl: 'https://www.instagram.com/official_korpiklaani/',
       wikipediaUrl: 'https://en.wikipedia.org/wiki/Korpiklaani',
+      font: '',
       favorites: 0,
       followers: 0,
     });
@@ -598,6 +619,7 @@ export async function seed(deleteData: boolean): Promise<void> {
       twitterUrl: 'https://twitter.com/BlackSabbath',
       instagramUrl: 'https://www.instagram.com/blacksabbath/',
       wikipediaUrl: 'https://en.wikipedia.org/wiki/Black_Sabbath',
+      font: '',
       favorites: 0,
       followers: 0,
     });
@@ -619,6 +641,7 @@ export async function seed(deleteData: boolean): Promise<void> {
       twitterUrl: 'https://twitter.com/alestormband',
       instagramUrl: 'https://www.instagram.com/alestormofficial/',
       wikipediaUrl: 'https://en.wikipedia.org/wiki/Alestorm',
+      font: 'Windlass',
       favorites: 0,
       followers: 0,
     });
@@ -640,6 +663,7 @@ export async function seed(deleteData: boolean): Promise<void> {
       twitterUrl: 'https://twitter.com/Metallica',
       instagramUrl: 'https://www.instagram.com/metallica/',
       wikipediaUrl: 'https://en.wikipedia.org/wiki/Metallica',
+      font: '',
       favorites: 0,
       followers: 0,
     });
@@ -661,6 +685,7 @@ export async function seed(deleteData: boolean): Promise<void> {
       twitterUrl: 'https://twitter.com/blind_guardian',
       instagramUrl: 'https://www.instagram.com/blindguardian/?hl=en',
       wikipediaUrl: 'https://en.wikipedia.org/wiki/Blind_Guardian',
+      font: '',
       favorites: 0,
       followers: 0,
     });
@@ -682,6 +707,7 @@ export async function seed(deleteData: boolean): Promise<void> {
       twitterUrl: 'https://twitter.com/SonataArctica',
       instagramUrl: 'https://www.instagram.com/sonataarcticaofficial/',
       wikipediaUrl: 'https://en.wikipedia.org/wiki/Sonata_Arctica',
+      font: '',
       favorites: 0,
       followers: 0,
     });
@@ -703,6 +729,7 @@ export async function seed(deleteData: boolean): Promise<void> {
       twitterUrl: 'https://twitter.com/ZakkWyldeBLS',
       instagramUrl: 'https://www.instagram.com/zakkwyldebls/',
       wikipediaUrl: 'https://en.wikipedia.org/wiki/Black_Label_Society',
+      font: '',
       favorites: 0,
       followers: 0,
     });

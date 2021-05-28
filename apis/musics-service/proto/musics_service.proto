@@ -40,7 +40,8 @@ message Music {
     repeated string composers = 5;
     string lyrics = 6;
     string albumId = 7;
-    int32 views = 8;
+    string artistId = 8;
+    int32 views = 9;
 }
 
 message MusicsList {
@@ -54,6 +55,7 @@ message CreateMusicRequest {
     repeated string composers = 4;
     string lyrics = 5;
     string albumId = 6;
+    string artistId = 7;
 }
 
 message UpdateMusicRequest {
@@ -64,6 +66,7 @@ message UpdateMusicRequest {
     repeated string composers = 5;
     string lyrics = 6;
     string albumId = 7;
+    string artistId = 8;
 }
 
 message Album {
@@ -113,10 +116,11 @@ message Artist {
     string twitterUrl = 10;
     string instagramUrl = 11;
     string wikipediaUrl = 12;
-    int32 favorites = 13;
-    int32 followers = 14;
-    repeated Album albums = 15;
-    repeated Music popularTracks = 16;
+    string font = 13;
+    int32 favorites = 14;
+    int32 followers = 15;
+    repeated Album albums = 16;
+    repeated Music popularTracks = 17;
 }
 
 message ArtistsList {
@@ -139,6 +143,7 @@ message CreateArtistRequest {
     string twitterUrl = 9;
     string instagramUrl = 10;
     string wikipediaUrl = 11;
+    string font = 12;
 }
 
 message UpdateArtistRequest {
@@ -154,6 +159,7 @@ message UpdateArtistRequest {
     string twitterUrl = 10;
     string instagramUrl = 11;
     string wikipediaUrl = 12;
+    string font = 13;
 }
 
 enum Genre {

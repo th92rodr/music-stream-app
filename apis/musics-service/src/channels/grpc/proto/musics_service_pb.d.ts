@@ -43,6 +43,8 @@ export class Music extends jspb.Message {
     setLyrics(value: string): Music;
     getAlbumid(): string;
     setAlbumid(value: string): Music;
+    getArtistid(): string;
+    setArtistid(value: string): Music;
     getViews(): number;
     setViews(value: number): Music;
 
@@ -65,6 +67,7 @@ export namespace Music {
         composersList: Array<string>,
         lyrics: string,
         albumid: string,
+        artistid: string,
         views: number,
     }
 }
@@ -106,6 +109,8 @@ export class CreateMusicRequest extends jspb.Message {
     setLyrics(value: string): CreateMusicRequest;
     getAlbumid(): string;
     setAlbumid(value: string): CreateMusicRequest;
+    getArtistid(): string;
+    setArtistid(value: string): CreateMusicRequest;
 
     serializeBinary(): Uint8Array;
     toObject(includeInstance?: boolean): CreateMusicRequest.AsObject;
@@ -125,6 +130,7 @@ export namespace CreateMusicRequest {
         composersList: Array<string>,
         lyrics: string,
         albumid: string,
+        artistid: string,
     }
 }
 
@@ -145,6 +151,8 @@ export class UpdateMusicRequest extends jspb.Message {
     setLyrics(value: string): UpdateMusicRequest;
     getAlbumid(): string;
     setAlbumid(value: string): UpdateMusicRequest;
+    getArtistid(): string;
+    setArtistid(value: string): UpdateMusicRequest;
 
     serializeBinary(): Uint8Array;
     toObject(includeInstance?: boolean): UpdateMusicRequest.AsObject;
@@ -165,6 +173,7 @@ export namespace UpdateMusicRequest {
         composersList: Array<string>,
         lyrics: string,
         albumid: string,
+        artistid: string,
     }
 }
 
@@ -341,6 +350,8 @@ export class Artist extends jspb.Message {
     setInstagramurl(value: string): Artist;
     getWikipediaurl(): string;
     setWikipediaurl(value: string): Artist;
+    getFont(): string;
+    setFont(value: string): Artist;
     getFavorites(): number;
     setFavorites(value: number): Artist;
     getFollowers(): number;
@@ -378,6 +389,7 @@ export namespace Artist {
         twitterurl: string,
         instagramurl: string,
         wikipediaurl: string,
+        font: string,
         favorites: number,
         followers: number,
         albumsList: Array<Album.AsObject>,
@@ -454,6 +466,8 @@ export class CreateArtistRequest extends jspb.Message {
     setInstagramurl(value: string): CreateArtistRequest;
     getWikipediaurl(): string;
     setWikipediaurl(value: string): CreateArtistRequest;
+    getFont(): string;
+    setFont(value: string): CreateArtistRequest;
 
     serializeBinary(): Uint8Array;
     toObject(includeInstance?: boolean): CreateArtistRequest.AsObject;
@@ -478,6 +492,7 @@ export namespace CreateArtistRequest {
         twitterurl: string,
         instagramurl: string,
         wikipediaurl: string,
+        font: string,
     }
 }
 
@@ -510,6 +525,8 @@ export class UpdateArtistRequest extends jspb.Message {
     setInstagramurl(value: string): UpdateArtistRequest;
     getWikipediaurl(): string;
     setWikipediaurl(value: string): UpdateArtistRequest;
+    getFont(): string;
+    setFont(value: string): UpdateArtistRequest;
 
     serializeBinary(): Uint8Array;
     toObject(includeInstance?: boolean): UpdateArtistRequest.AsObject;
@@ -535,6 +552,7 @@ export namespace UpdateArtistRequest {
         twitterurl: string,
         instagramurl: string,
         wikipediaurl: string,
+        font: string,
     }
 }
 
