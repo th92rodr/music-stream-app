@@ -2,12 +2,13 @@ import React, { createRef, useEffect, useState } from 'react';
 import { useRouteMatch } from 'react-router-dom';
 
 import { AlbumModal } from '../../components/AlbumModal';
+import { CurrentTrack } from '../../components/CurrentTrack';
 import { Header } from '../../components/Header';
 import { Loading } from '../../components/Loading';
 import { Sidebar } from '../../components/Sidebar';
 import { api } from '../../services/api';
 import { Artist } from '../../types';
-import { staticFilesUrl } from '../../utils';
+import { convertDurationToTimeString, staticFilesUrl } from '../../utils';
 
 // styles
 import './styles.scss';
@@ -202,7 +203,9 @@ export const ArtistPage: React.FC = () => {
                         <IconPlayOutline />
                       </div>
                       <div className='track__title'>{track.title}</div>
-                      <div className='track__length'>{track.duration_str}</div>
+                      <div className='track__length'>
+                        {convertDurationToTimeString(track.duration)}
+                      </div>
                     </div>
                   ))}
                 </div>
@@ -263,6 +266,8 @@ export const ArtistPage: React.FC = () => {
               </div>
             </section>
           </section>
+
+          <CurrentTrack />
         </div>
       ) : (
         <Loading />
