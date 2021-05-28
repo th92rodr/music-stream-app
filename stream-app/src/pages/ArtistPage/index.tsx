@@ -8,7 +8,12 @@ import { Loading } from '../../components/Loading';
 import { Sidebar } from '../../components/Sidebar';
 import { api } from '../../services/api';
 import { Artist } from '../../types';
-import { convertDurationToTimeString, staticFilesUrl } from '../../utils';
+import {
+  convertDurationToTimeString,
+  formatFoundationDate,
+  formatReleaseDate,
+  staticFilesUrl,
+} from '../../utils';
 
 // styles
 import './styles.scss';
@@ -177,7 +182,7 @@ export const ArtistPage: React.FC = () => {
 
                   <div className='band__stats__card'>
                     <div className='stats__card__content date'>
-                      <p>{artist.foundation_date_str}</p>
+                      <p>{formatFoundationDate(artist.foundation_date)}</p>
                     </div>
                     <span className='stats__card__title'>Foundation Date</span>
                   </div>
@@ -235,7 +240,7 @@ export const ArtistPage: React.FC = () => {
                       <div className='albums__list__item__info'>
                         <span className='album__title'>{album.name}</span>
                         <span className='album__year'>
-                          {album.release_date_str}
+                          {formatReleaseDate(album.release_date)}
                         </span>
                       </div>
                     </li>
