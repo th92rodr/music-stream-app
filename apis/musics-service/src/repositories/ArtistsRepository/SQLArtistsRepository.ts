@@ -57,17 +57,17 @@ export default class SQLArtistsRepository implements IArtistsRepository {
     return translateArtistsList(artists);
   }
 
-  public async store({ id, name, country, foundationDate, members, description, genre, photos, facebookUrl, twitterUrl, instagramUrl, wikipediaUrl, favorites, followers }: Artist): Promise<void> {
-    // prettier-ignore
+  // prettier-ignore
+  public async store({ id, name, country, foundationDate, members, description, genre, photos, facebookUrl, twitterUrl, instagramUrl, wikipediaUrl, font, favorites, followers }: Artist): Promise<void> {
     await this.databaseConnection<ArtistsDb>(ArtistsTable)
-      .insert({ id, name, country, foundation_date: foundationDate, members, description, genre, photos, facebook_url: facebookUrl, twitter_url: twitterUrl, instagram_url: instagramUrl, wikipedia_url: wikipediaUrl, favorites, followers });
+      .insert({ id, name, country, foundation_date: foundationDate, members, description, genre, photos, facebook_url: facebookUrl, twitter_url: twitterUrl, instagram_url: instagramUrl, wikipedia_url: wikipediaUrl, font, favorites, followers });
   }
 
-  public async update({ id, name, country, foundationDate, members, description, genre, photos, facebookUrl, twitterUrl, instagramUrl, wikipediaUrl, favorites, followers }: Artist): Promise<void> {
-    // prettier-ignore
+  // prettier-ignore
+  public async update({ id, name, country, foundationDate, members, description, genre, photos, facebookUrl, twitterUrl, instagramUrl, wikipediaUrl, font, favorites, followers }: Artist): Promise<void> {
     await this.databaseConnection<ArtistsDb>(ArtistsTable)
       .where({ id })
-      .update({ name, country, foundation_date: foundationDate, members, description, genre, photos, facebook_url: facebookUrl, twitter_url: twitterUrl, instagram_url: instagramUrl, wikipedia_url: wikipediaUrl, favorites, followers });
+      .update({ name, country, foundation_date: foundationDate, members, description, genre, photos, facebook_url: facebookUrl, twitter_url: twitterUrl, instagram_url: instagramUrl, wikipedia_url: wikipediaUrl, font, favorites, followers });
   }
 
   public async delete(id: string): Promise<void> {

@@ -17,6 +17,7 @@ export function translateArtist(artist: ArtistsDb, albums: Array<AlbumsDb>): Art
     twitterUrl: artist.twitter_url,
     instagramUrl: artist.instagram_url,
     wikipediaUrl: artist.wikipedia_url,
+    font: artist.font,
     favorites: artist.favorites,
     followers: artist.followers,
   });
@@ -59,6 +60,7 @@ export function translateMusic(music: MusicsDb): Music {
     composers: music.composers,
     lyrics: music.lyrics,
     albumId: music.album_id,
+    artistId: music.artist_id,
     views: music.views,
   });
 }

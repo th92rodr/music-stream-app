@@ -14,6 +14,7 @@ export default class Artist {
   public readonly twitterUrl: string;
   public readonly instagramUrl: string;
   public readonly wikipediaUrl: string;
+  public readonly font: string;
   public favorites: number;
   public followers: number;
   public albums: Array<Album>;
@@ -32,6 +33,7 @@ export default class Artist {
     twitterUrl,
     instagramUrl,
     wikipediaUrl,
+    font,
     favorites,
     followers,
   }: Omit<Artist, 'albums' | 'popularTracks' | 'addFavorite' | 'removeFavorite' | 'addFollower' | 'removeFollower' | 'setAlbums' | 'setPopularTracks'>) {
@@ -47,6 +49,7 @@ export default class Artist {
     this.twitterUrl = twitterUrl;
     this.instagramUrl = instagramUrl;
     this.wikipediaUrl = wikipediaUrl;
+    this.font = font;
     this.favorites = favorites;
     this.followers = followers;
     this.albums = [];

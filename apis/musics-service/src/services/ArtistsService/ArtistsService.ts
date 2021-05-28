@@ -51,7 +51,7 @@ export default class ArtistsService implements IArtistsService {
     return artists;
   }
 
-  public async create({ name, country, foundationDate, members, description, genre, photos, facebookUrl, twitterUrl, instagramUrl, wikipediaUrl }: CreateArtistRequest): Promise<Artist> {
+  public async create({ name, country, foundationDate, members, description, genre, photos, facebookUrl, twitterUrl, instagramUrl, wikipediaUrl, font }: CreateArtistRequest): Promise<Artist> {
     const artist = new Artist({
       id: this.idProvider.generate(),
       name,
@@ -65,6 +65,7 @@ export default class ArtistsService implements IArtistsService {
       twitterUrl,
       instagramUrl,
       wikipediaUrl,
+      font,
       favorites: 0,
       followers: 0,
     });
@@ -74,7 +75,7 @@ export default class ArtistsService implements IArtistsService {
     return artist;
   }
 
-  public async update({ id, name, country, foundationDate, members, description, genre, photos, facebookUrl, twitterUrl, instagramUrl, wikipediaUrl }: UpdateArtistRequest): Promise<Artist> {
+  public async update({ id, name, country, foundationDate, members, description, genre, photos, facebookUrl, twitterUrl, instagramUrl, wikipediaUrl, font }: UpdateArtistRequest): Promise<Artist> {
     const artist = await this.artistsRepository.find(id);
 
     if (!artist) {
@@ -110,6 +111,7 @@ export default class ArtistsService implements IArtistsService {
       twitterUrl: twitterUrl ? twitterUrl : artist.twitterUrl,
       instagramUrl: instagramUrl ? instagramUrl : artist.instagramUrl,
       wikipediaUrl: wikipediaUrl ? wikipediaUrl : artist.wikipediaUrl,
+      font: font ? font : artist.font,
       favorites: artist.favorites,
       followers: artist.followers,
     });

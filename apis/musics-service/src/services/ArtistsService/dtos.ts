@@ -20,6 +20,7 @@ export interface CreateArtistRequest {
   twitterUrl: string;
   instagramUrl: string;
   wikipediaUrl: string;
+  font: string;
 }
 
 export interface UpdateArtistRequest {
@@ -35,6 +36,7 @@ export interface UpdateArtistRequest {
   twitterUrl?: string;
   instagramUrl?: string;
   wikipediaUrl?: string;
+  font?: string;
 }
 
 export interface DeleteArtistRequest {
