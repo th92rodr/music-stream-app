@@ -149,46 +149,89 @@ export default class ExpressRestChannel implements IRestChannel {
   private initRouter(): void {
     const router = Router();
 
-    router.get('/api/users', this.checkAccess.bind(this), this.usersController.show.bind(this.usersController));
-    router.post('/api/users', this.usersController.create.bind(this.usersController));
-    router.patch('/api/users', this.checkAccess.bind(this), this.usersController.update.bind(this.usersController));
-    router.delete('/api/users', this.checkAccess.bind(this), this.usersController.delete.bind(this.usersController));
+    router.use('/api/users', this.usersRoutes());
+    router.use('/api/tokens', this.tokensRoutes());
 
-    router.post('/api/tokens', this.tokensController.create.bind(this.tokensController));
+    router.use('/api/artists', this.artistsRoutes());
+    router.use('/api/albums', this.albumsRoutes());
+    router.use('/api/musics', this.musicsRoutes());
 
-    router.get('/api/artists', this.artistsController.index.bind(this.artistsController));
-    router.get('/api/artists/:id', this.artistsController.show.bind(this.artistsController));
-    router.post('/api/artists', this.artistsController.create.bind(this.artistsController));
-    router.patch('/api/artists/:id', this.artistsController.update.bind(this.artistsController));
-    router.delete('/api/artists/:id', this.artistsController.delete.bind(this.artistsController));
-
-    router.get('/api/albums/:id', this.albumsController.show.bind(this.albumsController));
-    router.post('/api/albums', this.albumsController.create.bind(this.albumsController));
-    router.patch('/api/albums/:id', this.albumsController.update.bind(this.albumsController));
-    router.delete('/api/albums/:id', this.albumsController.delete.bind(this.albumsController));
-
-    router.get('/api/musics/:id', this.musicsController.show.bind(this.musicsController));
-    router.post('/api/musics', this.musicsController.create.bind(this.musicsController));
-    router.patch('/api/musics/:id', this.musicsController.update.bind(this.musicsController));
-    router.delete('/api/musics/:id', this.musicsController.delete.bind(this.musicsController));
-
-    router.get('/api/musics/:id/audio', this.musicsController.stream.bind(this.musicsController));
-
-    router.get('/api/playlists', this.checkAccess.bind(this), this.usersPlaylistsController.index.bind(this.usersPlaylistsController));
-    router.get('/api/playlists/:id', this.checkAccess.bind(this), this.usersPlaylistsController.show.bind(this.usersPlaylistsController));
-    router.post('/api/playlists', this.checkAccess.bind(this), this.usersPlaylistsController.create.bind(this.usersPlaylistsController));
-    router.patch('/api/playlists/:id', this.checkAccess.bind(this), this.usersPlaylistsController.update.bind(this.usersPlaylistsController));
-    router.delete('/api/playlists/:id', this.checkAccess.bind(this), this.usersPlaylistsController.delete.bind(this.usersPlaylistsController));
-
-    router.post('/api/playlists/:playlistId/tracks', this.checkAccess.bind(this), this.usersPlaylistsTracksController.create.bind(this.usersPlaylistsTracksController));
-    router.patch('/api/playlists/:playlistId/tracks/:id', this.checkAccess.bind(this), this.usersPlaylistsTracksController.update.bind(this.usersPlaylistsTracksController));
-    router.delete('/api/playlists/:playlistId/tracks/:id', this.checkAccess.bind(this), this.usersPlaylistsTracksController.delete.bind(this.usersPlaylistsTracksController));
+    router.use('/api/playlists', this.playlistsRoutes());
 
     router.use('*', (request: Request, response: Response) => {
       response.status(HttpStatusCode.NOT_FOUND).json({ message: 'Not Found' });
     });
 
     this.express.use(router);
+  }
+
+  private usersRoutes(): Router {
+    const router = Router();
+
+    router.get('/', this.checkAccess.bind(this), this.usersController.show.bind(this.usersController));
+    router.post('/', this.usersController.create.bind(this.usersController));
+    router.patch('/', this.checkAccess.bind(this), this.usersController.update.bind(this.usersController));
+    router.delete('/', this.checkAccess.bind(this), this.usersController.delete.bind(this.usersController));
+
+    return router;
+  }
+
+  private tokensRoutes(): Router {
+    const router = Router();
+
+    router.post('/', this.tokensController.create.bind(this.tokensController));
+
+    return router;
+  }
+
+  private artistsRoutes(): Router {
+    const router = Router();
+
+    router.get('/', this.artistsController.index.bind(this.artistsController));
+    router.get('/:id', this.artistsController.show.bind(this.artistsController));
+    router.post('/', this.artistsController.create.bind(this.artistsController));
+    router.patch('/:id', this.artistsController.update.bind(this.artistsController));
+    router.delete('/:id', this.artistsController.delete.bind(this.artistsController));
+
+    return router;
+  }
+
+  private albumsRoutes(): Router {
+    const router = Router();
+
+    router.get('/:id', this.albumsController.show.bind(this.albumsController));
+    router.post('/', this.albumsController.create.bind(this.albumsController));
+    router.patch('/:id', this.albumsController.update.bind(this.albumsController));
+    router.delete('/:id', this.albumsController.delete.bind(this.albumsController));
+
+    return router;
+  }
+
+  private musicsRoutes(): Router {
+    const router = Router();
+
+    router.get('/:id', this.musicsController.show.bind(this.musicsController));
+    router.post('/', this.musicsController.create.bind(this.musicsController));
+    router.patch('/:id', this.musicsController.update.bind(this.musicsController));
+    router.delete('/:id', this.musicsController.delete.bind(this.musicsController));
+
+    return router;
+  }
+
+  private playlistsRoutes(): Router {
+    const router = Router();
+
+    router.get('/', this.checkAccess.bind(this), this.usersPlaylistsController.index.bind(this.usersPlaylistsController));
+    router.get('/:id', this.checkAccess.bind(this), this.usersPlaylistsController.show.bind(this.usersPlaylistsController));
+    router.post('/', this.checkAccess.bind(this), this.usersPlaylistsController.create.bind(this.usersPlaylistsController));
+    router.patch('/:id', this.checkAccess.bind(this), this.usersPlaylistsController.update.bind(this.usersPlaylistsController));
+    router.delete('/:id', this.checkAccess.bind(this), this.usersPlaylistsController.delete.bind(this.usersPlaylistsController));
+
+    router.post('/:playlistId/tracks', this.checkAccess.bind(this), this.usersPlaylistsTracksController.create.bind(this.usersPlaylistsTracksController));
+    router.patch('/:playlistId/tracks/:id', this.checkAccess.bind(this), this.usersPlaylistsTracksController.update.bind(this.usersPlaylistsTracksController));
+    router.delete('/:playlistId/tracks/:id', this.checkAccess.bind(this), this.usersPlaylistsTracksController.delete.bind(this.usersPlaylistsTracksController));
+
+    return router;
   }
 
   private checkAccess(request: Request, response: Response, next: NextFunction): void | Response {
