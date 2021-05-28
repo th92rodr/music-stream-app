@@ -72,6 +72,7 @@ Feature: Playlists Service
       | twitterUrl | "http://test.com" |
       | instagramUrl | "http://test.com" |
       | wikipediaUrl | "http://test.com" |
+      | font | "font_test" |
     When I send the request
     Then the response status code should be 201
     And validate artist response body "create"
@@ -92,6 +93,7 @@ Feature: Playlists Service
       | composers | ["composers_test_1", "composers_test_2"] |
       | lyrics |  "lyrics_test" |
       | albumId |  |
+      | artistId |  |
     When I send the request
     Then the response status code should be 201
     And validate music response body "create"
