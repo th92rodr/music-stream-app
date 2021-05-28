@@ -15,6 +15,7 @@ Feature: Musics Service
       | twitterUrl | "http://test.com" |
       | instagramUrl | "http://test.com" |
       | wikipediaUrl | "http://test.com" |
+      | font | "font_test" |
     When I send the request
     Then the response status code should be 201
     And validate artist response body "create"
@@ -56,6 +57,7 @@ Feature: Musics Service
       | twitterUrl | "http://test.com" |
       | instagramUrl | "http://test.com" |
       | wikipediaUrl | "http://test.com" |
+      | font | "font_test" |
     When I send the request
     Then the response status code should be 201
     And validate artist response body "create"
@@ -109,6 +111,7 @@ Feature: Musics Service
       | twitterUrl | "http://test.com" |
       | instagramUrl | "http://test.com" |
       | wikipediaUrl | "http://test.com" |
+      | font | "font_test" |
     When I send the request
     Then the response status code should be 201
     And validate artist response body "create"
@@ -129,6 +132,7 @@ Feature: Musics Service
       | composers | ["composers_test_1", "composers_test_2"] |
       | lyrics |  "lyrics_test" |
       | albumId |  |
+      | artistId |  |
     When I send the request
     Then the response status code should be 201
     And validate music response body "create"
@@ -178,7 +182,7 @@ Feature: Musics Service
     When I send the request
     Then the response status code should be 400
     And validate error response body:
-      | fields_to_validate | ["country", "foundationDate", "genre", "photos", "facebookUrl"] |
+      | fields_to_validate | ["country", "foundationDate", "genre", "photos", "facebookUrl", "font"] |
 
   @error_case
   Scenario: Create an Album With Invalid Fields
@@ -203,6 +207,7 @@ Feature: Musics Service
       | composers | [] |
       | lyrics |  "" |
       | albumId |  |
+      | artistId |  |
     When I send the request
     Then the response status code should be 400
     And validate error response body:
