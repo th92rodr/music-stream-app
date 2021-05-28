@@ -517,12 +517,13 @@ proto.proto.Music.toObject = function(includeInstance, msg) {
   var f, obj = {
     id: jspb.Message.getFieldWithDefault(msg, 1, ""),
     title: jspb.Message.getFieldWithDefault(msg, 2, ""),
-    durationinseconds: jspb.Message.getFieldWithDefault(msg, 3, 0),
+    duration: jspb.Message.getFieldWithDefault(msg, 3, 0),
     file: jspb.Message.getFieldWithDefault(msg, 4, ""),
     composersList: (f = jspb.Message.getRepeatedField(msg, 5)) == null ? undefined : f,
     lyrics: jspb.Message.getFieldWithDefault(msg, 6, ""),
-    albumid: jspb.Message.getFieldWithDefault(msg, 7, ""),
-    views: jspb.Message.getFieldWithDefault(msg, 8, 0)
+    albumId: jspb.Message.getFieldWithDefault(msg, 7, ""),
+    artistId: jspb.Message.getFieldWithDefault(msg, 8, ""),
+    views: jspb.Message.getFieldWithDefault(msg, 9, 0)
   };
 
   if (includeInstance) {
@@ -569,7 +570,7 @@ proto.proto.Music.deserializeBinaryFromReader = function(msg, reader) {
       break;
     case 3:
       var value = /** @type {number} */ (reader.readInt32());
-      msg.setDurationinseconds(value);
+      msg.setDuration(value);
       break;
     case 4:
       var value = /** @type {string} */ (reader.readString());
@@ -585,9 +586,13 @@ proto.proto.Music.deserializeBinaryFromReader = function(msg, reader) {
       break;
     case 7:
       var value = /** @type {string} */ (reader.readString());
-      msg.setAlbumid(value);
+      msg.setAlbumId(value);
       break;
     case 8:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setArtistId(value);
+      break;
+    case 9:
       var value = /** @type {number} */ (reader.readInt32());
       msg.setViews(value);
       break;
@@ -634,7 +639,7 @@ proto.proto.Music.serializeBinaryToWriter = function(message, writer) {
       f
     );
   }
-  f = message.getDurationinseconds();
+  f = message.getDuration();
   if (f !== 0) {
     writer.writeInt32(
       3,
@@ -662,17 +667,24 @@ proto.proto.Music.serializeBinaryToWriter = function(message, writer) {
       f
     );
   }
-  f = message.getAlbumid();
+  f = message.getAlbumId();
   if (f.length > 0) {
     writer.writeString(
       7,
       f
     );
   }
+  f = message.getArtistId();
+  if (f.length > 0) {
+    writer.writeString(
+      8,
+      f
+    );
+  }
   f = message.getViews();
   if (f !== 0) {
     writer.writeInt32(
-      8,
+      9,
       f
     );
   }
@@ -716,10 +728,10 @@ proto.proto.Music.prototype.setTitle = function(value) {
 
 
 /**
- * optional int32 durationInSeconds = 3;
+ * optional int32 duration = 3;
  * @return {number}
  */
-proto.proto.Music.prototype.getDurationinseconds = function() {
+proto.proto.Music.prototype.getDuration = function() {
   return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 3, 0));
 };
 
@@ -728,7 +740,7 @@ proto.proto.Music.prototype.getDurationinseconds = function() {
  * @param {number} value
  * @return {!proto.proto.Music} returns this
  */
-proto.proto.Music.prototype.setDurationinseconds = function(value) {
+proto.proto.Music.prototype.setDuration = function(value) {
   return jspb.Message.setProto3IntField(this, 3, value);
 };
 
@@ -807,10 +819,10 @@ proto.proto.Music.prototype.setLyrics = function(value) {
 
 
 /**
- * optional string albumId = 7;
+ * optional string album_id = 7;
  * @return {string}
  */
-proto.proto.Music.prototype.getAlbumid = function() {
+proto.proto.Music.prototype.getAlbumId = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 7, ""));
 };
 
@@ -819,17 +831,35 @@ proto.proto.Music.prototype.getAlbumid = function() {
  * @param {string} value
  * @return {!proto.proto.Music} returns this
  */
-proto.proto.Music.prototype.setAlbumid = function(value) {
+proto.proto.Music.prototype.setAlbumId = function(value) {
   return jspb.Message.setProto3StringField(this, 7, value);
 };
 
 
 /**
- * optional int32 views = 8;
+ * optional string artist_id = 8;
+ * @return {string}
+ */
+proto.proto.Music.prototype.getArtistId = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 8, ""));
+};
+
+
+/**
+ * @param {string} value
+ * @return {!proto.proto.Music} returns this
+ */
+proto.proto.Music.prototype.setArtistId = function(value) {
+  return jspb.Message.setProto3StringField(this, 8, value);
+};
+
+
+/**
+ * optional int32 views = 9;
  * @return {number}
  */
 proto.proto.Music.prototype.getViews = function() {
-  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 8, 0));
+  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 9, 0));
 };
 
 
@@ -838,7 +868,7 @@ proto.proto.Music.prototype.getViews = function() {
  * @return {!proto.proto.Music} returns this
  */
 proto.proto.Music.prototype.setViews = function(value) {
-  return jspb.Message.setProto3IntField(this, 8, value);
+  return jspb.Message.setProto3IntField(this, 9, value);
 };
 
 
@@ -1042,11 +1072,12 @@ proto.proto.CreateMusicRequest.prototype.toObject = function(opt_includeInstance
 proto.proto.CreateMusicRequest.toObject = function(includeInstance, msg) {
   var f, obj = {
     title: jspb.Message.getFieldWithDefault(msg, 1, ""),
-    durationinseconds: jspb.Message.getFieldWithDefault(msg, 2, 0),
+    duration: jspb.Message.getFieldWithDefault(msg, 2, 0),
     file: jspb.Message.getFieldWithDefault(msg, 3, ""),
     composersList: (f = jspb.Message.getRepeatedField(msg, 4)) == null ? undefined : f,
     lyrics: jspb.Message.getFieldWithDefault(msg, 5, ""),
-    albumid: jspb.Message.getFieldWithDefault(msg, 6, "")
+    albumId: jspb.Message.getFieldWithDefault(msg, 6, ""),
+    artistId: jspb.Message.getFieldWithDefault(msg, 7, "")
   };
 
   if (includeInstance) {
@@ -1089,7 +1120,7 @@ proto.proto.CreateMusicRequest.deserializeBinaryFromReader = function(msg, reade
       break;
     case 2:
       var value = /** @type {number} */ (reader.readInt32());
-      msg.setDurationinseconds(value);
+      msg.setDuration(value);
       break;
     case 3:
       var value = /** @type {string} */ (reader.readString());
@@ -1105,7 +1136,11 @@ proto.proto.CreateMusicRequest.deserializeBinaryFromReader = function(msg, reade
       break;
     case 6:
       var value = /** @type {string} */ (reader.readString());
-      msg.setAlbumid(value);
+      msg.setAlbumId(value);
+      break;
+    case 7:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setArtistId(value);
       break;
     default:
       reader.skipField();
@@ -1143,7 +1178,7 @@ proto.proto.CreateMusicRequest.serializeBinaryToWriter = function(message, write
       f
     );
   }
-  f = message.getDurationinseconds();
+  f = message.getDuration();
   if (f !== 0) {
     writer.writeInt32(
       2,
@@ -1171,10 +1206,17 @@ proto.proto.CreateMusicRequest.serializeBinaryToWriter = function(message, write
       f
     );
   }
-  f = message.getAlbumid();
+  f = message.getAlbumId();
   if (f.length > 0) {
     writer.writeString(
       6,
+      f
+    );
+  }
+  f = message.getArtistId();
+  if (f.length > 0) {
+    writer.writeString(
+      7,
       f
     );
   }
@@ -1200,10 +1242,10 @@ proto.proto.CreateMusicRequest.prototype.setTitle = function(value) {
 
 
 /**
- * optional int32 durationInSeconds = 2;
+ * optional int32 duration = 2;
  * @return {number}
  */
-proto.proto.CreateMusicRequest.prototype.getDurationinseconds = function() {
+proto.proto.CreateMusicRequest.prototype.getDuration = function() {
   return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 2, 0));
 };
 
@@ -1212,7 +1254,7 @@ proto.proto.CreateMusicRequest.prototype.getDurationinseconds = function() {
  * @param {number} value
  * @return {!proto.proto.CreateMusicRequest} returns this
  */
-proto.proto.CreateMusicRequest.prototype.setDurationinseconds = function(value) {
+proto.proto.CreateMusicRequest.prototype.setDuration = function(value) {
   return jspb.Message.setProto3IntField(this, 2, value);
 };
 
@@ -1291,10 +1333,10 @@ proto.proto.CreateMusicRequest.prototype.setLyrics = function(value) {
 
 
 /**
- * optional string albumId = 6;
+ * optional string album_id = 6;
  * @return {string}
  */
-proto.proto.CreateMusicRequest.prototype.getAlbumid = function() {
+proto.proto.CreateMusicRequest.prototype.getAlbumId = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 6, ""));
 };
 
@@ -1303,8 +1345,26 @@ proto.proto.CreateMusicRequest.prototype.getAlbumid = function() {
  * @param {string} value
  * @return {!proto.proto.CreateMusicRequest} returns this
  */
-proto.proto.CreateMusicRequest.prototype.setAlbumid = function(value) {
+proto.proto.CreateMusicRequest.prototype.setAlbumId = function(value) {
   return jspb.Message.setProto3StringField(this, 6, value);
+};
+
+
+/**
+ * optional string artist_id = 7;
+ * @return {string}
+ */
+proto.proto.CreateMusicRequest.prototype.getArtistId = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 7, ""));
+};
+
+
+/**
+ * @param {string} value
+ * @return {!proto.proto.CreateMusicRequest} returns this
+ */
+proto.proto.CreateMusicRequest.prototype.setArtistId = function(value) {
+  return jspb.Message.setProto3StringField(this, 7, value);
 };
 
 
@@ -1349,11 +1409,12 @@ proto.proto.UpdateMusicRequest.toObject = function(includeInstance, msg) {
   var f, obj = {
     id: jspb.Message.getFieldWithDefault(msg, 1, ""),
     title: jspb.Message.getFieldWithDefault(msg, 2, ""),
-    durationinseconds: jspb.Message.getFieldWithDefault(msg, 3, 0),
+    duration: jspb.Message.getFieldWithDefault(msg, 3, 0),
     file: jspb.Message.getFieldWithDefault(msg, 4, ""),
     composersList: (f = jspb.Message.getRepeatedField(msg, 5)) == null ? undefined : f,
     lyrics: jspb.Message.getFieldWithDefault(msg, 6, ""),
-    albumid: jspb.Message.getFieldWithDefault(msg, 7, "")
+    albumId: jspb.Message.getFieldWithDefault(msg, 7, ""),
+    artistId: jspb.Message.getFieldWithDefault(msg, 8, "")
   };
 
   if (includeInstance) {
@@ -1400,7 +1461,7 @@ proto.proto.UpdateMusicRequest.deserializeBinaryFromReader = function(msg, reade
       break;
     case 3:
       var value = /** @type {number} */ (reader.readInt32());
-      msg.setDurationinseconds(value);
+      msg.setDuration(value);
       break;
     case 4:
       var value = /** @type {string} */ (reader.readString());
@@ -1416,7 +1477,11 @@ proto.proto.UpdateMusicRequest.deserializeBinaryFromReader = function(msg, reade
       break;
     case 7:
       var value = /** @type {string} */ (reader.readString());
-      msg.setAlbumid(value);
+      msg.setAlbumId(value);
+      break;
+    case 8:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setArtistId(value);
       break;
     default:
       reader.skipField();
@@ -1461,7 +1526,7 @@ proto.proto.UpdateMusicRequest.serializeBinaryToWriter = function(message, write
       f
     );
   }
-  f = message.getDurationinseconds();
+  f = message.getDuration();
   if (f !== 0) {
     writer.writeInt32(
       3,
@@ -1489,10 +1554,17 @@ proto.proto.UpdateMusicRequest.serializeBinaryToWriter = function(message, write
       f
     );
   }
-  f = message.getAlbumid();
+  f = message.getAlbumId();
   if (f.length > 0) {
     writer.writeString(
       7,
+      f
+    );
+  }
+  f = message.getArtistId();
+  if (f.length > 0) {
+    writer.writeString(
+      8,
       f
     );
   }
@@ -1536,10 +1608,10 @@ proto.proto.UpdateMusicRequest.prototype.setTitle = function(value) {
 
 
 /**
- * optional int32 durationInSeconds = 3;
+ * optional int32 duration = 3;
  * @return {number}
  */
-proto.proto.UpdateMusicRequest.prototype.getDurationinseconds = function() {
+proto.proto.UpdateMusicRequest.prototype.getDuration = function() {
   return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 3, 0));
 };
 
@@ -1548,7 +1620,7 @@ proto.proto.UpdateMusicRequest.prototype.getDurationinseconds = function() {
  * @param {number} value
  * @return {!proto.proto.UpdateMusicRequest} returns this
  */
-proto.proto.UpdateMusicRequest.prototype.setDurationinseconds = function(value) {
+proto.proto.UpdateMusicRequest.prototype.setDuration = function(value) {
   return jspb.Message.setProto3IntField(this, 3, value);
 };
 
@@ -1627,10 +1699,10 @@ proto.proto.UpdateMusicRequest.prototype.setLyrics = function(value) {
 
 
 /**
- * optional string albumId = 7;
+ * optional string album_id = 7;
  * @return {string}
  */
-proto.proto.UpdateMusicRequest.prototype.getAlbumid = function() {
+proto.proto.UpdateMusicRequest.prototype.getAlbumId = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 7, ""));
 };
 
@@ -1639,8 +1711,26 @@ proto.proto.UpdateMusicRequest.prototype.getAlbumid = function() {
  * @param {string} value
  * @return {!proto.proto.UpdateMusicRequest} returns this
  */
-proto.proto.UpdateMusicRequest.prototype.setAlbumid = function(value) {
+proto.proto.UpdateMusicRequest.prototype.setAlbumId = function(value) {
   return jspb.Message.setProto3StringField(this, 7, value);
+};
+
+
+/**
+ * optional string artist_id = 8;
+ * @return {string}
+ */
+proto.proto.UpdateMusicRequest.prototype.getArtistId = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 8, ""));
+};
+
+
+/**
+ * @param {string} value
+ * @return {!proto.proto.UpdateMusicRequest} returns this
+ */
+proto.proto.UpdateMusicRequest.prototype.setArtistId = function(value) {
+  return jspb.Message.setProto3StringField(this, 8, value);
 };
 
 
@@ -1685,11 +1775,11 @@ proto.proto.Album.toObject = function(includeInstance, msg) {
   var f, obj = {
     id: jspb.Message.getFieldWithDefault(msg, 1, ""),
     name: jspb.Message.getFieldWithDefault(msg, 2, ""),
-    releasedate: jspb.Message.getFieldWithDefault(msg, 3, 0),
+    releaseDate: jspb.Message.getFieldWithDefault(msg, 3, 0),
     cover: jspb.Message.getFieldWithDefault(msg, 4, ""),
     studio: jspb.Message.getFieldWithDefault(msg, 5, ""),
     producersList: (f = jspb.Message.getRepeatedField(msg, 6)) == null ? undefined : f,
-    artistid: jspb.Message.getFieldWithDefault(msg, 7, ""),
+    artistId: jspb.Message.getFieldWithDefault(msg, 7, ""),
     tracksList: jspb.Message.toObjectList(msg.getTracksList(),
     proto.proto.Music.toObject, includeInstance)
   };
@@ -1738,7 +1828,7 @@ proto.proto.Album.deserializeBinaryFromReader = function(msg, reader) {
       break;
     case 3:
       var value = /** @type {number} */ (reader.readInt64());
-      msg.setReleasedate(value);
+      msg.setReleaseDate(value);
       break;
     case 4:
       var value = /** @type {string} */ (reader.readString());
@@ -1754,7 +1844,7 @@ proto.proto.Album.deserializeBinaryFromReader = function(msg, reader) {
       break;
     case 7:
       var value = /** @type {string} */ (reader.readString());
-      msg.setArtistid(value);
+      msg.setArtistId(value);
       break;
     case 8:
       var value = new proto.proto.Music;
@@ -1804,7 +1894,7 @@ proto.proto.Album.serializeBinaryToWriter = function(message, writer) {
       f
     );
   }
-  f = message.getReleasedate();
+  f = message.getReleaseDate();
   if (f !== 0) {
     writer.writeInt64(
       3,
@@ -1832,7 +1922,7 @@ proto.proto.Album.serializeBinaryToWriter = function(message, writer) {
       f
     );
   }
-  f = message.getArtistid();
+  f = message.getArtistId();
   if (f.length > 0) {
     writer.writeString(
       7,
@@ -1887,10 +1977,10 @@ proto.proto.Album.prototype.setName = function(value) {
 
 
 /**
- * optional int64 releaseDate = 3;
+ * optional int64 release_date = 3;
  * @return {number}
  */
-proto.proto.Album.prototype.getReleasedate = function() {
+proto.proto.Album.prototype.getReleaseDate = function() {
   return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 3, 0));
 };
 
@@ -1899,7 +1989,7 @@ proto.proto.Album.prototype.getReleasedate = function() {
  * @param {number} value
  * @return {!proto.proto.Album} returns this
  */
-proto.proto.Album.prototype.setReleasedate = function(value) {
+proto.proto.Album.prototype.setReleaseDate = function(value) {
   return jspb.Message.setProto3IntField(this, 3, value);
 };
 
@@ -1978,10 +2068,10 @@ proto.proto.Album.prototype.clearProducersList = function() {
 
 
 /**
- * optional string artistId = 7;
+ * optional string artist_id = 7;
  * @return {string}
  */
-proto.proto.Album.prototype.getArtistid = function() {
+proto.proto.Album.prototype.getArtistId = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 7, ""));
 };
 
@@ -1990,7 +2080,7 @@ proto.proto.Album.prototype.getArtistid = function() {
  * @param {string} value
  * @return {!proto.proto.Album} returns this
  */
-proto.proto.Album.prototype.setArtistid = function(value) {
+proto.proto.Album.prototype.setArtistId = function(value) {
   return jspb.Message.setProto3StringField(this, 7, value);
 };
 
@@ -2233,11 +2323,11 @@ proto.proto.CreateAlbumRequest.prototype.toObject = function(opt_includeInstance
 proto.proto.CreateAlbumRequest.toObject = function(includeInstance, msg) {
   var f, obj = {
     name: jspb.Message.getFieldWithDefault(msg, 1, ""),
-    releasedate: jspb.Message.getFieldWithDefault(msg, 2, 0),
+    releaseDate: jspb.Message.getFieldWithDefault(msg, 2, 0),
     cover: jspb.Message.getFieldWithDefault(msg, 3, ""),
     studio: jspb.Message.getFieldWithDefault(msg, 4, ""),
     producersList: (f = jspb.Message.getRepeatedField(msg, 5)) == null ? undefined : f,
-    artistid: jspb.Message.getFieldWithDefault(msg, 6, "")
+    artistId: jspb.Message.getFieldWithDefault(msg, 6, "")
   };
 
   if (includeInstance) {
@@ -2280,7 +2370,7 @@ proto.proto.CreateAlbumRequest.deserializeBinaryFromReader = function(msg, reade
       break;
     case 2:
       var value = /** @type {number} */ (reader.readInt64());
-      msg.setReleasedate(value);
+      msg.setReleaseDate(value);
       break;
     case 3:
       var value = /** @type {string} */ (reader.readString());
@@ -2296,7 +2386,7 @@ proto.proto.CreateAlbumRequest.deserializeBinaryFromReader = function(msg, reade
       break;
     case 6:
       var value = /** @type {string} */ (reader.readString());
-      msg.setArtistid(value);
+      msg.setArtistId(value);
       break;
     default:
       reader.skipField();
@@ -2334,7 +2424,7 @@ proto.proto.CreateAlbumRequest.serializeBinaryToWriter = function(message, write
       f
     );
   }
-  f = message.getReleasedate();
+  f = message.getReleaseDate();
   if (f !== 0) {
     writer.writeInt64(
       2,
@@ -2362,7 +2452,7 @@ proto.proto.CreateAlbumRequest.serializeBinaryToWriter = function(message, write
       f
     );
   }
-  f = message.getArtistid();
+  f = message.getArtistId();
   if (f.length > 0) {
     writer.writeString(
       6,
@@ -2391,10 +2481,10 @@ proto.proto.CreateAlbumRequest.prototype.setName = function(value) {
 
 
 /**
- * optional int64 releaseDate = 2;
+ * optional int64 release_date = 2;
  * @return {number}
  */
-proto.proto.CreateAlbumRequest.prototype.getReleasedate = function() {
+proto.proto.CreateAlbumRequest.prototype.getReleaseDate = function() {
   return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 2, 0));
 };
 
@@ -2403,7 +2493,7 @@ proto.proto.CreateAlbumRequest.prototype.getReleasedate = function() {
  * @param {number} value
  * @return {!proto.proto.CreateAlbumRequest} returns this
  */
-proto.proto.CreateAlbumRequest.prototype.setReleasedate = function(value) {
+proto.proto.CreateAlbumRequest.prototype.setReleaseDate = function(value) {
   return jspb.Message.setProto3IntField(this, 2, value);
 };
 
@@ -2482,10 +2572,10 @@ proto.proto.CreateAlbumRequest.prototype.clearProducersList = function() {
 
 
 /**
- * optional string artistId = 6;
+ * optional string artist_id = 6;
  * @return {string}
  */
-proto.proto.CreateAlbumRequest.prototype.getArtistid = function() {
+proto.proto.CreateAlbumRequest.prototype.getArtistId = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 6, ""));
 };
 
@@ -2494,7 +2584,7 @@ proto.proto.CreateAlbumRequest.prototype.getArtistid = function() {
  * @param {string} value
  * @return {!proto.proto.CreateAlbumRequest} returns this
  */
-proto.proto.CreateAlbumRequest.prototype.setArtistid = function(value) {
+proto.proto.CreateAlbumRequest.prototype.setArtistId = function(value) {
   return jspb.Message.setProto3StringField(this, 6, value);
 };
 
@@ -2540,11 +2630,11 @@ proto.proto.UpdateAlbumRequest.toObject = function(includeInstance, msg) {
   var f, obj = {
     id: jspb.Message.getFieldWithDefault(msg, 1, ""),
     name: jspb.Message.getFieldWithDefault(msg, 2, ""),
-    releasedate: jspb.Message.getFieldWithDefault(msg, 3, 0),
+    releaseDate: jspb.Message.getFieldWithDefault(msg, 3, 0),
     cover: jspb.Message.getFieldWithDefault(msg, 4, ""),
     studio: jspb.Message.getFieldWithDefault(msg, 5, ""),
     producersList: (f = jspb.Message.getRepeatedField(msg, 6)) == null ? undefined : f,
-    artistid: jspb.Message.getFieldWithDefault(msg, 7, "")
+    artistId: jspb.Message.getFieldWithDefault(msg, 7, "")
   };
 
   if (includeInstance) {
@@ -2591,7 +2681,7 @@ proto.proto.UpdateAlbumRequest.deserializeBinaryFromReader = function(msg, reade
       break;
     case 3:
       var value = /** @type {number} */ (reader.readInt64());
-      msg.setReleasedate(value);
+      msg.setReleaseDate(value);
       break;
     case 4:
       var value = /** @type {string} */ (reader.readString());
@@ -2607,7 +2697,7 @@ proto.proto.UpdateAlbumRequest.deserializeBinaryFromReader = function(msg, reade
       break;
     case 7:
       var value = /** @type {string} */ (reader.readString());
-      msg.setArtistid(value);
+      msg.setArtistId(value);
       break;
     default:
       reader.skipField();
@@ -2652,7 +2742,7 @@ proto.proto.UpdateAlbumRequest.serializeBinaryToWriter = function(message, write
       f
     );
   }
-  f = message.getReleasedate();
+  f = message.getReleaseDate();
   if (f !== 0) {
     writer.writeInt64(
       3,
@@ -2680,7 +2770,7 @@ proto.proto.UpdateAlbumRequest.serializeBinaryToWriter = function(message, write
       f
     );
   }
-  f = message.getArtistid();
+  f = message.getArtistId();
   if (f.length > 0) {
     writer.writeString(
       7,
@@ -2727,10 +2817,10 @@ proto.proto.UpdateAlbumRequest.prototype.setName = function(value) {
 
 
 /**
- * optional int64 releaseDate = 3;
+ * optional int64 release_date = 3;
  * @return {number}
  */
-proto.proto.UpdateAlbumRequest.prototype.getReleasedate = function() {
+proto.proto.UpdateAlbumRequest.prototype.getReleaseDate = function() {
   return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 3, 0));
 };
 
@@ -2739,7 +2829,7 @@ proto.proto.UpdateAlbumRequest.prototype.getReleasedate = function() {
  * @param {number} value
  * @return {!proto.proto.UpdateAlbumRequest} returns this
  */
-proto.proto.UpdateAlbumRequest.prototype.setReleasedate = function(value) {
+proto.proto.UpdateAlbumRequest.prototype.setReleaseDate = function(value) {
   return jspb.Message.setProto3IntField(this, 3, value);
 };
 
@@ -2818,10 +2908,10 @@ proto.proto.UpdateAlbumRequest.prototype.clearProducersList = function() {
 
 
 /**
- * optional string artistId = 7;
+ * optional string artist_id = 7;
  * @return {string}
  */
-proto.proto.UpdateAlbumRequest.prototype.getArtistid = function() {
+proto.proto.UpdateAlbumRequest.prototype.getArtistId = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 7, ""));
 };
 
@@ -2830,7 +2920,7 @@ proto.proto.UpdateAlbumRequest.prototype.getArtistid = function() {
  * @param {string} value
  * @return {!proto.proto.UpdateAlbumRequest} returns this
  */
-proto.proto.UpdateAlbumRequest.prototype.setArtistid = function(value) {
+proto.proto.UpdateAlbumRequest.prototype.setArtistId = function(value) {
   return jspb.Message.setProto3StringField(this, 7, value);
 };
 
@@ -2841,7 +2931,7 @@ proto.proto.UpdateAlbumRequest.prototype.setArtistid = function(value) {
  * @private {!Array<number>}
  * @const
  */
-proto.proto.Artist.repeatedFields_ = [5,8,15,16];
+proto.proto.Artist.repeatedFields_ = [5,8,16,17];
 
 
 
@@ -2877,20 +2967,21 @@ proto.proto.Artist.toObject = function(includeInstance, msg) {
     id: jspb.Message.getFieldWithDefault(msg, 1, ""),
     name: jspb.Message.getFieldWithDefault(msg, 2, ""),
     country: jspb.Message.getFieldWithDefault(msg, 3, ""),
-    foundationdate: jspb.Message.getFieldWithDefault(msg, 4, 0),
+    foundationDate: jspb.Message.getFieldWithDefault(msg, 4, 0),
     membersList: (f = jspb.Message.getRepeatedField(msg, 5)) == null ? undefined : f,
     description: jspb.Message.getFieldWithDefault(msg, 6, ""),
     genre: jspb.Message.getFieldWithDefault(msg, 7, 0),
     photosList: (f = jspb.Message.getRepeatedField(msg, 8)) == null ? undefined : f,
-    facebookurl: jspb.Message.getFieldWithDefault(msg, 9, ""),
-    twitterurl: jspb.Message.getFieldWithDefault(msg, 10, ""),
-    instagramurl: jspb.Message.getFieldWithDefault(msg, 11, ""),
-    wikipediaurl: jspb.Message.getFieldWithDefault(msg, 12, ""),
-    favorites: jspb.Message.getFieldWithDefault(msg, 13, 0),
-    followers: jspb.Message.getFieldWithDefault(msg, 14, 0),
+    facebookUrl: jspb.Message.getFieldWithDefault(msg, 9, ""),
+    twitterUrl: jspb.Message.getFieldWithDefault(msg, 10, ""),
+    instagramUrl: jspb.Message.getFieldWithDefault(msg, 11, ""),
+    wikipediaUrl: jspb.Message.getFieldWithDefault(msg, 12, ""),
+    font: jspb.Message.getFieldWithDefault(msg, 13, ""),
+    favorites: jspb.Message.getFieldWithDefault(msg, 14, 0),
+    followers: jspb.Message.getFieldWithDefault(msg, 15, 0),
     albumsList: jspb.Message.toObjectList(msg.getAlbumsList(),
     proto.proto.Album.toObject, includeInstance),
-    populartracksList: jspb.Message.toObjectList(msg.getPopulartracksList(),
+    popularTracksList: jspb.Message.toObjectList(msg.getPopularTracksList(),
     proto.proto.Music.toObject, includeInstance)
   };
 
@@ -2942,7 +3033,7 @@ proto.proto.Artist.deserializeBinaryFromReader = function(msg, reader) {
       break;
     case 4:
       var value = /** @type {number} */ (reader.readInt64());
-      msg.setFoundationdate(value);
+      msg.setFoundationDate(value);
       break;
     case 5:
       var value = /** @type {string} */ (reader.readString());
@@ -2962,37 +3053,41 @@ proto.proto.Artist.deserializeBinaryFromReader = function(msg, reader) {
       break;
     case 9:
       var value = /** @type {string} */ (reader.readString());
-      msg.setFacebookurl(value);
+      msg.setFacebookUrl(value);
       break;
     case 10:
       var value = /** @type {string} */ (reader.readString());
-      msg.setTwitterurl(value);
+      msg.setTwitterUrl(value);
       break;
     case 11:
       var value = /** @type {string} */ (reader.readString());
-      msg.setInstagramurl(value);
+      msg.setInstagramUrl(value);
       break;
     case 12:
       var value = /** @type {string} */ (reader.readString());
-      msg.setWikipediaurl(value);
+      msg.setWikipediaUrl(value);
       break;
     case 13:
-      var value = /** @type {number} */ (reader.readInt32());
-      msg.setFavorites(value);
+      var value = /** @type {string} */ (reader.readString());
+      msg.setFont(value);
       break;
     case 14:
       var value = /** @type {number} */ (reader.readInt32());
-      msg.setFollowers(value);
+      msg.setFavorites(value);
       break;
     case 15:
+      var value = /** @type {number} */ (reader.readInt32());
+      msg.setFollowers(value);
+      break;
+    case 16:
       var value = new proto.proto.Album;
       reader.readMessage(value,proto.proto.Album.deserializeBinaryFromReader);
       msg.addAlbums(value);
       break;
-    case 16:
+    case 17:
       var value = new proto.proto.Music;
       reader.readMessage(value,proto.proto.Music.deserializeBinaryFromReader);
-      msg.addPopulartracks(value);
+      msg.addPopularTracks(value);
       break;
     default:
       reader.skipField();
@@ -3044,7 +3139,7 @@ proto.proto.Artist.serializeBinaryToWriter = function(message, writer) {
       f
     );
   }
-  f = message.getFoundationdate();
+  f = message.getFoundationDate();
   if (f !== 0) {
     writer.writeInt64(
       4,
@@ -3079,60 +3174,67 @@ proto.proto.Artist.serializeBinaryToWriter = function(message, writer) {
       f
     );
   }
-  f = message.getFacebookurl();
+  f = message.getFacebookUrl();
   if (f.length > 0) {
     writer.writeString(
       9,
       f
     );
   }
-  f = message.getTwitterurl();
+  f = message.getTwitterUrl();
   if (f.length > 0) {
     writer.writeString(
       10,
       f
     );
   }
-  f = message.getInstagramurl();
+  f = message.getInstagramUrl();
   if (f.length > 0) {
     writer.writeString(
       11,
       f
     );
   }
-  f = message.getWikipediaurl();
+  f = message.getWikipediaUrl();
   if (f.length > 0) {
     writer.writeString(
       12,
       f
     );
   }
-  f = message.getFavorites();
-  if (f !== 0) {
-    writer.writeInt32(
+  f = message.getFont();
+  if (f.length > 0) {
+    writer.writeString(
       13,
       f
     );
   }
-  f = message.getFollowers();
+  f = message.getFavorites();
   if (f !== 0) {
     writer.writeInt32(
       14,
       f
     );
   }
+  f = message.getFollowers();
+  if (f !== 0) {
+    writer.writeInt32(
+      15,
+      f
+    );
+  }
   f = message.getAlbumsList();
   if (f.length > 0) {
     writer.writeRepeatedMessage(
-      15,
+      16,
       f,
       proto.proto.Album.serializeBinaryToWriter
     );
   }
-  f = message.getPopulartracksList();
+  f = message.getPopularTracksList();
   if (f.length > 0) {
     writer.writeRepeatedMessage(
-      16,
+      17,
       f,
       proto.proto.Music.serializeBinaryToWriter
     );
@@ -3195,10 +3297,10 @@ proto.proto.Artist.prototype.setCountry = function(value) {
 
 
 /**
- * optional int64 foundationDate = 4;
+ * optional int64 foundation_date = 4;
  * @return {number}
  */
-proto.proto.Artist.prototype.getFoundationdate = function() {
+proto.proto.Artist.prototype.getFoundationDate = function() {
   return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 4, 0));
 };
 
@@ -3207,7 +3309,7 @@ proto.proto.Artist.prototype.getFoundationdate = function() {
  * @param {number} value
  * @return {!proto.proto.Artist} returns this
  */
-proto.proto.Artist.prototype.setFoundationdate = function(value) {
+proto.proto.Artist.prototype.setFoundationDate = function(value) {
   return jspb.Message.setProto3IntField(this, 4, value);
 };
 
@@ -3323,10 +3425,10 @@ proto.proto.Artist.prototype.clearPhotosList = function() {
 
 
 /**
- * optional string facebookUrl = 9;
+ * optional string facebook_url = 9;
  * @return {string}
  */
-proto.proto.Artist.prototype.getFacebookurl = function() {
+proto.proto.Artist.prototype.getFacebookUrl = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 9, ""));
 };
 
@@ -3335,16 +3437,16 @@ proto.proto.Artist.prototype.getFacebookurl = function() {
  * @param {string} value
  * @return {!proto.proto.Artist} returns this
  */
-proto.proto.Artist.prototype.setFacebookurl = function(value) {
+proto.proto.Artist.prototype.setFacebookUrl = function(value) {
   return jspb.Message.setProto3StringField(this, 9, value);
 };
 
 
 /**
- * optional string twitterUrl = 10;
+ * optional string twitter_url = 10;
  * @return {string}
  */
-proto.proto.Artist.prototype.getTwitterurl = function() {
+proto.proto.Artist.prototype.getTwitterUrl = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 10, ""));
 };
 
@@ -3353,16 +3455,16 @@ proto.proto.Artist.prototype.getTwitterurl = function() {
  * @param {string} value
  * @return {!proto.proto.Artist} returns this
  */
-proto.proto.Artist.prototype.setTwitterurl = function(value) {
+proto.proto.Artist.prototype.setTwitterUrl = function(value) {
   return jspb.Message.setProto3StringField(this, 10, value);
 };
 
 
 /**
- * optional string instagramUrl = 11;
+ * optional string instagram_url = 11;
  * @return {string}
  */
-proto.proto.Artist.prototype.getInstagramurl = function() {
+proto.proto.Artist.prototype.getInstagramUrl = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 11, ""));
 };
 
@@ -3371,16 +3473,16 @@ proto.proto.Artist.prototype.getInstagramurl = function() {
  * @param {string} value
  * @return {!proto.proto.Artist} returns this
  */
-proto.proto.Artist.prototype.setInstagramurl = function(value) {
+proto.proto.Artist.prototype.setInstagramUrl = function(value) {
   return jspb.Message.setProto3StringField(this, 11, value);
 };
 
 
 /**
- * optional string wikipediaUrl = 12;
+ * optional string wikipedia_url = 12;
  * @return {string}
  */
-proto.proto.Artist.prototype.getWikipediaurl = function() {
+proto.proto.Artist.prototype.getWikipediaUrl = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 12, ""));
 };
 
@@ -3389,34 +3491,34 @@ proto.proto.Artist.prototype.getWikipediaurl = function() {
  * @param {string} value
  * @return {!proto.proto.Artist} returns this
  */
-proto.proto.Artist.prototype.setWikipediaurl = function(value) {
+proto.proto.Artist.prototype.setWikipediaUrl = function(value) {
   return jspb.Message.setProto3StringField(this, 12, value);
 };
 
 
 /**
- * optional int32 favorites = 13;
+ * optional string font = 13;
+ * @return {string}
+ */
+proto.proto.Artist.prototype.getFont = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 13, ""));
+};
+
+
+/**
+ * @param {string} value
+ * @return {!proto.proto.Artist} returns this
+ */
+proto.proto.Artist.prototype.setFont = function(value) {
+  return jspb.Message.setProto3StringField(this, 13, value);
+};
+
+
+/**
+ * optional int32 favorites = 14;
  * @return {number}
  */
 proto.proto.Artist.prototype.getFavorites = function() {
-  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 13, 0));
-};
-
-
-/**
- * @param {number} value
- * @return {!proto.proto.Artist} returns this
- */
-proto.proto.Artist.prototype.setFavorites = function(value) {
-  return jspb.Message.setProto3IntField(this, 13, value);
-};
-
-
-/**
- * optional int32 followers = 14;
- * @return {number}
- */
-proto.proto.Artist.prototype.getFollowers = function() {
   return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 14, 0));
 };
 
@@ -3425,18 +3527,36 @@ proto.proto.Artist.prototype.getFollowers = function() {
  * @param {number} value
  * @return {!proto.proto.Artist} returns this
  */
-proto.proto.Artist.prototype.setFollowers = function(value) {
+proto.proto.Artist.prototype.setFavorites = function(value) {
   return jspb.Message.setProto3IntField(this, 14, value);
 };
 
 
 /**
- * repeated Album albums = 15;
+ * optional int32 followers = 15;
+ * @return {number}
+ */
+proto.proto.Artist.prototype.getFollowers = function() {
+  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 15, 0));
+};
+
+
+/**
+ * @param {number} value
+ * @return {!proto.proto.Artist} returns this
+ */
+proto.proto.Artist.prototype.setFollowers = function(value) {
+  return jspb.Message.setProto3IntField(this, 15, value);
+};
+
+
+/**
+ * repeated Album albums = 16;
  * @return {!Array<!proto.proto.Album>}
  */
 proto.proto.Artist.prototype.getAlbumsList = function() {
   return /** @type{!Array<!proto.proto.Album>} */ (
-    jspb.Message.getRepeatedWrapperField(this, proto.proto.Album, 15));
+    jspb.Message.getRepeatedWrapperField(this, proto.proto.Album, 16));
 };
 
 
@@ -3445,7 +3565,7 @@ proto.proto.Artist.prototype.getAlbumsList = function() {
  * @return {!proto.proto.Artist} returns this
 */
 proto.proto.Artist.prototype.setAlbumsList = function(value) {
-  return jspb.Message.setRepeatedWrapperField(this, 15, value);
+  return jspb.Message.setRepeatedWrapperField(this, 16, value);
 };
 
 
@@ -3455,7 +3575,7 @@ proto.proto.Artist.prototype.setAlbumsList = function(value) {
  * @return {!proto.proto.Album}
  */
 proto.proto.Artist.prototype.addAlbums = function(opt_value, opt_index) {
-  return jspb.Message.addToRepeatedWrapperField(this, 15, opt_value, proto.proto.Album, opt_index);
+  return jspb.Message.addToRepeatedWrapperField(this, 16, opt_value, proto.proto.Album, opt_index);
 };
 
 
@@ -3469,12 +3589,12 @@ proto.proto.Artist.prototype.clearAlbumsList = function() {
 
 
 /**
- * repeated Music popularTracks = 16;
+ * repeated Music popular_tracks = 17;
  * @return {!Array<!proto.proto.Music>}
  */
-proto.proto.Artist.prototype.getPopulartracksList = function() {
+proto.proto.Artist.prototype.getPopularTracksList = function() {
   return /** @type{!Array<!proto.proto.Music>} */ (
-    jspb.Message.getRepeatedWrapperField(this, proto.proto.Music, 16));
+    jspb.Message.getRepeatedWrapperField(this, proto.proto.Music, 17));
 };
 
 
@@ -3482,8 +3602,8 @@ proto.proto.Artist.prototype.getPopulartracksList = function() {
  * @param {!Array<!proto.proto.Music>} value
  * @return {!proto.proto.Artist} returns this
 */
-proto.proto.Artist.prototype.setPopulartracksList = function(value) {
-  return jspb.Message.setRepeatedWrapperField(this, 16, value);
+proto.proto.Artist.prototype.setPopularTracksList = function(value) {
+  return jspb.Message.setRepeatedWrapperField(this, 17, value);
 };
 
 
@@ -3492,8 +3612,8 @@ proto.proto.Artist.prototype.setPopulartracksList = function(value) {
  * @param {number=} opt_index
  * @return {!proto.proto.Music}
  */
-proto.proto.Artist.prototype.addPopulartracks = function(opt_value, opt_index) {
-  return jspb.Message.addToRepeatedWrapperField(this, 16, opt_value, proto.proto.Music, opt_index);
+proto.proto.Artist.prototype.addPopularTracks = function(opt_value, opt_index) {
+  return jspb.Message.addToRepeatedWrapperField(this, 17, opt_value, proto.proto.Music, opt_index);
 };
 
 
@@ -3501,8 +3621,8 @@ proto.proto.Artist.prototype.addPopulartracks = function(opt_value, opt_index) {
  * Clears the list making it empty but non-null.
  * @return {!proto.proto.Artist} returns this
  */
-proto.proto.Artist.prototype.clearPopulartracksList = function() {
-  return this.setPopulartracksList([]);
+proto.proto.Artist.prototype.clearPopularTracksList = function() {
+  return this.setPopularTracksList([]);
 };
 
 
@@ -3837,15 +3957,16 @@ proto.proto.CreateArtistRequest.toObject = function(includeInstance, msg) {
   var f, obj = {
     name: jspb.Message.getFieldWithDefault(msg, 1, ""),
     country: jspb.Message.getFieldWithDefault(msg, 2, ""),
-    foundationdate: jspb.Message.getFieldWithDefault(msg, 3, 0),
+    foundationDate: jspb.Message.getFieldWithDefault(msg, 3, 0),
     membersList: (f = jspb.Message.getRepeatedField(msg, 4)) == null ? undefined : f,
     description: jspb.Message.getFieldWithDefault(msg, 5, ""),
     genre: jspb.Message.getFieldWithDefault(msg, 6, 0),
     photosList: (f = jspb.Message.getRepeatedField(msg, 7)) == null ? undefined : f,
-    facebookurl: jspb.Message.getFieldWithDefault(msg, 8, ""),
-    twitterurl: jspb.Message.getFieldWithDefault(msg, 9, ""),
-    instagramurl: jspb.Message.getFieldWithDefault(msg, 10, ""),
-    wikipediaurl: jspb.Message.getFieldWithDefault(msg, 11, "")
+    facebookUrl: jspb.Message.getFieldWithDefault(msg, 8, ""),
+    twitterUrl: jspb.Message.getFieldWithDefault(msg, 9, ""),
+    instagramUrl: jspb.Message.getFieldWithDefault(msg, 10, ""),
+    wikipediaUrl: jspb.Message.getFieldWithDefault(msg, 11, ""),
+    font: jspb.Message.getFieldWithDefault(msg, 12, "")
   };
 
   if (includeInstance) {
@@ -3892,7 +4013,7 @@ proto.proto.CreateArtistRequest.deserializeBinaryFromReader = function(msg, read
       break;
     case 3:
       var value = /** @type {number} */ (reader.readInt64());
-      msg.setFoundationdate(value);
+      msg.setFoundationDate(value);
       break;
     case 4:
       var value = /** @type {string} */ (reader.readString());
@@ -3912,19 +4033,23 @@ proto.proto.CreateArtistRequest.deserializeBinaryFromReader = function(msg, read
       break;
     case 8:
       var value = /** @type {string} */ (reader.readString());
-      msg.setFacebookurl(value);
+      msg.setFacebookUrl(value);
       break;
     case 9:
       var value = /** @type {string} */ (reader.readString());
-      msg.setTwitterurl(value);
+      msg.setTwitterUrl(value);
       break;
     case 10:
       var value = /** @type {string} */ (reader.readString());
-      msg.setInstagramurl(value);
+      msg.setInstagramUrl(value);
       break;
     case 11:
       var value = /** @type {string} */ (reader.readString());
-      msg.setWikipediaurl(value);
+      msg.setWikipediaUrl(value);
+      break;
+    case 12:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setFont(value);
       break;
     default:
       reader.skipField();
@@ -3969,7 +4094,7 @@ proto.proto.CreateArtistRequest.serializeBinaryToWriter = function(message, writ
       f
     );
   }
-  f = message.getFoundationdate();
+  f = message.getFoundationDate();
   if (f !== 0) {
     writer.writeInt64(
       3,
@@ -4004,31 +4129,38 @@ proto.proto.CreateArtistRequest.serializeBinaryToWriter = function(message, writ
       f
     );
   }
-  f = message.getFacebookurl();
+  f = message.getFacebookUrl();
   if (f.length > 0) {
     writer.writeString(
       8,
       f
     );
   }
-  f = message.getTwitterurl();
+  f = message.getTwitterUrl();
   if (f.length > 0) {
     writer.writeString(
       9,
       f
     );
   }
-  f = message.getInstagramurl();
+  f = message.getInstagramUrl();
   if (f.length > 0) {
     writer.writeString(
       10,
       f
     );
   }
-  f = message.getWikipediaurl();
+  f = message.getWikipediaUrl();
   if (f.length > 0) {
     writer.writeString(
       11,
+      f
+    );
+  }
+  f = message.getFont();
+  if (f.length > 0) {
+    writer.writeString(
+      12,
       f
     );
   }
@@ -4072,10 +4204,10 @@ proto.proto.CreateArtistRequest.prototype.setCountry = function(value) {
 
 
 /**
- * optional int64 foundationDate = 3;
+ * optional int64 foundation_date = 3;
  * @return {number}
  */
-proto.proto.CreateArtistRequest.prototype.getFoundationdate = function() {
+proto.proto.CreateArtistRequest.prototype.getFoundationDate = function() {
   return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 3, 0));
 };
 
@@ -4084,7 +4216,7 @@ proto.proto.CreateArtistRequest.prototype.getFoundationdate = function() {
  * @param {number} value
  * @return {!proto.proto.CreateArtistRequest} returns this
  */
-proto.proto.CreateArtistRequest.prototype.setFoundationdate = function(value) {
+proto.proto.CreateArtistRequest.prototype.setFoundationDate = function(value) {
   return jspb.Message.setProto3IntField(this, 3, value);
 };
 
@@ -4200,10 +4332,10 @@ proto.proto.CreateArtistRequest.prototype.clearPhotosList = function() {
 
 
 /**
- * optional string facebookUrl = 8;
+ * optional string facebook_url = 8;
  * @return {string}
  */
-proto.proto.CreateArtistRequest.prototype.getFacebookurl = function() {
+proto.proto.CreateArtistRequest.prototype.getFacebookUrl = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 8, ""));
 };
 
@@ -4212,16 +4344,16 @@ proto.proto.CreateArtistRequest.prototype.getFacebookurl = function() {
  * @param {string} value
  * @return {!proto.proto.CreateArtistRequest} returns this
  */
-proto.proto.CreateArtistRequest.prototype.setFacebookurl = function(value) {
+proto.proto.CreateArtistRequest.prototype.setFacebookUrl = function(value) {
   return jspb.Message.setProto3StringField(this, 8, value);
 };
 
 
 /**
- * optional string twitterUrl = 9;
+ * optional string twitter_url = 9;
  * @return {string}
  */
-proto.proto.CreateArtistRequest.prototype.getTwitterurl = function() {
+proto.proto.CreateArtistRequest.prototype.getTwitterUrl = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 9, ""));
 };
 
@@ -4230,16 +4362,16 @@ proto.proto.CreateArtistRequest.prototype.getTwitterurl = function() {
  * @param {string} value
  * @return {!proto.proto.CreateArtistRequest} returns this
  */
-proto.proto.CreateArtistRequest.prototype.setTwitterurl = function(value) {
+proto.proto.CreateArtistRequest.prototype.setTwitterUrl = function(value) {
   return jspb.Message.setProto3StringField(this, 9, value);
 };
 
 
 /**
- * optional string instagramUrl = 10;
+ * optional string instagram_url = 10;
  * @return {string}
  */
-proto.proto.CreateArtistRequest.prototype.getInstagramurl = function() {
+proto.proto.CreateArtistRequest.prototype.getInstagramUrl = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 10, ""));
 };
 
@@ -4248,16 +4380,16 @@ proto.proto.CreateArtistRequest.prototype.getInstagramurl = function() {
  * @param {string} value
  * @return {!proto.proto.CreateArtistRequest} returns this
  */
-proto.proto.CreateArtistRequest.prototype.setInstagramurl = function(value) {
+proto.proto.CreateArtistRequest.prototype.setInstagramUrl = function(value) {
   return jspb.Message.setProto3StringField(this, 10, value);
 };
 
 
 /**
- * optional string wikipediaUrl = 11;
+ * optional string wikipedia_url = 11;
  * @return {string}
  */
-proto.proto.CreateArtistRequest.prototype.getWikipediaurl = function() {
+proto.proto.CreateArtistRequest.prototype.getWikipediaUrl = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 11, ""));
 };
 
@@ -4266,8 +4398,26 @@ proto.proto.CreateArtistRequest.prototype.getWikipediaurl = function() {
  * @param {string} value
  * @return {!proto.proto.CreateArtistRequest} returns this
  */
-proto.proto.CreateArtistRequest.prototype.setWikipediaurl = function(value) {
+proto.proto.CreateArtistRequest.prototype.setWikipediaUrl = function(value) {
   return jspb.Message.setProto3StringField(this, 11, value);
+};
+
+
+/**
+ * optional string font = 12;
+ * @return {string}
+ */
+proto.proto.CreateArtistRequest.prototype.getFont = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 12, ""));
+};
+
+
+/**
+ * @param {string} value
+ * @return {!proto.proto.CreateArtistRequest} returns this
+ */
+proto.proto.CreateArtistRequest.prototype.setFont = function(value) {
+  return jspb.Message.setProto3StringField(this, 12, value);
 };
 
 
@@ -4313,15 +4463,16 @@ proto.proto.UpdateArtistRequest.toObject = function(includeInstance, msg) {
     id: jspb.Message.getFieldWithDefault(msg, 1, ""),
     name: jspb.Message.getFieldWithDefault(msg, 2, ""),
     country: jspb.Message.getFieldWithDefault(msg, 3, ""),
-    foundationdate: jspb.Message.getFieldWithDefault(msg, 4, 0),
+    foundationDate: jspb.Message.getFieldWithDefault(msg, 4, 0),
     membersList: (f = jspb.Message.getRepeatedField(msg, 5)) == null ? undefined : f,
     description: jspb.Message.getFieldWithDefault(msg, 6, ""),
     genre: jspb.Message.getFieldWithDefault(msg, 7, 0),
     photosList: (f = jspb.Message.getRepeatedField(msg, 8)) == null ? undefined : f,
-    facebookurl: jspb.Message.getFieldWithDefault(msg, 9, ""),
-    twitterurl: jspb.Message.getFieldWithDefault(msg, 10, ""),
-    instagramurl: jspb.Message.getFieldWithDefault(msg, 11, ""),
-    wikipediaurl: jspb.Message.getFieldWithDefault(msg, 12, "")
+    facebookUrl: jspb.Message.getFieldWithDefault(msg, 9, ""),
+    twitterUrl: jspb.Message.getFieldWithDefault(msg, 10, ""),
+    instagramUrl: jspb.Message.getFieldWithDefault(msg, 11, ""),
+    wikipediaUrl: jspb.Message.getFieldWithDefault(msg, 12, ""),
+    font: jspb.Message.getFieldWithDefault(msg, 13, "")
   };
 
   if (includeInstance) {
@@ -4372,7 +4523,7 @@ proto.proto.UpdateArtistRequest.deserializeBinaryFromReader = function(msg, read
       break;
     case 4:
       var value = /** @type {number} */ (reader.readInt64());
-      msg.setFoundationdate(value);
+      msg.setFoundationDate(value);
       break;
     case 5:
       var value = /** @type {string} */ (reader.readString());
@@ -4392,19 +4543,23 @@ proto.proto.UpdateArtistRequest.deserializeBinaryFromReader = function(msg, read
       break;
     case 9:
       var value = /** @type {string} */ (reader.readString());
-      msg.setFacebookurl(value);
+      msg.setFacebookUrl(value);
       break;
     case 10:
       var value = /** @type {string} */ (reader.readString());
-      msg.setTwitterurl(value);
+      msg.setTwitterUrl(value);
       break;
     case 11:
       var value = /** @type {string} */ (reader.readString());
-      msg.setInstagramurl(value);
+      msg.setInstagramUrl(value);
       break;
     case 12:
       var value = /** @type {string} */ (reader.readString());
-      msg.setWikipediaurl(value);
+      msg.setWikipediaUrl(value);
+      break;
+    case 13:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setFont(value);
       break;
     default:
       reader.skipField();
@@ -4456,7 +4611,7 @@ proto.proto.UpdateArtistRequest.serializeBinaryToWriter = function(message, writ
       f
     );
   }
-  f = message.getFoundationdate();
+  f = message.getFoundationDate();
   if (f !== 0) {
     writer.writeInt64(
       4,
@@ -4491,31 +4646,38 @@ proto.proto.UpdateArtistRequest.serializeBinaryToWriter = function(message, writ
       f
     );
   }
-  f = message.getFacebookurl();
+  f = message.getFacebookUrl();
   if (f.length > 0) {
     writer.writeString(
       9,
       f
     );
   }
-  f = message.getTwitterurl();
+  f = message.getTwitterUrl();
   if (f.length > 0) {
     writer.writeString(
       10,
       f
     );
   }
-  f = message.getInstagramurl();
+  f = message.getInstagramUrl();
   if (f.length > 0) {
     writer.writeString(
       11,
       f
     );
   }
-  f = message.getWikipediaurl();
+  f = message.getWikipediaUrl();
   if (f.length > 0) {
     writer.writeString(
       12,
+      f
+    );
+  }
+  f = message.getFont();
+  if (f.length > 0) {
+    writer.writeString(
+      13,
       f
     );
   }
@@ -4577,10 +4739,10 @@ proto.proto.UpdateArtistRequest.prototype.setCountry = function(value) {
 
 
 /**
- * optional int64 foundationDate = 4;
+ * optional int64 foundation_date = 4;
  * @return {number}
  */
-proto.proto.UpdateArtistRequest.prototype.getFoundationdate = function() {
+proto.proto.UpdateArtistRequest.prototype.getFoundationDate = function() {
   return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 4, 0));
 };
 
@@ -4589,7 +4751,7 @@ proto.proto.UpdateArtistRequest.prototype.getFoundationdate = function() {
  * @param {number} value
  * @return {!proto.proto.UpdateArtistRequest} returns this
  */
-proto.proto.UpdateArtistRequest.prototype.setFoundationdate = function(value) {
+proto.proto.UpdateArtistRequest.prototype.setFoundationDate = function(value) {
   return jspb.Message.setProto3IntField(this, 4, value);
 };
 
@@ -4705,10 +4867,10 @@ proto.proto.UpdateArtistRequest.prototype.clearPhotosList = function() {
 
 
 /**
- * optional string facebookUrl = 9;
+ * optional string facebook_url = 9;
  * @return {string}
  */
-proto.proto.UpdateArtistRequest.prototype.getFacebookurl = function() {
+proto.proto.UpdateArtistRequest.prototype.getFacebookUrl = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 9, ""));
 };
 
@@ -4717,16 +4879,16 @@ proto.proto.UpdateArtistRequest.prototype.getFacebookurl = function() {
  * @param {string} value
  * @return {!proto.proto.UpdateArtistRequest} returns this
  */
-proto.proto.UpdateArtistRequest.prototype.setFacebookurl = function(value) {
+proto.proto.UpdateArtistRequest.prototype.setFacebookUrl = function(value) {
   return jspb.Message.setProto3StringField(this, 9, value);
 };
 
 
 /**
- * optional string twitterUrl = 10;
+ * optional string twitter_url = 10;
  * @return {string}
  */
-proto.proto.UpdateArtistRequest.prototype.getTwitterurl = function() {
+proto.proto.UpdateArtistRequest.prototype.getTwitterUrl = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 10, ""));
 };
 
@@ -4735,16 +4897,16 @@ proto.proto.UpdateArtistRequest.prototype.getTwitterurl = function() {
  * @param {string} value
  * @return {!proto.proto.UpdateArtistRequest} returns this
  */
-proto.proto.UpdateArtistRequest.prototype.setTwitterurl = function(value) {
+proto.proto.UpdateArtistRequest.prototype.setTwitterUrl = function(value) {
   return jspb.Message.setProto3StringField(this, 10, value);
 };
 
 
 /**
- * optional string instagramUrl = 11;
+ * optional string instagram_url = 11;
  * @return {string}
  */
-proto.proto.UpdateArtistRequest.prototype.getInstagramurl = function() {
+proto.proto.UpdateArtistRequest.prototype.getInstagramUrl = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 11, ""));
 };
 
@@ -4753,16 +4915,16 @@ proto.proto.UpdateArtistRequest.prototype.getInstagramurl = function() {
  * @param {string} value
  * @return {!proto.proto.UpdateArtistRequest} returns this
  */
-proto.proto.UpdateArtistRequest.prototype.setInstagramurl = function(value) {
+proto.proto.UpdateArtistRequest.prototype.setInstagramUrl = function(value) {
   return jspb.Message.setProto3StringField(this, 11, value);
 };
 
 
 /**
- * optional string wikipediaUrl = 12;
+ * optional string wikipedia_url = 12;
  * @return {string}
  */
-proto.proto.UpdateArtistRequest.prototype.getWikipediaurl = function() {
+proto.proto.UpdateArtistRequest.prototype.getWikipediaUrl = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 12, ""));
 };
 
@@ -4771,8 +4933,26 @@ proto.proto.UpdateArtistRequest.prototype.getWikipediaurl = function() {
  * @param {string} value
  * @return {!proto.proto.UpdateArtistRequest} returns this
  */
-proto.proto.UpdateArtistRequest.prototype.setWikipediaurl = function(value) {
+proto.proto.UpdateArtistRequest.prototype.setWikipediaUrl = function(value) {
   return jspb.Message.setProto3StringField(this, 12, value);
+};
+
+
+/**
+ * optional string font = 13;
+ * @return {string}
+ */
+proto.proto.UpdateArtistRequest.prototype.getFont = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 13, ""));
+};
+
+
+/**
+ * @param {string} value
+ * @return {!proto.proto.UpdateArtistRequest} returns this
+ */
+proto.proto.UpdateArtistRequest.prototype.setFont = function(value) {
+  return jspb.Message.setProto3StringField(this, 13, value);
 };
 
 

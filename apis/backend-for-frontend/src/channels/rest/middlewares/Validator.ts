@@ -26,6 +26,7 @@ export default class Validator {
     { field: 'description' },
     { field: 'members' },
     { field: 'photos' },
+    { field: 'font' },
     { field: 'foundation_date', validator: this.validateDate, dataType: 'date' },
     { field: 'genre', validator: this.validateGenre, dataType: 'genre' },
     { field: 'facebook_url', validator: this.validateURL, dataType: 'url' },
@@ -51,6 +52,7 @@ export default class Validator {
     { field: 'composers' },
     { field: 'lyrics' },
     { field: 'album_id' },
+    { field: 'artist_id' },
   ];
 
   // prettier-ignore

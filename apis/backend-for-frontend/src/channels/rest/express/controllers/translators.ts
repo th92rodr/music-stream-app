@@ -24,6 +24,7 @@ export function translateArtist(artist: Artist): any {
     twitter_url: artist.twitterUrl,
     instagram_url: artist.instagramUrl,
     wikipedia_url: artist.wikipediaUrl,
+    font: artist.font,
     favorites: artist.favorites,
     followers: artist.followers,
     albums: artist.albums.map(album => translateAlbum(album)),
@@ -63,6 +64,7 @@ export function translateMusic(music: Music): any {
     composers_str: music.composers.join(', '),
     lyrics: music.lyrics,
     album_id: music.albumId,
+    artist_id: music.artistId,
     views: music.views,
   };
 }

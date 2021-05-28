@@ -11,6 +11,7 @@ export interface CreateMusic {
   composers: Array<string>;
   lyrics: string;
   albumId: string;
+  artistId: string;
 }
 
 export interface UpdateMusic {
@@ -21,6 +22,7 @@ export interface UpdateMusic {
   composers?: Array<string>;
   lyrics?: string;
   albumId?: string;
+  artistId?: string;
 }
 
 export interface DeleteMusic {
@@ -78,6 +80,7 @@ export interface CreateArtist {
   twitterUrl: string;
   instagramUrl: string;
   wikipediaUrl: string;
+  font: string;
 }
 
 export interface UpdateArtist {
@@ -93,6 +96,7 @@ export interface UpdateArtist {
   twitterUrl?: string;
   instagramUrl?: string;
   wikipediaUrl?: string;
+  font?: string;
 }
 
 export interface DeleteArtist {

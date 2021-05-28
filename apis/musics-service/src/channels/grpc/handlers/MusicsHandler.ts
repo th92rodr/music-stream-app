@@ -110,12 +110,12 @@ export class MusicsHandler implements IMusicsServer {
     try {
       const music = await this.musicsService.create({
         title: call.request.getTitle(),
-        durationInSeconds: call.request.getDurationinseconds(),
+        durationInSeconds: call.request.getDuration(),
         file: call.request.getFile(),
         composers: call.request.getComposersList(),
         lyrics: call.request.getLyrics(),
-        albumId: call.request.getAlbumid(),
-        artistId: call.request.getArtistid(),
+        albumId: call.request.getAlbumId(),
+        artistId: call.request.getArtistId(),
       });
 
       this.loggerProvider.info('[CREATE MUSIC]');
@@ -131,12 +131,12 @@ export class MusicsHandler implements IMusicsServer {
       const music = await this.musicsService.update({
         id: call.request.getId(),
         title: call.request.getTitle() != '' ? call.request.getTitle() : undefined,
-        durationInSeconds: call.request.getDurationinseconds() > 0 ? call.request.getDurationinseconds() : undefined,
+        durationInSeconds: call.request.getDuration() > 0 ? call.request.getDuration() : undefined,
         file: call.request.getFile() != '' ? call.request.getFile() : undefined,
         composers: call.request.getComposersList(),
         lyrics: call.request.getLyrics() != '' ? call.request.getLyrics() : undefined,
-        albumId: call.request.getAlbumid() != '' ? call.request.getAlbumid() : undefined,
-        artistId: call.request.getArtistid() != '' ? call.request.getArtistid() : undefined,
+        albumId: call.request.getAlbumId() != '' ? call.request.getAlbumId() : undefined,
+        artistId: call.request.getArtistId() != '' ? call.request.getArtistId() : undefined,
       });
 
       this.loggerProvider.info('[UPDATE MUSIC]', { id: music.id });
@@ -199,11 +199,11 @@ export class MusicsHandler implements IMusicsServer {
     try {
       const album = await this.albumsService.create({
         name: call.request.getName(),
-        releaseDate: timestampToDate(call.request.getReleasedate()),
+        releaseDate: timestampToDate(call.request.getReleaseDate()),
         cover: call.request.getCover(),
         studio: call.request.getStudio(),
         producers: call.request.getProducersList(),
-        artistId: call.request.getArtistid(),
+        artistId: call.request.getArtistId(),
       });
 
       this.loggerProvider.info('[CREATE ALBUM]');
@@ -219,11 +219,11 @@ export class MusicsHandler implements IMusicsServer {
       const album = await this.albumsService.update({
         id: call.request.getId(),
         name: call.request.getName() != '' ? call.request.getName() : undefined,
-        releaseDate: call.request.getReleasedate() > 0 ? timestampToDate(call.request.getReleasedate()) : undefined,
+        releaseDate: call.request.getReleaseDate() > 0 ? timestampToDate(call.request.getReleaseDate()) : undefined,
         cover: call.request.getCover() != '' ? call.request.getCover() : undefined,
         studio: call.request.getStudio() != '' ? call.request.getStudio() : undefined,
         producers: call.request.getProducersList(),
-        artistId: call.request.getArtistid() != '' ? call.request.getArtistid() : undefined,
+        artistId: call.request.getArtistId() != '' ? call.request.getArtistId() : undefined,
       });
 
       this.loggerProvider.info('[UPDATE ALBUM]', { id: album.id });
@@ -285,15 +285,15 @@ export class MusicsHandler implements IMusicsServer {
       const artist = await this.artistsService.create({
         name: call.request.getName(),
         country: call.request.getCountry(),
-        foundationDate: timestampToDate(call.request.getFoundationdate()),
+        foundationDate: timestampToDate(call.request.getFoundationDate()),
         members: call.request.getMembersList(),
         description: call.request.getDescription(),
         genre: translateGenreEnum(call.request.getGenre()),
         photos: call.request.getPhotosList(),
-        facebookUrl: call.request.getFacebookurl(),
-        twitterUrl: call.request.getTwitterurl(),
-        instagramUrl: call.request.getInstagramurl(),
-        wikipediaUrl: call.request.getWikipediaurl(),
+        facebookUrl: call.request.getFacebookUrl(),
+        twitterUrl: call.request.getTwitterUrl(),
+        instagramUrl: call.request.getInstagramUrl(),
+        wikipediaUrl: call.request.getWikipediaUrl(),
         font: call.request.getFont(),
       });
 
@@ -311,15 +311,15 @@ export class MusicsHandler implements IMusicsServer {
         id: call.request.getId(),
         name: call.request.getName() != '' ? call.request.getName() : undefined,
         country: call.request.getCountry() != '' ? call.request.getCountry() : undefined,
-        foundationDate: call.request.getFoundationdate() > 0 ? timestampToDate(call.request.getFoundationdate()) : undefined,
+        foundationDate: call.request.getFoundationDate() > 0 ? timestampToDate(call.request.getFoundationDate()) : undefined,
         members: call.request.getMembersList(),
         description: call.request.getDescription() != '' ? call.request.getDescription() : undefined,
         genre: translateGenreEnum(call.request.getGenre()) > 0 ? translateGenreEnum(call.request.getGenre()) : undefined,
         photos: call.request.getPhotosList(),
-        facebookUrl: call.request.getFacebookurl() != '' ? call.request.getFacebookurl() : undefined,
-        twitterUrl: call.request.getTwitterurl() != '' ? call.request.getTwitterurl() : undefined,
-        instagramUrl: call.request.getInstagramurl() != '' ? call.request.getInstagramurl() : undefined,
-        wikipediaUrl: call.request.getWikipediaurl() != '' ? call.request.getWikipediaurl() : undefined,
+        facebookUrl: call.request.getFacebookUrl() != '' ? call.request.getFacebookUrl() : undefined,
+        twitterUrl: call.request.getTwitterUrl() != '' ? call.request.getTwitterUrl() : undefined,
+        instagramUrl: call.request.getInstagramUrl() != '' ? call.request.getInstagramUrl() : undefined,
+        wikipediaUrl: call.request.getWikipediaUrl() != '' ? call.request.getWikipediaUrl() : undefined,
         font: call.request.getFont() != '' ? call.request.getFont() : undefined,
       });
 
