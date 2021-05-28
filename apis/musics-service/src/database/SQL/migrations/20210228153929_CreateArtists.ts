@@ -18,6 +18,7 @@ export async function up(knex: Knex): Promise<void> {
     table.string('wikipedia_url');
     table.integer('favorites').notNullable();
     table.integer('followers').notNullable();
+    table.string('font');
   });
 }
 

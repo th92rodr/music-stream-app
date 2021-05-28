@@ -11,6 +11,7 @@ export interface ArtistsDb {
   twitter_url: string;
   instagram_url: string;
   wikipedia_url: string;
+  font: string;
   favorites: number;
   followers: number;
 }
@@ -34,4 +35,5 @@ export interface MusicsDb {
   lyrics: string;
   views: number;
   album_id: string;
+  artist_id: string;
 }
