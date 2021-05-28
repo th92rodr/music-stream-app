@@ -115,6 +115,7 @@ export class MusicsHandler implements IMusicsServer {
         composers: call.request.getComposersList(),
         lyrics: call.request.getLyrics(),
         albumId: call.request.getAlbumid(),
+        artistId: call.request.getArtistid(),
       });
 
       this.loggerProvider.info('[CREATE MUSIC]');
@@ -135,6 +136,7 @@ export class MusicsHandler implements IMusicsServer {
         composers: call.request.getComposersList(),
         lyrics: call.request.getLyrics() != '' ? call.request.getLyrics() : undefined,
         albumId: call.request.getAlbumid() != '' ? call.request.getAlbumid() : undefined,
+        artistId: call.request.getArtistid() != '' ? call.request.getArtistid() : undefined,
       });
 
       this.loggerProvider.info('[UPDATE MUSIC]', { id: music.id });
@@ -292,6 +294,7 @@ export class MusicsHandler implements IMusicsServer {
         twitterUrl: call.request.getTwitterurl(),
         instagramUrl: call.request.getInstagramurl(),
         wikipediaUrl: call.request.getWikipediaurl(),
+        font: call.request.getFont(),
       });
 
       this.loggerProvider.info('[CREATE ARTIST]');
@@ -317,6 +320,7 @@ export class MusicsHandler implements IMusicsServer {
         twitterUrl: call.request.getTwitterurl() != '' ? call.request.getTwitterurl() : undefined,
         instagramUrl: call.request.getInstagramurl() != '' ? call.request.getInstagramurl() : undefined,
         wikipediaUrl: call.request.getWikipediaurl() != '' ? call.request.getWikipediaurl() : undefined,
+        font: call.request.getFont() != '' ? call.request.getFont() : undefined,
       });
 
       this.loggerProvider.info('[UPDATE ARTIST]', { id: artist.id });

@@ -1,6 +1,6 @@
 import { Knex } from 'knex';
 
-import { AlbumsTable, MusicsTable } from '../../../constants/index';
+import { AlbumsTable, ArtistsTable, MusicsTable } from '../../../constants/index';
 
 export async function up(knex: Knex): Promise<void> {
   return knex.schema.createTable(MusicsTable, table => {
@@ -16,6 +16,13 @@ export async function up(knex: Knex): Promise<void> {
       .notNullable()
       .references('id')
       .inTable(AlbumsTable)
+      .onUpdate('CASCADE')
+      .onDelete('CASCADE');
+    // prettier-ignore
+    table.string('artist_id')
+      .notNullable()
+      .references('id')
+      .inTable(ArtistsTable)
       .onUpdate('CASCADE')
       .onDelete('CASCADE');
   });

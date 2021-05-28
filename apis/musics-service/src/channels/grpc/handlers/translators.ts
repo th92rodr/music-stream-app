@@ -17,6 +17,7 @@ export function translateMusicEntity(musicEntity: MusicEntity): Music {
   music.setComposersList(musicEntity.composers);
   music.setLyrics(musicEntity.lyrics);
   music.setAlbumid(musicEntity.albumId);
+  music.setArtistid(musicEntity.artistId);
   music.setViews(musicEntity.views);
 
   return music;
@@ -68,6 +69,7 @@ export function translateArtistEntity(artistEntity: ArtistEntity): Artist {
   artist.setTwitterurl(artistEntity.twitterUrl);
   artist.setInstagramurl(artistEntity.instagramUrl);
   artist.setWikipediaurl(artistEntity.wikipediaUrl);
+  artist.setFont(artistEntity.font);
   artist.setFavorites(artistEntity.favorites);
   artist.setFollowers(artistEntity.followers);
   artist.setAlbumsList(artistEntity.albums.map(album => translateAlbumEntity(album)));
