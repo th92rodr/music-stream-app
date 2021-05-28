@@ -10,6 +10,7 @@ import AlbumsController from './controllers/AlbumsController';
 import ArtistsController from './controllers/ArtistsController';
 import MusicsController from './controllers/MusicsController';
 import TokensController from './controllers/TokensController';
+import TrendingController from './controllers/TrendingController';
 import UsersController from './controllers/UsersController';
 import UsersPlaylistsController from './controllers/UsersPlaylistsController';
 import UsersPlaylistsTracksController from './controllers/UsersPlaylistsTracksController';
@@ -39,6 +40,7 @@ export default class ExpressRestChannel implements IRestChannel {
   private artistsController: ArtistsController;
   private musicsController: MusicsController;
   private tokensController: TokensController;
+  private trendingController: TrendingController;
   private usersController: UsersController;
   private usersPlaylistsController: UsersPlaylistsController;
   private usersPlaylistsTracksController: UsersPlaylistsTracksController;
@@ -65,6 +67,7 @@ export default class ExpressRestChannel implements IRestChannel {
     this.artistsController = new ArtistsController(musicsIntegration, validationMiddleware);
     this.musicsController = new MusicsController(musicsIntegration, validationMiddleware);
     this.tokensController = new TokensController(usersIntegration, validationMiddleware);
+    this.trendingController = new TrendingController(musicsIntegration);
     this.usersController = new UsersController(usersIntegration, validationMiddleware);
     this.usersPlaylistsController = new UsersPlaylistsController(playlistsIntegration, validationMiddleware);
     this.usersPlaylistsTracksController = new UsersPlaylistsTracksController(playlistsIntegration, validationMiddleware);
@@ -158,7 +161,9 @@ export default class ExpressRestChannel implements IRestChannel {
 
     router.use('/api/playlists', this.playlistsRoutes());
 
-    router.use('*', (request: Request, response: Response) => {
+    router.use('/api/trending', this.trendingRoutes());
+
+    router.use('*', (_, response: Response) => {
       response.status(HttpStatusCode.NOT_FOUND).json({ message: 'Not Found' });
     });
 
@@ -230,6 +235,14 @@ export default class ExpressRestChannel implements IRestChannel {
     router.post('/:playlistId/tracks', this.checkAccess.bind(this), this.usersPlaylistsTracksController.create.bind(this.usersPlaylistsTracksController));
     router.patch('/:playlistId/tracks/:id', this.checkAccess.bind(this), this.usersPlaylistsTracksController.update.bind(this.usersPlaylistsTracksController));
     router.delete('/:playlistId/tracks/:id', this.checkAccess.bind(this), this.usersPlaylistsTracksController.delete.bind(this.usersPlaylistsTracksController));
+
+    return router;
+  }
+
+  private trendingRoutes(): Router {
+    const router = Router();
+
+    router.get('/', this.trendingController.show.bind(this.trendingController));
 
     return router;
   }
