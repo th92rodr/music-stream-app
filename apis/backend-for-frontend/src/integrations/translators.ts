@@ -16,11 +16,11 @@ export function translateAlbumEntity(album: Album): AlbumEntity {
   return new AlbumEntity({
     id: album.getId(),
     name: album.getName(),
-    releaseDate: timestampToDate(album.getReleasedate()),
+    releaseDate: timestampToDate(album.getReleaseDate()),
     cover: album.getCover(),
     studio: album.getStudio(),
     producers: album.getProducersList(),
-    artistId: album.getArtistid(),
+    artistId: album.getArtistId(),
     tracks: album.getTracksList().map(track => translateMusicEntity(track)),
   });
 }
@@ -34,19 +34,20 @@ export function translateArtistEntity(artist: Artist): ArtistEntity {
     id: artist.getId(),
     name: artist.getName(),
     country: artist.getCountry(),
-    foundationDate: timestampToDate(artist.getFoundationdate()),
+    foundationDate: timestampToDate(artist.getFoundationDate()),
     members: artist.getMembersList(),
     description: artist.getDescription(),
     genre: translateGenre(artist.getGenre()),
     photos: artist.getPhotosList(),
-    facebookUrl: artist.getFacebookurl(),
-    twitterUrl: artist.getTwitterurl(),
-    instagramUrl: artist.getInstagramurl(),
-    wikipediaUrl: artist.getWikipediaurl(),
+    facebookUrl: artist.getFacebookUrl(),
+    twitterUrl: artist.getTwitterUrl(),
+    instagramUrl: artist.getInstagramUrl(),
+    wikipediaUrl: artist.getWikipediaUrl(),
+    font: artist.getFont(),
     favorites: artist.getFavorites(),
     followers: artist.getFollowers(),
     albums: artist.getAlbumsList().map(album => translateAlbumEntity(album)),
-    popularTracks: artist.getPopulartracksList().map(track => translateMusicEntity(track)),
+    popularTracks: artist.getPopularTracksList().map(track => translateMusicEntity(track)),
   });
 }
 
@@ -58,11 +59,12 @@ export function translateMusicEntity(music: Music): MusicEntity {
   return new MusicEntity({
     id: music.getId(),
     title: music.getTitle(),
-    durationInSeconds: music.getDurationinseconds(),
+    durationInSeconds: music.getDuration(),
     file: music.getFile(),
     composers: music.getComposersList(),
     lyrics: music.getLyrics(),
-    albumId: music.getAlbumid(),
+    albumId: music.getAlbumId(),
+    artistId: music.getArtistId(),
     views: music.getViews(),
   });
 }

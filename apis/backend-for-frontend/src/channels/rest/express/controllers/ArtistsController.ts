@@ -67,6 +67,7 @@ export default class ArtistsController {
       twitter_url: twitterUrl,
       instagram_url: instagramUrl,
       wikipedia_url: wikipediaUrl,
+      font,
     } = request.body;
 
     try {
@@ -82,6 +83,7 @@ export default class ArtistsController {
         twitterUrl,
         instagramUrl,
         wikipediaUrl,
+        font,
       });
 
       return response.status(HttpStatusCode.CREATED).json(translateArtist(artist));
@@ -114,6 +116,7 @@ export default class ArtistsController {
       twitter_url: twitterUrl,
       instagram_url: instagramUrl,
       wikipedia_url: wikipediaUrl,
+      font,
     } = request.body;
 
     try {
@@ -130,6 +133,7 @@ export default class ArtistsController {
         twitterUrl,
         instagramUrl,
         wikipediaUrl,
+        font,
       });
 
       return response.status(HttpStatusCode.OK).json(translateArtist(artist));
