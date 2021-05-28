@@ -4,7 +4,7 @@ import { Loading } from '../Loading';
 import { usePlayer } from '../../contexts/PlayerContext';
 import { api } from '../../services/api';
 import { Album } from '../../types';
-import { staticFilesUrl } from '../../utils';
+import { convertDurationToTimeString, staticFilesUrl } from '../../utils';
 
 // styles
 import './styles.scss';
@@ -18,7 +18,10 @@ interface AlbumModalProps {
   closeAlbumModal: () => void;
 }
 
-export const AlbumModal: React.FC<AlbumModalProps> = ({ albumId, closeAlbumModal }) => {
+export const AlbumModal: React.FC<AlbumModalProps> = ({
+  albumId,
+  closeAlbumModal,
+}) => {
   const [album, setAlbum] = useState<Album | null>(null);
 
   const albumModalContentRef = createRef<HTMLDivElement>();
@@ -63,14 +66,20 @@ export const AlbumModal: React.FC<AlbumModalProps> = ({ albumId, closeAlbumModal
             <div className='album__modal__content__area'>
               <div className='album__info'>
                 <div className='album__info__img'>
-                  <img src={staticFilesUrl(album.cover)} alt={album.name} loading='lazy' />
+                  <img
+                    src={staticFilesUrl(album.cover)}
+                    alt={album.name}
+                    loading='lazy'
+                  />
                 </div>
 
                 <div className='album__info__data'>
                   <div className='album__info__data__wrapper'>
                     <div className='album__year'>{album.release_date_str}</div>
                     <div className='album__name'>{album.name}</div>
-                    <div className='album__producers'>Producers: {album.producers_str}</div>
+                    <div className='album__producers'>
+                      Producers: {album.producers_str}
+                    </div>
                     <div className='album__studio'>Studio: {album.studio}</div>
                   </div>
 
@@ -79,7 +88,9 @@ export const AlbumModal: React.FC<AlbumModalProps> = ({ albumId, closeAlbumModal
                       {album.number_of_tracks} songs
                     </span>
                     <IconCircle />
-                    <span className='album__duration__time'>{album.full_duration}</span>
+                    <span className='album__duration__time'>
+                      {album.full_duration}
+                    </span>
                   </div>
                 </div>
               </div>
@@ -95,10 +106,16 @@ export const AlbumModal: React.FC<AlbumModalProps> = ({ albumId, closeAlbumModal
 
                 <div className='tracks'>
                   {album.tracks.map((track, index) => (
-                    <div key={track.id} className='track' onClick={() => play(album.tracks, index)}>
+                    <div
+                      key={track.id}
+                      className='track'
+                      onClick={() => play(album.tracks, index)}
+                    >
                       <div className='track__number'>{index + 1}</div>
                       <div className='track__title'>{track.title}</div>
-                      <div className='track__length'>{track.duration_str}</div>
+                      <div className='track__length'>
+                        {convertDurationToTimeString(track.duration)}
+                      </div>
                     </div>
                   ))}
                 </div>

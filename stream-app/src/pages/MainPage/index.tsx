@@ -2,6 +2,7 @@ import React from 'react';
 
 import { BandsList } from '../../components/BandsList';
 import { Carousel } from '../../components/Carousel';
+import { CurrentTrack } from '../../components/CurrentTrack';
 import { Header } from '../../components/Header';
 import { Sidebar } from '../../components/Sidebar';
 
@@ -46,6 +47,8 @@ export const MainPage: React.FC = () => {
           </section>
         </section>
       </section>
+
+      <CurrentTrack />
     </div>
   );
 };
