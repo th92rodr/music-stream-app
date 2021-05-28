@@ -4,7 +4,11 @@ import { Loading } from '../Loading';
 import { usePlayer } from '../../contexts/PlayerContext';
 import { api } from '../../services/api';
 import { Album } from '../../types';
-import { convertDurationToTimeString, staticFilesUrl } from '../../utils';
+import {
+  convertDurationToTimeString,
+  formatReleaseDate,
+  staticFilesUrl,
+} from '../../utils';
 
 // styles
 import './styles.scss';
@@ -75,10 +79,12 @@ export const AlbumModal: React.FC<AlbumModalProps> = ({
 
                 <div className='album__info__data'>
                   <div className='album__info__data__wrapper'>
-                    <div className='album__year'>{album.release_date_str}</div>
+                    <div className='album__year'>
+                      {formatReleaseDate(album.release_date)}
+                    </div>
                     <div className='album__name'>{album.name}</div>
                     <div className='album__producers'>
-                      Producers: {album.producers_str}
+                      Producers: {album.producers.join(',')}
                     </div>
                     <div className='album__studio'>Studio: {album.studio}</div>
                   </div>
