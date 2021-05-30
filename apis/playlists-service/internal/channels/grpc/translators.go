@@ -50,14 +50,15 @@ func translatePlaylistTrack(track *e.Track) *proto.Track {
 
 func translateMusic(music *e.Music) *proto.Music {
 	return &proto.Music{
-		Id:                music.Id,
-		Title:             music.Title,
-		DurationInSeconds: music.DurationInSeconds,
-		File:              music.File,
-		Composers:         music.Composers,
-		Lyrics:            music.Lyrics,
-		AlbumId:           music.AlbumId,
-		Views:             music.Views,
+		Id:        music.Id,
+		Title:     music.Title,
+		Duration:  music.Duration,
+		File:      music.File,
+		Composers: music.Composers,
+		Lyrics:    music.Lyrics,
+		AlbumId:   music.AlbumId,
+		ArtistId:  music.ArtistId,
+		Views:     music.Views,
 	}
 }
 
