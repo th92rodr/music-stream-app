@@ -110,3 +110,43 @@ func (r usersArtistsRepository) Find(request FindUserArtistRequest) (*e.UserArti
 
 	return userArtist, nil
 }
+
+func (r usersArtistsRepository) FindAll(request FindAllUserArtistsRequest) ([]e.UserArtist, error) {
+	userArtists := []e.UserArtist{}
+
+	query := fmt.Sprintf(`
+		SELECT %s, %s FROM %s WHERE %s = $1`,
+		fieldId, fieldArtistId, usersArtistsTable, fieldUserId,
+	)
+
+	rows, err := r.databaseConnection.Query(query, request.UserId)
+	if err != nil {
+		customError := c.InternalError
+		customError.Details = err.Error()
+		return nil, customError
+	}
+
+	defer rows.Close()
+
+	for rows.Next() {
+		userArtist := e.UserArtist{
+			UserId: request.UserId,
+		}
+
+		if err := rows.Scan(&userArtist.Id, &userArtist.ArtistId); err != nil {
+			customError := c.InternalError
+			customError.Details = err.Error()
+			return nil, customError
+		}
+
+		userArtists = append(userArtists, userArtist)
+	}
+
+	if err = rows.Err(); err != nil {
+		customError := c.InternalError
+		customError.Details = err.Error()
+		return nil, customError
+	}
+
+	return userArtists, nil
+}

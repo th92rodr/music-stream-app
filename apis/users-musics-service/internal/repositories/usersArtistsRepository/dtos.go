@@ -14,3 +14,7 @@ type FindUserArtistRequest struct {
 	UserId   string
 	ArtistId string
 }
+
+type FindAllUserArtistsRequest struct {
+	UserId string
+}
