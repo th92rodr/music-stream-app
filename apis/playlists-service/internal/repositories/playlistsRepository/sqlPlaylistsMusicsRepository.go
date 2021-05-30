@@ -9,6 +9,8 @@ import (
 )
 
 const (
+	playlistsMusicsTable = c.PlaylistsMusicsTable
+
 	fieldIndex      = "index"
 	fieldPlaylistId = "playlist_id"
 	fieldMusicId    = "music_id"
@@ -20,11 +22,11 @@ func (r playlistsRepository) FindTrack(request FindTrackRequest) (*e.Track, erro
 	}
 
 	query := fmt.Sprintf(`
-		SELECT %s, %s FROM %s WHERE %s = '%s'`,
-		fieldIndex, fieldMusicId, c.PlaylistsMusicsTable, fieldId, request.Id,
+		SELECT %s, %s FROM %s WHERE %s = $1`,
+		fieldIndex, fieldMusicId, playlistsMusicsTable, fieldId,
 	)
 
-	row := r.databaseConnection.QueryRow(query)
+	row := r.databaseConnection.QueryRow(query, request.Id)
 
 	if err := row.Scan(&track.Index, &track.MusicId); err != nil {
 		if err == sql.ErrNoRows {
@@ -45,7 +47,7 @@ func (r playlistsRepository) FindTrack(request FindTrackRequest) (*e.Track, erro
 func (r playlistsRepository) StoreTrack(request StoreTrackRequest) error {
 	query := fmt.Sprintf(`
 		INSERT INTO %s (%s, %s, %s, %s) VALUES ($1, $2, $3, $4)`,
-		c.PlaylistsMusicsTable, fieldId, fieldIndex, fieldPlaylistId, fieldMusicId,
+		playlistsMusicsTable, fieldId, fieldIndex, fieldPlaylistId, fieldMusicId,
 	)
 
 	statement, err := r.databaseConnection.Prepare(query)
@@ -73,9 +75,9 @@ func (r playlistsRepository) StoreTrack(request StoreTrackRequest) error {
 func (r playlistsRepository) UpdateTrack(request UpdateTrackRequest) error {
 	query := fmt.Sprintf(`
 		UPDATE %s
-		SET %s = $1
-		WHERE %s = '%s'`,
-		c.PlaylistsMusicsTable, fieldIndex, fieldId, request.Id,
+		SET %s = $2
+		WHERE %s = $1`,
+		playlistsMusicsTable, fieldIndex, fieldId,
 	)
 
 	statement, err := r.databaseConnection.Prepare(query)
@@ -85,7 +87,7 @@ func (r playlistsRepository) UpdateTrack(request UpdateTrackRequest) error {
 		return customError
 	}
 
-	if _, err = statement.Exec(request.Index); err != nil {
+	if _, err = statement.Exec(request.Id, request.Index); err != nil {
 		if err == sql.ErrNoRows {
 			customError := c.ErrorPlaylistNotFound
 			customError.Message = fmt.Sprintf("A playlist track with the id %s was not found.", request.Id)
@@ -109,8 +111,8 @@ func (r playlistsRepository) UpdateTrack(request UpdateTrackRequest) error {
 
 func (r playlistsRepository) DeleteTrack(request DeleteTrackRequest) error {
 	query := fmt.Sprintf(`
-		DELETE FROM %s WHERE %s = '%s'`,
-		c.PlaylistsMusicsTable, fieldId, request.Id,
+		DELETE FROM %s WHERE %s = $1`,
+		playlistsMusicsTable, fieldId,
 	)
 
 	statement, err := r.databaseConnection.Prepare(query)
@@ -120,7 +122,7 @@ func (r playlistsRepository) DeleteTrack(request DeleteTrackRequest) error {
 		return customError
 	}
 
-	if _, err = statement.Exec(); err != nil {
+	if _, err = statement.Exec(request.Id); err != nil {
 		customError := c.InternalError
 		customError.Details = err.Error()
 		return customError
@@ -139,11 +141,11 @@ func (r playlistsRepository) findAllTracks(playlistId string) ([]*e.Track, error
 	tracks := []*e.Track{}
 
 	query := fmt.Sprintf(`
-		SELECT %s, %s, %s FROM %s WHERE %s = '%s'`,
-		fieldId, fieldIndex, fieldMusicId, c.PlaylistsMusicsTable, fieldPlaylistId, playlistId,
+		SELECT %s, %s, %s FROM %s WHERE %s = $1`,
+		fieldId, fieldIndex, fieldMusicId, playlistsMusicsTable, fieldPlaylistId,
 	)
 
-	rows, err := r.databaseConnection.Query(query)
+	rows, err := r.databaseConnection.Query(query, playlistId)
 	if err != nil {
 		customError := c.InternalError
 		customError.Details = err.Error()
