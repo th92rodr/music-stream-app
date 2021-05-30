@@ -9,6 +9,8 @@ import (
 )
 
 const (
+	playlistsTable = c.PlaylistsTable
+
 	fieldId     = "id"
 	fieldName   = "name"
 	fieldUserId = "user_id"
@@ -31,11 +33,11 @@ func (r playlistsRepository) FindById(request FindPlaylistByIdRequest) (*e.Playl
 	}
 
 	query := fmt.Sprintf(`
-		SELECT %s FROM %s WHERE %s = '%s' AND %s = '%s'`,
-		fieldName, c.PlaylistsTable, fieldId, request.Id, fieldUserId, request.UserId,
+		SELECT %s FROM %s WHERE %s = $1 AND %s = $2`,
+		fieldName, playlistsTable, fieldId, fieldUserId,
 	)
 
-	row := r.databaseConnection.QueryRow(query)
+	row := r.databaseConnection.QueryRow(query, request.Id, request.UserId)
 
 	if err := row.Scan(&playlist.Name); err != nil {
 		if err == sql.ErrNoRows {
@@ -60,11 +62,11 @@ func (r playlistsRepository) FindByName(request FindPlaylistByNameRequest) (*e.P
 	}
 
 	query := fmt.Sprintf(`
-		SELECT %s FROM %s WHERE %s = '%s' AND %s = '%s'`,
-		fieldId, c.PlaylistsTable, fieldUserId, request.UserId, fieldName, request.Name,
+		SELECT %s FROM %s WHERE %s = $1 AND %s = $2`,
+		fieldId, playlistsTable, fieldUserId, fieldName,
 	)
 
-	row := r.databaseConnection.QueryRow(query)
+	row := r.databaseConnection.QueryRow(query, request.UserId, request.Name)
 
 	if err := row.Scan(&playlist.Id); err != nil {
 		if err == sql.ErrNoRows {
@@ -86,11 +88,11 @@ func (r playlistsRepository) FindAll(request FindAllPlaylistsRequest) ([]e.Playl
 	playlists := []e.Playlist{}
 
 	query := fmt.Sprintf(`
-		SELECT %s, %s FROM %s WHERE %s = '%s'`,
-		fieldId, fieldName, c.PlaylistsTable, fieldUserId, request.UserId,
+		SELECT %s, %s FROM %s WHERE %s = $1`,
+		fieldId, fieldName, playlistsTable, fieldUserId,
 	)
 
-	rows, err := r.databaseConnection.Query(query)
+	rows, err := r.databaseConnection.Query(query, request.UserId)
 	if err != nil {
 		customError := c.InternalError
 		customError.Details = err.Error()
@@ -141,7 +143,7 @@ func (r playlistsRepository) FindByIdWithTracks(request FindPlaylistByIdRequest)
 func (r playlistsRepository) Store(request StorePlaylistRequest) error {
 	query := fmt.Sprintf(`
 		INSERT INTO %s (%s, %s, %s) VALUES ($1, $2, $3)`,
-		c.PlaylistsTable, fieldId, fieldName, fieldUserId,
+		playlistsTable, fieldId, fieldName, fieldUserId,
 	)
 
 	statement, err := r.databaseConnection.Prepare(query)
@@ -169,9 +171,9 @@ func (r playlistsRepository) Store(request StorePlaylistRequest) error {
 func (r playlistsRepository) Update(request UpdatePlaylistRequest) error {
 	query := fmt.Sprintf(`
 		UPDATE %s
-		SET %s = $1
-		WHERE %s = '%s' AND %s = '%s'`,
-		c.PlaylistsTable, fieldName, fieldId, request.Id, fieldUserId, request.UserId,
+		SET %s = $3
+		WHERE %s = $1 AND %s = $2`,
+		playlistsTable, fieldName, fieldId, fieldUserId,
 	)
 
 	statement, err := r.databaseConnection.Prepare(query)
@@ -181,7 +183,7 @@ func (r playlistsRepository) Update(request UpdatePlaylistRequest) error {
 		return customError
 	}
 
-	if _, err = statement.Exec(request.Name); err != nil {
+	if _, err = statement.Exec(request.Id, request.UserId, request.Name); err != nil {
 		customError := c.InternalError
 		customError.Details = err.Error()
 		return customError
@@ -198,8 +200,8 @@ func (r playlistsRepository) Update(request UpdatePlaylistRequest) error {
 
 func (r playlistsRepository) Delete(request DeletePlaylistRequest) error {
 	query := fmt.Sprintf(`
-		DELETE FROM %s WHERE %s = '%s' AND %s = '%s'`,
-		c.PlaylistsTable, fieldId, request.Id, fieldUserId, request.UserId,
+		DELETE FROM %s WHERE %s = $1 AND %s = $2`,
+		playlistsTable, fieldId, fieldUserId,
 	)
 
 	statement, err := r.databaseConnection.Prepare(query)
@@ -209,7 +211,7 @@ func (r playlistsRepository) Delete(request DeletePlaylistRequest) error {
 		return customError
 	}
 
-	if _, err = statement.Exec(); err != nil {
+	if _, err = statement.Exec(request.Id, request.UserId); err != nil {
 		customError := c.InternalError
 		customError.Details = err.Error()
 		return customError
