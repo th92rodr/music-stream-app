@@ -34,7 +34,7 @@ export default class PlaylistsIntegration implements IPlaylistsIntegration {
     return new Promise((resolve, reject) => {
       const getPlaylistRequest = new GetPlaylistRequest();
       getPlaylistRequest.setId(id);
-      getPlaylistRequest.setUserid(userId);
+      getPlaylistRequest.setUserId(userId);
 
       this.client.getPlaylist(getPlaylistRequest, (error: Error | null, playlist: Playlist) => {
         if (error != null) reject(handleError(error));
@@ -46,7 +46,7 @@ export default class PlaylistsIntegration implements IPlaylistsIntegration {
   public getPlaylists = async ({ userId }: GetPlaylists): Promise<Array<PlaylistEntity>> => {
     return new Promise((resolve, reject) => {
       const getPlaylistsRequest = new GetPlaylistsRequest();
-      getPlaylistsRequest.setUserid(userId);
+      getPlaylistsRequest.setUserId(userId);
 
       this.client.getPlaylists(getPlaylistsRequest, (error: Error | null, playlistsList: PlaylistsList) => {
         if (error != null) reject(handleError(error));
@@ -59,7 +59,7 @@ export default class PlaylistsIntegration implements IPlaylistsIntegration {
     return new Promise((resolve, reject) => {
       const createPlaylistRequest = new CreatePlaylistRequest();
       createPlaylistRequest.setName(name);
-      createPlaylistRequest.setUserid(userId);
+      createPlaylistRequest.setUserId(userId);
 
       this.client.createPlaylist(createPlaylistRequest, (error: Error | null, playlist: Playlist) => {
         if (error != null) reject(handleError(error));
@@ -72,7 +72,7 @@ export default class PlaylistsIntegration implements IPlaylistsIntegration {
     return new Promise((resolve, reject) => {
       const updatePlaylistRequest = new UpdatePlaylistRequest();
       updatePlaylistRequest.setId(id);
-      updatePlaylistRequest.setUserid(userId);
+      updatePlaylistRequest.setUserId(userId);
       updatePlaylistRequest.setName(name);
 
       this.client.updatePlaylist(updatePlaylistRequest, (error: Error | null, playlist: Playlist) => {
@@ -86,7 +86,7 @@ export default class PlaylistsIntegration implements IPlaylistsIntegration {
     return new Promise((resolve, reject) => {
       const deletePlaylistRequest = new DeletePlaylistRequest();
       deletePlaylistRequest.setId(id);
-      deletePlaylistRequest.setUserid(userId);
+      deletePlaylistRequest.setUserId(userId);
 
       this.client.deletePlaylist(deletePlaylistRequest, (error: Error | null) => {
         if (error != null) reject(handleError(error));
@@ -98,9 +98,9 @@ export default class PlaylistsIntegration implements IPlaylistsIntegration {
   public addTrack = async ({ musicId, playlistId, userId }: AddTrack): Promise<TrackEntity> => {
     return new Promise((resolve, reject) => {
       const addTrackRequest = new AddTrackRequest();
-      addTrackRequest.setMusicid(musicId);
-      addTrackRequest.setPlaylistid(playlistId);
-      addTrackRequest.setUserid(userId);
+      addTrackRequest.setMusicId(musicId);
+      addTrackRequest.setPlaylistId(playlistId);
+      addTrackRequest.setUserId(userId);
 
       this.client.addTrack(addTrackRequest, (error: Error | null, track: Track) => {
         if (error != null) reject(handleError(error));
@@ -114,8 +114,8 @@ export default class PlaylistsIntegration implements IPlaylistsIntegration {
       const updateTrackRequest = new UpdateTrackRequest();
       updateTrackRequest.setId(id);
       updateTrackRequest.setIndex(index);
-      updateTrackRequest.setPlaylistid(playlistId);
-      updateTrackRequest.setUserid(userId);
+      updateTrackRequest.setPlaylistId(playlistId);
+      updateTrackRequest.setUserId(userId);
 
       this.client.updateTrack(updateTrackRequest, (error: Error | null, track: Track) => {
         if (error != null) reject(handleError(error));
@@ -128,8 +128,8 @@ export default class PlaylistsIntegration implements IPlaylistsIntegration {
     return new Promise((resolve, reject) => {
       const removeTrackRequest = new RemoveTrackRequest();
       removeTrackRequest.setId(id);
-      removeTrackRequest.setPlaylistid(playlistId);
-      removeTrackRequest.setUserid(userId);
+      removeTrackRequest.setPlaylistId(playlistId);
+      removeTrackRequest.setUserId(userId);
 
       this.client.removeTrack(removeTrackRequest, (error: Error | null) => {
         if (error != null) reject(handleError(error));
