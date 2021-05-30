@@ -9,6 +9,7 @@ import IRestChannel from '../interface';
 import AlbumsController from './controllers/AlbumsController';
 import ArtistsController from './controllers/ArtistsController';
 import MusicsController from './controllers/MusicsController';
+import MusicsViewsController from './controllers/MusicsViewsController';
 import TokensController from './controllers/TokensController';
 import TrendingController from './controllers/TrendingController';
 import UsersController from './controllers/UsersController';
@@ -24,6 +25,7 @@ import IErrorHandler from '@handlers/ErrorHandler/interface';
 import IMusicsIntegration from '@integrations/MusicsIntegration/interface';
 import IPlaylistsIntegration from '@integrations/PlaylistsIntegration/interface';
 import IUsersIntegration from '@integrations/UsersIntegration/interface';
+import IUsersMusicsIntegration from '@integrations/UsersMusicsIntegration/interface';
 import ILoggerProvider from '@providers/LoggerProvider/interface';
 import { delay } from '@utils/index';
 
@@ -39,6 +41,7 @@ export default class ExpressRestChannel implements IRestChannel {
   private albumsController: AlbumsController;
   private artistsController: ArtistsController;
   private musicsController: MusicsController;
+  private musicsViewsController: MusicsViewsController;
   private tokensController: TokensController;
   private trendingController: TrendingController;
   private usersController: UsersController;
@@ -50,6 +53,7 @@ export default class ExpressRestChannel implements IRestChannel {
     musicsIntegration: IMusicsIntegration,
     playlistsIntegration: IPlaylistsIntegration,
     usersIntegration: IUsersIntegration,
+    usersMusicsIntegration: IUsersMusicsIntegration,
     errorHandler: IErrorHandler,
     loggerProvider: ILoggerProvider,
   ) {
@@ -66,6 +70,7 @@ export default class ExpressRestChannel implements IRestChannel {
     this.albumsController = new AlbumsController(musicsIntegration, validationMiddleware);
     this.artistsController = new ArtistsController(musicsIntegration, validationMiddleware);
     this.musicsController = new MusicsController(musicsIntegration, validationMiddleware);
+    this.musicsViewsController = new MusicsViewsController(usersMusicsIntegration);
     this.tokensController = new TokensController(usersIntegration, validationMiddleware);
     this.trendingController = new TrendingController(musicsIntegration);
     this.usersController = new UsersController(usersIntegration, validationMiddleware);
@@ -219,6 +224,9 @@ export default class ExpressRestChannel implements IRestChannel {
     router.post('/', this.musicsController.create.bind(this.musicsController));
     router.patch('/:id', this.musicsController.update.bind(this.musicsController));
     router.delete('/:id', this.musicsController.delete.bind(this.musicsController));
+
+    router.get('/:id/view', this.checkAccess.bind(this), this.musicsViewsController.show.bind(this.musicsViewsController));
+    router.post('/:id/view', this.checkAccess.bind(this), this.musicsViewsController.create.bind(this.musicsViewsController));
 
     return router;
   }
