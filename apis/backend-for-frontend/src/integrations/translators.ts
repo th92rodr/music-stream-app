@@ -3,7 +3,9 @@ import { status as grpcStatus } from 'grpc';
 import { Album, AlbumsList, Artist, ArtistsList, Genre, Music, MusicsList } from './proto/musics_service_pb';
 import { Playlist, PlaylistsList, Track } from './proto/playlists_service_pb';
 import { AuthenticateUserResponse, User } from './proto/users_service_pb';
+import { FollowingArtists, UserMusic } from './proto/users_musics_service_pb';
 import { AuthenticateResponse } from './UsersIntegration/dtos';
+import { GetAllFollowingArtistsResponse, ViewsResponse } from './UsersMusicsIntegration/dtos';
 import { Genre as GenreEnum, HttpStatusCode } from '@constants/index';
 import AlbumEntity from '@entities/Album';
 import ArtistEntity from '@entities/Artist';
@@ -148,6 +150,21 @@ export function translateTrackEntity(track: Track): TrackEntity {
     index: track.getIndex(),
     music: music ? translateMusicEntity(music) : null,
   });
+}
+
+export function translateFollowingArtists(followingArtists: FollowingArtists): GetAllFollowingArtistsResponse {
+  return {
+    userId: followingArtists.getUserId(),
+    artistIds: followingArtists.getArtistsIdList(),
+  };
+}
+
+export function translateViews(userMusic: UserMusic): ViewsResponse {
+  return {
+    userId: userMusic.getUserId(),
+    musicId: userMusic.getMusicId(),
+    views: userMusic.getViews(),
+  };
 }
 
 export function translateGrpcError(statusCode?: grpcStatus): HttpStatusCode {
