@@ -25,6 +25,9 @@ build: ##
 run: ##
 	export GOLANG_PROTOBUF_REGISTRATION_CONFLICT=warn && $(GO_RUN) main.go -config $(CONFIG_FILE)
 
+init_db: ##
+	$(GO_RUN) cmd/initDatabase.go -config $(CONFIG_FILE)
+
 test: ##
 	$(GO_TEST) -v ./...
 
