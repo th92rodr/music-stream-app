@@ -21,6 +21,7 @@ export default {
   integrations: {
     musics_service: process.env.MUSICS_SERVICE_ADDRESS || 'localhost:6565',
     playlists_service: process.env.PLAYLISTS_SERVICE_ADDRESS || 'localhost:6567',
+    users_musics_service: process.env.USERS_MUSICS_SERVICE_ADDRESS || 'localhost:6568',
     users_service: process.env.USERS_SERVICE_ADDRESS || 'localhost:6569',
   },
 
