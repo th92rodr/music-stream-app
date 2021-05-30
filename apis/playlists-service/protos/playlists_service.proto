@@ -20,7 +20,7 @@ service Playlists {
 message Playlist {
     string id = 1;
     string name = 2;
-    string userId = 3;
+    string user_id = 3;
     repeated Track tracks = 4;
 }
 
@@ -36,44 +36,44 @@ message PlaylistsList {
 
 message GetPlaylistRequest {
     string id = 1;
-    string userId = 2;
+    string user_id = 2;
 }
 
 message GetPlaylistsRequest {
-    string userId = 1;
+    string user_id = 1;
 }
 
 message CreatePlaylistRequest {
     string name = 1;
-    string userId = 2;
+    string user_id = 2;
 }
 
 message UpdatePlaylistRequest {
     string id = 1;
     string name = 2;
-    string userId = 3;
+    string user_id = 3;
 }
 
 message DeletePlaylistRequest {
     string id = 1;
-    string userId = 2;
+    string user_id = 2;
 }
 
 message AddTrackRequest {
-    string userId = 1;
-    string playlistId = 2;
-    string musicId = 3;
+    string user_id = 1;
+    string playlist_id = 2;
+    string music_id = 3;
 }
 
 message UpdateTrackRequest {
-    string userId = 1;
-    string playlistId = 2;
+    string user_id = 1;
+    string playlist_id = 2;
     string id = 3;
     int32 index = 4;
 }
 
 message RemoveTrackRequest {
-    string userId = 1;
-    string playlistId = 2;
+    string user_id = 1;
+    string playlist_id = 2;
     string id = 3;
 }

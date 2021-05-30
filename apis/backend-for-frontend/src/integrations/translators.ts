@@ -132,7 +132,7 @@ export function translatePlaylistEntity(playlist: Playlist): PlaylistEntity {
   return new PlaylistEntity({
     id: playlist.getId(),
     name: playlist.getName(),
-    userId: playlist.getUserid(),
+    userId: playlist.getUserId(),
     tracks: playlist.getTracksList().map(track => translateTrackEntity(track)),
   });
 }
