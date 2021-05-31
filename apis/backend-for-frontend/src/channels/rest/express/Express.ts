@@ -8,6 +8,7 @@ import { Socket } from 'net';
 import IRestChannel from '../interface';
 import AlbumsController from './controllers/AlbumsController';
 import ArtistsController from './controllers/ArtistsController';
+import ArtistsFavoritesController from './controllers/ArtistsFavoritesController';
 import MusicsController from './controllers/MusicsController';
 import MusicsViewsController from './controllers/MusicsViewsController';
 import TokensController from './controllers/TokensController';
@@ -40,6 +41,7 @@ export default class ExpressRestChannel implements IRestChannel {
 
   private albumsController: AlbumsController;
   private artistsController: ArtistsController;
+  private artistsFavoritesController: ArtistsFavoritesController;
   private musicsController: MusicsController;
   private musicsViewsController: MusicsViewsController;
   private tokensController: TokensController;
@@ -69,6 +71,7 @@ export default class ExpressRestChannel implements IRestChannel {
 
     this.albumsController = new AlbumsController(musicsIntegration, validationMiddleware);
     this.artistsController = new ArtistsController(musicsIntegration, validationMiddleware);
+    this.artistsFavoritesController = new ArtistsFavoritesController(usersMusicsIntegration);
     this.musicsController = new MusicsController(musicsIntegration, validationMiddleware);
     this.musicsViewsController = new MusicsViewsController(usersMusicsIntegration);
     this.tokensController = new TokensController(usersIntegration, validationMiddleware);
@@ -203,6 +206,11 @@ export default class ExpressRestChannel implements IRestChannel {
     router.patch('/:id', this.artistsController.update.bind(this.artistsController));
     router.delete('/:id', this.artistsController.delete.bind(this.artistsController));
 
+    router.get('/favorites', this.checkAccess.bind(this), this.artistsFavoritesController.index.bind(this.artistsFavoritesController));
+    router.get('/:id/favorites', this.checkAccess.bind(this), this.artistsFavoritesController.show.bind(this.artistsFavoritesController));
+    router.post('/:id/favorites', this.checkAccess.bind(this), this.artistsFavoritesController.show.bind(this.artistsFavoritesController));
+    router.delete('/:id/favorites', this.checkAccess.bind(this), this.artistsFavoritesController.delete.bind(this.artistsFavoritesController));
+
     return router;
   }
 
@@ -225,8 +233,8 @@ export default class ExpressRestChannel implements IRestChannel {
     router.patch('/:id', this.musicsController.update.bind(this.musicsController));
     router.delete('/:id', this.musicsController.delete.bind(this.musicsController));
 
-    router.get('/:id/view', this.checkAccess.bind(this), this.musicsViewsController.show.bind(this.musicsViewsController));
-    router.post('/:id/view', this.checkAccess.bind(this), this.musicsViewsController.create.bind(this.musicsViewsController));
+    router.get('/:id/views', this.checkAccess.bind(this), this.musicsViewsController.show.bind(this.musicsViewsController));
+    router.post('/:id/views', this.checkAccess.bind(this), this.musicsViewsController.create.bind(this.musicsViewsController));
 
     return router;
   }
