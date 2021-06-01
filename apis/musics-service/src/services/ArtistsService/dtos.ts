@@ -58,3 +58,8 @@ export interface AddFollowerRequest {
 export interface RemoveFollowerRequest {
   id: string;
 }
+
+export interface GetMostFollowersRequest {
+  limit: number;
+  offset: number;
+}

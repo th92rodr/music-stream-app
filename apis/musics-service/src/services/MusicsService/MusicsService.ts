@@ -3,7 +3,7 @@ import {
   AddViewRequest,
   CreateMusicRequest,
   DeleteMusicRequest,
-  GetMostViewsMusicsRequest,
+  GetMostViewsRequest,
   GetMusicRequest,
   UpdateMusicRequest,
 } from './dtos';
@@ -110,7 +110,7 @@ export default class MusicsService implements IMusicsService {
     return music;
   }
 
-  public async getMostViews({ limit, offset }: GetMostViewsMusicsRequest): Promise<Array<Music>> {
+  public async getMostViews({ limit, offset }: GetMostViewsRequest): Promise<Array<Music>> {
     return this.musicsRepository.findMostViews({ limit, offset });
   }
 }

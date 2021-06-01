@@ -3,7 +3,7 @@ import {
   AddViewRequest,
   CreateMusicRequest,
   DeleteMusicRequest,
-  GetMostViewsMusicsRequest,
+  GetMostViewsRequest,
   GetMusicRequest,
   UpdateMusicRequest,
 } from './dtos';
@@ -16,5 +16,5 @@ export default interface IMusicsService {
   update(request: UpdateMusicRequest): Promise<Music>;
   delete(request: DeleteMusicRequest): Promise<void>;
   addView(request: AddViewRequest): Promise<Music>;
-  getMostViews(request: GetMostViewsMusicsRequest): Promise<Array<Music>>;
+  getMostViews(request: GetMostViewsRequest): Promise<Array<Music>>;
 }
