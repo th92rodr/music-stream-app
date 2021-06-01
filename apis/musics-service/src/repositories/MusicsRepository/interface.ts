@@ -7,4 +7,5 @@ export default interface IMusicsRepository {
   store(music: Music): Promise<void>;
   update(music: Music): Promise<void>;
   delete(id: string): Promise<void>;
+  findMostViews(request: PaginationRequest): Promise<Array<Music>>;
 }
