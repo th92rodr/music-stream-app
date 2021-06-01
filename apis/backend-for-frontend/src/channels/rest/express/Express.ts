@@ -233,6 +233,8 @@ export default class ExpressRestChannel implements IRestChannel {
     router.patch('/:id', this.musicsController.update.bind(this.musicsController));
     router.delete('/:id', this.musicsController.delete.bind(this.musicsController));
 
+    router.get('/views/last', this.checkAccess.bind(this), this.musicsViewsController.indexLast.bind(this.musicsViewsController));
+    router.get('/views/most', this.checkAccess.bind(this), this.musicsViewsController.indexMost.bind(this.musicsViewsController));
     router.get('/:id/views', this.checkAccess.bind(this), this.musicsViewsController.show.bind(this.musicsViewsController));
     router.post('/:id/views', this.checkAccess.bind(this), this.musicsViewsController.create.bind(this.musicsViewsController));
 
