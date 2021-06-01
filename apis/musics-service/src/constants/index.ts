@@ -2,6 +2,9 @@ export const AlbumsTable = 'albums';
 export const ArtistsTable = 'artists';
 export const MusicsTable = 'musics';
 
+export const AscendingOrder = 'asc';
+export const DescendingOrder = 'desc';
+
 export enum Genre {
   'Heavy Metal' = 1,
   'Folk Metal',

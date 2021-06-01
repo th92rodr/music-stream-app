@@ -4,7 +4,7 @@ import { PaginationRequest } from './dtos';
 import IAlbumsRepository from './interface';
 import { AlbumsDb, MusicsDb } from '../databaseEntities';
 import { translateAlbum, translateAlbumsList } from '../translators';
-import { AlbumsTable, MusicsTable } from '@constants/index';
+import { AlbumsTable, AscendingOrder, MusicsTable } from '@constants/index';
 import Album from '@entities/Album';
 
 export default class SQLAlbumsRepository implements IAlbumsRepository {
@@ -39,7 +39,7 @@ export default class SQLAlbumsRepository implements IAlbumsRepository {
       const albums = await this.databaseConnection<AlbumsDb>(AlbumsTable)
         .offset(offset)
         .limit(limit)
-        .orderBy('name', 'asc');
+        .orderBy('name', AscendingOrder);
 
       return translateAlbumsList(albums);
     }

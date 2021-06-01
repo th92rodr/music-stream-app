@@ -4,7 +4,7 @@ import { PaginationRequest } from './dtos';
 import IMusicsRepository from './interface';
 import { MusicsDb } from '../databaseEntities';
 import { translateMusic, translateMusicsList } from '../translators';
-import { MusicsTable } from '@constants/index';
+import { AscendingOrder, DescendingOrder, MusicsTable } from '@constants/index';
 import Music from '@entities/Music';
 
 export default class SQLMusicsRepository implements IMusicsRepository {
@@ -35,7 +35,7 @@ export default class SQLMusicsRepository implements IMusicsRepository {
       const musics = await this.databaseConnection<MusicsDb>(MusicsTable)
         .offset(offset)
         .limit(limit)
-        .orderBy('title', 'asc');
+        .orderBy('title', AscendingOrder);
 
       return translateMusicsList(musics);
     }
@@ -72,7 +72,7 @@ export default class SQLMusicsRepository implements IMusicsRepository {
     const musics = await this.databaseConnection<MusicsDb>(MusicsTable)
       .offset(offset)
       .limit(limit)
-      .orderBy('views', 'desc');
+      .orderBy('views', DescendingOrder);
 
     return translateMusicsList(musics);
   }
