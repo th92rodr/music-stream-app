@@ -25,3 +25,13 @@ type FindUserMusicRequest struct {
 	UserId  string
 	MusicId string
 }
+
+type FindLastUpdatedRequest struct {
+	UserId string
+	Limit  int32
+}
+
+type FindMostViewsRequest struct {
+	UserId string
+	Limit  int32
+}

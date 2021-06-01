@@ -17,6 +17,8 @@ const (
 	fieldMusicId   = "music_id"
 	fieldCreatedAt = "created_at"
 	fieldUpdatedAt = "updated_at"
+
+	offsetZero int = 0
 )
 
 type usersMusicsRepository struct {
@@ -122,13 +124,13 @@ func (r usersMusicsRepository) Find(request FindUserMusicRequest) (*e.UserMusic,
 	}
 
 	query := fmt.Sprintf(`
-		SELECT %s, %s FROM %s WHERE %s = $1 AND %s = $2`,
-		fieldId, fieldViews, usersMusicsTable, fieldUserId, fieldMusicId,
+		SELECT %s, %s, %s, %s FROM %s WHERE %s = $1 AND %s = $2`,
+		fieldId, fieldViews, fieldCreatedAt, fieldUpdatedAt, usersMusicsTable, fieldUserId, fieldMusicId,
 	)
 
 	row := r.databaseConnection.QueryRow(query, request.UserId, request.MusicId)
 
-	if err := row.Scan(&userMusic.Id, &userMusic.Views); err != nil {
+	if err := row.Scan(&userMusic.Id, &userMusic.Views, &userMusic.CreatedAt, &userMusic.UpdatedAt); err != nil {
 		if err == sql.ErrNoRows {
 			customError := c.ErrorUserMusicNotFound
 			customError.Message = fmt.Sprintf("A user_music entity with the user (%s) and the music (%s) was not found.", request.UserId, request.MusicId)
@@ -142,4 +144,84 @@ func (r usersMusicsRepository) Find(request FindUserMusicRequest) (*e.UserMusic,
 	}
 
 	return userMusic, nil
+}
+
+func (r usersMusicsRepository) FindLastUpdated(request FindLastUpdatedRequest) ([]e.UserMusic, error) {
+	userMusics := []e.UserMusic{}
+
+	query := fmt.Sprintf(`
+		SELECT %s, %s, %s, %s, %s FROM %s WHERE %s = $1 ORDER BY %s DESC OFFSET $2 LIMIT $3`,
+		fieldId, fieldViews, fieldMusicId, fieldCreatedAt, fieldUpdatedAt, usersMusicsTable, fieldUserId, fieldUpdatedAt,
+	)
+
+	rows, err := r.databaseConnection.Query(query, request.UserId, offsetZero, request.Limit)
+	if err != nil {
+		customError := c.InternalError
+		customError.Details = err.Error()
+		return nil, customError
+	}
+
+	defer rows.Close()
+
+	for rows.Next() {
+		userMusic := e.UserMusic{
+			UserId: request.UserId,
+		}
+
+		if err := rows.Scan(&userMusic.Id, &userMusic.Views, &userMusic.MusicId, &userMusic.CreatedAt, &userMusic.UpdatedAt); err != nil {
+			customError := c.InternalError
+			customError.Details = err.Error()
+			return nil, customError
+		}
+
+		userMusics = append(userMusics, userMusic)
+	}
+
+	if err = rows.Err(); err != nil {
+		customError := c.InternalError
+		customError.Details = err.Error()
+		return nil, customError
+	}
+
+	return userMusics, nil
+}
+
+func (r usersMusicsRepository) FindMostViews(request FindMostViewsRequest) ([]e.UserMusic, error) {
+	userMusics := []e.UserMusic{}
+
+	query := fmt.Sprintf(`
+		SELECT %s, %s, %s, %s, %s FROM %s WHERE %s = $1 ORDER BY %s DESC OFFSET $2 LIMIT $3`,
+		fieldId, fieldViews, fieldMusicId, fieldCreatedAt, fieldUpdatedAt, usersMusicsTable, fieldUserId, fieldViews,
+	)
+
+	rows, err := r.databaseConnection.Query(query, request.UserId, offsetZero, request.Limit)
+	if err != nil {
+		customError := c.InternalError
+		customError.Details = err.Error()
+		return nil, customError
+	}
+
+	defer rows.Close()
+
+	for rows.Next() {
+		userMusic := e.UserMusic{
+			UserId: request.UserId,
+		}
+
+		if err := rows.Scan(&userMusic.Id, &userMusic.Views, &userMusic.MusicId, &userMusic.CreatedAt, &userMusic.UpdatedAt); err != nil {
+			customError := c.InternalError
+			customError.Details = err.Error()
+			return nil, customError
+		}
+
+		userMusics = append(userMusics, userMusic)
+	}
+
+	if err = rows.Err(); err != nil {
+		customError := c.InternalError
+		customError.Details = err.Error()
+		return nil, customError
+	}
+
+	return userMusics, nil
 }

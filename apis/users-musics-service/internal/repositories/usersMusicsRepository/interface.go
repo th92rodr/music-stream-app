@@ -7,4 +7,6 @@ type IUsersMusicsRepository interface {
 	Update(request UpdateUserMusicRequest) error
 	Delete(request DeleteUserMusicRequest) error
 	Find(request FindUserMusicRequest) (*e.UserMusic, error)
+	FindLastUpdated(request FindLastUpdatedRequest) ([]e.UserMusic, error)
+	FindMostViews(request FindMostViewsRequest) ([]e.UserMusic, error)
 }
