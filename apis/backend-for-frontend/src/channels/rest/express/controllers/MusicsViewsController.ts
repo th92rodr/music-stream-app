@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 
+import Config from '@config/index';
 import { HttpStatusCode } from '@constants/index';
 import BaseError from '@constants/BaseError';
 import { InternalError } from '@constants/errors';
@@ -10,6 +11,42 @@ export default class MusicsViewsController {
 
   constructor(usersMusicsIntegration: IUsersMusicsIntegration) {
     this.usersMusicsIntegration = usersMusicsIntegration;
+  }
+
+  public async indexLast(request: Request, response: Response) {
+    const userId = request.userId;
+    const { limit } = request.query;
+
+    try {
+      const views = await this.usersMusicsIntegration.getLastViews({ userId, limit: limit ? Number(limit) : Config.query.defaultLimit });
+
+      return response.status(HttpStatusCode.OK).json(views);
+    } catch (error) {
+      if (error instanceof BaseError) {
+        return response.status(error.statusCode).json({ error: error.message });
+      }
+
+      const internalError = new InternalError();
+      return response.status(internalError.statusCode).json({ error: internalError.message });
+    }
+  }
+
+  public async indexMost(request: Request, response: Response) {
+    const userId = request.userId;
+    const { limit } = request.query;
+
+    try {
+      const views = await this.usersMusicsIntegration.getMostViews({ userId, limit: limit ? Number(limit) : Config.query.defaultLimit });
+
+      return response.status(HttpStatusCode.OK).json(views);
+    } catch (error) {
+      if (error instanceof BaseError) {
+        return response.status(error.statusCode).json({ error: error.message });
+      }
+
+      const internalError = new InternalError();
+      return response.status(internalError.statusCode).json({ error: internalError.message });
+    }
   }
 
   public async show(request: Request, response: Response) {

@@ -30,6 +30,10 @@ export default {
     filePath: 'logs/error.log',
   },
 
+  query: {
+    defaultLimit: 10,
+  },
+
   staticFiles: {
     path: path.resolve(__dirname, '..', 'staticFiles'),
   },
