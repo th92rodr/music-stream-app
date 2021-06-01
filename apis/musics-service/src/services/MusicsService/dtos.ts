@@ -30,3 +30,8 @@ export interface DeleteMusicRequest {
 export interface AddViewRequest {
   id: string;
 }
+
+export interface GetMostViewsMusicsRequest {
+  offset: number;
+  limit: number;
+}
