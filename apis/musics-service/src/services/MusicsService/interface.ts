@@ -1,10 +1,11 @@
 // prettier-ignore
 import {
-  GetMusicRequest,
-  CreateMusicRequest,
-  UpdateMusicRequest,
-  DeleteMusicRequest,
   AddViewRequest,
+  CreateMusicRequest,
+  DeleteMusicRequest,
+  GetMostViewsMusicsRequest,
+  GetMusicRequest,
+  UpdateMusicRequest,
 } from './dtos';
 import Music from '@entities/Music';
 
@@ -15,4 +16,5 @@ export default interface IMusicsService {
   update(request: UpdateMusicRequest): Promise<Music>;
   delete(request: DeleteMusicRequest): Promise<void>;
   addView(request: AddViewRequest): Promise<Music>;
+  getMostViews(request: GetMostViewsMusicsRequest): Promise<Array<Music>>;
 }

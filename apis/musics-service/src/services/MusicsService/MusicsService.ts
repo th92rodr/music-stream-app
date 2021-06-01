@@ -1,10 +1,11 @@
 // prettier-ignore
 import {
-  GetMusicRequest,
-  CreateMusicRequest,
-  UpdateMusicRequest,
-  DeleteMusicRequest,
   AddViewRequest,
+  CreateMusicRequest,
+  DeleteMusicRequest,
+  GetMostViewsMusicsRequest,
+  GetMusicRequest,
+  UpdateMusicRequest,
 } from './dtos';
 import IMusicsService from './interface';
 import { ErrorMusicNotFound } from '@constants/errors';
@@ -107,5 +108,9 @@ export default class MusicsService implements IMusicsService {
     await this.musicsRepository.update(music);
 
     return music;
+  }
+
+  public async getMostViews({ limit, offset }: GetMostViewsMusicsRequest): Promise<Array<Music>> {
+    return this.musicsRepository.findMostViews({ limit, offset });
   }
 }
