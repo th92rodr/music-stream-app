@@ -4,7 +4,7 @@ import { PaginationRequest } from './dtos';
 import IArtistsRepository from './interface';
 import { AlbumsDb, ArtistsDb } from '../databaseEntities';
 import { translateArtist, translateArtistsList } from '../translators';
-import { AlbumsTable, ArtistsTable } from '@constants/index';
+import { AlbumsTable, ArtistsTable, AscendingOrder, DescendingOrder } from '@constants/index';
 import Artist from '@entities/Artist';
 
 export default class SQLArtistsRepository implements IArtistsRepository {
@@ -39,7 +39,7 @@ export default class SQLArtistsRepository implements IArtistsRepository {
       const artists = await this.databaseConnection<ArtistsDb>(ArtistsTable)
         .offset(offset)
         .limit(limit)
-        .orderBy('name', 'asc');
+        .orderBy('name', AscendingOrder);
 
       return translateArtistsList(artists);
     }
@@ -84,7 +84,7 @@ export default class SQLArtistsRepository implements IArtistsRepository {
     const artists = await this.databaseConnection<ArtistsDb>(ArtistsTable)
       .offset(offset)
       .limit(limit)
-      .orderBy('followers', 'desc');
+      .orderBy('followers', DescendingOrder);
 
     return translateArtistsList(artists);
   }
