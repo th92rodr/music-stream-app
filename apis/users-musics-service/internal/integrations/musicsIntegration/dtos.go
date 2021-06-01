@@ -7,3 +7,7 @@ type GetArtistRequest struct {
 type GetMusicRequest struct {
 	Id string
 }
+
+type ViewMusicRequest struct {
+	Id string
+}
