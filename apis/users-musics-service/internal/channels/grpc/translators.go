@@ -32,8 +32,22 @@ func translateUserMusic(userMusic *e.UserMusic) *proto.UserMusic {
 	return &proto.UserMusic{
 		UserId:  userMusic.UserId,
 		MusicId: userMusic.MusicId,
-		Views:   int32(userMusic.Views),
+		Views:   int64(userMusic.Views),
 	}
+}
+
+func translateUserMusicList(userMusicsList []e.UserMusic) *proto.UserMusicsList {
+	userMusicsListProto := &proto.UserMusicsList{}
+
+	for _, userMusic := range userMusicsList {
+		userMusicsListProto.UserMusics = append(userMusicsListProto.UserMusics, &proto.UserMusic{
+			UserId:  userMusic.UserId,
+			MusicId: userMusic.MusicId,
+			Views:   int64(userMusic.Views),
+		})
+	}
+
+	return userMusicsListProto
 }
 
 func translateGrpcError(statusCode int32) codes.Code {

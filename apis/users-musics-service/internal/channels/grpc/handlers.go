@@ -95,3 +95,33 @@ func (c grpcChannel) GetViews(ctx context.Context, request *proto.GetViewsReques
 
 	return translateUserMusic(userMusic), nil
 }
+
+func (c grpcChannel) GetLastViews(ctx context.Context, request *proto.GetLastViewsRequest) (*proto.UserMusicsList, error) {
+	userMusicsList, err := c.usersMusicsService.GetLastViews(sm.GetLastViewsRequest{
+		UserId: request.UserId,
+		Limit:  request.Limit,
+	})
+
+	if err != nil {
+		return nil, c.handleError(err)
+	}
+
+	c.loggerProvider.Info(fmt.Sprintf("[GET LAST VIEWS] user_id: %s", request.UserId))
+
+	return translateUserMusicList(userMusicsList), nil
+}
+
+func (c grpcChannel) GetMostViews(ctx context.Context, request *proto.GetMostViewsRequest) (*proto.UserMusicsList, error) {
+	userMusicsList, err := c.usersMusicsService.GetMostViews(sm.GetMostViewsRequest{
+		UserId: request.UserId,
+		Limit:  request.Limit,
+	})
+
+	if err != nil {
+		return nil, c.handleError(err)
+	}
+
+	c.loggerProvider.Info(fmt.Sprintf("[GET MOST VIEWS] user_id: %s", request.UserId))
+
+	return translateUserMusicList(userMusicsList), nil
+}
