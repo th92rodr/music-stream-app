@@ -1,4 +1,16 @@
-import { FollowArtist, GetAllFollowingArtists, GetAllFollowingArtistsResponse, GetFollowingArtist, GetViews, UnfollowArtist, ViewMusic, ViewsResponse } from './dtos';
+import {
+  FollowArtist,
+  GetAllFollowingArtists,
+  GetAllFollowingArtistsResponse,
+  GetFollowingArtist,
+  GetLastViews,
+  GetMostViews,
+  GetViews,
+  UnfollowArtist,
+  ViewMusic,
+  ViewsResponse,
+  ViewsListResponse,
+} from './dtos';
 
 export default interface IUsersMusicsIntegration {
   followArtist(request: FollowArtist): Promise<void>;
@@ -9,4 +21,7 @@ export default interface IUsersMusicsIntegration {
 
   viewMusic(request: ViewMusic): Promise<ViewsResponse>;
   getViews(request: GetViews): Promise<ViewsResponse>;
+
+  getLastViews(request: GetLastViews): Promise<ViewsListResponse>;
+  getMostViews(request: GetMostViews): Promise<ViewsListResponse>;
 }

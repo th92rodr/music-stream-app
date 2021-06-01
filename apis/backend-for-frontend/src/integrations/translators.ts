@@ -3,9 +3,9 @@ import { status as grpcStatus } from 'grpc';
 import { Album, AlbumsList, Artist, ArtistsList, Genre, Music, MusicsList } from './proto/musics_service_pb';
 import { Playlist, PlaylistsList, Track } from './proto/playlists_service_pb';
 import { AuthenticateUserResponse, User } from './proto/users_service_pb';
-import { FollowingArtists, UserMusic } from './proto/users_musics_service_pb';
+import { FollowingArtists, UserMusic, UserMusicsList } from './proto/users_musics_service_pb';
 import { AuthenticateResponse } from './UsersIntegration/dtos';
-import { GetAllFollowingArtistsResponse, ViewsResponse } from './UsersMusicsIntegration/dtos';
+import { GetAllFollowingArtistsResponse, ViewsResponse, ViewsListResponse } from './UsersMusicsIntegration/dtos';
 import { Genre as GenreEnum, HttpStatusCode } from '@constants/index';
 import AlbumEntity from '@entities/Album';
 import ArtistEntity from '@entities/Artist';
@@ -164,6 +164,18 @@ export function translateViews(userMusic: UserMusic): ViewsResponse {
     userId: userMusic.getUserId(),
     musicId: userMusic.getMusicId(),
     views: userMusic.getViews(),
+  };
+}
+
+export function translateViewsList(userId: string, userMusicsList: UserMusicsList): ViewsListResponse {
+  return {
+    userId,
+    music: userMusicsList.getUserMusicsList().map(userMusic => {
+      return {
+        musicId: userMusic.getMusicId(),
+        views: userMusic.getViews(),
+      };
+    }),
   };
 }
 
