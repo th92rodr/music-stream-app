@@ -14,6 +14,8 @@ interface IUsersMusicsService extends grpc.ServiceDefinition<grpc.UntypedService
     getAllFollowingArtists: IUsersMusicsService_IGetAllFollowingArtists;
     viewMusic: IUsersMusicsService_IViewMusic;
     getViews: IUsersMusicsService_IGetViews;
+    getLastViews: IUsersMusicsService_IGetLastViews;
+    getMostViews: IUsersMusicsService_IGetMostViews;
 }
 
 interface IUsersMusicsService_IFollowArtist extends grpc.MethodDefinition<users_musics_service_pb.FollowArtistRequest, users_musics_service_pb.Empty> {
@@ -70,6 +72,24 @@ interface IUsersMusicsService_IGetViews extends grpc.MethodDefinition<users_musi
     responseSerialize: grpc.serialize<users_musics_service_pb.UserMusic>;
     responseDeserialize: grpc.deserialize<users_musics_service_pb.UserMusic>;
 }
+interface IUsersMusicsService_IGetLastViews extends grpc.MethodDefinition<users_musics_service_pb.GetLastViewsRequest, users_musics_service_pb.UserMusicsList> {
+    path: "/proto.UsersMusics/GetLastViews";
+    requestStream: false;
+    responseStream: false;
+    requestSerialize: grpc.serialize<users_musics_service_pb.GetLastViewsRequest>;
+    requestDeserialize: grpc.deserialize<users_musics_service_pb.GetLastViewsRequest>;
+    responseSerialize: grpc.serialize<users_musics_service_pb.UserMusicsList>;
+    responseDeserialize: grpc.deserialize<users_musics_service_pb.UserMusicsList>;
+}
+interface IUsersMusicsService_IGetMostViews extends grpc.MethodDefinition<users_musics_service_pb.GetMostViewsRequest, users_musics_service_pb.UserMusicsList> {
+    path: "/proto.UsersMusics/GetMostViews";
+    requestStream: false;
+    responseStream: false;
+    requestSerialize: grpc.serialize<users_musics_service_pb.GetMostViewsRequest>;
+    requestDeserialize: grpc.deserialize<users_musics_service_pb.GetMostViewsRequest>;
+    responseSerialize: grpc.serialize<users_musics_service_pb.UserMusicsList>;
+    responseDeserialize: grpc.deserialize<users_musics_service_pb.UserMusicsList>;
+}
 
 export const UsersMusicsService: IUsersMusicsService;
 
@@ -80,6 +100,8 @@ export interface IUsersMusicsServer {
     getAllFollowingArtists: grpc.handleUnaryCall<users_musics_service_pb.GetAllFollowingArtistsRequest, users_musics_service_pb.FollowingArtists>;
     viewMusic: grpc.handleUnaryCall<users_musics_service_pb.ViewMusicRequest, users_musics_service_pb.UserMusic>;
     getViews: grpc.handleUnaryCall<users_musics_service_pb.GetViewsRequest, users_musics_service_pb.UserMusic>;
+    getLastViews: grpc.handleUnaryCall<users_musics_service_pb.GetLastViewsRequest, users_musics_service_pb.UserMusicsList>;
+    getMostViews: grpc.handleUnaryCall<users_musics_service_pb.GetMostViewsRequest, users_musics_service_pb.UserMusicsList>;
 }
 
 export interface IUsersMusicsClient {
@@ -101,6 +123,12 @@ export interface IUsersMusicsClient {
     getViews(request: users_musics_service_pb.GetViewsRequest, callback: (error: grpc.ServiceError | null, response: users_musics_service_pb.UserMusic) => void): grpc.ClientUnaryCall;
     getViews(request: users_musics_service_pb.GetViewsRequest, metadata: grpc.Metadata, callback: (error: grpc.ServiceError | null, response: users_musics_service_pb.UserMusic) => void): grpc.ClientUnaryCall;
     getViews(request: users_musics_service_pb.GetViewsRequest, metadata: grpc.Metadata, options: Partial<grpc.CallOptions>, callback: (error: grpc.ServiceError | null, response: users_musics_service_pb.UserMusic) => void): grpc.ClientUnaryCall;
+    getLastViews(request: users_musics_service_pb.GetLastViewsRequest, callback: (error: grpc.ServiceError | null, response: users_musics_service_pb.UserMusicsList) => void): grpc.ClientUnaryCall;
+    getLastViews(request: users_musics_service_pb.GetLastViewsRequest, metadata: grpc.Metadata, callback: (error: grpc.ServiceError | null, response: users_musics_service_pb.UserMusicsList) => void): grpc.ClientUnaryCall;
+    getLastViews(request: users_musics_service_pb.GetLastViewsRequest, metadata: grpc.Metadata, options: Partial<grpc.CallOptions>, callback: (error: grpc.ServiceError | null, response: users_musics_service_pb.UserMusicsList) => void): grpc.ClientUnaryCall;
+    getMostViews(request: users_musics_service_pb.GetMostViewsRequest, callback: (error: grpc.ServiceError | null, response: users_musics_service_pb.UserMusicsList) => void): grpc.ClientUnaryCall;
+    getMostViews(request: users_musics_service_pb.GetMostViewsRequest, metadata: grpc.Metadata, callback: (error: grpc.ServiceError | null, response: users_musics_service_pb.UserMusicsList) => void): grpc.ClientUnaryCall;
+    getMostViews(request: users_musics_service_pb.GetMostViewsRequest, metadata: grpc.Metadata, options: Partial<grpc.CallOptions>, callback: (error: grpc.ServiceError | null, response: users_musics_service_pb.UserMusicsList) => void): grpc.ClientUnaryCall;
 }
 
 export class UsersMusicsClient extends grpc.Client implements IUsersMusicsClient {
@@ -123,4 +151,10 @@ export class UsersMusicsClient extends grpc.Client implements IUsersMusicsClient
     public getViews(request: users_musics_service_pb.GetViewsRequest, callback: (error: grpc.ServiceError | null, response: users_musics_service_pb.UserMusic) => void): grpc.ClientUnaryCall;
     public getViews(request: users_musics_service_pb.GetViewsRequest, metadata: grpc.Metadata, callback: (error: grpc.ServiceError | null, response: users_musics_service_pb.UserMusic) => void): grpc.ClientUnaryCall;
     public getViews(request: users_musics_service_pb.GetViewsRequest, metadata: grpc.Metadata, options: Partial<grpc.CallOptions>, callback: (error: grpc.ServiceError | null, response: users_musics_service_pb.UserMusic) => void): grpc.ClientUnaryCall;
+    public getLastViews(request: users_musics_service_pb.GetLastViewsRequest, callback: (error: grpc.ServiceError | null, response: users_musics_service_pb.UserMusicsList) => void): grpc.ClientUnaryCall;
+    public getLastViews(request: users_musics_service_pb.GetLastViewsRequest, metadata: grpc.Metadata, callback: (error: grpc.ServiceError | null, response: users_musics_service_pb.UserMusicsList) => void): grpc.ClientUnaryCall;
+    public getLastViews(request: users_musics_service_pb.GetLastViewsRequest, metadata: grpc.Metadata, options: Partial<grpc.CallOptions>, callback: (error: grpc.ServiceError | null, response: users_musics_service_pb.UserMusicsList) => void): grpc.ClientUnaryCall;
+    public getMostViews(request: users_musics_service_pb.GetMostViewsRequest, callback: (error: grpc.ServiceError | null, response: users_musics_service_pb.UserMusicsList) => void): grpc.ClientUnaryCall;
+    public getMostViews(request: users_musics_service_pb.GetMostViewsRequest, metadata: grpc.Metadata, callback: (error: grpc.ServiceError | null, response: users_musics_service_pb.UserMusicsList) => void): grpc.ClientUnaryCall;
+    public getMostViews(request: users_musics_service_pb.GetMostViewsRequest, metadata: grpc.Metadata, options: Partial<grpc.CallOptions>, callback: (error: grpc.ServiceError | null, response: users_musics_service_pb.UserMusicsList) => void): grpc.ClientUnaryCall;
 }

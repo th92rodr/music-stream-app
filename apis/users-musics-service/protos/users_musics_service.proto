@@ -12,6 +12,9 @@ service UsersMusics {
 
     rpc ViewMusic(ViewMusicRequest) returns (UserMusic) {}
     rpc GetViews(GetViewsRequest) returns (UserMusic) {}
+
+    rpc GetLastViews(GetLastViewsRequest) returns (UserMusicsList) {}
+    rpc GetMostViews(GetMostViewsRequest) returns (UserMusicsList) {}
 }
 
 message FollowArtistRequest {
@@ -53,10 +56,24 @@ message GetViewsRequest {
     string music_id = 2;
 }
 
+message GetLastViewsRequest {
+    string user_id = 1;
+    int32 limit = 2;
+}
+
+message GetMostViewsRequest {
+    string user_id = 1;
+    int32 limit = 2;
+}
+
 message UserMusic {
     string user_id = 1;
     string music_id = 2;
-    int32 views = 3;
+    int64 views = 3;
+}
+
+message UserMusicsList {
+    repeated UserMusic user_musics = 1;
 }
 
 message Empty {}

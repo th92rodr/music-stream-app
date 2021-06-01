@@ -189,6 +189,52 @@ export namespace GetViewsRequest {
     }
 }
 
+export class GetLastViewsRequest extends jspb.Message { 
+    getUserId(): string;
+    setUserId(value: string): GetLastViewsRequest;
+    getLimit(): number;
+    setLimit(value: number): GetLastViewsRequest;
+
+    serializeBinary(): Uint8Array;
+    toObject(includeInstance?: boolean): GetLastViewsRequest.AsObject;
+    static toObject(includeInstance: boolean, msg: GetLastViewsRequest): GetLastViewsRequest.AsObject;
+    static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+    static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+    static serializeBinaryToWriter(message: GetLastViewsRequest, writer: jspb.BinaryWriter): void;
+    static deserializeBinary(bytes: Uint8Array): GetLastViewsRequest;
+    static deserializeBinaryFromReader(message: GetLastViewsRequest, reader: jspb.BinaryReader): GetLastViewsRequest;
+}
+
+export namespace GetLastViewsRequest {
+    export type AsObject = {
+        userId: string,
+        limit: number,
+    }
+}
+
+export class GetMostViewsRequest extends jspb.Message { 
+    getUserId(): string;
+    setUserId(value: string): GetMostViewsRequest;
+    getLimit(): number;
+    setLimit(value: number): GetMostViewsRequest;
+
+    serializeBinary(): Uint8Array;
+    toObject(includeInstance?: boolean): GetMostViewsRequest.AsObject;
+    static toObject(includeInstance: boolean, msg: GetMostViewsRequest): GetMostViewsRequest.AsObject;
+    static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+    static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+    static serializeBinaryToWriter(message: GetMostViewsRequest, writer: jspb.BinaryWriter): void;
+    static deserializeBinary(bytes: Uint8Array): GetMostViewsRequest;
+    static deserializeBinaryFromReader(message: GetMostViewsRequest, reader: jspb.BinaryReader): GetMostViewsRequest;
+}
+
+export namespace GetMostViewsRequest {
+    export type AsObject = {
+        userId: string,
+        limit: number,
+    }
+}
+
 export class UserMusic extends jspb.Message { 
     getUserId(): string;
     setUserId(value: string): UserMusic;
@@ -212,6 +258,28 @@ export namespace UserMusic {
         userId: string,
         musicId: string,
         views: number,
+    }
+}
+
+export class UserMusicsList extends jspb.Message { 
+    clearUserMusicsList(): void;
+    getUserMusicsList(): Array<UserMusic>;
+    setUserMusicsList(value: Array<UserMusic>): UserMusicsList;
+    addUserMusics(value?: UserMusic, index?: number): UserMusic;
+
+    serializeBinary(): Uint8Array;
+    toObject(includeInstance?: boolean): UserMusicsList.AsObject;
+    static toObject(includeInstance: boolean, msg: UserMusicsList): UserMusicsList.AsObject;
+    static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+    static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+    static serializeBinaryToWriter(message: UserMusicsList, writer: jspb.BinaryWriter): void;
+    static deserializeBinary(bytes: Uint8Array): UserMusicsList;
+    static deserializeBinaryFromReader(message: UserMusicsList, reader: jspb.BinaryReader): UserMusicsList;
+}
+
+export namespace UserMusicsList {
+    export type AsObject = {
+        userMusicsList: Array<UserMusic.AsObject>,
     }
 }
 
