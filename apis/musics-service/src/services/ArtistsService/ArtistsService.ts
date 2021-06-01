@@ -1,14 +1,15 @@
 // prettier-ignore
 import {
+  AddFavoriteRequest,
+  AddFollowerRequest,
+  CreateArtistRequest,
+  DeleteArtistRequest,
   GetArtistRequest,
   GetArtistByGenreRequest,
-  CreateArtistRequest,
-  UpdateArtistRequest,
-  DeleteArtistRequest,
-  AddFavoriteRequest,
+  GetMostFollowersRequest,
   RemoveFavoriteRequest,
-  AddFollowerRequest,
   RemoveFollowerRequest,
+  UpdateArtistRequest,
 } from './dtos';
 import IArtistsService from './interface';
 import { ErrorArtistNotFound } from '@constants/errors';
@@ -179,5 +180,9 @@ export default class ArtistsService implements IArtistsService {
     await this.artistsRepository.update(artist);
 
     return artist;
+  }
+
+  public async getMostFollowers({ limit, offset }: GetMostFollowersRequest): Promise<Array<Artist>> {
+    return this.artistsRepository.findMostFollowers({ limit, offset });
   }
 }

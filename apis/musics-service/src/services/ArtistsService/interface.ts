@@ -1,14 +1,15 @@
 // prettier-ignore
 import {
+  AddFavoriteRequest,
+  AddFollowerRequest,
+  CreateArtistRequest,
+  DeleteArtistRequest,
   GetArtistRequest,
   GetArtistByGenreRequest,
-  CreateArtistRequest,
-  UpdateArtistRequest,
-  DeleteArtistRequest,
-  AddFavoriteRequest,
+  GetMostFollowersRequest,
   RemoveFavoriteRequest,
-  AddFollowerRequest,
   RemoveFollowerRequest,
+  UpdateArtistRequest,
 } from './dtos';
 import Artist from '@entities/Artist';
 
@@ -23,4 +24,5 @@ export default interface IArtistsService {
   removeFavorite(request: RemoveFavoriteRequest): Promise<Artist>;
   addFollower(request: AddFollowerRequest): Promise<Artist>;
   removeFollower(request: RemoveFollowerRequest): Promise<Artist>;
+  getMostFollowers(request: GetMostFollowersRequest): Promise<Array<Artist>>;
 }

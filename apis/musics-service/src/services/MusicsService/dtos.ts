@@ -31,7 +31,7 @@ export interface AddViewRequest {
   id: string;
 }
 
-export interface GetMostViewsMusicsRequest {
-  offset: number;
+export interface GetMostViewsRequest {
   limit: number;
+  offset: number;
 }
