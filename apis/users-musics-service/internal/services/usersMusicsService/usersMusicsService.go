@@ -58,6 +58,10 @@ func (s usersMusicsService) AddView(request AddViewRequest) (*e.UserMusic, error
 				return nil, err
 			}
 
+			go s.musicsIntegration.ViewMusic(m.ViewMusicRequest{
+				Id: userMusic.MusicId,
+			})
+
 			return userMusic, nil
 		}
 
@@ -80,6 +84,10 @@ func (s usersMusicsService) AddView(request AddViewRequest) (*e.UserMusic, error
 	}); err != nil {
 		return nil, err
 	}
+
+	go s.musicsIntegration.ViewMusic(m.ViewMusicRequest{
+		Id: newUserMusic.MusicId,
+	})
 
 	return newUserMusic, nil
 }

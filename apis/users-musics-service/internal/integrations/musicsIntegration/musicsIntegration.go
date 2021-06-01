@@ -48,3 +48,13 @@ func (i musicsIntegration) GetMusic(request GetMusicRequest) (*e.Music, error) {
 
 	return translateMusicEntity(music), nil
 }
+
+func (i musicsIntegration) ViewMusic(request ViewMusicRequest) error {
+	if _, err := i.client.ViewMusic(context.Background(), &proto.Id{
+		Id: request.Id,
+	}); err != nil {
+		return err
+	}
+
+	return nil
+}
