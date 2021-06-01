@@ -7,4 +7,7 @@ type IMusicsIntegration interface {
 	GetMusic(request GetMusicRequest) (*e.Music, error)
 
 	ViewMusic(request ViewMusicRequest) error
+
+	FollowArtist(request FollowArtistRequest) error
+	UnfollowArtist(request UnfollowArtistRequest) error
 }
