@@ -1,20 +1,35 @@
 import * as grpc from 'grpc';
 
-import { FollowArtist, GetAllFollowingArtists, GetAllFollowingArtistsResponse, GetFollowingArtist, GetViews, UnfollowArtist, ViewMusic, ViewsResponse } from './dtos';
+import {
+  FollowArtist,
+  GetAllFollowingArtists,
+  GetAllFollowingArtistsResponse,
+  GetFollowingArtist,
+  GetLastViews,
+  GetMostViews,
+  GetViews,
+  UnfollowArtist,
+  ViewMusic,
+  ViewsResponse,
+  ViewsListResponse,
+} from './dtos';
 import IUsersMusicsIntegration from './interface';
 import { UsersMusicsClient } from '../proto/users_musics_service_grpc_pb';
 import {
   GetAllFollowingArtistsRequest,
   GetFollowingArtistRequest,
+  GetLastViewsRequest,
+  GetMostViewsRequest,
   GetViewsRequest,
   FollowArtistRequest,
   FollowingArtist,
   FollowingArtists,
   UnfollowArtistRequest,
   UserMusic,
+  UserMusicsList,
   ViewMusicRequest,
 } from '../proto/users_musics_service_pb';
-import { translateFollowingArtists, translateViews } from '../translators';
+import { translateFollowingArtists, translateViews, translateViewsList } from '../translators';
 import { handleError } from '../utils';
 import Config from '@config/index';
 
@@ -100,6 +115,32 @@ export default class UsersMusicsIntegration implements IUsersMusicsIntegration {
       this.client.getViews(getViewsRequest, (error: Error | null, userMusic: UserMusic) => {
         if (error != null) reject(handleError(error));
         else resolve(translateViews(userMusic));
+      });
+    });
+  };
+
+  public getLastViews = async ({ limit, userId }: GetLastViews): Promise<ViewsListResponse> => {
+    return new Promise((resolve, reject) => {
+      const getLastViewsRequest = new GetLastViewsRequest();
+      getLastViewsRequest.setUserId(userId);
+      getLastViewsRequest.setLimit(limit);
+
+      this.client.getLastViews(getLastViewsRequest, (error: Error | null, userMusicsList: UserMusicsList) => {
+        if (error != null) reject(handleError(error));
+        else resolve(translateViewsList(userId, userMusicsList));
+      });
+    });
+  };
+
+  public getMostViews = async ({ limit, userId }: GetMostViews): Promise<ViewsListResponse> => {
+    return new Promise((resolve, reject) => {
+      const getMostViewsRequest = new GetMostViewsRequest();
+      getMostViewsRequest.setUserId(userId);
+      getMostViewsRequest.setLimit(limit);
+
+      this.client.getMostViews(getMostViewsRequest, (error: Error | null, userMusicsList: UserMusicsList) => {
+        if (error != null) reject(handleError(error));
+        else resolve(translateViewsList(userId, userMusicsList));
       });
     });
   };

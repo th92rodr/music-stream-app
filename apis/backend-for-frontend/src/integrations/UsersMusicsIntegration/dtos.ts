@@ -32,8 +32,26 @@ export interface GetViews {
   musicId: string;
 }
 
+export interface GetLastViews {
+  userId: string;
+  limit: number;
+}
+
+export interface GetMostViews {
+  userId: string;
+  limit: number;
+}
+
 export interface ViewsResponse {
   userId: string;
   musicId: string;
   views: number;
+}
+
+export interface ViewsListResponse {
+  userId: string;
+  music: {
+    musicId: string;
+    views: number;
+  }[];
 }
