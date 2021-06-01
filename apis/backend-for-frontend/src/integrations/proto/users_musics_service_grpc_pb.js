@@ -70,6 +70,28 @@ function deserialize_proto_GetFollowingArtistRequest(buffer_arg) {
   return users_musics_service_pb.GetFollowingArtistRequest.deserializeBinary(new Uint8Array(buffer_arg));
 }
 
+function serialize_proto_GetLastViewsRequest(arg) {
+  if (!(arg instanceof users_musics_service_pb.GetLastViewsRequest)) {
+    throw new Error('Expected argument of type proto.GetLastViewsRequest');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_proto_GetLastViewsRequest(buffer_arg) {
+  return users_musics_service_pb.GetLastViewsRequest.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
+function serialize_proto_GetMostViewsRequest(arg) {
+  if (!(arg instanceof users_musics_service_pb.GetMostViewsRequest)) {
+    throw new Error('Expected argument of type proto.GetMostViewsRequest');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_proto_GetMostViewsRequest(buffer_arg) {
+  return users_musics_service_pb.GetMostViewsRequest.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
 function serialize_proto_GetViewsRequest(arg) {
   if (!(arg instanceof users_musics_service_pb.GetViewsRequest)) {
     throw new Error('Expected argument of type proto.GetViewsRequest');
@@ -101,6 +123,17 @@ function serialize_proto_UserMusic(arg) {
 
 function deserialize_proto_UserMusic(buffer_arg) {
   return users_musics_service_pb.UserMusic.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
+function serialize_proto_UserMusicsList(arg) {
+  if (!(arg instanceof users_musics_service_pb.UserMusicsList)) {
+    throw new Error('Expected argument of type proto.UserMusicsList');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_proto_UserMusicsList(buffer_arg) {
+  return users_musics_service_pb.UserMusicsList.deserializeBinary(new Uint8Array(buffer_arg));
 }
 
 function serialize_proto_ViewMusicRequest(arg) {
@@ -181,6 +214,28 @@ var UsersMusicsService = exports.UsersMusicsService = {
     requestDeserialize: deserialize_proto_GetViewsRequest,
     responseSerialize: serialize_proto_UserMusic,
     responseDeserialize: deserialize_proto_UserMusic,
+  },
+  getLastViews: {
+    path: '/proto.UsersMusics/GetLastViews',
+    requestStream: false,
+    responseStream: false,
+    requestType: users_musics_service_pb.GetLastViewsRequest,
+    responseType: users_musics_service_pb.UserMusicsList,
+    requestSerialize: serialize_proto_GetLastViewsRequest,
+    requestDeserialize: deserialize_proto_GetLastViewsRequest,
+    responseSerialize: serialize_proto_UserMusicsList,
+    responseDeserialize: deserialize_proto_UserMusicsList,
+  },
+  getMostViews: {
+    path: '/proto.UsersMusics/GetMostViews',
+    requestStream: false,
+    responseStream: false,
+    requestType: users_musics_service_pb.GetMostViewsRequest,
+    responseType: users_musics_service_pb.UserMusicsList,
+    requestSerialize: serialize_proto_GetMostViewsRequest,
+    requestDeserialize: deserialize_proto_GetMostViewsRequest,
+    responseSerialize: serialize_proto_UserMusicsList,
+    responseDeserialize: deserialize_proto_UserMusicsList,
   },
 };
 
