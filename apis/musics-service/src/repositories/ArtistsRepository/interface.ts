@@ -8,4 +8,5 @@ export default interface IArtistsRepository {
   store(artist: Artist): Promise<void>;
   update(artist: Artist): Promise<void>;
   delete(id: string): Promise<void>;
+  findMostFollowers(paginationRequest: PaginationRequest): Promise<Array<Artist>>;
 }

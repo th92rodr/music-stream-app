@@ -76,4 +76,16 @@ export default class SQLArtistsRepository implements IArtistsRepository {
       .where({ id })
       .del();
   }
+
+  public async findMostFollowers(paginationRequest: PaginationRequest): Promise<Array<Artist>> {
+    const { offset, limit } = paginationRequest;
+
+    // prettier-ignore
+    const artists = await this.databaseConnection<ArtistsDb>(ArtistsTable)
+      .offset(offset)
+      .limit(limit)
+      .orderBy('followers', 'desc');
+
+    return translateArtistsList(artists);
+  }
 }
