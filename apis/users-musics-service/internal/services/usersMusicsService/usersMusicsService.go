@@ -83,3 +83,17 @@ func (s usersMusicsService) AddView(request AddViewRequest) (*e.UserMusic, error
 
 	return newUserMusic, nil
 }
+
+func (s usersMusicsService) GetLastViews(request GetLastViewsRequest) ([]e.UserMusic, error) {
+	return s.usersMusicsRepository.FindLastUpdated(r.FindLastUpdatedRequest{
+		UserId: request.UserId,
+		Limit:  request.Limit,
+	})
+}
+
+func (s usersMusicsService) GetMostViews(request GetMostViewsRequest) ([]e.UserMusic, error) {
+	return s.usersMusicsRepository.FindMostViews(r.FindMostViewsRequest{
+		UserId: request.UserId,
+		Limit:  request.Limit,
+	})
+}
