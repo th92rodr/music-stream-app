@@ -11,3 +11,11 @@ type GetMusicRequest struct {
 type ViewMusicRequest struct {
 	Id string
 }
+
+type FollowArtistRequest struct {
+	Id string
+}
+
+type UnfollowArtistRequest struct {
+	Id string
+}

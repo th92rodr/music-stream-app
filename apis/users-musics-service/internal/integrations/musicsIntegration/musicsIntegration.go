@@ -58,3 +58,23 @@ func (i musicsIntegration) ViewMusic(request ViewMusicRequest) error {
 
 	return nil
 }
+
+func (i musicsIntegration) FollowArtist(request FollowArtistRequest) error {
+	if _, err := i.client.FollowArtist(context.Background(), &proto.Id{
+		Id: request.Id,
+	}); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (i musicsIntegration) UnfollowArtist(request UnfollowArtistRequest) error {
+	if _, err := i.client.UnfollowArtist(context.Background(), &proto.Id{
+		Id: request.Id,
+	}); err != nil {
+		return err
+	}
+
+	return nil
+}

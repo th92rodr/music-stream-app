@@ -36,6 +36,10 @@ func (s usersArtistsService) Follow(request FollowRequest) (*e.UserArtist, error
 		return nil, err
 	}
 
+	go s.musicsIntegration.FollowArtist(m.FollowArtistRequest{
+		Id: userArtist.ArtistId,
+	})
+
 	return userArtist, nil
 }
 
@@ -48,9 +52,17 @@ func (s usersArtistsService) Unfollow(request UnfollowRequest) error {
 		return err
 	}
 
-	return s.usersArtistsRepository.Delete(r.DeleteUserArtistRequest{
+	if err := s.usersArtistsRepository.Delete(r.DeleteUserArtistRequest{
 		Id: userArtist.Id,
+	}); err != nil {
+		return err
+	}
+
+	go s.musicsIntegration.UnfollowArtist(m.UnfollowArtistRequest{
+		Id: userArtist.ArtistId,
 	})
+
+	return nil
 }
 
 func (s usersArtistsService) GetFollowing(request GetFollowingRequest) (*e.UserArtist, error) {
