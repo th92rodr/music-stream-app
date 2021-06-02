@@ -12,7 +12,10 @@ import {
   CreateArtistRequest,
   CreateMusicRequest,
   Empty,
-  GetArtistByGenreRequest,
+  GetArtistsByGenreRequest,
+  GetMostFollowedArtistsRequest,
+  GetMostRecentAlbumsRequest,
+  GetMostViewedMusicsRequest,
   Id,
   Music,
   MusicsList,
@@ -171,6 +174,18 @@ export class MusicsHandler implements IMusicsServer {
     }
   };
 
+  getMostViewedMusics = async (call: grpc.ServerUnaryCall<GetMostViewedMusicsRequest>, callback: grpc.sendUnaryData<MusicsList>): Promise<void> => {
+    try {
+      const musics = await this.musicsService.getMostViewed({ limit: call.request.getLimit(), offset: call.request.getOffset() });
+
+      this.loggerProvider.info('[GET MOST VIEWED MUSICS]');
+
+      callback(null, translateMusicEntityList(musics));
+    } catch (error) {
+      this.handleError<MusicsList>(callback, error);
+    }
+  };
+
   getAlbum = async (call: grpc.ServerUnaryCall<Id>, callback: grpc.sendUnaryData<Album>): Promise<void> => {
     try {
       const album = await this.albumsService.get({ id: call.request.getId() });
@@ -246,6 +261,18 @@ export class MusicsHandler implements IMusicsServer {
     }
   };
 
+  getMostRecentAlbums = async (call: grpc.ServerUnaryCall<GetMostRecentAlbumsRequest>, callback: grpc.sendUnaryData<AlbumsList>): Promise<void> => {
+    try {
+      const albums = await this.albumsService.getMostRecent({ limit: call.request.getLimit(), offset: call.request.getOffset() });
+
+      this.loggerProvider.info('[GET MOST RECENT ALBUMS]');
+
+      callback(null, translateAlbumEntityList(albums));
+    } catch (error) {
+      this.handleError<AlbumsList>(callback, error);
+    }
+  };
+
   getArtist = async (call: grpc.ServerUnaryCall<Id>, callback: grpc.sendUnaryData<Artist>): Promise<void> => {
     try {
       const artist = await this.artistsService.get({ id: call.request.getId() });
@@ -270,7 +297,7 @@ export class MusicsHandler implements IMusicsServer {
     }
   };
 
-  getArtistByGenre = async (call: grpc.ServerUnaryCall<GetArtistByGenreRequest>, callback: grpc.sendUnaryData<ArtistsList>): Promise<void> => {
+  getArtistsByGenre = async (call: grpc.ServerUnaryCall<GetArtistsByGenreRequest>, callback: grpc.sendUnaryData<ArtistsList>): Promise<void> => {
     try {
       const artists = await this.artistsService.getByGenre({ genre: translateGenreEnum(call.request.getGenre()) });
 
@@ -388,6 +415,18 @@ export class MusicsHandler implements IMusicsServer {
       callback(null, translateArtistEntity(artist));
     } catch (error) {
       this.handleError<Artist>(callback, error);
+    }
+  };
+
+  getMostFollowedArtists = async (call: grpc.ServerUnaryCall<GetMostFollowedArtistsRequest>, callback: grpc.sendUnaryData<ArtistsList>): Promise<void> => {
+    try {
+      const artists = await this.artistsService.getMostFollowed({ limit: call.request.getLimit(), offset: call.request.getOffset() });
+
+      this.loggerProvider.info('[GET MOST FOLLOWED ARTISTS]');
+
+      callback(null, translateArtistEntityList(artists));
+    } catch (error) {
+      this.handleError<ArtistsList>(callback, error);
     }
   };
 }

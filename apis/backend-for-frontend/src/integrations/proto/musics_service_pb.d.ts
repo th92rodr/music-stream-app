@@ -177,6 +177,29 @@ export namespace UpdateMusicRequest {
     }
 }
 
+export class GetMostViewedMusicsRequest extends jspb.Message { 
+    getLimit(): number;
+    setLimit(value: number): GetMostViewedMusicsRequest;
+    getOffset(): number;
+    setOffset(value: number): GetMostViewedMusicsRequest;
+
+    serializeBinary(): Uint8Array;
+    toObject(includeInstance?: boolean): GetMostViewedMusicsRequest.AsObject;
+    static toObject(includeInstance: boolean, msg: GetMostViewedMusicsRequest): GetMostViewedMusicsRequest.AsObject;
+    static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+    static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+    static serializeBinaryToWriter(message: GetMostViewedMusicsRequest, writer: jspb.BinaryWriter): void;
+    static deserializeBinary(bytes: Uint8Array): GetMostViewedMusicsRequest;
+    static deserializeBinaryFromReader(message: GetMostViewedMusicsRequest, reader: jspb.BinaryReader): GetMostViewedMusicsRequest;
+}
+
+export namespace GetMostViewedMusicsRequest {
+    export type AsObject = {
+        limit: number,
+        offset: number,
+    }
+}
+
 export class Album extends jspb.Message { 
     getId(): string;
     setId(value: string): Album;
@@ -321,6 +344,29 @@ export namespace UpdateAlbumRequest {
     }
 }
 
+export class GetMostRecentAlbumsRequest extends jspb.Message { 
+    getLimit(): number;
+    setLimit(value: number): GetMostRecentAlbumsRequest;
+    getOffset(): number;
+    setOffset(value: number): GetMostRecentAlbumsRequest;
+
+    serializeBinary(): Uint8Array;
+    toObject(includeInstance?: boolean): GetMostRecentAlbumsRequest.AsObject;
+    static toObject(includeInstance: boolean, msg: GetMostRecentAlbumsRequest): GetMostRecentAlbumsRequest.AsObject;
+    static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+    static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+    static serializeBinaryToWriter(message: GetMostRecentAlbumsRequest, writer: jspb.BinaryWriter): void;
+    static deserializeBinary(bytes: Uint8Array): GetMostRecentAlbumsRequest;
+    static deserializeBinaryFromReader(message: GetMostRecentAlbumsRequest, reader: jspb.BinaryReader): GetMostRecentAlbumsRequest;
+}
+
+export namespace GetMostRecentAlbumsRequest {
+    export type AsObject = {
+        limit: number,
+        offset: number,
+    }
+}
+
 export class Artist extends jspb.Message { 
     getId(): string;
     setId(value: string): Artist;
@@ -419,21 +465,21 @@ export namespace ArtistsList {
     }
 }
 
-export class GetArtistByGenreRequest extends jspb.Message { 
+export class GetArtistsByGenreRequest extends jspb.Message { 
     getGenre(): Genre;
-    setGenre(value: Genre): GetArtistByGenreRequest;
+    setGenre(value: Genre): GetArtistsByGenreRequest;
 
     serializeBinary(): Uint8Array;
-    toObject(includeInstance?: boolean): GetArtistByGenreRequest.AsObject;
-    static toObject(includeInstance: boolean, msg: GetArtistByGenreRequest): GetArtistByGenreRequest.AsObject;
+    toObject(includeInstance?: boolean): GetArtistsByGenreRequest.AsObject;
+    static toObject(includeInstance: boolean, msg: GetArtistsByGenreRequest): GetArtistsByGenreRequest.AsObject;
     static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
     static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
-    static serializeBinaryToWriter(message: GetArtistByGenreRequest, writer: jspb.BinaryWriter): void;
-    static deserializeBinary(bytes: Uint8Array): GetArtistByGenreRequest;
-    static deserializeBinaryFromReader(message: GetArtistByGenreRequest, reader: jspb.BinaryReader): GetArtistByGenreRequest;
+    static serializeBinaryToWriter(message: GetArtistsByGenreRequest, writer: jspb.BinaryWriter): void;
+    static deserializeBinary(bytes: Uint8Array): GetArtistsByGenreRequest;
+    static deserializeBinaryFromReader(message: GetArtistsByGenreRequest, reader: jspb.BinaryReader): GetArtistsByGenreRequest;
 }
 
-export namespace GetArtistByGenreRequest {
+export namespace GetArtistsByGenreRequest {
     export type AsObject = {
         genre: Genre,
     }
@@ -553,6 +599,29 @@ export namespace UpdateArtistRequest {
         instagramUrl: string,
         wikipediaUrl: string,
         font: string,
+    }
+}
+
+export class GetMostFollowedArtistsRequest extends jspb.Message { 
+    getLimit(): number;
+    setLimit(value: number): GetMostFollowedArtistsRequest;
+    getOffset(): number;
+    setOffset(value: number): GetMostFollowedArtistsRequest;
+
+    serializeBinary(): Uint8Array;
+    toObject(includeInstance?: boolean): GetMostFollowedArtistsRequest.AsObject;
+    static toObject(includeInstance: boolean, msg: GetMostFollowedArtistsRequest): GetMostFollowedArtistsRequest.AsObject;
+    static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+    static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+    static serializeBinaryToWriter(message: GetMostFollowedArtistsRequest, writer: jspb.BinaryWriter): void;
+    static deserializeBinary(bytes: Uint8Array): GetMostFollowedArtistsRequest;
+    static deserializeBinaryFromReader(message: GetMostFollowedArtistsRequest, reader: jspb.BinaryReader): GetMostFollowedArtistsRequest;
+}
+
+export namespace GetMostFollowedArtistsRequest {
+    export type AsObject = {
+        limit: number,
+        offset: number,
     }
 }
 

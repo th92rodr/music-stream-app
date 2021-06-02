@@ -3,32 +3,32 @@ syntax = "proto3";
 package proto;
 
 service Musics {
-    rpc GetMusic(Id) returns (Music) {}
-    rpc GetMusics(Empty) returns (MusicsList) {}
-    rpc CreateMusic(CreateMusicRequest) returns (Music) {}
-    rpc UpdateMusic(UpdateMusicRequest) returns (Music) {}
-    rpc DeleteMusic(Id) returns (Empty) {}
-    rpc ViewMusic(Id) returns (Music) {}
-    rpc GetMostViewedMusics(GetMostViewedMusicsRequest) returns (MusicsList) {}
+    rpc GetMusic (Id) returns (Music) {}
+    rpc GetMusics (Empty) returns (MusicsList) {}
+    rpc CreateMusic (CreateMusicRequest) returns (Music) {}
+    rpc UpdateMusic (UpdateMusicRequest) returns (Music) {}
+    rpc DeleteMusic (Id) returns (Empty) {}
+    rpc ViewMusic (Id) returns (Music) {}
+    rpc GetMostViewedMusics (GetMostViewedMusicsRequest) returns (MusicsList) {}
 
-    rpc GetAlbum(Id) returns (Album) {}
-    rpc GetAlbums(Empty) returns (AlbumsList) {}
-    rpc CreateAlbum(CreateAlbumRequest) returns (Album) {}
-    rpc UpdateAlbum(UpdateAlbumRequest) returns (Album) {}
-    rpc DeleteAlbum(Id) returns (Empty) {}
-    rpc GetMostRecentAlbums(GetMostRecentAlbumsRequest) returns (AlbumsList) {}
+    rpc GetAlbum (Id) returns (Album) {}
+    rpc GetAlbums (Empty) returns (AlbumsList) {}
+    rpc CreateAlbum (CreateAlbumRequest) returns (Album) {}
+    rpc UpdateAlbum (UpdateAlbumRequest) returns (Album) {}
+    rpc DeleteAlbum (Id) returns (Empty) {}
+    rpc GetMostRecentAlbums (GetMostRecentAlbumsRequest) returns (AlbumsList) {}
 
-    rpc GetArtist(Id) returns (Artist) {}
-    rpc GetArtists(Empty) returns (ArtistsList) {}
-    rpc GetArtistsByGenre(GetArtistsByGenreRequest) returns (ArtistsList) {}
-    rpc CreateArtist(CreateArtistRequest) returns (Artist) {}
-    rpc UpdateArtist(UpdateArtistRequest) returns (Artist) {}
-    rpc DeleteArtist(Id) returns (Empty) {}
-    rpc FavoriteArtist(Id) returns (Artist) {}
-    rpc UnfavoriteArtist(Id) returns (Artist) {}
-    rpc FollowArtist(Id) returns (Artist) {}
-    rpc UnfollowArtist(Id) returns (Artist) {}
-    rpc GetMostFollowedArtists(GetMostFollowedArtistsRequest) returns (ArtistsList) {}
+    rpc GetArtist (Id) returns (Artist) {}
+    rpc GetArtists (Empty) returns (ArtistsList) {}
+    rpc GetArtistsByGenre (GetArtistsByGenreRequest) returns (ArtistsList) {}
+    rpc CreateArtist (CreateArtistRequest) returns (Artist) {}
+    rpc UpdateArtist (UpdateArtistRequest) returns (Artist) {}
+    rpc DeleteArtist (Id) returns (Empty) {}
+    rpc FavoriteArtist (Id) returns (Artist) {}
+    rpc UnfavoriteArtist (Id) returns (Artist) {}
+    rpc FollowArtist (Id) returns (Artist) {}
+    rpc UnfollowArtist (Id) returns (Artist) {}
+    rpc GetMostFollowedArtists (GetMostFollowedArtistsRequest) returns (ArtistsList) {}
 }
 
 message Id {
