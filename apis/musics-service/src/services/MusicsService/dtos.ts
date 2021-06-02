@@ -1,15 +1,24 @@
-export interface GetMusicRequest {
-  id: string;
-}
-
 export interface CreateMusicRequest {
   title: string;
   durationInSeconds: number;
   file: string;
-  composers: Array<string>;
+  composers: string[];
   lyrics: string;
   albumId: string;
   artistId: string;
+}
+
+export interface DeleteMusicRequest {
+  id: string;
+}
+
+export interface GetMusicRequest {
+  id: string;
+}
+
+export interface GetMostViewedMusicsRequest {
+  limit: number;
+  offset: number;
 }
 
 export interface UpdateMusicRequest {
@@ -17,21 +26,12 @@ export interface UpdateMusicRequest {
   title?: string;
   durationInSeconds?: number;
   file?: string;
-  composers?: Array<string>;
+  composers?: string[];
   lyrics?: string;
   albumId?: string;
   artistId?: string;
 }
 
-export interface DeleteMusicRequest {
+export interface ViewMusicRequest {
   id: string;
-}
-
-export interface AddViewRequest {
-  id: string;
-}
-
-export interface GetMostViewsRequest {
-  limit: number;
-  offset: number;
 }

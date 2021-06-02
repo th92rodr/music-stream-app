@@ -23,7 +23,7 @@ export function translateMusicEntity(musicEntity: MusicEntity): Music {
   return music;
 }
 
-export function translateMusicEntityList(musicEntities: Array<MusicEntity>): MusicsList {
+export function translateMusicEntityList(musicEntities: MusicEntity[]): MusicsList {
   const musicsList = new MusicsList();
 
   musicsList.setMusicsList(musicEntities.map(musicEntity => translateMusicEntity(musicEntity)));

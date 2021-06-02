@@ -12,9 +12,9 @@ import IMusicsService from '@services/MusicsService/interface';
 export default class Grpc implements IGrpcChannel {
   private server: grpc.Server;
 
-  private musicsHandler: MusicsHandler;
   private errorHandler: IErrorHandler;
   private loggerProvider: ILoggerProvider;
+  private musicsHandler: MusicsHandler;
 
   // prettier-ignore
   constructor(

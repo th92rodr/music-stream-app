@@ -9,6 +9,7 @@ service Musics {
     rpc UpdateMusic(UpdateMusicRequest) returns (Music) {}
     rpc DeleteMusic(Id) returns (Empty) {}
     rpc ViewMusic(Id) returns (Music) {}
+    rpc GetMostViewedMusics(GetMostViewedMusicsRequest) returns (MusicsList) {}
 
     rpc GetAlbum(Id) returns (Album) {}
     rpc GetAlbums(Empty) returns (AlbumsList) {}
@@ -67,6 +68,11 @@ message UpdateMusicRequest {
     string lyrics = 6;
     string album_id = 7;
     string artist_id = 8;
+}
+
+message GetMostViewedMusicsRequest {
+    int64 limit = 1;
+    int64 offset = 2;
 }
 
 message Album {
