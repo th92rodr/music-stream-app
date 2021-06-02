@@ -27,9 +27,9 @@ export default class SQLMusicsRepository implements IMusicsRepository {
     return translateMusic(music);
   }
 
-  public async findAll(paginationRequest?: PaginationRequest): Promise<Array<Music>> {
+  public async findAll(paginationRequest?: PaginationRequest): Promise<Music[]> {
     if (paginationRequest) {
-      const { offset, limit } = paginationRequest;
+      const { limit, offset } = paginationRequest;
 
       // prettier-ignore
       const musics = await this.databaseConnection<MusicsDb>(MusicsTable)
@@ -65,9 +65,7 @@ export default class SQLMusicsRepository implements IMusicsRepository {
       .del();
   }
 
-  public async findMostViews(paginationRequest: PaginationRequest): Promise<Array<Music>> {
-    const { offset, limit } = paginationRequest;
-
+  public async findMostViewed({ limit, offset }: PaginationRequest): Promise<Music[]> {
     // prettier-ignore
     const musics = await this.databaseConnection<MusicsDb>(MusicsTable)
       .offset(offset)

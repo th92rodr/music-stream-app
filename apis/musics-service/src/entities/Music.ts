@@ -9,7 +9,7 @@ export default class Music {
   public readonly artistId: string;
   public views: number;
 
-  constructor({ id, title, durationInSeconds, file, composers, lyrics, albumId, artistId, views }: Omit<Music, 'addView'>) {
+  constructor({ id, title, durationInSeconds, file, composers, lyrics, albumId, artistId, views }: Omit<Music, 'view'>) {
     this.id = id;
     this.title = title;
     this.durationInSeconds = durationInSeconds;
@@ -21,7 +21,7 @@ export default class Music {
     this.views = views;
   }
 
-  public addView(): void {
+  public view(): void {
     this.views++;
   }
 }

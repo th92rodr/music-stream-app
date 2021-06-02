@@ -1,12 +1,4 @@
-// prettier-ignore
-import {
-  AddViewRequest,
-  CreateMusicRequest,
-  DeleteMusicRequest,
-  GetMostViewsRequest,
-  GetMusicRequest,
-  UpdateMusicRequest,
-} from './dtos';
+import { CreateMusicRequest, DeleteMusicRequest, GetMostViewedMusicsRequest, GetMusicRequest, UpdateMusicRequest, ViewMusicRequest } from './dtos';
 import IMusicsService from './interface';
 import { ErrorMusicNotFound } from '@constants/errors';
 import Music from '@entities/Music';
@@ -14,16 +6,12 @@ import IIdProvider from '@providers/IdProvider/interface';
 import IMusicsRepository from '@repositories/MusicsRepository/interface';
 
 export default class MusicsService implements IMusicsService {
-  private musicsRepository: IMusicsRepository;
   private idProvider: IIdProvider;
+  private musicsRepository: IMusicsRepository;
 
-  // prettier-ignore
-  constructor(
-    musicsRepository: IMusicsRepository,
-    idProvider: IIdProvider,
-  ) {
-    this.musicsRepository = musicsRepository;
+  constructor(musicsRepository: IMusicsRepository, idProvider: IIdProvider) {
     this.idProvider = idProvider;
+    this.musicsRepository = musicsRepository;
   }
 
   public async get({ id }: GetMusicRequest): Promise<Music> {
@@ -36,10 +24,8 @@ export default class MusicsService implements IMusicsService {
     return music;
   }
 
-  public async getAll(): Promise<Array<Music>> {
-    const musics = await this.musicsRepository.findAll();
-
-    return musics;
+  public async getAll(): Promise<Music[]> {
+    return this.musicsRepository.findAll();
   }
 
   public async create({ title, durationInSeconds, file, composers, lyrics, albumId, artistId }: CreateMusicRequest): Promise<Music> {
@@ -96,21 +82,21 @@ export default class MusicsService implements IMusicsService {
     await this.musicsRepository.delete(id);
   }
 
-  public async addView({ id }: AddViewRequest): Promise<Music> {
+  public async view({ id }: ViewMusicRequest): Promise<Music> {
     const music = await this.musicsRepository.find(id);
 
     if (!music) {
       throw new ErrorMusicNotFound(id);
     }
 
-    music.addView();
+    music.view();
 
     await this.musicsRepository.update(music);
 
     return music;
   }
 
-  public async getMostViews({ limit, offset }: GetMostViewsRequest): Promise<Array<Music>> {
-    return this.musicsRepository.findMostViews({ limit, offset });
+  public async getMostViewed({ limit, offset }: GetMostViewedMusicsRequest): Promise<Music[]> {
+    return this.musicsRepository.findMostViewed({ limit, offset });
   }
 }

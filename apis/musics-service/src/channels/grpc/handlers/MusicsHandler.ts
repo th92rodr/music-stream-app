@@ -161,7 +161,7 @@ export class MusicsHandler implements IMusicsServer {
 
   viewMusic = async (call: grpc.ServerUnaryCall<Id>, callback: grpc.sendUnaryData<Music>): Promise<void> => {
     try {
-      const music = await this.musicsService.addView({ id: call.request.getId() });
+      const music = await this.musicsService.view({ id: call.request.getId() });
 
       this.loggerProvider.info('[VIEW MUSIC]', { id: music.id });
 
