@@ -15,7 +15,7 @@
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "dotenv": "^10.0.0",
-    "google-protobuf": "^3.17.1",
+    "google-protobuf": "^3.17.2",
     "grpc": "^1.24.10",
     "jsonwebtoken": "^8.5.1",
     "knex": "^0.95.6",
