@@ -10,9 +10,9 @@ import IUsersService from '@services/UsersService/interface';
 export default class Grpc implements IGrpcChannel {
   private server: grpc.Server;
 
-  private usersHandler: UsersHandler;
   private errorHandler: IErrorHandler;
   private loggerProvider: ILoggerProvider;
+  private usersHandler: UsersHandler;
 
   // prettier-ignore
   constructor(

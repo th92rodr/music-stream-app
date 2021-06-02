@@ -1,12 +1,4 @@
-// prettier-ignore
-import {
-  GetUserRequest,
-  CreateUserRequest,
-  UpdateUserRequest,
-  DeleteUserRequest,
-  AuthenticateUserRequest,
-  AuthenticateUserResponse
-} from './dtos';
+import { AuthenticateUserRequest, AuthenticateUserResponse, CreateUserRequest, DeleteUserRequest, GetUserRequest, UpdateUserRequest } from './dtos';
 import User from '@entities/User';
 
 export default interface IUsersService {

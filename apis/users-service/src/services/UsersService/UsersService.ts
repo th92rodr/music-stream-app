@@ -1,12 +1,4 @@
-// prettier-ignore
-import {
-  GetUserRequest,
-  CreateUserRequest,
-  UpdateUserRequest,
-  DeleteUserRequest,
-  AuthenticateUserRequest,
-  AuthenticateUserResponse
-} from './dtos';
+import { AuthenticateUserRequest, AuthenticateUserResponse, CreateUserRequest, DeleteUserRequest, GetUserRequest, UpdateUserRequest } from './dtos';
 import IUsersService from './interface';
 import { ErrorUserNotFound, ErrorEmailInUse, ErrorInvalidCredentials } from '@constants/errors';
 import User from '@entities/User';
@@ -16,23 +8,16 @@ import ITokenProvider from '@providers/TokenProvider/interface';
 import IUsersRepository from '@repositories/UsersRepository/interface';
 
 export default class UsersService implements IUsersService {
-  private usersRepository: IUsersRepository;
-
   private hashProvider: IHashProvider;
   private idProvider: IIdProvider;
   private tokenProvider: ITokenProvider;
+  private usersRepository: IUsersRepository;
 
-  // prettier-ignore
-  constructor(
-    usersRepository: IUsersRepository,
-    hashProvider: IHashProvider,
-    idProvider: IIdProvider,
-    tokenProvider: ITokenProvider
-  ) {
-    this.usersRepository = usersRepository;
+  constructor(usersRepository: IUsersRepository, hashProvider: IHashProvider, idProvider: IIdProvider, tokenProvider: ITokenProvider) {
     this.hashProvider = hashProvider;
     this.idProvider = idProvider;
     this.tokenProvider = tokenProvider;
+    this.usersRepository = usersRepository;
   }
 
   public async get({ id }: GetUserRequest): Promise<User> {
