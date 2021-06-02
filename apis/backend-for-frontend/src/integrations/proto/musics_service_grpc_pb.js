@@ -92,15 +92,48 @@ function deserialize_proto_Empty(buffer_arg) {
   return musics_service_pb.Empty.deserializeBinary(new Uint8Array(buffer_arg));
 }
 
-function serialize_proto_GetArtistByGenreRequest(arg) {
-  if (!(arg instanceof musics_service_pb.GetArtistByGenreRequest)) {
-    throw new Error('Expected argument of type proto.GetArtistByGenreRequest');
+function serialize_proto_GetArtistsByGenreRequest(arg) {
+  if (!(arg instanceof musics_service_pb.GetArtistsByGenreRequest)) {
+    throw new Error('Expected argument of type proto.GetArtistsByGenreRequest');
   }
   return Buffer.from(arg.serializeBinary());
 }
 
-function deserialize_proto_GetArtistByGenreRequest(buffer_arg) {
-  return musics_service_pb.GetArtistByGenreRequest.deserializeBinary(new Uint8Array(buffer_arg));
+function deserialize_proto_GetArtistsByGenreRequest(buffer_arg) {
+  return musics_service_pb.GetArtistsByGenreRequest.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
+function serialize_proto_GetMostFollowedArtistsRequest(arg) {
+  if (!(arg instanceof musics_service_pb.GetMostFollowedArtistsRequest)) {
+    throw new Error('Expected argument of type proto.GetMostFollowedArtistsRequest');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_proto_GetMostFollowedArtistsRequest(buffer_arg) {
+  return musics_service_pb.GetMostFollowedArtistsRequest.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
+function serialize_proto_GetMostRecentAlbumsRequest(arg) {
+  if (!(arg instanceof musics_service_pb.GetMostRecentAlbumsRequest)) {
+    throw new Error('Expected argument of type proto.GetMostRecentAlbumsRequest');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_proto_GetMostRecentAlbumsRequest(buffer_arg) {
+  return musics_service_pb.GetMostRecentAlbumsRequest.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
+function serialize_proto_GetMostViewedMusicsRequest(arg) {
+  if (!(arg instanceof musics_service_pb.GetMostViewedMusicsRequest)) {
+    throw new Error('Expected argument of type proto.GetMostViewedMusicsRequest');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_proto_GetMostViewedMusicsRequest(buffer_arg) {
+  return musics_service_pb.GetMostViewedMusicsRequest.deserializeBinary(new Uint8Array(buffer_arg));
 }
 
 function serialize_proto_Id(arg) {
@@ -237,6 +270,17 @@ var MusicsService = exports.MusicsService = {
     responseSerialize: serialize_proto_Music,
     responseDeserialize: deserialize_proto_Music,
   },
+  getMostViewedMusics: {
+    path: '/proto.Musics/GetMostViewedMusics',
+    requestStream: false,
+    responseStream: false,
+    requestType: musics_service_pb.GetMostViewedMusicsRequest,
+    responseType: musics_service_pb.MusicsList,
+    requestSerialize: serialize_proto_GetMostViewedMusicsRequest,
+    requestDeserialize: deserialize_proto_GetMostViewedMusicsRequest,
+    responseSerialize: serialize_proto_MusicsList,
+    responseDeserialize: deserialize_proto_MusicsList,
+  },
   getAlbum: {
     path: '/proto.Musics/GetAlbum',
     requestStream: false,
@@ -292,6 +336,17 @@ var MusicsService = exports.MusicsService = {
     responseSerialize: serialize_proto_Empty,
     responseDeserialize: deserialize_proto_Empty,
   },
+  getMostRecentAlbums: {
+    path: '/proto.Musics/GetMostRecentAlbums',
+    requestStream: false,
+    responseStream: false,
+    requestType: musics_service_pb.GetMostRecentAlbumsRequest,
+    responseType: musics_service_pb.AlbumsList,
+    requestSerialize: serialize_proto_GetMostRecentAlbumsRequest,
+    requestDeserialize: deserialize_proto_GetMostRecentAlbumsRequest,
+    responseSerialize: serialize_proto_AlbumsList,
+    responseDeserialize: deserialize_proto_AlbumsList,
+  },
   getArtist: {
     path: '/proto.Musics/GetArtist',
     requestStream: false,
@@ -314,14 +369,14 @@ var MusicsService = exports.MusicsService = {
     responseSerialize: serialize_proto_ArtistsList,
     responseDeserialize: deserialize_proto_ArtistsList,
   },
-  getArtistByGenre: {
-    path: '/proto.Musics/GetArtistByGenre',
+  getArtistsByGenre: {
+    path: '/proto.Musics/GetArtistsByGenre',
     requestStream: false,
     responseStream: false,
-    requestType: musics_service_pb.GetArtistByGenreRequest,
+    requestType: musics_service_pb.GetArtistsByGenreRequest,
     responseType: musics_service_pb.ArtistsList,
-    requestSerialize: serialize_proto_GetArtistByGenreRequest,
-    requestDeserialize: deserialize_proto_GetArtistByGenreRequest,
+    requestSerialize: serialize_proto_GetArtistsByGenreRequest,
+    requestDeserialize: deserialize_proto_GetArtistsByGenreRequest,
     responseSerialize: serialize_proto_ArtistsList,
     responseDeserialize: deserialize_proto_ArtistsList,
   },
@@ -401,6 +456,17 @@ var MusicsService = exports.MusicsService = {
     requestDeserialize: deserialize_proto_Id,
     responseSerialize: serialize_proto_Artist,
     responseDeserialize: deserialize_proto_Artist,
+  },
+  getMostFollowedArtists: {
+    path: '/proto.Musics/GetMostFollowedArtists',
+    requestStream: false,
+    responseStream: false,
+    requestType: musics_service_pb.GetMostFollowedArtistsRequest,
+    responseType: musics_service_pb.ArtistsList,
+    requestSerialize: serialize_proto_GetMostFollowedArtistsRequest,
+    requestDeserialize: deserialize_proto_GetMostFollowedArtistsRequest,
+    responseSerialize: serialize_proto_ArtistsList,
+    responseDeserialize: deserialize_proto_ArtistsList,
   },
 };
 
