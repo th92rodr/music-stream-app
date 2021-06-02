@@ -31,9 +31,9 @@ export default class SQLArtistsRepository implements IArtistsRepository {
     return translateArtist(artist, albums);
   }
 
-  public async findAll(paginationRequest?: PaginationRequest): Promise<Array<Artist>> {
+  public async findAll(paginationRequest?: PaginationRequest): Promise<Artist[]> {
     if (paginationRequest) {
-      const { offset, limit } = paginationRequest;
+      const { limit, offset } = paginationRequest;
 
       // prettier-ignore
       const artists = await this.databaseConnection<ArtistsDb>(ArtistsTable)
@@ -49,7 +49,7 @@ export default class SQLArtistsRepository implements IArtistsRepository {
     return translateArtistsList(artists);
   }
 
-  public async findByGenre(genre: number): Promise<Array<Artist>> {
+  public async findByGenre(genre: number): Promise<Artist[]> {
     // prettier-ignore
     const artists = await  this.databaseConnection<ArtistsDb>(ArtistsTable)
       .where({ genre });
@@ -77,9 +77,7 @@ export default class SQLArtistsRepository implements IArtistsRepository {
       .del();
   }
 
-  public async findMostFollowers(paginationRequest: PaginationRequest): Promise<Array<Artist>> {
-    const { offset, limit } = paginationRequest;
-
+  public async findMostFollowed({ limit, offset }: PaginationRequest): Promise<Artist[]> {
     // prettier-ignore
     const artists = await this.databaseConnection<ArtistsDb>(ArtistsTable)
       .offset(offset)
