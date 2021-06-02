@@ -46,7 +46,7 @@ export function translateAlbumEntity(albumEntity: AlbumEntity): Album {
   return album;
 }
 
-export function translateAlbumEntityList(albumEntities: Array<AlbumEntity>): AlbumsList {
+export function translateAlbumEntityList(albumEntities: AlbumEntity[]): AlbumsList {
   const albumsList = new AlbumsList();
 
   albumsList.setAlbumsList(albumEntities.map(albumEntity => translateAlbumEntity(albumEntity)));
@@ -78,7 +78,7 @@ export function translateArtistEntity(artistEntity: ArtistEntity): Artist {
   return artist;
 }
 
-export function translateArtistEntityList(artistEntities: Array<ArtistEntity>): ArtistsList {
+export function translateArtistEntityList(artistEntities: ArtistEntity[]): ArtistsList {
   const artistList = new ArtistsList();
 
   artistList.setArtistsList(artistEntities.map(artistEntity => translateArtistEntity(artistEntity)));

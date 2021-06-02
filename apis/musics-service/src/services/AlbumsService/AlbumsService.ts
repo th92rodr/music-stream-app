@@ -1,10 +1,4 @@
-// prettier-ignore
-import {
-  GetAlbumRequest,
-  CreateAlbumRequest,
-  UpdateAlbumRequest,
-  DeleteAlbumRequest,
-} from './dtos';
+import { CreateAlbumRequest, DeleteAlbumRequest, GetAlbumRequest, GetMostRecentAlbumsRequest, UpdateAlbumRequest } from './dtos';
 import IAlbumsService from './interface';
 import { ErrorAlbumNotFound } from '@constants/errors';
 import Album from '@entities/Album';
@@ -15,11 +9,7 @@ export default class AlbumsService implements IAlbumsService {
   private albumsRepository: IAlbumsRepository;
   private idProvider: IIdProvider;
 
-  // prettier-ignore
-  constructor(
-    albumsRepository: IAlbumsRepository,
-    idProvider: IIdProvider,
-  ) {
+  constructor(albumsRepository: IAlbumsRepository, idProvider: IIdProvider) {
     this.albumsRepository = albumsRepository;
     this.idProvider = idProvider;
   }
@@ -34,10 +24,8 @@ export default class AlbumsService implements IAlbumsService {
     return album;
   }
 
-  public async getAll(): Promise<Array<Album>> {
-    const albums = await this.albumsRepository.findAll();
-
-    return albums;
+  public async getAll(): Promise<Album[]> {
+    return this.albumsRepository.findAll();
   }
 
   public async create({ name, releaseDate, cover, studio, producers, artistId }: CreateAlbumRequest): Promise<Album> {
@@ -88,5 +76,9 @@ export default class AlbumsService implements IAlbumsService {
 
   public async delete({ id }: DeleteAlbumRequest): Promise<void> {
     await this.albumsRepository.delete(id);
+  }
+
+  public async getMostRecent({ limit, offset }: GetMostRecentAlbumsRequest): Promise<Album[]> {
+    return this.albumsRepository.findMostRecent({ limit, offset });
   }
 }

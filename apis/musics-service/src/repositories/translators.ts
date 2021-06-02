@@ -3,7 +3,7 @@ import Album from '@entities/Album';
 import Artist from '@entities/Artist';
 import Music from '@entities/Music';
 
-export function translateArtist(artist: ArtistsDb, albums: Array<AlbumsDb>): Artist {
+export function translateArtist(artist: ArtistsDb, albums: AlbumsDb[]): Artist {
   const newArtist = new Artist({
     id: artist.id,
     name: artist.name,
@@ -27,11 +27,11 @@ export function translateArtist(artist: ArtistsDb, albums: Array<AlbumsDb>): Art
   return newArtist;
 }
 
-export function translateArtistsList(artists: Array<ArtistsDb>): Array<Artist> {
+export function translateArtistsList(artists: ArtistsDb[]): Artist[] {
   return artists.map(artist => translateArtist(artist, []));
 }
 
-export function translateAlbum(album: AlbumsDb, tracks: Array<MusicsDb>): Album {
+export function translateAlbum(album: AlbumsDb, tracks: MusicsDb[]): Album {
   const newAlbum = new Album({
     id: album.id,
     name: album.name,
@@ -47,7 +47,7 @@ export function translateAlbum(album: AlbumsDb, tracks: Array<MusicsDb>): Album 
   return newAlbum;
 }
 
-export function translateAlbumsList(albums: Array<AlbumsDb>): Array<Album> {
+export function translateAlbumsList(albums: AlbumsDb[]): Album[] {
   return albums.map(album => translateAlbum(album, []));
 }
 
@@ -65,6 +65,6 @@ export function translateMusic(music: MusicsDb): Music {
   });
 }
 
-export function translateMusicsList(musics: Array<MusicsDb>): Array<Music> {
+export function translateMusicsList(musics: MusicsDb[]): Music[] {
   return musics.map(music => translateMusic(music));
 }

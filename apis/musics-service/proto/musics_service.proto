@@ -16,6 +16,7 @@ service Musics {
     rpc CreateAlbum(CreateAlbumRequest) returns (Album) {}
     rpc UpdateAlbum(UpdateAlbumRequest) returns (Album) {}
     rpc DeleteAlbum(Id) returns (Empty) {}
+    rpc GetMostRecentAlbums(GetMostRecentAlbumsRequest) returns (AlbumsList) {}
 
     rpc GetArtist(Id) returns (Artist) {}
     rpc GetArtists(Empty) returns (ArtistsList) {}
@@ -107,6 +108,11 @@ message UpdateAlbumRequest {
     string studio = 5;
     repeated string producers = 6;
     string artist_id = 7;
+}
+
+message GetMostRecentAlbumsRequest {
+    int64 limit = 1;
+    int64 offset = 2;
 }
 
 message Artist {
