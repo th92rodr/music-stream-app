@@ -20,7 +20,7 @@ service Musics {
 
     rpc GetArtist(Id) returns (Artist) {}
     rpc GetArtists(Empty) returns (ArtistsList) {}
-    rpc GetArtistByGenre(GetArtistByGenreRequest) returns (ArtistsList) {}
+    rpc GetArtistsByGenre(GetArtistsByGenreRequest) returns (ArtistsList) {}
     rpc CreateArtist(CreateArtistRequest) returns (Artist) {}
     rpc UpdateArtist(UpdateArtistRequest) returns (Artist) {}
     rpc DeleteArtist(Id) returns (Empty) {}
@@ -28,6 +28,7 @@ service Musics {
     rpc UnfavoriteArtist(Id) returns (Artist) {}
     rpc FollowArtist(Id) returns (Artist) {}
     rpc UnfollowArtist(Id) returns (Artist) {}
+    rpc GetMostFollowedArtists(GetMostFollowedArtistsRequest) returns (ArtistsList) {}
 }
 
 message Id {
@@ -139,7 +140,7 @@ message ArtistsList {
     repeated Artist artists = 1;
 }
 
-message GetArtistByGenreRequest {
+message GetArtistsByGenreRequest {
     Genre genre = 1;
 }
 
@@ -172,6 +173,11 @@ message UpdateArtistRequest {
     string instagram_url = 11;
     string wikipedia_url = 12;
     string font = 13;
+}
+
+message GetMostFollowedArtistsRequest {
+    int64 limit = 1;
+    int64 offset = 2;
 }
 
 enum Genre {

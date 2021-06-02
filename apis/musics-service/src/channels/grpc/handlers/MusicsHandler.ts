@@ -345,7 +345,7 @@ export class MusicsHandler implements IMusicsServer {
 
   favoriteArtist = async (call: grpc.ServerUnaryCall<Id>, callback: grpc.sendUnaryData<Artist>): Promise<void> => {
     try {
-      const artist = await this.artistsService.addFavorite({ id: call.request.getId() });
+      const artist = await this.artistsService.favorite({ id: call.request.getId() });
 
       this.loggerProvider.info('[FAVORITE ARTIST]', { id: artist.id });
 
@@ -357,7 +357,7 @@ export class MusicsHandler implements IMusicsServer {
 
   unfavoriteArtist = async (call: grpc.ServerUnaryCall<Id>, callback: grpc.sendUnaryData<Artist>): Promise<void> => {
     try {
-      const artist = await this.artistsService.removeFavorite({ id: call.request.getId() });
+      const artist = await this.artistsService.unfavorite({ id: call.request.getId() });
 
       this.loggerProvider.info('[UNFAVORITE ARTIST]', { id: artist.id });
 
@@ -369,7 +369,7 @@ export class MusicsHandler implements IMusicsServer {
 
   followArtist = async (call: grpc.ServerUnaryCall<Id>, callback: grpc.sendUnaryData<Artist>): Promise<void> => {
     try {
-      const artist = await this.artistsService.addFollower({ id: call.request.getId() });
+      const artist = await this.artistsService.follow({ id: call.request.getId() });
 
       this.loggerProvider.info('[FOLLOW ARTIST]', { id: artist.id });
 
@@ -381,7 +381,7 @@ export class MusicsHandler implements IMusicsServer {
 
   unfollowArtist = async (call: grpc.ServerUnaryCall<Id>, callback: grpc.sendUnaryData<Artist>): Promise<void> => {
     try {
-      const artist = await this.artistsService.removeFollower({ id: call.request.getId() });
+      const artist = await this.artistsService.unfollow({ id: call.request.getId() });
 
       this.loggerProvider.info('[UNFOLLOW ARTIST]', { id: artist.id });
 

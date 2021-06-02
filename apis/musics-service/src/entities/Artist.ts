@@ -36,7 +36,7 @@ export default class Artist {
     font,
     favorites,
     followers,
-  }: Omit<Artist, 'albums' | 'popularTracks' | 'addFavorite' | 'removeFavorite' | 'addFollower' | 'removeFollower' | 'setAlbums' | 'setPopularTracks'>) {
+  }: Omit<Artist, 'albums' | 'popularTracks' | 'favorite' | 'unfavorite' | 'follow' | 'unfollow' | 'setAlbums' | 'setPopularTracks'>) {
     this.id = id;
     this.name = name;
     this.country = country;
@@ -56,19 +56,19 @@ export default class Artist {
     this.popularTracks = [];
   }
 
-  public addFavorite(): void {
+  public favorite(): void {
     this.favorites++;
   }
 
-  public removeFavorite(): void {
+  public unfavorite(): void {
     this.favorites--;
   }
 
-  public addFollower(): void {
+  public follow(): void {
     this.followers++;
   }
 
-  public removeFollower(): void {
+  public unfollow(): void {
     this.followers--;
   }
 
