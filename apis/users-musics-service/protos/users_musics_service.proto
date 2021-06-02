@@ -4,17 +4,17 @@ package proto;
 option go_package = "grpc/proto";
 
 service UsersMusics {
-    rpc FollowArtist(FollowArtistRequest) returns (Empty) {}
-    rpc UnfollowArtist(UnfollowArtistRequest) returns (Empty) {}
+    rpc FollowArtist (FollowArtistRequest) returns (Empty) {}
+    rpc UnfollowArtist (UnfollowArtistRequest) returns (Empty) {}
 
-    rpc GetFollowingArtist(GetFollowingArtistRequest) returns (FollowingArtist) {}
-    rpc GetAllFollowingArtists(GetAllFollowingArtistsRequest) returns (FollowingArtists) {}
+    rpc GetFollowingArtist (GetFollowingArtistRequest) returns (FollowingArtist) {}
+    rpc GetAllFollowingArtists (GetAllFollowingArtistsRequest) returns (FollowingArtists) {}
 
-    rpc ViewMusic(ViewMusicRequest) returns (UserMusic) {}
-    rpc GetViews(GetViewsRequest) returns (UserMusic) {}
+    rpc ViewMusic (ViewMusicRequest) returns (UserMusic) {}
+    rpc GetViews (GetViewsRequest) returns (UserMusic) {}
 
-    rpc GetLastViews(GetLastViewsRequest) returns (UserMusicsList) {}
-    rpc GetMostViews(GetMostViewsRequest) returns (UserMusicsList) {}
+    rpc GetLastViews (GetLastViewsRequest) returns (UserMusicsList) {}
+    rpc GetMostViews (GetMostViewsRequest) returns (UserMusicsList) {}
 }
 
 message FollowArtistRequest {

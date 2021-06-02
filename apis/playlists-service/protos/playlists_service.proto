@@ -6,15 +6,15 @@ package proto;
 option go_package = "grpc/proto";
 
 service Playlists {
-    rpc GetPlaylist(GetPlaylistRequest) returns (Playlist) {}
-    rpc GetPlaylists(GetPlaylistsRequest) returns (PlaylistsList) {}
-    rpc CreatePlaylist(CreatePlaylistRequest) returns (Playlist) {}
-    rpc UpdatePlaylist(UpdatePlaylistRequest) returns (Playlist) {}
-    rpc DeletePlaylist(DeletePlaylistRequest) returns (Empty) {}
+    rpc GetPlaylist (GetPlaylistRequest) returns (Playlist) {}
+    rpc GetPlaylists (GetPlaylistsRequest) returns (PlaylistsList) {}
+    rpc CreatePlaylist (CreatePlaylistRequest) returns (Playlist) {}
+    rpc UpdatePlaylist (UpdatePlaylistRequest) returns (Playlist) {}
+    rpc DeletePlaylist (DeletePlaylistRequest) returns (Empty) {}
 
-    rpc AddTrack(AddTrackRequest) returns (Track) {}
-    rpc UpdateTrack(UpdateTrackRequest) returns (Track) {}
-    rpc RemoveTrack(RemoveTrackRequest) returns (Empty) {}
+    rpc AddTrack (AddTrackRequest) returns (Track) {}
+    rpc UpdateTrack (UpdateTrackRequest) returns (Track) {}
+    rpc RemoveTrack (RemoveTrackRequest) returns (Empty) {}
 }
 
 message Playlist {

@@ -4,29 +4,32 @@ package proto;
 option go_package = "grpc/proto";
 
 service Musics {
-    rpc GetMusic(Id) returns (Music) {}
-    rpc GetMusics(Empty) returns (MusicsList) {}
-    rpc CreateMusic(CreateMusicRequest) returns (Music) {}
-    rpc UpdateMusic(UpdateMusicRequest) returns (Music) {}
-    rpc DeleteMusic(Id) returns (Empty) {}
-    rpc ViewMusic(Id) returns (Music) {}
+    rpc GetMusic (Id) returns (Music) {}
+    rpc GetMusics (Empty) returns (MusicsList) {}
+    rpc CreateMusic (CreateMusicRequest) returns (Music) {}
+    rpc UpdateMusic (UpdateMusicRequest) returns (Music) {}
+    rpc DeleteMusic (Id) returns (Empty) {}
+    rpc ViewMusic (Id) returns (Music) {}
+    rpc GetMostViewedMusics (GetMostViewedMusicsRequest) returns (MusicsList) {}
 
-    rpc GetAlbum(Id) returns (Album) {}
-    rpc GetAlbums(Empty) returns (AlbumsList) {}
-    rpc CreateAlbum(CreateAlbumRequest) returns (Album) {}
-    rpc UpdateAlbum(UpdateAlbumRequest) returns (Album) {}
-    rpc DeleteAlbum(Id) returns (Empty) {}
+    rpc GetAlbum (Id) returns (Album) {}
+    rpc GetAlbums (Empty) returns (AlbumsList) {}
+    rpc CreateAlbum (CreateAlbumRequest) returns (Album) {}
+    rpc UpdateAlbum (UpdateAlbumRequest) returns (Album) {}
+    rpc DeleteAlbum (Id) returns (Empty) {}
+    rpc GetMostRecentAlbums (GetMostRecentAlbumsRequest) returns (AlbumsList) {}
 
-    rpc GetArtist(Id) returns (Artist) {}
-    rpc GetArtists(Empty) returns (ArtistsList) {}
-    rpc GetArtistByGenre(GetArtistByGenreRequest) returns (ArtistsList) {}
-    rpc CreateArtist(CreateArtistRequest) returns (Artist) {}
-    rpc UpdateArtist(UpdateArtistRequest) returns (Artist) {}
-    rpc DeleteArtist(Id) returns (Empty) {}
-    rpc FavoriteArtist(Id) returns (Artist) {}
-    rpc UnfavoriteArtist(Id) returns (Artist) {}
-    rpc FollowArtist(Id) returns (Artist) {}
-    rpc UnfollowArtist(Id) returns (Artist) {}
+    rpc GetArtist (Id) returns (Artist) {}
+    rpc GetArtists (Empty) returns (ArtistsList) {}
+    rpc GetArtistsByGenre (GetArtistsByGenreRequest) returns (ArtistsList) {}
+    rpc CreateArtist (CreateArtistRequest) returns (Artist) {}
+    rpc UpdateArtist (UpdateArtistRequest) returns (Artist) {}
+    rpc DeleteArtist (Id) returns (Empty) {}
+    rpc FavoriteArtist (Id) returns (Artist) {}
+    rpc UnfavoriteArtist (Id) returns (Artist) {}
+    rpc FollowArtist (Id) returns (Artist) {}
+    rpc UnfollowArtist (Id) returns (Artist) {}
+    rpc GetMostFollowedArtists (GetMostFollowedArtistsRequest) returns (ArtistsList) {}
 }
 
 message Id {
@@ -70,6 +73,11 @@ message UpdateMusicRequest {
     string artist_id = 8;
 }
 
+message GetMostViewedMusicsRequest {
+    int64 limit = 1;
+    int64 offset = 2;
+}
+
 message Album {
     string id = 1;
     string name = 2;
@@ -104,6 +112,11 @@ message UpdateAlbumRequest {
     string artist_id = 7;
 }
 
+message GetMostRecentAlbumsRequest {
+    int64 limit = 1;
+    int64 offset = 2;
+}
+
 message Artist {
     string id = 1;
     string name = 2;
@@ -128,7 +141,7 @@ message ArtistsList {
     repeated Artist artists = 1;
 }
 
-message GetArtistByGenreRequest {
+message GetArtistsByGenreRequest {
     Genre genre = 1;
 }
 
@@ -161,6 +174,11 @@ message UpdateArtistRequest {
     string instagram_url = 11;
     string wikipedia_url = 12;
     string font = 13;
+}
+
+message GetMostFollowedArtistsRequest {
+    int64 limit = 1;
+    int64 offset = 2;
 }
 
 enum Genre {
