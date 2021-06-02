@@ -4,7 +4,7 @@ import { PaginationRequest } from './dtos';
 import IAlbumsRepository from './interface';
 import { AlbumsDb, MusicsDb } from '../databaseEntities';
 import { translateAlbum, translateAlbumsList } from '../translators';
-import { AlbumsTable, AscendingOrder, MusicsTable } from '@constants/index';
+import { AlbumsTable, AscendingOrder, DescendingOrder, MusicsTable } from '@constants/index';
 import Album from '@entities/Album';
 
 export default class SQLAlbumsRepository implements IAlbumsRepository {
@@ -31,9 +31,9 @@ export default class SQLAlbumsRepository implements IAlbumsRepository {
     return translateAlbum(album, tracks);
   }
 
-  public async findAll(paginationRequest?: PaginationRequest): Promise<Array<Album>> {
+  public async findAll(paginationRequest?: PaginationRequest): Promise<Album[]> {
     if (paginationRequest) {
-      const { offset, limit } = paginationRequest;
+      const { limit, offset } = paginationRequest;
 
       // prettier-ignore
       const albums = await this.databaseConnection<AlbumsDb>(AlbumsTable)
@@ -67,5 +67,15 @@ export default class SQLAlbumsRepository implements IAlbumsRepository {
     await this.databaseConnection<AlbumsDb>(AlbumsTable)
       .where({ id })
       .del();
+  }
+
+  public async findMostRecent({ limit, offset }: PaginationRequest): Promise<Album[]> {
+    // prettier-ignore
+    const albums = await this.databaseConnection<AlbumsDb>(AlbumsTable)
+      .offset(offset)
+      .limit(limit)
+      .orderBy('release_date', DescendingOrder);
+
+    return translateAlbumsList(albums);
   }
 }
