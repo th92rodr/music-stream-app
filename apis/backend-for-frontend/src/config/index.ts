@@ -10,6 +10,7 @@ export default {
     rest: {
       host: '0.0.0.0',
       port: Number(process.env.REST_PORT) || 8080,
+      limitRequests: Boolean(process.env.REST_LIMIT_REQUESTS) || false,
     },
 
     staticFiles: {
