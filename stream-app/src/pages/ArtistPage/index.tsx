@@ -1,19 +1,11 @@
 import React, { createRef, useEffect, useState } from 'react';
 import { useRouteMatch } from 'react-router-dom';
 
-import { AlbumModal } from '../../components/AlbumModal';
-import { CurrentTrack } from '../../components/CurrentTrack';
-import { Header } from '../../components/Header';
-import { Loading } from '../../components/Loading';
-import { Sidebar } from '../../components/Sidebar';
+import { AlbumModal, CurrentTrack, Header, Loading, Sidebar } from '../../components';
+
 import { api } from '../../services/api';
 import { Artist } from '../../types';
-import {
-  convertDurationToTimeString,
-  formatFoundationDate,
-  formatReleaseDate,
-  staticFilesUrl,
-} from '../../utils';
+import { convertDurationToTimeString, formatFoundationDate, formatReleaseDate, staticFilesUrl } from '../../utils';
 
 // styles
 import './styles.scss';
@@ -43,9 +35,7 @@ export const ArtistPage: React.FC = () => {
   const bandHeaderNameRef = createRef<HTMLDivElement>();
 
   useEffect(() => {
-    api
-      .get(`/artists/${params.artistId}`)
-      .then(response => setArtist(response.data));
+    api.get(`/artists/${params.artistId}`).then(response => setArtist(response.data));
   }, [params.artistId]);
 
   useEffect(() => {
@@ -85,11 +75,7 @@ export const ArtistPage: React.FC = () => {
           <section className='artist__page__wrapper'>
             <div className='artist__page__full__img'>
               <div className='artist__page__full__img__wrapper'>
-                <img
-                  src={staticFilesUrl(artist.full_img)}
-                  alt={artist.name}
-                  loading='lazy'
-                />
+                <img src={staticFilesUrl(artist.full_img)} alt={artist.name} loading='lazy' />
               </div>
             </div>
 
@@ -114,35 +100,19 @@ export const ArtistPage: React.FC = () => {
                   </div>
 
                   <div className='band__see__more'>
-                    <a
-                      className='facebook'
-                      href={artist.facebook_url}
-                      target='_blank'
-                    >
+                    <a className='facebook' href={artist.facebook_url} target='_blank'>
                       <IconFacebook />
                       <span>Facebook</span>
                     </a>
-                    <a
-                      className='twitter'
-                      href={artist.twitter_url}
-                      target='_blank'
-                    >
+                    <a className='twitter' href={artist.twitter_url} target='_blank'>
                       <IconTwitter />
                       <span>Twitter</span>
                     </a>
-                    <a
-                      className='instagram'
-                      href={artist.instagram_url}
-                      target='_blank'
-                    >
+                    <a className='instagram' href={artist.instagram_url} target='_blank'>
                       <IconInstagram />
                       <span>Instagram</span>
                     </a>
-                    <a
-                      className='wikipedia'
-                      href={artist.wikipedia_url}
-                      target='_blank'
-                    >
+                    <a className='wikipedia' href={artist.wikipedia_url} target='_blank'>
                       <IconWikipedia />
                       <span>Wikipedia</span>
                     </a>
@@ -156,10 +126,7 @@ export const ArtistPage: React.FC = () => {
                     <IconPlayFilled />
                     <span>Play</span>
                   </button>
-                  <button
-                    className='band__actions__mix'
-                    onClick={handlePlayMix}
-                  >
+                  <button className='band__actions__mix' onClick={handlePlayMix}>
                     <IconSync />
                     <span>Mix</span>
                   </button>
@@ -203,18 +170,12 @@ export const ArtistPage: React.FC = () => {
 
                 <div className='tracks'>
                   {artist.popular_tracks.map(track => (
-                    <div
-                      className='track'
-                      key={track.id}
-                      onClick={() => handlePlayMusic(track.id)}
-                    >
+                    <div className='track' key={track.id} onClick={() => handlePlayMusic(track.id)}>
                       <div className='track__play'>
                         <IconPlayOutline />
                       </div>
                       <div className='track__title'>{track.title}</div>
-                      <div className='track__length'>
-                        {convertDurationToTimeString(track.duration)}
-                      </div>
+                      <div className='track__length'>{convertDurationToTimeString(track.duration)}</div>
                     </div>
                   ))}
                 </div>
@@ -227,42 +188,23 @@ export const ArtistPage: React.FC = () => {
 
                 <ul className='albums__list'>
                   {artist.albums.map(album => (
-                    <li
-                      className='albums__list__item'
-                      key={album.id}
-                      onClick={() => handleOpenAlbumModal(album.id)}
-                    >
-                      <img
-                        src={staticFilesUrl(album.cover)}
-                        alt={album.name}
-                        loading='lazy'
-                      />
+                    <li className='albums__list__item' key={album.id} onClick={() => handleOpenAlbumModal(album.id)}>
+                      <img src={staticFilesUrl(album.cover)} alt={album.name} loading='lazy' />
                       <div className='albums__list__item__info'>
                         <span className='album__title'>{album.name}</span>
-                        <span className='album__year'>
-                          {formatReleaseDate(album.release_date)}
-                        </span>
+                        <span className='album__year'>{formatReleaseDate(album.release_date)}</span>
                       </div>
                     </li>
                   ))}
                 </ul>
 
-                {selectedAlbum && (
-                  <AlbumModal
-                    albumId={selectedAlbum}
-                    closeAlbumModal={handleCloseAlbumModal}
-                  />
-                )}
+                {selectedAlbum && <AlbumModal albumId={selectedAlbum} closeAlbumModal={handleCloseAlbumModal} />}
               </div>
 
               <div className='band__info__wrapper'>
                 <div className='band__info__img'>
                   <div className='band__info__img__wrapper'>
-                    <img
-                      src={staticFilesUrl(artist.vertical_img)}
-                      alt={artist.name}
-                      loading='lazy'
-                    />
+                    <img src={staticFilesUrl(artist.vertical_img)} alt={artist.name} loading='lazy' />
                     <svg viewBox='0, 0, 100, 100'>
                       <path d='M 100,310 C -30,310 -30,-215 100,-215' />
                     </svg>

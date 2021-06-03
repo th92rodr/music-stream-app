@@ -48,11 +48,7 @@
           top: 0;
           left: 0;
           content: '';
-          background: linear-gradient(
-            0deg,
-            rgba(0, 0, 0, 0.6),
-            rgba(0, 212, 255, 0)
-          );
+          background: linear-gradient(0deg, rgba(0, 0, 0, 0.6), rgba(0, 212, 255, 0));
         }
 
         img {
@@ -361,8 +357,7 @@
             flex-flow: row wrap;
             align-items: center;
             cursor: pointer;
-            transition: background $transition-duration
-              $transition-timing-function;
+            transition: background $transition-duration $transition-timing-function;
           }
 
           &:hover {
