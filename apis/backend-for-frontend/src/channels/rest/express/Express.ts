@@ -141,15 +141,17 @@ export default class ExpressRestChannel implements IRestChannel {
   private initMiddlewares(): void {
     this.express.use(helmet());
 
-    const OneHour = 60 * 60 * 1000;
-    const limit = rateLimit({
-      max: 100,
-      windowMs: OneHour,
-      message: 'Too many requests.',
-      headers: true,
-      statusCode: HttpStatusCode.TOO_MANY_REQUESTS,
-    });
-    this.express.use(limit);
+    if (Config.channels.rest.limitRequests) {
+      const OneHour = 60 * 60 * 1000;
+      const limit = rateLimit({
+        max: 100,
+        windowMs: OneHour,
+        message: 'Too many requests.',
+        headers: true,
+        statusCode: HttpStatusCode.TOO_MANY_REQUESTS,
+      });
+      this.express.use(limit);
+    }
 
     this.express.use(cors());
     this.express.use(express.json({ limit: '10kb' }));
