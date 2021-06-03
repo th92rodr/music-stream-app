@@ -27,7 +27,7 @@ export function translateAlbumEntity(album: Album): AlbumEntity {
   });
 }
 
-export function translateAlbumEntityList(albumsList: AlbumsList): Array<AlbumEntity> {
+export function translateAlbumEntityList(albumsList: AlbumsList): AlbumEntity[] {
   return albumsList.getAlbumsList().map(album => translateAlbumEntity(album));
 }
 
@@ -53,7 +53,7 @@ export function translateArtistEntity(artist: Artist): ArtistEntity {
   });
 }
 
-export function translateArtistEntityList(artistsList: ArtistsList): Array<ArtistEntity> {
+export function translateArtistEntityList(artistsList: ArtistsList): ArtistEntity[] {
   return artistsList.getArtistsList().map(artist => translateArtistEntity(artist));
 }
 
@@ -71,7 +71,7 @@ export function translateMusicEntity(music: Music): MusicEntity {
   });
 }
 
-export function translateMusicEntityList(musicsList: MusicsList): Array<MusicEntity> {
+export function translateMusicEntityList(musicsList: MusicsList): MusicEntity[] {
   return musicsList.getMusicsList().map(music => translateMusicEntity(music));
 }
 
@@ -139,7 +139,7 @@ export function translatePlaylistEntity(playlist: Playlist): PlaylistEntity {
   });
 }
 
-export function translatePlaylistEntityList(playlistsList: PlaylistsList): Array<PlaylistEntity> {
+export function translatePlaylistEntityList(playlistsList: PlaylistsList): PlaylistEntity[] {
   return playlistsList.getPlaylistsList().map(playlist => translatePlaylistEntity(playlist));
 }
 

@@ -1,4 +1,3 @@
-// prettier-ignore
 import {
   CreateAlbum,
   CreateArtist,
@@ -10,13 +9,16 @@ import {
   FollowArtist,
   GetAlbum,
   GetArtist,
-  GetArtistByGenre,
+  GetArtistsByGenre,
+  GetMostFollowedArtists,
+  GetMostRecentAlbums,
+  GetMostViewedMusics,
   GetMusic,
+  UnfavoriteArtist,
+  UnfollowArtist,
   UpdateAlbum,
   UpdateArtist,
   UpdateMusic,
-  UnfavoriteArtist,
-  UnfollowArtist,
   ViewMusic,
 } from './dtos';
 import Album from '@entities/Album';
@@ -25,21 +27,23 @@ import Music from '@entities/Music';
 
 export default interface IMusicsIntegration {
   getMusic(request: GetMusic): Promise<Music>;
-  getMusics(): Promise<Array<Music>>;
+  getMusics(): Promise<Music[]>;
   createMusic(request: CreateMusic): Promise<Music>;
   updateMusic(request: UpdateMusic): Promise<Music>;
   deleteMusic(request: DeleteMusic): Promise<void>;
   viewMusic(request: ViewMusic): Promise<Music>;
+  getMostViewedMusics(request: GetMostViewedMusics): Promise<Music[]>;
 
   getAlbum(request: GetAlbum): Promise<Album>;
-  getAlbums(): Promise<Array<Album>>;
+  getAlbums(): Promise<Album[]>;
   createAlbum(request: CreateAlbum): Promise<Album>;
   updateAlbum(request: UpdateAlbum): Promise<Album>;
   deleteAlbum(request: DeleteAlbum): Promise<void>;
+  getMostRecentAlbums(request: GetMostRecentAlbums): Promise<Album[]>;
 
   getArtist(request: GetArtist): Promise<Artist>;
-  getArtists(): Promise<Array<Artist>>;
-  getArtistsByGenre(request: GetArtistByGenre): Promise<Array<Artist>>;
+  getArtists(): Promise<Artist[]>;
+  getArtistsByGenre(request: GetArtistsByGenre): Promise<Artist[]>;
   createArtist(request: CreateArtist): Promise<Artist>;
   updateArtist(request: UpdateArtist): Promise<Artist>;
   deleteArtist(request: DeleteArtist): Promise<void>;
@@ -47,4 +51,5 @@ export default interface IMusicsIntegration {
   unfavoriteArtist(request: UnfavoriteArtist): Promise<Artist>;
   followArtist(request: FollowArtist): Promise<Artist>;
   unfollowArtist(request: UnfollowArtist): Promise<Artist>;
+  getMostFollowedArtists(request: GetMostFollowedArtists): Promise<Artist[]>;
 }

@@ -43,7 +43,7 @@ export default class PlaylistsIntegration implements IPlaylistsIntegration {
     });
   };
 
-  public getPlaylists = async ({ userId }: GetPlaylists): Promise<Array<PlaylistEntity>> => {
+  public getPlaylists = async ({ userId }: GetPlaylists): Promise<PlaylistEntity[]> => {
     return new Promise((resolve, reject) => {
       const getPlaylistsRequest = new GetPlaylistsRequest();
       getPlaylistsRequest.setUserId(userId);

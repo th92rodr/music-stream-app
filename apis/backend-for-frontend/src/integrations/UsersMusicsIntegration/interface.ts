@@ -8,8 +8,8 @@ import {
   GetViews,
   UnfollowArtist,
   ViewMusic,
-  ViewsResponse,
   ViewsListResponse,
+  ViewsResponse,
 } from './dtos';
 
 export default interface IUsersMusicsIntegration {

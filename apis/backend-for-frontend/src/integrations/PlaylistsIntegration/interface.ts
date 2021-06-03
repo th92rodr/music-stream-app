@@ -1,19 +1,9 @@
-// prettier-ignore
-import {
-  AddTrack,
-  CreatePlaylist,
-  DeletePlaylist,
-  GetPlaylist,
-  GetPlaylists,
-  RemoveTrack,
-  UpdatePlaylist,
-  UpdateTrack
-} from './dtos';
+import { AddTrack, CreatePlaylist, DeletePlaylist, GetPlaylist, GetPlaylists, RemoveTrack, UpdatePlaylist, UpdateTrack } from './dtos';
 import Playlist, { Track } from '@entities/Playlist';
 
 export default interface IPlaylistsIntegration {
   getPlaylist(request: GetPlaylist): Promise<Playlist>;
-  getPlaylists(request: GetPlaylists): Promise<Array<Playlist>>;
+  getPlaylists(request: GetPlaylists): Promise<Playlist[]>;
   createPlaylist(request: CreatePlaylist): Promise<Playlist>;
   updatePlaylist(request: UpdatePlaylist): Promise<Playlist>;
   deletePlaylist(request: DeletePlaylist): Promise<void>;
