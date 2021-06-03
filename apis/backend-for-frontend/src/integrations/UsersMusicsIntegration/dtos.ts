@@ -1,16 +1,6 @@
 export interface FollowArtist {
-  userId: string;
   artistId: string;
-}
-
-export interface UnfollowArtist {
   userId: string;
-  artistId: string;
-}
-
-export interface GetFollowingArtist {
-  userId: string;
-  artistId: string;
 }
 
 export interface GetAllFollowingArtists {
@@ -18,34 +8,38 @@ export interface GetAllFollowingArtists {
 }
 
 export interface GetAllFollowingArtistsResponse {
-  userId: string;
   artistIds: string[];
+  userId: string;
 }
 
-export interface ViewMusic {
+export interface GetFollowingArtist {
+  artistId: string;
   userId: string;
-  musicId: string;
-}
-
-export interface GetViews {
-  userId: string;
-  musicId: string;
 }
 
 export interface GetLastViews {
-  userId: string;
   limit: number;
+  userId: string;
 }
 
 export interface GetMostViews {
-  userId: string;
   limit: number;
+  userId: string;
 }
 
-export interface ViewsResponse {
-  userId: string;
+export interface GetViews {
   musicId: string;
-  views: number;
+  userId: string;
+}
+
+export interface UnfollowArtist {
+  artistId: string;
+  userId: string;
+}
+
+export interface ViewMusic {
+  musicId: string;
+  userId: string;
 }
 
 export interface ViewsListResponse {
@@ -54,4 +48,10 @@ export interface ViewsListResponse {
     musicId: string;
     views: number;
   }[];
+}
+
+export interface ViewsResponse {
+  musicId: string;
+  userId: string;
+  views: number;
 }

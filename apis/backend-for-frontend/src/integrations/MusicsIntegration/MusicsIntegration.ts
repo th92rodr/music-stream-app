@@ -1,6 +1,5 @@
 import * as grpc from 'grpc';
 
-// prettier-ignore
 import {
   CreateAlbum,
   CreateArtist,
@@ -12,18 +11,20 @@ import {
   FollowArtist,
   GetAlbum,
   GetArtist,
-  GetArtistByGenre,
+  GetArtistsByGenre,
+  GetMostFollowedArtists,
+  GetMostRecentAlbums,
+  GetMostViewedMusics,
   GetMusic,
+  UnfavoriteArtist,
+  UnfollowArtist,
   UpdateAlbum,
   UpdateArtist,
   UpdateMusic,
-  UnfavoriteArtist,
-  UnfollowArtist,
   ViewMusic,
 } from './dtos';
 import IMusicsIntegration from './interface';
 import { MusicsClient } from '../proto/musics_service_grpc_pb';
-// prettier-ignore
 import {
   Album,
   AlbumsList,
@@ -33,7 +34,10 @@ import {
   CreateArtistRequest,
   CreateMusicRequest,
   Empty,
-  GetArtistByGenreRequest,
+  GetArtistsByGenreRequest,
+  GetMostFollowedArtistsRequest,
+  GetMostRecentAlbumsRequest,
+  GetMostViewedMusicsRequest,
   Id,
   Music,
   MusicsList,
@@ -41,16 +45,7 @@ import {
   UpdateArtistRequest,
   UpdateMusicRequest,
 } from '../proto/musics_service_pb';
-// prettier-ignore
-import {
-  translateAlbumEntity,
-  translateAlbumEntityList,
-  translateArtistEntity,
-  translateArtistEntityList,
-  translateGenreEnum,
-  translateMusicEntity,
-  translateMusicEntityList
-} from '../translators';
+import { translateAlbumEntity, translateAlbumEntityList, translateArtistEntity, translateArtistEntityList, translateGenreEnum, translateMusicEntity, translateMusicEntityList } from '../translators';
 import { handleError } from '../utils';
 import Config from '@config/index';
 import AlbumEntity from '@entities/Album';
@@ -79,7 +74,7 @@ export default class MusicsIntegration implements IMusicsIntegration {
     });
   };
 
-  public getMusics = async (): Promise<Array<MusicEntity>> => {
+  public getMusics = async (): Promise<MusicEntity[]> => {
     return new Promise((resolve, reject) => {
       this.client.getMusics(new Empty(), (error: Error | null, musicsList: MusicsList) => {
         if (error != null) reject(handleError(error));
@@ -149,6 +144,19 @@ export default class MusicsIntegration implements IMusicsIntegration {
     });
   };
 
+  public getMostViewedMusics = async ({ limit, offset }: GetMostViewedMusics): Promise<MusicEntity[]> => {
+    return new Promise((resolve, reject) => {
+      const getMostViewedMusicsRequest = new GetMostViewedMusicsRequest();
+      getMostViewedMusicsRequest.setLimit(limit);
+      getMostViewedMusicsRequest.setOffset(offset);
+
+      this.client.getMostViewedMusics(getMostViewedMusicsRequest, (error: Error | null, musicsList: MusicsList) => {
+        if (error != null) reject(handleError(error));
+        else resolve(translateMusicEntityList(musicsList));
+      });
+    });
+  };
+
   public getAlbum = async ({ id }: GetAlbum): Promise<AlbumEntity> => {
     return new Promise((resolve, reject) => {
       const albumId = new Id();
@@ -161,7 +169,7 @@ export default class MusicsIntegration implements IMusicsIntegration {
     });
   };
 
-  public getAlbums = async (): Promise<Array<AlbumEntity>> => {
+  public getAlbums = async (): Promise<AlbumEntity[]> => {
     return new Promise((resolve, reject) => {
       this.client.getAlbums(new Empty(), (error: Error | null, albumsList: AlbumsList) => {
         if (error != null) reject(handleError(error));
@@ -217,6 +225,19 @@ export default class MusicsIntegration implements IMusicsIntegration {
     });
   };
 
+  public getMostRecentAlbums = async ({ limit, offset }: GetMostRecentAlbums): Promise<AlbumEntity[]> => {
+    return new Promise((resolve, reject) => {
+      const getMostRecentAlbumsRequest = new GetMostRecentAlbumsRequest();
+      getMostRecentAlbumsRequest.setLimit(limit);
+      getMostRecentAlbumsRequest.setOffset(offset);
+
+      this.client.getMostRecentAlbums(getMostRecentAlbumsRequest, (error: Error | null, albumsList: AlbumsList) => {
+        if (error != null) reject(handleError(error));
+        else resolve(translateAlbumEntityList(albumsList));
+      });
+    });
+  };
+
   public getArtist = async ({ id }: GetArtist): Promise<ArtistEntity> => {
     return new Promise((resolve, reject) => {
       const artistId = new Id();
@@ -229,7 +250,7 @@ export default class MusicsIntegration implements IMusicsIntegration {
     });
   };
 
-  public getArtists = async (): Promise<Array<ArtistEntity>> => {
+  public getArtists = async (): Promise<ArtistEntity[]> => {
     return new Promise((resolve, reject) => {
       this.client.getArtists(new Empty(), (error: Error | null, artistsList: ArtistsList) => {
         if (error != null) reject(handleError(error));
@@ -238,12 +259,12 @@ export default class MusicsIntegration implements IMusicsIntegration {
     });
   };
 
-  public getArtistsByGenre = async ({ genre }: GetArtistByGenre): Promise<Array<ArtistEntity>> => {
+  public getArtistsByGenre = async ({ genre }: GetArtistsByGenre): Promise<ArtistEntity[]> => {
     return new Promise((resolve, reject) => {
-      const getArtistByGenreRequest = new GetArtistByGenreRequest();
-      getArtistByGenreRequest.setGenre(translateGenreEnum(genre));
+      const getArtistsByGenreRequest = new GetArtistsByGenreRequest();
+      getArtistsByGenreRequest.setGenre(translateGenreEnum(genre));
 
-      this.client.getArtistByGenre(getArtistByGenreRequest, (error: Error | null, artistsList: ArtistsList) => {
+      this.client.getArtistsByGenre(getArtistsByGenreRequest, (error: Error | null, artistsList: ArtistsList) => {
         if (error != null) reject(handleError(error));
         else resolve(translateArtistEntityList(artistsList));
       });
@@ -355,6 +376,19 @@ export default class MusicsIntegration implements IMusicsIntegration {
       this.client.unfollowArtist(artistId, (error: Error | null, artist: Artist) => {
         if (error != null) reject(handleError(error));
         else resolve(translateArtistEntity(artist));
+      });
+    });
+  };
+
+  public getMostFollowedArtists = async ({ limit, offset }: GetMostFollowedArtists): Promise<ArtistEntity[]> => {
+    return new Promise((resolve, reject) => {
+      const getMostFollowedArtistsRequest = new GetMostFollowedArtistsRequest();
+      getMostFollowedArtistsRequest.setLimit(limit);
+      getMostFollowedArtistsRequest.setOffset(offset);
+
+      this.client.getMostFollowedArtists(getMostFollowedArtistsRequest, (error: Error | null, artistsList: ArtistsList) => {
+        if (error != null) reject(handleError(error));
+        else resolve(translateArtistEntityList(artistsList));
       });
     });
   };

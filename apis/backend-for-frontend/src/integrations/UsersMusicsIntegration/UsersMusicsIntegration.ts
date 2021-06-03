@@ -10,8 +10,8 @@ import {
   GetViews,
   UnfollowArtist,
   ViewMusic,
-  ViewsResponse,
   ViewsListResponse,
+  ViewsResponse,
 } from './dtos';
 import IUsersMusicsIntegration from './interface';
 import { UsersMusicsClient } from '../proto/users_musics_service_grpc_pb';
