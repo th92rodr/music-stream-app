@@ -13,32 +13,27 @@ export default class MusicsViewsController {
     this.usersMusicsIntegration = usersMusicsIntegration;
   }
 
-  public async indexLast(request: Request, response: Response) {
-    const userId = request.userId;
+  public async index(request: Request, response: Response) {
     const { limit } = request.query;
+    const userId = request.userId;
 
     try {
-      const views = await this.usersMusicsIntegration.getLastViews({ userId, limit: limit ? Number(limit) : Config.query.defaultLimit });
+      switch (request.url) {
+        case '/last-views':
+          const lastViews = await this.usersMusicsIntegration.getLastViews({
+            userId,
+            limit: limit ? Number(limit) : Config.query.defaultLimit,
+          });
 
-      return response.status(HttpStatusCode.OK).json(views);
-    } catch (error) {
-      if (error instanceof BaseError) {
-        return response.status(error.statusCode).json({ error: error.message });
+          return response.status(HttpStatusCode.OK).json(lastViews);
+        case '/most-views':
+          const mostViews = await this.usersMusicsIntegration.getMostViews({
+            userId,
+            limit: limit ? Number(limit) : Config.query.defaultLimit,
+          });
+
+          return response.status(HttpStatusCode.OK).json(mostViews);
       }
-
-      const internalError = new InternalError();
-      return response.status(internalError.statusCode).json({ error: internalError.message });
-    }
-  }
-
-  public async indexMost(request: Request, response: Response) {
-    const userId = request.userId;
-    const { limit } = request.query;
-
-    try {
-      const views = await this.usersMusicsIntegration.getMostViews({ userId, limit: limit ? Number(limit) : Config.query.defaultLimit });
-
-      return response.status(HttpStatusCode.OK).json(views);
     } catch (error) {
       if (error instanceof BaseError) {
         return response.status(error.statusCode).json({ error: error.message });
