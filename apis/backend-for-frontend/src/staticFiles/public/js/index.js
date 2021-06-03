@@ -84,7 +84,7 @@ function initSidebar() {
 }
 
 function OnClickBand(id) {
-  $(location).attr('href', `/web/band/${id}`);
+  $(location).attr('href', `/static/artists/${id}`);
 }
 
 let isArtistModalOpen = false;
@@ -141,10 +141,10 @@ function openArtistPage(id) {
   function buildArtistPage(artist) {
     console.log(artist);
 
-    artistFullImg.src = `/web/files/?file=${artist.full_img}`;
+    artistFullImg.src = `/static/files?file=${artist.full_img}`;
     artistFullImg.alt = artist.name;
 
-    artistVerticalImg.src = `/web/files/?file=${artist.vertical_img}`;
+    artistVerticalImg.src = `/static/files?file=${artist.vertical_img}`;
     artistVerticalImg.alt = artist.name;
 
     artistName.innerHTML = artist.name;
@@ -158,7 +158,7 @@ function openArtistPage(id) {
       <p>${artist.country}</p>
     `;
     artistGenre.innerHTML = artist.genre;
-    artistFoundationDate.innerHTML = artist.foundation_date;
+    artistFoundationDate.innerHTML = `${new Date(artist.foundation_date).getFullYear()}`;
 
     artistDescription.innerHTML = artist.description;
 
@@ -172,7 +172,7 @@ function openArtistPage(id) {
       trackItem.innerHTML = `
         <div class="track__play">{{> icon-play-outline}}</div>
         <div class="track__title">${track.title}</div>
-        <div class="track__length">${track.duration_str}</div>
+        <div class="track__length">${getMusicDuration(track.duration)}</div>
       `;
 
       trackItem.addEventListener('click', openMusicModal.bind(trackItem, track.id));
@@ -188,10 +188,10 @@ function openArtistPage(id) {
       albumItem.id = album.id;
 
       albumItem.innerHTML = `
-        <img src="/web/files/?file=${album.cover}" alt=${album.name} loading="lazy" />
+        <img src="/static/files?file=${album.cover}" alt=${album.name} loading="lazy" />
         <div class="albums__list__item__info">
           <span class="album__title">${album.name}</span>
-          <span class="album__year">${album.release_date_str}</span>
+          <span class="album__year">${`${convertMonthToString(new Date(album.release_date).getMonth())}, ${new Date(album.release_date).getFullYear()}`}</span>
         </div>
       `;
 
@@ -247,11 +247,11 @@ function openAlbumModal(id) {
   }
 
   function buildAlbumModal(album) {
-    albumImg.src = `/web/files/?file=${album.cover}`;
+    albumImg.src = `/static/files?file=${album.cover}`;
 
-    albumReleaseYear.innerHTML = album.release_date_str;
+    albumReleaseYear.innerHTML = `${convertMonthToString(new Date(album.release_date).getMonth())}, ${new Date(album.release_date).getFullYear()}`;
     albumName.innerHTML = album.name;
-    albumProducers.innerHTML = `Producers: ${album.producers_str}`;
+    albumProducers.innerHTML = `Producers: ${album.producers.join(', ')}`;
     albumStudio.innerHTML = `Studio: ${album.studio}`;
 
     albumDurationNumberOfTracks.innerHTML = `${album.number_of_tracks} songs`;
@@ -267,7 +267,7 @@ function openAlbumModal(id) {
       trackItem.innerHTML = `
           <div class="track__number">${index + 1}</div>
           <div class="track__title">${track.title}</div>
-          <div class="track__length">${track.duration_str}</div>
+          <div class="track__length">${getMusicDuration(track.duration)}</div>
         `;
 
       trackItem.addEventListener('click', openMusicModal.bind(trackItem, track.id));
@@ -375,7 +375,7 @@ function openArtistModal(id) {
   }
 
   function buildArtistModal(artist) {
-    artistImg.src = `/web/files/?file=${artist.profile_img}`;
+    artistImg.src = `/static/files?file=${artist.profile_img}`;
     artistName.innerHTML = artist.name;
 
     topTracksList.innerHTML = '';
@@ -386,7 +386,7 @@ function openArtistModal(id) {
 
       trackItem.innerHTML = `
         <div class="top__tracks__item__img">
-          <img src="/web/files/?file=${track.cover}" alt=${track.title} loading="lazy" />
+          <img src="/static/files?file=${track.cover}" alt=${track.title} loading="lazy" />
         </div>
         <div class="top__tracks__item__info">
           <span>${index}. ${track.title}</span>
@@ -402,3 +402,34 @@ function openArtistModal(id) {
 
   fetchArtist();
 }
+
+const convertMonthToString = month => {
+  // prettier-ignore
+  switch (month) {
+    case 0: return 'Jan';
+    case 1: return 'Feb';
+    case 2: return 'Mar';
+    case 3: return 'Apr';
+    case 4: return 'May';
+    case 5: return 'Jun';
+    case 6: return 'Jul';
+    case 7: return 'Aug';
+    case 8: return 'Sep';
+    case 9: return 'Oct';
+    case 10: return 'Nov';
+    case 11: return 'Dec';
+    default: return '';
+  }
+};
+
+const getMusicDuration = durationInSeconds => {
+  const minutes = Math.floor(durationInSeconds / 60);
+  const seconds = durationInSeconds % 60;
+
+  let secondsStr = seconds.toString();
+  if (secondsStr.length == 1) {
+    secondsStr = `0${secondsStr}`;
+  }
+
+  return `${minutes}:${secondsStr}`;
+};
