@@ -30,7 +30,7 @@ export function translateArtist(artist: Artist): any {
   };
 }
 
-export function translateArtists(artists: Array<Artist>): any {
+export function translateArtists(artists: Artist[]): any {
   return artists.map(artist => translateArtist(artist));
 }
 
@@ -72,7 +72,7 @@ export function translatePlaylist(playlist: Playlist): any {
   };
 }
 
-export function translatePlaylists(playlists: Array<Playlist>): any {
+export function translatePlaylists(playlists: Playlist[]): any {
   return playlists.map(playlist => translatePlaylist(playlist));
 }
 

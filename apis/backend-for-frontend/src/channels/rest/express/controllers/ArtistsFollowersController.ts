@@ -5,7 +5,7 @@ import BaseError from '@constants/BaseError';
 import { InternalError } from '@constants/errors';
 import IUsersMusicsIntegration from '@integrations/UsersMusicsIntegration/interface';
 
-export default class ArtistsFavoritesController {
+export default class ArtistsFollowersController {
   private usersMusicsIntegration: IUsersMusicsIntegration;
 
   constructor(usersMusicsIntegration: IUsersMusicsIntegration) {

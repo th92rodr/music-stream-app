@@ -5,6 +5,7 @@ import Validator from '@channels/rest/middlewares/Validator';
 import { Genre, HttpStatusCode } from '@constants/index';
 import BaseError from '@constants/BaseError';
 import { InternalError } from '@constants/errors';
+import Artist from '@entities/Artist';
 import IMusicsIntegration from '@integrations/MusicsIntegration/interface';
 import { newDate } from '@utils/index';
 
@@ -18,8 +19,21 @@ export default class ArtistsController {
   }
 
   public async index(request: Request, response: Response) {
+    const { genre } = request.query;
+
     try {
-      const artists = await this.musicsIntegration.getArtists();
+      let artists: Artist[] = [];
+
+      if (genre) {
+        const errors = this.validator.validateGetArtistsByGenreRequest(genre);
+        if (errors.length > 0) {
+          return response.status(HttpStatusCode.BAD_REQUEST).json({ errors });
+        }
+
+        artists = await this.musicsIntegration.getArtistsByGenre({ genre: Genre[genre] });
+      } else {
+        artists = await this.musicsIntegration.getArtists();
+      }
 
       return response.status(HttpStatusCode.OK).json(translateArtists(artists));
     } catch (error) {

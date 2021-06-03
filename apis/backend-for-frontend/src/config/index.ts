@@ -32,6 +32,7 @@ export default {
 
   query: {
     defaultLimit: 10,
+    defaultOffset: 0,
   },
 
   staticFiles: {
