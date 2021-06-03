@@ -300,7 +300,7 @@ proto.proto.Playlist.toObject = function(includeInstance, msg) {
   var f, obj = {
     id: jspb.Message.getFieldWithDefault(msg, 1, ""),
     name: jspb.Message.getFieldWithDefault(msg, 2, ""),
-    userid: jspb.Message.getFieldWithDefault(msg, 3, ""),
+    userId: jspb.Message.getFieldWithDefault(msg, 3, ""),
     tracksList: jspb.Message.toObjectList(msg.getTracksList(),
     proto.proto.Track.toObject, includeInstance)
   };
@@ -349,7 +349,7 @@ proto.proto.Playlist.deserializeBinaryFromReader = function(msg, reader) {
       break;
     case 3:
       var value = /** @type {string} */ (reader.readString());
-      msg.setUserid(value);
+      msg.setUserId(value);
       break;
     case 4:
       var value = new proto.proto.Track;
@@ -399,7 +399,7 @@ proto.proto.Playlist.serializeBinaryToWriter = function(message, writer) {
       f
     );
   }
-  f = message.getUserid();
+  f = message.getUserId();
   if (f.length > 0) {
     writer.writeString(
       3,
@@ -454,10 +454,10 @@ proto.proto.Playlist.prototype.setName = function(value) {
 
 
 /**
- * optional string userId = 3;
+ * optional string user_id = 3;
  * @return {string}
  */
-proto.proto.Playlist.prototype.getUserid = function() {
+proto.proto.Playlist.prototype.getUserId = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 3, ""));
 };
 
@@ -466,7 +466,7 @@ proto.proto.Playlist.prototype.getUserid = function() {
  * @param {string} value
  * @return {!proto.proto.Playlist} returns this
  */
-proto.proto.Playlist.prototype.setUserid = function(value) {
+proto.proto.Playlist.prototype.setUserId = function(value) {
   return jspb.Message.setProto3StringField(this, 3, value);
 };
 
@@ -913,7 +913,7 @@ proto.proto.GetPlaylistRequest.prototype.toObject = function(opt_includeInstance
 proto.proto.GetPlaylistRequest.toObject = function(includeInstance, msg) {
   var f, obj = {
     id: jspb.Message.getFieldWithDefault(msg, 1, ""),
-    userid: jspb.Message.getFieldWithDefault(msg, 2, "")
+    userId: jspb.Message.getFieldWithDefault(msg, 2, "")
   };
 
   if (includeInstance) {
@@ -956,7 +956,7 @@ proto.proto.GetPlaylistRequest.deserializeBinaryFromReader = function(msg, reade
       break;
     case 2:
       var value = /** @type {string} */ (reader.readString());
-      msg.setUserid(value);
+      msg.setUserId(value);
       break;
     default:
       reader.skipField();
@@ -994,7 +994,7 @@ proto.proto.GetPlaylistRequest.serializeBinaryToWriter = function(message, write
       f
     );
   }
-  f = message.getUserid();
+  f = message.getUserId();
   if (f.length > 0) {
     writer.writeString(
       2,
@@ -1023,10 +1023,10 @@ proto.proto.GetPlaylistRequest.prototype.setId = function(value) {
 
 
 /**
- * optional string userId = 2;
+ * optional string user_id = 2;
  * @return {string}
  */
-proto.proto.GetPlaylistRequest.prototype.getUserid = function() {
+proto.proto.GetPlaylistRequest.prototype.getUserId = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 2, ""));
 };
 
@@ -1035,7 +1035,7 @@ proto.proto.GetPlaylistRequest.prototype.getUserid = function() {
  * @param {string} value
  * @return {!proto.proto.GetPlaylistRequest} returns this
  */
-proto.proto.GetPlaylistRequest.prototype.setUserid = function(value) {
+proto.proto.GetPlaylistRequest.prototype.setUserId = function(value) {
   return jspb.Message.setProto3StringField(this, 2, value);
 };
 
@@ -1072,7 +1072,7 @@ proto.proto.GetPlaylistsRequest.prototype.toObject = function(opt_includeInstanc
  */
 proto.proto.GetPlaylistsRequest.toObject = function(includeInstance, msg) {
   var f, obj = {
-    userid: jspb.Message.getFieldWithDefault(msg, 1, "")
+    userId: jspb.Message.getFieldWithDefault(msg, 1, "")
   };
 
   if (includeInstance) {
@@ -1111,7 +1111,7 @@ proto.proto.GetPlaylistsRequest.deserializeBinaryFromReader = function(msg, read
     switch (field) {
     case 1:
       var value = /** @type {string} */ (reader.readString());
-      msg.setUserid(value);
+      msg.setUserId(value);
       break;
     default:
       reader.skipField();
@@ -1142,7 +1142,7 @@ proto.proto.GetPlaylistsRequest.prototype.serializeBinary = function() {
  */
 proto.proto.GetPlaylistsRequest.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
-  f = message.getUserid();
+  f = message.getUserId();
   if (f.length > 0) {
     writer.writeString(
       1,
@@ -1153,10 +1153,10 @@ proto.proto.GetPlaylistsRequest.serializeBinaryToWriter = function(message, writ
 
 
 /**
- * optional string userId = 1;
+ * optional string user_id = 1;
  * @return {string}
  */
-proto.proto.GetPlaylistsRequest.prototype.getUserid = function() {
+proto.proto.GetPlaylistsRequest.prototype.getUserId = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 1, ""));
 };
 
@@ -1165,7 +1165,7 @@ proto.proto.GetPlaylistsRequest.prototype.getUserid = function() {
  * @param {string} value
  * @return {!proto.proto.GetPlaylistsRequest} returns this
  */
-proto.proto.GetPlaylistsRequest.prototype.setUserid = function(value) {
+proto.proto.GetPlaylistsRequest.prototype.setUserId = function(value) {
   return jspb.Message.setProto3StringField(this, 1, value);
 };
 
@@ -1203,7 +1203,7 @@ proto.proto.CreatePlaylistRequest.prototype.toObject = function(opt_includeInsta
 proto.proto.CreatePlaylistRequest.toObject = function(includeInstance, msg) {
   var f, obj = {
     name: jspb.Message.getFieldWithDefault(msg, 1, ""),
-    userid: jspb.Message.getFieldWithDefault(msg, 2, "")
+    userId: jspb.Message.getFieldWithDefault(msg, 2, "")
   };
 
   if (includeInstance) {
@@ -1246,7 +1246,7 @@ proto.proto.CreatePlaylistRequest.deserializeBinaryFromReader = function(msg, re
       break;
     case 2:
       var value = /** @type {string} */ (reader.readString());
-      msg.setUserid(value);
+      msg.setUserId(value);
       break;
     default:
       reader.skipField();
@@ -1284,7 +1284,7 @@ proto.proto.CreatePlaylistRequest.serializeBinaryToWriter = function(message, wr
       f
     );
   }
-  f = message.getUserid();
+  f = message.getUserId();
   if (f.length > 0) {
     writer.writeString(
       2,
@@ -1313,10 +1313,10 @@ proto.proto.CreatePlaylistRequest.prototype.setName = function(value) {
 
 
 /**
- * optional string userId = 2;
+ * optional string user_id = 2;
  * @return {string}
  */
-proto.proto.CreatePlaylistRequest.prototype.getUserid = function() {
+proto.proto.CreatePlaylistRequest.prototype.getUserId = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 2, ""));
 };
 
@@ -1325,7 +1325,7 @@ proto.proto.CreatePlaylistRequest.prototype.getUserid = function() {
  * @param {string} value
  * @return {!proto.proto.CreatePlaylistRequest} returns this
  */
-proto.proto.CreatePlaylistRequest.prototype.setUserid = function(value) {
+proto.proto.CreatePlaylistRequest.prototype.setUserId = function(value) {
   return jspb.Message.setProto3StringField(this, 2, value);
 };
 
@@ -1364,7 +1364,7 @@ proto.proto.UpdatePlaylistRequest.toObject = function(includeInstance, msg) {
   var f, obj = {
     id: jspb.Message.getFieldWithDefault(msg, 1, ""),
     name: jspb.Message.getFieldWithDefault(msg, 2, ""),
-    userid: jspb.Message.getFieldWithDefault(msg, 3, "")
+    userId: jspb.Message.getFieldWithDefault(msg, 3, "")
   };
 
   if (includeInstance) {
@@ -1411,7 +1411,7 @@ proto.proto.UpdatePlaylistRequest.deserializeBinaryFromReader = function(msg, re
       break;
     case 3:
       var value = /** @type {string} */ (reader.readString());
-      msg.setUserid(value);
+      msg.setUserId(value);
       break;
     default:
       reader.skipField();
@@ -1456,7 +1456,7 @@ proto.proto.UpdatePlaylistRequest.serializeBinaryToWriter = function(message, wr
       f
     );
   }
-  f = message.getUserid();
+  f = message.getUserId();
   if (f.length > 0) {
     writer.writeString(
       3,
@@ -1503,10 +1503,10 @@ proto.proto.UpdatePlaylistRequest.prototype.setName = function(value) {
 
 
 /**
- * optional string userId = 3;
+ * optional string user_id = 3;
  * @return {string}
  */
-proto.proto.UpdatePlaylistRequest.prototype.getUserid = function() {
+proto.proto.UpdatePlaylistRequest.prototype.getUserId = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 3, ""));
 };
 
@@ -1515,7 +1515,7 @@ proto.proto.UpdatePlaylistRequest.prototype.getUserid = function() {
  * @param {string} value
  * @return {!proto.proto.UpdatePlaylistRequest} returns this
  */
-proto.proto.UpdatePlaylistRequest.prototype.setUserid = function(value) {
+proto.proto.UpdatePlaylistRequest.prototype.setUserId = function(value) {
   return jspb.Message.setProto3StringField(this, 3, value);
 };
 
@@ -1553,7 +1553,7 @@ proto.proto.DeletePlaylistRequest.prototype.toObject = function(opt_includeInsta
 proto.proto.DeletePlaylistRequest.toObject = function(includeInstance, msg) {
   var f, obj = {
     id: jspb.Message.getFieldWithDefault(msg, 1, ""),
-    userid: jspb.Message.getFieldWithDefault(msg, 2, "")
+    userId: jspb.Message.getFieldWithDefault(msg, 2, "")
   };
 
   if (includeInstance) {
@@ -1596,7 +1596,7 @@ proto.proto.DeletePlaylistRequest.deserializeBinaryFromReader = function(msg, re
       break;
     case 2:
       var value = /** @type {string} */ (reader.readString());
-      msg.setUserid(value);
+      msg.setUserId(value);
       break;
     default:
       reader.skipField();
@@ -1634,7 +1634,7 @@ proto.proto.DeletePlaylistRequest.serializeBinaryToWriter = function(message, wr
       f
     );
   }
-  f = message.getUserid();
+  f = message.getUserId();
   if (f.length > 0) {
     writer.writeString(
       2,
@@ -1663,10 +1663,10 @@ proto.proto.DeletePlaylistRequest.prototype.setId = function(value) {
 
 
 /**
- * optional string userId = 2;
+ * optional string user_id = 2;
  * @return {string}
  */
-proto.proto.DeletePlaylistRequest.prototype.getUserid = function() {
+proto.proto.DeletePlaylistRequest.prototype.getUserId = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 2, ""));
 };
 
@@ -1675,7 +1675,7 @@ proto.proto.DeletePlaylistRequest.prototype.getUserid = function() {
  * @param {string} value
  * @return {!proto.proto.DeletePlaylistRequest} returns this
  */
-proto.proto.DeletePlaylistRequest.prototype.setUserid = function(value) {
+proto.proto.DeletePlaylistRequest.prototype.setUserId = function(value) {
   return jspb.Message.setProto3StringField(this, 2, value);
 };
 
@@ -1712,9 +1712,9 @@ proto.proto.AddTrackRequest.prototype.toObject = function(opt_includeInstance) {
  */
 proto.proto.AddTrackRequest.toObject = function(includeInstance, msg) {
   var f, obj = {
-    userid: jspb.Message.getFieldWithDefault(msg, 1, ""),
-    playlistid: jspb.Message.getFieldWithDefault(msg, 2, ""),
-    musicid: jspb.Message.getFieldWithDefault(msg, 3, "")
+    userId: jspb.Message.getFieldWithDefault(msg, 1, ""),
+    playlistId: jspb.Message.getFieldWithDefault(msg, 2, ""),
+    musicId: jspb.Message.getFieldWithDefault(msg, 3, "")
   };
 
   if (includeInstance) {
@@ -1753,15 +1753,15 @@ proto.proto.AddTrackRequest.deserializeBinaryFromReader = function(msg, reader) 
     switch (field) {
     case 1:
       var value = /** @type {string} */ (reader.readString());
-      msg.setUserid(value);
+      msg.setUserId(value);
       break;
     case 2:
       var value = /** @type {string} */ (reader.readString());
-      msg.setPlaylistid(value);
+      msg.setPlaylistId(value);
       break;
     case 3:
       var value = /** @type {string} */ (reader.readString());
-      msg.setMusicid(value);
+      msg.setMusicId(value);
       break;
     default:
       reader.skipField();
@@ -1792,21 +1792,21 @@ proto.proto.AddTrackRequest.prototype.serializeBinary = function() {
  */
 proto.proto.AddTrackRequest.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
-  f = message.getUserid();
+  f = message.getUserId();
   if (f.length > 0) {
     writer.writeString(
       1,
       f
     );
   }
-  f = message.getPlaylistid();
+  f = message.getPlaylistId();
   if (f.length > 0) {
     writer.writeString(
       2,
       f
     );
   }
-  f = message.getMusicid();
+  f = message.getMusicId();
   if (f.length > 0) {
     writer.writeString(
       3,
@@ -1817,10 +1817,10 @@ proto.proto.AddTrackRequest.serializeBinaryToWriter = function(message, writer) 
 
 
 /**
- * optional string userId = 1;
+ * optional string user_id = 1;
  * @return {string}
  */
-proto.proto.AddTrackRequest.prototype.getUserid = function() {
+proto.proto.AddTrackRequest.prototype.getUserId = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 1, ""));
 };
 
@@ -1829,16 +1829,16 @@ proto.proto.AddTrackRequest.prototype.getUserid = function() {
  * @param {string} value
  * @return {!proto.proto.AddTrackRequest} returns this
  */
-proto.proto.AddTrackRequest.prototype.setUserid = function(value) {
+proto.proto.AddTrackRequest.prototype.setUserId = function(value) {
   return jspb.Message.setProto3StringField(this, 1, value);
 };
 
 
 /**
- * optional string playlistId = 2;
+ * optional string playlist_id = 2;
  * @return {string}
  */
-proto.proto.AddTrackRequest.prototype.getPlaylistid = function() {
+proto.proto.AddTrackRequest.prototype.getPlaylistId = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 2, ""));
 };
 
@@ -1847,16 +1847,16 @@ proto.proto.AddTrackRequest.prototype.getPlaylistid = function() {
  * @param {string} value
  * @return {!proto.proto.AddTrackRequest} returns this
  */
-proto.proto.AddTrackRequest.prototype.setPlaylistid = function(value) {
+proto.proto.AddTrackRequest.prototype.setPlaylistId = function(value) {
   return jspb.Message.setProto3StringField(this, 2, value);
 };
 
 
 /**
- * optional string musicId = 3;
+ * optional string music_id = 3;
  * @return {string}
  */
-proto.proto.AddTrackRequest.prototype.getMusicid = function() {
+proto.proto.AddTrackRequest.prototype.getMusicId = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 3, ""));
 };
 
@@ -1865,7 +1865,7 @@ proto.proto.AddTrackRequest.prototype.getMusicid = function() {
  * @param {string} value
  * @return {!proto.proto.AddTrackRequest} returns this
  */
-proto.proto.AddTrackRequest.prototype.setMusicid = function(value) {
+proto.proto.AddTrackRequest.prototype.setMusicId = function(value) {
   return jspb.Message.setProto3StringField(this, 3, value);
 };
 
@@ -1902,8 +1902,8 @@ proto.proto.UpdateTrackRequest.prototype.toObject = function(opt_includeInstance
  */
 proto.proto.UpdateTrackRequest.toObject = function(includeInstance, msg) {
   var f, obj = {
-    userid: jspb.Message.getFieldWithDefault(msg, 1, ""),
-    playlistid: jspb.Message.getFieldWithDefault(msg, 2, ""),
+    userId: jspb.Message.getFieldWithDefault(msg, 1, ""),
+    playlistId: jspb.Message.getFieldWithDefault(msg, 2, ""),
     id: jspb.Message.getFieldWithDefault(msg, 3, ""),
     index: jspb.Message.getFieldWithDefault(msg, 4, 0)
   };
@@ -1944,11 +1944,11 @@ proto.proto.UpdateTrackRequest.deserializeBinaryFromReader = function(msg, reade
     switch (field) {
     case 1:
       var value = /** @type {string} */ (reader.readString());
-      msg.setUserid(value);
+      msg.setUserId(value);
       break;
     case 2:
       var value = /** @type {string} */ (reader.readString());
-      msg.setPlaylistid(value);
+      msg.setPlaylistId(value);
       break;
     case 3:
       var value = /** @type {string} */ (reader.readString());
@@ -1987,14 +1987,14 @@ proto.proto.UpdateTrackRequest.prototype.serializeBinary = function() {
  */
 proto.proto.UpdateTrackRequest.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
-  f = message.getUserid();
+  f = message.getUserId();
   if (f.length > 0) {
     writer.writeString(
       1,
       f
     );
   }
-  f = message.getPlaylistid();
+  f = message.getPlaylistId();
   if (f.length > 0) {
     writer.writeString(
       2,
@@ -2019,10 +2019,10 @@ proto.proto.UpdateTrackRequest.serializeBinaryToWriter = function(message, write
 
 
 /**
- * optional string userId = 1;
+ * optional string user_id = 1;
  * @return {string}
  */
-proto.proto.UpdateTrackRequest.prototype.getUserid = function() {
+proto.proto.UpdateTrackRequest.prototype.getUserId = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 1, ""));
 };
 
@@ -2031,16 +2031,16 @@ proto.proto.UpdateTrackRequest.prototype.getUserid = function() {
  * @param {string} value
  * @return {!proto.proto.UpdateTrackRequest} returns this
  */
-proto.proto.UpdateTrackRequest.prototype.setUserid = function(value) {
+proto.proto.UpdateTrackRequest.prototype.setUserId = function(value) {
   return jspb.Message.setProto3StringField(this, 1, value);
 };
 
 
 /**
- * optional string playlistId = 2;
+ * optional string playlist_id = 2;
  * @return {string}
  */
-proto.proto.UpdateTrackRequest.prototype.getPlaylistid = function() {
+proto.proto.UpdateTrackRequest.prototype.getPlaylistId = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 2, ""));
 };
 
@@ -2049,7 +2049,7 @@ proto.proto.UpdateTrackRequest.prototype.getPlaylistid = function() {
  * @param {string} value
  * @return {!proto.proto.UpdateTrackRequest} returns this
  */
-proto.proto.UpdateTrackRequest.prototype.setPlaylistid = function(value) {
+proto.proto.UpdateTrackRequest.prototype.setPlaylistId = function(value) {
   return jspb.Message.setProto3StringField(this, 2, value);
 };
 
@@ -2122,8 +2122,8 @@ proto.proto.RemoveTrackRequest.prototype.toObject = function(opt_includeInstance
  */
 proto.proto.RemoveTrackRequest.toObject = function(includeInstance, msg) {
   var f, obj = {
-    userid: jspb.Message.getFieldWithDefault(msg, 1, ""),
-    playlistid: jspb.Message.getFieldWithDefault(msg, 2, ""),
+    userId: jspb.Message.getFieldWithDefault(msg, 1, ""),
+    playlistId: jspb.Message.getFieldWithDefault(msg, 2, ""),
     id: jspb.Message.getFieldWithDefault(msg, 3, "")
   };
 
@@ -2163,11 +2163,11 @@ proto.proto.RemoveTrackRequest.deserializeBinaryFromReader = function(msg, reade
     switch (field) {
     case 1:
       var value = /** @type {string} */ (reader.readString());
-      msg.setUserid(value);
+      msg.setUserId(value);
       break;
     case 2:
       var value = /** @type {string} */ (reader.readString());
-      msg.setPlaylistid(value);
+      msg.setPlaylistId(value);
       break;
     case 3:
       var value = /** @type {string} */ (reader.readString());
@@ -2202,14 +2202,14 @@ proto.proto.RemoveTrackRequest.prototype.serializeBinary = function() {
  */
 proto.proto.RemoveTrackRequest.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
-  f = message.getUserid();
+  f = message.getUserId();
   if (f.length > 0) {
     writer.writeString(
       1,
       f
     );
   }
-  f = message.getPlaylistid();
+  f = message.getPlaylistId();
   if (f.length > 0) {
     writer.writeString(
       2,
@@ -2227,10 +2227,10 @@ proto.proto.RemoveTrackRequest.serializeBinaryToWriter = function(message, write
 
 
 /**
- * optional string userId = 1;
+ * optional string user_id = 1;
  * @return {string}
  */
-proto.proto.RemoveTrackRequest.prototype.getUserid = function() {
+proto.proto.RemoveTrackRequest.prototype.getUserId = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 1, ""));
 };
 
@@ -2239,16 +2239,16 @@ proto.proto.RemoveTrackRequest.prototype.getUserid = function() {
  * @param {string} value
  * @return {!proto.proto.RemoveTrackRequest} returns this
  */
-proto.proto.RemoveTrackRequest.prototype.setUserid = function(value) {
+proto.proto.RemoveTrackRequest.prototype.setUserId = function(value) {
   return jspb.Message.setProto3StringField(this, 1, value);
 };
 
 
 /**
- * optional string playlistId = 2;
+ * optional string playlist_id = 2;
  * @return {string}
  */
-proto.proto.RemoveTrackRequest.prototype.getPlaylistid = function() {
+proto.proto.RemoveTrackRequest.prototype.getPlaylistId = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 2, ""));
 };
 
@@ -2257,7 +2257,7 @@ proto.proto.RemoveTrackRequest.prototype.getPlaylistid = function() {
  * @param {string} value
  * @return {!proto.proto.RemoveTrackRequest} returns this
  */
-proto.proto.RemoveTrackRequest.prototype.setPlaylistid = function(value) {
+proto.proto.RemoveTrackRequest.prototype.setPlaylistId = function(value) {
   return jspb.Message.setProto3StringField(this, 2, value);
 };
 

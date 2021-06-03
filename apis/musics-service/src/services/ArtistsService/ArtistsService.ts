@@ -1,14 +1,14 @@
-// prettier-ignore
 import {
-  GetArtistRequest,
-  GetArtistByGenreRequest,
   CreateArtistRequest,
-  UpdateArtistRequest,
   DeleteArtistRequest,
-  AddFavoriteRequest,
-  RemoveFavoriteRequest,
-  AddFollowerRequest,
-  RemoveFollowerRequest,
+  FavoriteArtistRequest,
+  FollowArtistRequest,
+  GetArtistsByGenreRequest,
+  GetArtistRequest,
+  GetMostFollowedArtistsRequest,
+  UnfavoriteArtistRequest,
+  UnfollowArtistRequest,
+  UpdateArtistRequest,
 } from './dtos';
 import IArtistsService from './interface';
 import { ErrorArtistNotFound } from '@constants/errors';
@@ -20,11 +20,7 @@ export default class ArtistsService implements IArtistsService {
   private artistsRepository: IArtistsRepository;
   private idProvider: IIdProvider;
 
-  // prettier-ignore
-  constructor(
-    artistsRepository: IArtistsRepository,
-    idProvider: IIdProvider,
-  ) {
+  constructor(artistsRepository: IArtistsRepository, idProvider: IIdProvider) {
     this.artistsRepository = artistsRepository;
     this.idProvider = idProvider;
   }
@@ -39,19 +35,15 @@ export default class ArtistsService implements IArtistsService {
     return artist;
   }
 
-  public async getAll(): Promise<Array<Artist>> {
-    const artists = await this.artistsRepository.findAll();
-
-    return artists;
+  public async getAll(): Promise<Artist[]> {
+    return this.artistsRepository.findAll();
   }
 
-  public async getByGenre({ genre }: GetArtistByGenreRequest): Promise<Array<Artist>> {
-    const artists = await this.artistsRepository.findByGenre(genre);
-
-    return artists;
+  public async getByGenre({ genre }: GetArtistsByGenreRequest): Promise<Artist[]> {
+    return this.artistsRepository.findByGenre(genre);
   }
 
-  public async create({ name, country, foundationDate, members, description, genre, photos, facebookUrl, twitterUrl, instagramUrl, wikipediaUrl }: CreateArtistRequest): Promise<Artist> {
+  public async create({ name, country, foundationDate, members, description, genre, photos, facebookUrl, twitterUrl, instagramUrl, wikipediaUrl, font }: CreateArtistRequest): Promise<Artist> {
     const artist = new Artist({
       id: this.idProvider.generate(),
       name,
@@ -65,6 +57,7 @@ export default class ArtistsService implements IArtistsService {
       twitterUrl,
       instagramUrl,
       wikipediaUrl,
+      font,
       favorites: 0,
       followers: 0,
     });
@@ -74,7 +67,7 @@ export default class ArtistsService implements IArtistsService {
     return artist;
   }
 
-  public async update({ id, name, country, foundationDate, members, description, genre, photos, facebookUrl, twitterUrl, instagramUrl, wikipediaUrl }: UpdateArtistRequest): Promise<Artist> {
+  public async update({ id, name, country, foundationDate, members, description, genre, photos, facebookUrl, twitterUrl, instagramUrl, wikipediaUrl, font }: UpdateArtistRequest): Promise<Artist> {
     const artist = await this.artistsRepository.find(id);
 
     if (!artist) {
@@ -110,6 +103,7 @@ export default class ArtistsService implements IArtistsService {
       twitterUrl: twitterUrl ? twitterUrl : artist.twitterUrl,
       instagramUrl: instagramUrl ? instagramUrl : artist.instagramUrl,
       wikipediaUrl: wikipediaUrl ? wikipediaUrl : artist.wikipediaUrl,
+      font: font ? font : artist.font,
       favorites: artist.favorites,
       followers: artist.followers,
     });
@@ -123,59 +117,63 @@ export default class ArtistsService implements IArtistsService {
     await this.artistsRepository.delete(id);
   }
 
-  public async addFavorite({ id }: AddFavoriteRequest): Promise<Artist> {
+  public async favorite({ id }: FavoriteArtistRequest): Promise<Artist> {
     const artist = await this.artistsRepository.find(id);
 
     if (!artist) {
       throw new ErrorArtistNotFound(id);
     }
 
-    artist.addFavorite();
+    artist.favorite();
 
     await this.artistsRepository.update(artist);
 
     return artist;
   }
 
-  public async removeFavorite({ id }: RemoveFavoriteRequest): Promise<Artist> {
+  public async unfavorite({ id }: UnfavoriteArtistRequest): Promise<Artist> {
     const artist = await this.artistsRepository.find(id);
 
     if (!artist) {
       throw new ErrorArtistNotFound(id);
     }
 
-    artist.removeFavorite();
+    artist.unfavorite();
 
     await this.artistsRepository.update(artist);
 
     return artist;
   }
 
-  public async addFollower({ id }: AddFollowerRequest): Promise<Artist> {
+  public async follow({ id }: FollowArtistRequest): Promise<Artist> {
     const artist = await this.artistsRepository.find(id);
 
     if (!artist) {
       throw new ErrorArtistNotFound(id);
     }
 
-    artist.addFollower();
+    artist.follow();
 
     await this.artistsRepository.update(artist);
 
     return artist;
   }
 
-  public async removeFollower({ id }: RemoveFollowerRequest): Promise<Artist> {
+  public async unfollow({ id }: UnfollowArtistRequest): Promise<Artist> {
     const artist = await this.artistsRepository.find(id);
 
     if (!artist) {
       throw new ErrorArtistNotFound(id);
     }
 
-    artist.removeFollower();
+    artist.unfollow();
 
     await this.artistsRepository.update(artist);
 
     return artist;
+  }
+
+  public async getMostFollowed({ limit, offset }: GetMostFollowedArtistsRequest): Promise<Artist[]> {
+    return this.artistsRepository.findMostFollowed({ limit, offset });
   }
 }

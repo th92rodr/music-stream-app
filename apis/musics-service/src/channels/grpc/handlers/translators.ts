@@ -12,17 +12,18 @@ export function translateMusicEntity(musicEntity: MusicEntity): Music {
 
   music.setId(musicEntity.id);
   music.setTitle(musicEntity.title);
-  music.setDurationinseconds(musicEntity.durationInSeconds);
+  music.setDuration(musicEntity.durationInSeconds);
   music.setFile(musicEntity.file);
   music.setComposersList(musicEntity.composers);
   music.setLyrics(musicEntity.lyrics);
-  music.setAlbumid(musicEntity.albumId);
+  music.setAlbumId(musicEntity.albumId);
+  music.setArtistId(musicEntity.artistId);
   music.setViews(musicEntity.views);
 
   return music;
 }
 
-export function translateMusicEntityList(musicEntities: Array<MusicEntity>): MusicsList {
+export function translateMusicEntityList(musicEntities: MusicEntity[]): MusicsList {
   const musicsList = new MusicsList();
 
   musicsList.setMusicsList(musicEntities.map(musicEntity => translateMusicEntity(musicEntity)));
@@ -35,17 +36,17 @@ export function translateAlbumEntity(albumEntity: AlbumEntity): Album {
 
   album.setId(albumEntity.id);
   album.setName(albumEntity.name);
-  album.setReleasedate(dateToTimestamp(albumEntity.releaseDate));
+  album.setReleaseDate(dateToTimestamp(albumEntity.releaseDate));
   album.setCover(albumEntity.cover);
   album.setStudio(albumEntity.studio);
   album.setProducersList(albumEntity.producers);
-  album.setArtistid(albumEntity.artistId);
+  album.setArtistId(albumEntity.artistId);
   album.setTracksList(albumEntity.tracks.map(track => translateMusicEntity(track)));
 
   return album;
 }
 
-export function translateAlbumEntityList(albumEntities: Array<AlbumEntity>): AlbumsList {
+export function translateAlbumEntityList(albumEntities: AlbumEntity[]): AlbumsList {
   const albumsList = new AlbumsList();
 
   albumsList.setAlbumsList(albumEntities.map(albumEntity => translateAlbumEntity(albumEntity)));
@@ -59,24 +60,25 @@ export function translateArtistEntity(artistEntity: ArtistEntity): Artist {
   artist.setId(artistEntity.id);
   artist.setName(artistEntity.name);
   artist.setCountry(artistEntity.country);
-  artist.setFoundationdate(dateToTimestamp(artistEntity.foundationDate));
+  artist.setFoundationDate(dateToTimestamp(artistEntity.foundationDate));
   artist.setMembersList(artistEntity.members);
   artist.setDescription(artistEntity.description);
   artist.setGenre(translateGenre(artistEntity.genre));
   artist.setPhotosList(artistEntity.photos);
-  artist.setFacebookurl(artistEntity.facebookUrl);
-  artist.setTwitterurl(artistEntity.twitterUrl);
-  artist.setInstagramurl(artistEntity.instagramUrl);
-  artist.setWikipediaurl(artistEntity.wikipediaUrl);
+  artist.setFacebookUrl(artistEntity.facebookUrl);
+  artist.setTwitterUrl(artistEntity.twitterUrl);
+  artist.setInstagramUrl(artistEntity.instagramUrl);
+  artist.setWikipediaUrl(artistEntity.wikipediaUrl);
+  artist.setFont(artistEntity.font);
   artist.setFavorites(artistEntity.favorites);
   artist.setFollowers(artistEntity.followers);
   artist.setAlbumsList(artistEntity.albums.map(album => translateAlbumEntity(album)));
-  artist.setPopulartracksList(artistEntity.popularTracks.map(track => translateMusicEntity(track)));
+  artist.setPopularTracksList(artistEntity.popularTracks.map(track => translateMusicEntity(track)));
 
   return artist;
 }
 
-export function translateArtistEntityList(artistEntities: Array<ArtistEntity>): ArtistsList {
+export function translateArtistEntityList(artistEntities: ArtistEntity[]): ArtistsList {
   const artistList = new ArtistsList();
 
   artistList.setArtistsList(artistEntities.map(artistEntity => translateArtistEntity(artistEntity)));

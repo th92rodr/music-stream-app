@@ -12,7 +12,10 @@ import {
   CreateArtistRequest,
   CreateMusicRequest,
   Empty,
-  GetArtistByGenreRequest,
+  GetArtistsByGenreRequest,
+  GetMostFollowedArtistsRequest,
+  GetMostRecentAlbumsRequest,
+  GetMostViewedMusicsRequest,
   Id,
   Music,
   MusicsList,
@@ -110,11 +113,12 @@ export class MusicsHandler implements IMusicsServer {
     try {
       const music = await this.musicsService.create({
         title: call.request.getTitle(),
-        durationInSeconds: call.request.getDurationinseconds(),
+        durationInSeconds: call.request.getDuration(),
         file: call.request.getFile(),
         composers: call.request.getComposersList(),
         lyrics: call.request.getLyrics(),
-        albumId: call.request.getAlbumid(),
+        albumId: call.request.getAlbumId(),
+        artistId: call.request.getArtistId(),
       });
 
       this.loggerProvider.info('[CREATE MUSIC]');
@@ -130,11 +134,12 @@ export class MusicsHandler implements IMusicsServer {
       const music = await this.musicsService.update({
         id: call.request.getId(),
         title: call.request.getTitle() != '' ? call.request.getTitle() : undefined,
-        durationInSeconds: call.request.getDurationinseconds() > 0 ? call.request.getDurationinseconds() : undefined,
+        durationInSeconds: call.request.getDuration() > 0 ? call.request.getDuration() : undefined,
         file: call.request.getFile() != '' ? call.request.getFile() : undefined,
         composers: call.request.getComposersList(),
         lyrics: call.request.getLyrics() != '' ? call.request.getLyrics() : undefined,
-        albumId: call.request.getAlbumid() != '' ? call.request.getAlbumid() : undefined,
+        albumId: call.request.getAlbumId() != '' ? call.request.getAlbumId() : undefined,
+        artistId: call.request.getArtistId() != '' ? call.request.getArtistId() : undefined,
       });
 
       this.loggerProvider.info('[UPDATE MUSIC]', { id: music.id });
@@ -159,13 +164,25 @@ export class MusicsHandler implements IMusicsServer {
 
   viewMusic = async (call: grpc.ServerUnaryCall<Id>, callback: grpc.sendUnaryData<Music>): Promise<void> => {
     try {
-      const music = await this.musicsService.addView({ id: call.request.getId() });
+      const music = await this.musicsService.view({ id: call.request.getId() });
 
       this.loggerProvider.info('[VIEW MUSIC]', { id: music.id });
 
       callback(null, translateMusicEntity(music));
     } catch (error) {
       this.handleError<Music>(callback, error);
+    }
+  };
+
+  getMostViewedMusics = async (call: grpc.ServerUnaryCall<GetMostViewedMusicsRequest>, callback: grpc.sendUnaryData<MusicsList>): Promise<void> => {
+    try {
+      const musics = await this.musicsService.getMostViewed({ limit: call.request.getLimit(), offset: call.request.getOffset() });
+
+      this.loggerProvider.info('[GET MOST VIEWED MUSICS]');
+
+      callback(null, translateMusicEntityList(musics));
+    } catch (error) {
+      this.handleError<MusicsList>(callback, error);
     }
   };
 
@@ -197,11 +214,11 @@ export class MusicsHandler implements IMusicsServer {
     try {
       const album = await this.albumsService.create({
         name: call.request.getName(),
-        releaseDate: timestampToDate(call.request.getReleasedate()),
+        releaseDate: timestampToDate(call.request.getReleaseDate()),
         cover: call.request.getCover(),
         studio: call.request.getStudio(),
         producers: call.request.getProducersList(),
-        artistId: call.request.getArtistid(),
+        artistId: call.request.getArtistId(),
       });
 
       this.loggerProvider.info('[CREATE ALBUM]');
@@ -217,11 +234,11 @@ export class MusicsHandler implements IMusicsServer {
       const album = await this.albumsService.update({
         id: call.request.getId(),
         name: call.request.getName() != '' ? call.request.getName() : undefined,
-        releaseDate: call.request.getReleasedate() > 0 ? timestampToDate(call.request.getReleasedate()) : undefined,
+        releaseDate: call.request.getReleaseDate() > 0 ? timestampToDate(call.request.getReleaseDate()) : undefined,
         cover: call.request.getCover() != '' ? call.request.getCover() : undefined,
         studio: call.request.getStudio() != '' ? call.request.getStudio() : undefined,
         producers: call.request.getProducersList(),
-        artistId: call.request.getArtistid() != '' ? call.request.getArtistid() : undefined,
+        artistId: call.request.getArtistId() != '' ? call.request.getArtistId() : undefined,
       });
 
       this.loggerProvider.info('[UPDATE ALBUM]', { id: album.id });
@@ -241,6 +258,18 @@ export class MusicsHandler implements IMusicsServer {
       callback(null, new Empty());
     } catch (error) {
       this.handleError<Empty>(callback, error);
+    }
+  };
+
+  getMostRecentAlbums = async (call: grpc.ServerUnaryCall<GetMostRecentAlbumsRequest>, callback: grpc.sendUnaryData<AlbumsList>): Promise<void> => {
+    try {
+      const albums = await this.albumsService.getMostRecent({ limit: call.request.getLimit(), offset: call.request.getOffset() });
+
+      this.loggerProvider.info('[GET MOST RECENT ALBUMS]');
+
+      callback(null, translateAlbumEntityList(albums));
+    } catch (error) {
+      this.handleError<AlbumsList>(callback, error);
     }
   };
 
@@ -268,7 +297,7 @@ export class MusicsHandler implements IMusicsServer {
     }
   };
 
-  getArtistByGenre = async (call: grpc.ServerUnaryCall<GetArtistByGenreRequest>, callback: grpc.sendUnaryData<ArtistsList>): Promise<void> => {
+  getArtistsByGenre = async (call: grpc.ServerUnaryCall<GetArtistsByGenreRequest>, callback: grpc.sendUnaryData<ArtistsList>): Promise<void> => {
     try {
       const artists = await this.artistsService.getByGenre({ genre: translateGenreEnum(call.request.getGenre()) });
 
@@ -283,15 +312,16 @@ export class MusicsHandler implements IMusicsServer {
       const artist = await this.artistsService.create({
         name: call.request.getName(),
         country: call.request.getCountry(),
-        foundationDate: timestampToDate(call.request.getFoundationdate()),
+        foundationDate: timestampToDate(call.request.getFoundationDate()),
         members: call.request.getMembersList(),
         description: call.request.getDescription(),
         genre: translateGenreEnum(call.request.getGenre()),
         photos: call.request.getPhotosList(),
-        facebookUrl: call.request.getFacebookurl(),
-        twitterUrl: call.request.getTwitterurl(),
-        instagramUrl: call.request.getInstagramurl(),
-        wikipediaUrl: call.request.getWikipediaurl(),
+        facebookUrl: call.request.getFacebookUrl(),
+        twitterUrl: call.request.getTwitterUrl(),
+        instagramUrl: call.request.getInstagramUrl(),
+        wikipediaUrl: call.request.getWikipediaUrl(),
+        font: call.request.getFont(),
       });
 
       this.loggerProvider.info('[CREATE ARTIST]');
@@ -308,15 +338,16 @@ export class MusicsHandler implements IMusicsServer {
         id: call.request.getId(),
         name: call.request.getName() != '' ? call.request.getName() : undefined,
         country: call.request.getCountry() != '' ? call.request.getCountry() : undefined,
-        foundationDate: call.request.getFoundationdate() > 0 ? timestampToDate(call.request.getFoundationdate()) : undefined,
+        foundationDate: call.request.getFoundationDate() > 0 ? timestampToDate(call.request.getFoundationDate()) : undefined,
         members: call.request.getMembersList(),
         description: call.request.getDescription() != '' ? call.request.getDescription() : undefined,
         genre: translateGenreEnum(call.request.getGenre()) > 0 ? translateGenreEnum(call.request.getGenre()) : undefined,
         photos: call.request.getPhotosList(),
-        facebookUrl: call.request.getFacebookurl() != '' ? call.request.getFacebookurl() : undefined,
-        twitterUrl: call.request.getTwitterurl() != '' ? call.request.getTwitterurl() : undefined,
-        instagramUrl: call.request.getInstagramurl() != '' ? call.request.getInstagramurl() : undefined,
-        wikipediaUrl: call.request.getWikipediaurl() != '' ? call.request.getWikipediaurl() : undefined,
+        facebookUrl: call.request.getFacebookUrl() != '' ? call.request.getFacebookUrl() : undefined,
+        twitterUrl: call.request.getTwitterUrl() != '' ? call.request.getTwitterUrl() : undefined,
+        instagramUrl: call.request.getInstagramUrl() != '' ? call.request.getInstagramUrl() : undefined,
+        wikipediaUrl: call.request.getWikipediaUrl() != '' ? call.request.getWikipediaUrl() : undefined,
+        font: call.request.getFont() != '' ? call.request.getFont() : undefined,
       });
 
       this.loggerProvider.info('[UPDATE ARTIST]', { id: artist.id });
@@ -341,7 +372,7 @@ export class MusicsHandler implements IMusicsServer {
 
   favoriteArtist = async (call: grpc.ServerUnaryCall<Id>, callback: grpc.sendUnaryData<Artist>): Promise<void> => {
     try {
-      const artist = await this.artistsService.addFavorite({ id: call.request.getId() });
+      const artist = await this.artistsService.favorite({ id: call.request.getId() });
 
       this.loggerProvider.info('[FAVORITE ARTIST]', { id: artist.id });
 
@@ -353,7 +384,7 @@ export class MusicsHandler implements IMusicsServer {
 
   unfavoriteArtist = async (call: grpc.ServerUnaryCall<Id>, callback: grpc.sendUnaryData<Artist>): Promise<void> => {
     try {
-      const artist = await this.artistsService.removeFavorite({ id: call.request.getId() });
+      const artist = await this.artistsService.unfavorite({ id: call.request.getId() });
 
       this.loggerProvider.info('[UNFAVORITE ARTIST]', { id: artist.id });
 
@@ -365,7 +396,7 @@ export class MusicsHandler implements IMusicsServer {
 
   followArtist = async (call: grpc.ServerUnaryCall<Id>, callback: grpc.sendUnaryData<Artist>): Promise<void> => {
     try {
-      const artist = await this.artistsService.addFollower({ id: call.request.getId() });
+      const artist = await this.artistsService.follow({ id: call.request.getId() });
 
       this.loggerProvider.info('[FOLLOW ARTIST]', { id: artist.id });
 
@@ -377,13 +408,25 @@ export class MusicsHandler implements IMusicsServer {
 
   unfollowArtist = async (call: grpc.ServerUnaryCall<Id>, callback: grpc.sendUnaryData<Artist>): Promise<void> => {
     try {
-      const artist = await this.artistsService.removeFollower({ id: call.request.getId() });
+      const artist = await this.artistsService.unfollow({ id: call.request.getId() });
 
       this.loggerProvider.info('[UNFOLLOW ARTIST]', { id: artist.id });
 
       callback(null, translateArtistEntity(artist));
     } catch (error) {
       this.handleError<Artist>(callback, error);
+    }
+  };
+
+  getMostFollowedArtists = async (call: grpc.ServerUnaryCall<GetMostFollowedArtistsRequest>, callback: grpc.sendUnaryData<ArtistsList>): Promise<void> => {
+    try {
+      const artists = await this.artistsService.getMostFollowed({ limit: call.request.getLimit(), offset: call.request.getOffset() });
+
+      this.loggerProvider.info('[GET MOST FOLLOWED ARTISTS]');
+
+      callback(null, translateArtistEntityList(artists));
+    } catch (error) {
+      this.handleError<ArtistsList>(callback, error);
     }
   };
 }

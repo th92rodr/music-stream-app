@@ -3,7 +3,9 @@ import { status as grpcStatus } from 'grpc';
 import { Album, AlbumsList, Artist, ArtistsList, Genre, Music, MusicsList } from './proto/musics_service_pb';
 import { Playlist, PlaylistsList, Track } from './proto/playlists_service_pb';
 import { AuthenticateUserResponse, User } from './proto/users_service_pb';
+import { FollowingArtists, UserMusic, UserMusicsList } from './proto/users_musics_service_pb';
 import { AuthenticateResponse } from './UsersIntegration/dtos';
+import { GetAllFollowingArtistsResponse, ViewsResponse, ViewsListResponse } from './UsersMusicsIntegration/dtos';
 import { Genre as GenreEnum, HttpStatusCode } from '@constants/index';
 import AlbumEntity from '@entities/Album';
 import ArtistEntity from '@entities/Artist';
@@ -16,16 +18,16 @@ export function translateAlbumEntity(album: Album): AlbumEntity {
   return new AlbumEntity({
     id: album.getId(),
     name: album.getName(),
-    releaseDate: timestampToDate(album.getReleasedate()),
+    releaseDate: timestampToDate(album.getReleaseDate()),
     cover: album.getCover(),
     studio: album.getStudio(),
     producers: album.getProducersList(),
-    artistId: album.getArtistid(),
+    artistId: album.getArtistId(),
     tracks: album.getTracksList().map(track => translateMusicEntity(track)),
   });
 }
 
-export function translateAlbumEntityList(albumsList: AlbumsList): Array<AlbumEntity> {
+export function translateAlbumEntityList(albumsList: AlbumsList): AlbumEntity[] {
   return albumsList.getAlbumsList().map(album => translateAlbumEntity(album));
 }
 
@@ -34,23 +36,24 @@ export function translateArtistEntity(artist: Artist): ArtistEntity {
     id: artist.getId(),
     name: artist.getName(),
     country: artist.getCountry(),
-    foundationDate: timestampToDate(artist.getFoundationdate()),
+    foundationDate: timestampToDate(artist.getFoundationDate()),
     members: artist.getMembersList(),
     description: artist.getDescription(),
     genre: translateGenre(artist.getGenre()),
     photos: artist.getPhotosList(),
-    facebookUrl: artist.getFacebookurl(),
-    twitterUrl: artist.getTwitterurl(),
-    instagramUrl: artist.getInstagramurl(),
-    wikipediaUrl: artist.getWikipediaurl(),
+    facebookUrl: artist.getFacebookUrl(),
+    twitterUrl: artist.getTwitterUrl(),
+    instagramUrl: artist.getInstagramUrl(),
+    wikipediaUrl: artist.getWikipediaUrl(),
+    font: artist.getFont(),
     favorites: artist.getFavorites(),
     followers: artist.getFollowers(),
     albums: artist.getAlbumsList().map(album => translateAlbumEntity(album)),
-    popularTracks: artist.getPopulartracksList().map(track => translateMusicEntity(track)),
+    popularTracks: artist.getPopularTracksList().map(track => translateMusicEntity(track)),
   });
 }
 
-export function translateArtistEntityList(artistsList: ArtistsList): Array<ArtistEntity> {
+export function translateArtistEntityList(artistsList: ArtistsList): ArtistEntity[] {
   return artistsList.getArtistsList().map(artist => translateArtistEntity(artist));
 }
 
@@ -58,16 +61,17 @@ export function translateMusicEntity(music: Music): MusicEntity {
   return new MusicEntity({
     id: music.getId(),
     title: music.getTitle(),
-    durationInSeconds: music.getDurationinseconds(),
+    durationInSeconds: music.getDuration(),
     file: music.getFile(),
     composers: music.getComposersList(),
     lyrics: music.getLyrics(),
-    albumId: music.getAlbumid(),
+    albumId: music.getAlbumId(),
+    artistId: music.getArtistId(),
     views: music.getViews(),
   });
 }
 
-export function translateMusicEntityList(musicsList: MusicsList): Array<MusicEntity> {
+export function translateMusicEntityList(musicsList: MusicsList): MusicEntity[] {
   return musicsList.getMusicsList().map(music => translateMusicEntity(music));
 }
 
@@ -130,12 +134,12 @@ export function translatePlaylistEntity(playlist: Playlist): PlaylistEntity {
   return new PlaylistEntity({
     id: playlist.getId(),
     name: playlist.getName(),
-    userId: playlist.getUserid(),
+    userId: playlist.getUserId(),
     tracks: playlist.getTracksList().map(track => translateTrackEntity(track)),
   });
 }
 
-export function translatePlaylistEntityList(playlistsList: PlaylistsList): Array<PlaylistEntity> {
+export function translatePlaylistEntityList(playlistsList: PlaylistsList): PlaylistEntity[] {
   return playlistsList.getPlaylistsList().map(playlist => translatePlaylistEntity(playlist));
 }
 
@@ -146,6 +150,33 @@ export function translateTrackEntity(track: Track): TrackEntity {
     index: track.getIndex(),
     music: music ? translateMusicEntity(music) : null,
   });
+}
+
+export function translateFollowingArtists(followingArtists: FollowingArtists): GetAllFollowingArtistsResponse {
+  return {
+    userId: followingArtists.getUserId(),
+    artistIds: followingArtists.getArtistsIdList(),
+  };
+}
+
+export function translateViews(userMusic: UserMusic): ViewsResponse {
+  return {
+    userId: userMusic.getUserId(),
+    musicId: userMusic.getMusicId(),
+    views: userMusic.getViews(),
+  };
+}
+
+export function translateViewsList(userId: string, userMusicsList: UserMusicsList): ViewsListResponse {
+  return {
+    userId,
+    music: userMusicsList.getUserMusicsList().map(userMusic => {
+      return {
+        musicId: userMusic.getMusicId(),
+        views: userMusic.getViews(),
+      };
+    }),
+  };
 }
 
 export function translateGrpcError(statusCode?: grpcStatus): HttpStatusCode {

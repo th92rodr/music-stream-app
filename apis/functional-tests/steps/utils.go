@@ -52,6 +52,8 @@ func (t *testFeature) parseArtistData(data *godog.Table) {
 			t.artist.InstagramUrl = parseString(value)
 		case "wikipediaUrl":
 			t.artist.WikipediaUrl = parseString(value)
+		case "font":
+			t.artist.Font = parseString(value)
 		}
 	}
 }
@@ -96,6 +98,8 @@ func (t *testFeature) parseMusicData(data *godog.Table) {
 			t.music.Lyrics = parseString(value)
 		case "albumId":
 			t.music.AlbumId = t.album.Id
+		case "artistId":
+			t.music.ArtistId = t.artist.Id
 		}
 	}
 }
@@ -174,6 +178,7 @@ func validateArtist(sent, received artist, method string) bool {
 			sent.TwitterUrl != received.TwitterUrl ||
 			sent.InstagramUrl != received.InstagramUrl ||
 			sent.WikipediaUrl != received.WikipediaUrl ||
+			sent.Font != received.Font ||
 			received.Id == "" ||
 			received.Favorites != 0 ||
 			received.Followers != 0 {
@@ -195,6 +200,7 @@ func validateArtist(sent, received artist, method string) bool {
 			sent.TwitterUrl != received.TwitterUrl ||
 			sent.InstagramUrl != received.InstagramUrl ||
 			sent.WikipediaUrl != received.WikipediaUrl ||
+			sent.Font != received.Font ||
 			sent.Favorites != received.Favorites ||
 			sent.Followers != received.Followers {
 			return false
@@ -243,6 +249,7 @@ func validateMusic(sent, received music, method string) bool {
 			!compareSlice(sent.Composers, received.Composers) ||
 			sent.Lyrics != received.Lyrics ||
 			sent.AlbumId != received.AlbumId ||
+			sent.ArtistId != received.ArtistId ||
 			received.Id == "" ||
 			received.Views != 0 {
 			return false
@@ -258,6 +265,7 @@ func validateMusic(sent, received music, method string) bool {
 			!compareSlice(sent.Composers, received.Composers) ||
 			sent.Lyrics != received.Lyrics ||
 			sent.AlbumId != received.AlbumId ||
+			sent.ArtistId != received.ArtistId ||
 			sent.Views != received.Views {
 			return false
 		}
@@ -353,6 +361,7 @@ var errors = map[string]string{
 	"description":    "Field description is required.",
 	"members":        "Field members is required.",
 	"photos":         "Field photos is required.",
+	"font":           "Field font is required.",
 	"foundationDate": "Field foundation_date must be a valid date.",
 	"genre":          "Field genre must be a valid genre.",
 	"facebookUrl":    "Field facebook_url must be a valid url.",

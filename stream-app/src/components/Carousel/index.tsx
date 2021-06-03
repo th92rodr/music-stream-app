@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 
+import { api } from '../../services/api';
 import { CarouselItem } from './types';
-import { staticFilesAddress } from '../../services/api';
+import { staticFilesUrl } from '../../utils';
 
 // styles
 import './styles.scss';
@@ -15,26 +16,7 @@ export const Carousel: React.FC = () => {
   const [carousel, setCarousel] = useState<CarouselItem[]>([]);
 
   useEffect(() => {
-    setCarousel([
-      {
-        artist_id: '01',
-        artist_name: 'Sabaton',
-        album_name: 'The Art of War',
-        image: 'sabaton/artist_full_sabaton_4.jpg',
-      },
-      {
-        artist_id: '02',
-        artist_name: 'Korpiklaani',
-        album_name: '',
-        image: 'korpiklaani/artist_full_korpiklaani_2.jpg',
-      },
-      {
-        artist_id: '03',
-        artist_name: 'Black Sabbath',
-        album_name: '',
-        image: 'black-sabbath/artist_full_black-sabbath_1.jpg',
-      },
-    ]);
+    api.get('/trending').then(response => setCarousel(response.data));
   }, []);
 
   return (
@@ -60,6 +42,11 @@ export const Carousel: React.FC = () => {
               next = 0;
             }
 
+            if (carouselItem.album_name === '') {
+              carouselItem.album_name = carouselItem.artist_name;
+              carouselItem.artist_name = '';
+            }
+
             return (
               <li
                 key={carouselItem.artist_id}
@@ -77,7 +64,7 @@ export const Carousel: React.FC = () => {
                   <div className='carousel__bands'>
                     <div className='carousel__bands__unique'>
                       <img
-                        src={`${staticFilesAddress}/files/?file=${carouselItem.image}`}
+                        src={staticFilesUrl(carouselItem.image)}
                         alt={carouselItem.artist_name}
                         loading='lazy'
                       />

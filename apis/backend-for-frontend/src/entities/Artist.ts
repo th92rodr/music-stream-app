@@ -14,12 +14,14 @@ export default class Artist {
   public readonly twitterUrl: string;
   public readonly instagramUrl: string;
   public readonly wikipediaUrl: string;
+  public readonly font: string;
   public readonly favorites: number;
   public readonly followers: number;
   public readonly albums: Array<Album>;
   public readonly popularTracks: Array<Music>;
 
-  constructor({ id, name, country, foundationDate, members, description, genre, photos, facebookUrl, twitterUrl, instagramUrl, wikipediaUrl, favorites, followers, albums, popularTracks }: Artist) {
+  // prettier-ignore
+  constructor({ id, name, country, foundationDate, members, description, genre, photos, facebookUrl, twitterUrl, instagramUrl, wikipediaUrl, font, favorites, followers, albums, popularTracks }: Artist) {
     this.id = id;
     this.name = name;
     this.country = country;
@@ -32,6 +34,7 @@ export default class Artist {
     this.twitterUrl = twitterUrl;
     this.instagramUrl = instagramUrl;
     this.wikipediaUrl = wikipediaUrl;
+    this.font = font;
     this.favorites = favorites;
     this.followers = followers;
     this.albums = albums;

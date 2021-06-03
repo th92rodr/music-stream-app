@@ -1,0 +1,79 @@
+syntax = "proto3";
+
+package proto;
+option go_package = "grpc/proto";
+
+service UsersMusics {
+    rpc FollowArtist (FollowArtistRequest) returns (Empty) {}
+    rpc UnfollowArtist (UnfollowArtistRequest) returns (Empty) {}
+
+    rpc GetFollowingArtist (GetFollowingArtistRequest) returns (FollowingArtist) {}
+    rpc GetAllFollowingArtists (GetAllFollowingArtistsRequest) returns (FollowingArtists) {}
+
+    rpc ViewMusic (ViewMusicRequest) returns (UserMusic) {}
+    rpc GetViews (GetViewsRequest) returns (UserMusic) {}
+
+    rpc GetLastViews (GetLastViewsRequest) returns (UserMusicsList) {}
+    rpc GetMostViews (GetMostViewsRequest) returns (UserMusicsList) {}
+}
+
+message FollowArtistRequest {
+    string user_id = 1;
+    string artist_id = 2;
+}
+
+message UnfollowArtistRequest {
+    string user_id = 1;
+    string artist_id = 2;
+}
+
+message GetFollowingArtistRequest {
+    string user_id = 1;
+    string artist_id = 2;
+}
+
+message GetAllFollowingArtistsRequest {
+    string user_id = 1;
+}
+
+message FollowingArtist {
+    string user_id = 1;
+    string artist_id = 2;
+}
+
+message FollowingArtists {
+    string user_id = 1;
+    repeated string artists_id = 2;
+}
+
+message ViewMusicRequest {
+    string user_id = 1;
+    string music_id = 2;
+}
+
+message GetViewsRequest {
+    string user_id = 1;
+    string music_id = 2;
+}
+
+message GetLastViewsRequest {
+    string user_id = 1;
+    int32 limit = 2;
+}
+
+message GetMostViewsRequest {
+    string user_id = 1;
+    int32 limit = 2;
+}
+
+message UserMusic {
+    string user_id = 1;
+    string music_id = 2;
+    int64 views = 3;
+}
+
+message UserMusicsList {
+    repeated UserMusic user_musics = 1;
+}
+
+message Empty {}

@@ -31,8 +31,8 @@ export class Music extends jspb.Message {
     setId(value: string): Music;
     getTitle(): string;
     setTitle(value: string): Music;
-    getDurationinseconds(): number;
-    setDurationinseconds(value: number): Music;
+    getDuration(): number;
+    setDuration(value: number): Music;
     getFile(): string;
     setFile(value: string): Music;
     clearComposersList(): void;
@@ -41,8 +41,10 @@ export class Music extends jspb.Message {
     addComposers(value: string, index?: number): string;
     getLyrics(): string;
     setLyrics(value: string): Music;
-    getAlbumid(): string;
-    setAlbumid(value: string): Music;
+    getAlbumId(): string;
+    setAlbumId(value: string): Music;
+    getArtistId(): string;
+    setArtistId(value: string): Music;
     getViews(): number;
     setViews(value: number): Music;
 
@@ -60,11 +62,12 @@ export namespace Music {
     export type AsObject = {
         id: string,
         title: string,
-        durationinseconds: number,
+        duration: number,
         file: string,
         composersList: Array<string>,
         lyrics: string,
-        albumid: string,
+        albumId: string,
+        artistId: string,
         views: number,
     }
 }
@@ -94,8 +97,8 @@ export namespace MusicsList {
 export class CreateMusicRequest extends jspb.Message { 
     getTitle(): string;
     setTitle(value: string): CreateMusicRequest;
-    getDurationinseconds(): number;
-    setDurationinseconds(value: number): CreateMusicRequest;
+    getDuration(): number;
+    setDuration(value: number): CreateMusicRequest;
     getFile(): string;
     setFile(value: string): CreateMusicRequest;
     clearComposersList(): void;
@@ -104,8 +107,10 @@ export class CreateMusicRequest extends jspb.Message {
     addComposers(value: string, index?: number): string;
     getLyrics(): string;
     setLyrics(value: string): CreateMusicRequest;
-    getAlbumid(): string;
-    setAlbumid(value: string): CreateMusicRequest;
+    getAlbumId(): string;
+    setAlbumId(value: string): CreateMusicRequest;
+    getArtistId(): string;
+    setArtistId(value: string): CreateMusicRequest;
 
     serializeBinary(): Uint8Array;
     toObject(includeInstance?: boolean): CreateMusicRequest.AsObject;
@@ -120,11 +125,12 @@ export class CreateMusicRequest extends jspb.Message {
 export namespace CreateMusicRequest {
     export type AsObject = {
         title: string,
-        durationinseconds: number,
+        duration: number,
         file: string,
         composersList: Array<string>,
         lyrics: string,
-        albumid: string,
+        albumId: string,
+        artistId: string,
     }
 }
 
@@ -133,8 +139,8 @@ export class UpdateMusicRequest extends jspb.Message {
     setId(value: string): UpdateMusicRequest;
     getTitle(): string;
     setTitle(value: string): UpdateMusicRequest;
-    getDurationinseconds(): number;
-    setDurationinseconds(value: number): UpdateMusicRequest;
+    getDuration(): number;
+    setDuration(value: number): UpdateMusicRequest;
     getFile(): string;
     setFile(value: string): UpdateMusicRequest;
     clearComposersList(): void;
@@ -143,8 +149,10 @@ export class UpdateMusicRequest extends jspb.Message {
     addComposers(value: string, index?: number): string;
     getLyrics(): string;
     setLyrics(value: string): UpdateMusicRequest;
-    getAlbumid(): string;
-    setAlbumid(value: string): UpdateMusicRequest;
+    getAlbumId(): string;
+    setAlbumId(value: string): UpdateMusicRequest;
+    getArtistId(): string;
+    setArtistId(value: string): UpdateMusicRequest;
 
     serializeBinary(): Uint8Array;
     toObject(includeInstance?: boolean): UpdateMusicRequest.AsObject;
@@ -160,11 +168,35 @@ export namespace UpdateMusicRequest {
     export type AsObject = {
         id: string,
         title: string,
-        durationinseconds: number,
+        duration: number,
         file: string,
         composersList: Array<string>,
         lyrics: string,
-        albumid: string,
+        albumId: string,
+        artistId: string,
+    }
+}
+
+export class GetMostViewedMusicsRequest extends jspb.Message { 
+    getLimit(): number;
+    setLimit(value: number): GetMostViewedMusicsRequest;
+    getOffset(): number;
+    setOffset(value: number): GetMostViewedMusicsRequest;
+
+    serializeBinary(): Uint8Array;
+    toObject(includeInstance?: boolean): GetMostViewedMusicsRequest.AsObject;
+    static toObject(includeInstance: boolean, msg: GetMostViewedMusicsRequest): GetMostViewedMusicsRequest.AsObject;
+    static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+    static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+    static serializeBinaryToWriter(message: GetMostViewedMusicsRequest, writer: jspb.BinaryWriter): void;
+    static deserializeBinary(bytes: Uint8Array): GetMostViewedMusicsRequest;
+    static deserializeBinaryFromReader(message: GetMostViewedMusicsRequest, reader: jspb.BinaryReader): GetMostViewedMusicsRequest;
+}
+
+export namespace GetMostViewedMusicsRequest {
+    export type AsObject = {
+        limit: number,
+        offset: number,
     }
 }
 
@@ -173,8 +205,8 @@ export class Album extends jspb.Message {
     setId(value: string): Album;
     getName(): string;
     setName(value: string): Album;
-    getReleasedate(): number;
-    setReleasedate(value: number): Album;
+    getReleaseDate(): number;
+    setReleaseDate(value: number): Album;
     getCover(): string;
     setCover(value: string): Album;
     getStudio(): string;
@@ -183,8 +215,8 @@ export class Album extends jspb.Message {
     getProducersList(): Array<string>;
     setProducersList(value: Array<string>): Album;
     addProducers(value: string, index?: number): string;
-    getArtistid(): string;
-    setArtistid(value: string): Album;
+    getArtistId(): string;
+    setArtistId(value: string): Album;
     clearTracksList(): void;
     getTracksList(): Array<Music>;
     setTracksList(value: Array<Music>): Album;
@@ -204,11 +236,11 @@ export namespace Album {
     export type AsObject = {
         id: string,
         name: string,
-        releasedate: number,
+        releaseDate: number,
         cover: string,
         studio: string,
         producersList: Array<string>,
-        artistid: string,
+        artistId: string,
         tracksList: Array<Music.AsObject>,
     }
 }
@@ -238,8 +270,8 @@ export namespace AlbumsList {
 export class CreateAlbumRequest extends jspb.Message { 
     getName(): string;
     setName(value: string): CreateAlbumRequest;
-    getReleasedate(): number;
-    setReleasedate(value: number): CreateAlbumRequest;
+    getReleaseDate(): number;
+    setReleaseDate(value: number): CreateAlbumRequest;
     getCover(): string;
     setCover(value: string): CreateAlbumRequest;
     getStudio(): string;
@@ -248,8 +280,8 @@ export class CreateAlbumRequest extends jspb.Message {
     getProducersList(): Array<string>;
     setProducersList(value: Array<string>): CreateAlbumRequest;
     addProducers(value: string, index?: number): string;
-    getArtistid(): string;
-    setArtistid(value: string): CreateAlbumRequest;
+    getArtistId(): string;
+    setArtistId(value: string): CreateAlbumRequest;
 
     serializeBinary(): Uint8Array;
     toObject(includeInstance?: boolean): CreateAlbumRequest.AsObject;
@@ -264,11 +296,11 @@ export class CreateAlbumRequest extends jspb.Message {
 export namespace CreateAlbumRequest {
     export type AsObject = {
         name: string,
-        releasedate: number,
+        releaseDate: number,
         cover: string,
         studio: string,
         producersList: Array<string>,
-        artistid: string,
+        artistId: string,
     }
 }
 
@@ -277,8 +309,8 @@ export class UpdateAlbumRequest extends jspb.Message {
     setId(value: string): UpdateAlbumRequest;
     getName(): string;
     setName(value: string): UpdateAlbumRequest;
-    getReleasedate(): number;
-    setReleasedate(value: number): UpdateAlbumRequest;
+    getReleaseDate(): number;
+    setReleaseDate(value: number): UpdateAlbumRequest;
     getCover(): string;
     setCover(value: string): UpdateAlbumRequest;
     getStudio(): string;
@@ -287,8 +319,8 @@ export class UpdateAlbumRequest extends jspb.Message {
     getProducersList(): Array<string>;
     setProducersList(value: Array<string>): UpdateAlbumRequest;
     addProducers(value: string, index?: number): string;
-    getArtistid(): string;
-    setArtistid(value: string): UpdateAlbumRequest;
+    getArtistId(): string;
+    setArtistId(value: string): UpdateAlbumRequest;
 
     serializeBinary(): Uint8Array;
     toObject(includeInstance?: boolean): UpdateAlbumRequest.AsObject;
@@ -304,11 +336,34 @@ export namespace UpdateAlbumRequest {
     export type AsObject = {
         id: string,
         name: string,
-        releasedate: number,
+        releaseDate: number,
         cover: string,
         studio: string,
         producersList: Array<string>,
-        artistid: string,
+        artistId: string,
+    }
+}
+
+export class GetMostRecentAlbumsRequest extends jspb.Message { 
+    getLimit(): number;
+    setLimit(value: number): GetMostRecentAlbumsRequest;
+    getOffset(): number;
+    setOffset(value: number): GetMostRecentAlbumsRequest;
+
+    serializeBinary(): Uint8Array;
+    toObject(includeInstance?: boolean): GetMostRecentAlbumsRequest.AsObject;
+    static toObject(includeInstance: boolean, msg: GetMostRecentAlbumsRequest): GetMostRecentAlbumsRequest.AsObject;
+    static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+    static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+    static serializeBinaryToWriter(message: GetMostRecentAlbumsRequest, writer: jspb.BinaryWriter): void;
+    static deserializeBinary(bytes: Uint8Array): GetMostRecentAlbumsRequest;
+    static deserializeBinaryFromReader(message: GetMostRecentAlbumsRequest, reader: jspb.BinaryReader): GetMostRecentAlbumsRequest;
+}
+
+export namespace GetMostRecentAlbumsRequest {
+    export type AsObject = {
+        limit: number,
+        offset: number,
     }
 }
 
@@ -319,8 +374,8 @@ export class Artist extends jspb.Message {
     setName(value: string): Artist;
     getCountry(): string;
     setCountry(value: string): Artist;
-    getFoundationdate(): number;
-    setFoundationdate(value: number): Artist;
+    getFoundationDate(): number;
+    setFoundationDate(value: number): Artist;
     clearMembersList(): void;
     getMembersList(): Array<string>;
     setMembersList(value: Array<string>): Artist;
@@ -333,14 +388,16 @@ export class Artist extends jspb.Message {
     getPhotosList(): Array<string>;
     setPhotosList(value: Array<string>): Artist;
     addPhotos(value: string, index?: number): string;
-    getFacebookurl(): string;
-    setFacebookurl(value: string): Artist;
-    getTwitterurl(): string;
-    setTwitterurl(value: string): Artist;
-    getInstagramurl(): string;
-    setInstagramurl(value: string): Artist;
-    getWikipediaurl(): string;
-    setWikipediaurl(value: string): Artist;
+    getFacebookUrl(): string;
+    setFacebookUrl(value: string): Artist;
+    getTwitterUrl(): string;
+    setTwitterUrl(value: string): Artist;
+    getInstagramUrl(): string;
+    setInstagramUrl(value: string): Artist;
+    getWikipediaUrl(): string;
+    setWikipediaUrl(value: string): Artist;
+    getFont(): string;
+    setFont(value: string): Artist;
     getFavorites(): number;
     setFavorites(value: number): Artist;
     getFollowers(): number;
@@ -349,10 +406,10 @@ export class Artist extends jspb.Message {
     getAlbumsList(): Array<Album>;
     setAlbumsList(value: Array<Album>): Artist;
     addAlbums(value?: Album, index?: number): Album;
-    clearPopulartracksList(): void;
-    getPopulartracksList(): Array<Music>;
-    setPopulartracksList(value: Array<Music>): Artist;
-    addPopulartracks(value?: Music, index?: number): Music;
+    clearPopularTracksList(): void;
+    getPopularTracksList(): Array<Music>;
+    setPopularTracksList(value: Array<Music>): Artist;
+    addPopularTracks(value?: Music, index?: number): Music;
 
     serializeBinary(): Uint8Array;
     toObject(includeInstance?: boolean): Artist.AsObject;
@@ -369,19 +426,20 @@ export namespace Artist {
         id: string,
         name: string,
         country: string,
-        foundationdate: number,
+        foundationDate: number,
         membersList: Array<string>,
         description: string,
         genre: Genre,
         photosList: Array<string>,
-        facebookurl: string,
-        twitterurl: string,
-        instagramurl: string,
-        wikipediaurl: string,
+        facebookUrl: string,
+        twitterUrl: string,
+        instagramUrl: string,
+        wikipediaUrl: string,
+        font: string,
         favorites: number,
         followers: number,
         albumsList: Array<Album.AsObject>,
-        populartracksList: Array<Music.AsObject>,
+        popularTracksList: Array<Music.AsObject>,
     }
 }
 
@@ -407,21 +465,21 @@ export namespace ArtistsList {
     }
 }
 
-export class GetArtistByGenreRequest extends jspb.Message { 
+export class GetArtistsByGenreRequest extends jspb.Message { 
     getGenre(): Genre;
-    setGenre(value: Genre): GetArtistByGenreRequest;
+    setGenre(value: Genre): GetArtistsByGenreRequest;
 
     serializeBinary(): Uint8Array;
-    toObject(includeInstance?: boolean): GetArtistByGenreRequest.AsObject;
-    static toObject(includeInstance: boolean, msg: GetArtistByGenreRequest): GetArtistByGenreRequest.AsObject;
+    toObject(includeInstance?: boolean): GetArtistsByGenreRequest.AsObject;
+    static toObject(includeInstance: boolean, msg: GetArtistsByGenreRequest): GetArtistsByGenreRequest.AsObject;
     static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
     static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
-    static serializeBinaryToWriter(message: GetArtistByGenreRequest, writer: jspb.BinaryWriter): void;
-    static deserializeBinary(bytes: Uint8Array): GetArtistByGenreRequest;
-    static deserializeBinaryFromReader(message: GetArtistByGenreRequest, reader: jspb.BinaryReader): GetArtistByGenreRequest;
+    static serializeBinaryToWriter(message: GetArtistsByGenreRequest, writer: jspb.BinaryWriter): void;
+    static deserializeBinary(bytes: Uint8Array): GetArtistsByGenreRequest;
+    static deserializeBinaryFromReader(message: GetArtistsByGenreRequest, reader: jspb.BinaryReader): GetArtistsByGenreRequest;
 }
 
-export namespace GetArtistByGenreRequest {
+export namespace GetArtistsByGenreRequest {
     export type AsObject = {
         genre: Genre,
     }
@@ -432,8 +490,8 @@ export class CreateArtistRequest extends jspb.Message {
     setName(value: string): CreateArtistRequest;
     getCountry(): string;
     setCountry(value: string): CreateArtistRequest;
-    getFoundationdate(): number;
-    setFoundationdate(value: number): CreateArtistRequest;
+    getFoundationDate(): number;
+    setFoundationDate(value: number): CreateArtistRequest;
     clearMembersList(): void;
     getMembersList(): Array<string>;
     setMembersList(value: Array<string>): CreateArtistRequest;
@@ -446,14 +504,16 @@ export class CreateArtistRequest extends jspb.Message {
     getPhotosList(): Array<string>;
     setPhotosList(value: Array<string>): CreateArtistRequest;
     addPhotos(value: string, index?: number): string;
-    getFacebookurl(): string;
-    setFacebookurl(value: string): CreateArtistRequest;
-    getTwitterurl(): string;
-    setTwitterurl(value: string): CreateArtistRequest;
-    getInstagramurl(): string;
-    setInstagramurl(value: string): CreateArtistRequest;
-    getWikipediaurl(): string;
-    setWikipediaurl(value: string): CreateArtistRequest;
+    getFacebookUrl(): string;
+    setFacebookUrl(value: string): CreateArtistRequest;
+    getTwitterUrl(): string;
+    setTwitterUrl(value: string): CreateArtistRequest;
+    getInstagramUrl(): string;
+    setInstagramUrl(value: string): CreateArtistRequest;
+    getWikipediaUrl(): string;
+    setWikipediaUrl(value: string): CreateArtistRequest;
+    getFont(): string;
+    setFont(value: string): CreateArtistRequest;
 
     serializeBinary(): Uint8Array;
     toObject(includeInstance?: boolean): CreateArtistRequest.AsObject;
@@ -469,15 +529,16 @@ export namespace CreateArtistRequest {
     export type AsObject = {
         name: string,
         country: string,
-        foundationdate: number,
+        foundationDate: number,
         membersList: Array<string>,
         description: string,
         genre: Genre,
         photosList: Array<string>,
-        facebookurl: string,
-        twitterurl: string,
-        instagramurl: string,
-        wikipediaurl: string,
+        facebookUrl: string,
+        twitterUrl: string,
+        instagramUrl: string,
+        wikipediaUrl: string,
+        font: string,
     }
 }
 
@@ -488,8 +549,8 @@ export class UpdateArtistRequest extends jspb.Message {
     setName(value: string): UpdateArtistRequest;
     getCountry(): string;
     setCountry(value: string): UpdateArtistRequest;
-    getFoundationdate(): number;
-    setFoundationdate(value: number): UpdateArtistRequest;
+    getFoundationDate(): number;
+    setFoundationDate(value: number): UpdateArtistRequest;
     clearMembersList(): void;
     getMembersList(): Array<string>;
     setMembersList(value: Array<string>): UpdateArtistRequest;
@@ -502,14 +563,16 @@ export class UpdateArtistRequest extends jspb.Message {
     getPhotosList(): Array<string>;
     setPhotosList(value: Array<string>): UpdateArtistRequest;
     addPhotos(value: string, index?: number): string;
-    getFacebookurl(): string;
-    setFacebookurl(value: string): UpdateArtistRequest;
-    getTwitterurl(): string;
-    setTwitterurl(value: string): UpdateArtistRequest;
-    getInstagramurl(): string;
-    setInstagramurl(value: string): UpdateArtistRequest;
-    getWikipediaurl(): string;
-    setWikipediaurl(value: string): UpdateArtistRequest;
+    getFacebookUrl(): string;
+    setFacebookUrl(value: string): UpdateArtistRequest;
+    getTwitterUrl(): string;
+    setTwitterUrl(value: string): UpdateArtistRequest;
+    getInstagramUrl(): string;
+    setInstagramUrl(value: string): UpdateArtistRequest;
+    getWikipediaUrl(): string;
+    setWikipediaUrl(value: string): UpdateArtistRequest;
+    getFont(): string;
+    setFont(value: string): UpdateArtistRequest;
 
     serializeBinary(): Uint8Array;
     toObject(includeInstance?: boolean): UpdateArtistRequest.AsObject;
@@ -526,15 +589,39 @@ export namespace UpdateArtistRequest {
         id: string,
         name: string,
         country: string,
-        foundationdate: number,
+        foundationDate: number,
         membersList: Array<string>,
         description: string,
         genre: Genre,
         photosList: Array<string>,
-        facebookurl: string,
-        twitterurl: string,
-        instagramurl: string,
-        wikipediaurl: string,
+        facebookUrl: string,
+        twitterUrl: string,
+        instagramUrl: string,
+        wikipediaUrl: string,
+        font: string,
+    }
+}
+
+export class GetMostFollowedArtistsRequest extends jspb.Message { 
+    getLimit(): number;
+    setLimit(value: number): GetMostFollowedArtistsRequest;
+    getOffset(): number;
+    setOffset(value: number): GetMostFollowedArtistsRequest;
+
+    serializeBinary(): Uint8Array;
+    toObject(includeInstance?: boolean): GetMostFollowedArtistsRequest.AsObject;
+    static toObject(includeInstance: boolean, msg: GetMostFollowedArtistsRequest): GetMostFollowedArtistsRequest.AsObject;
+    static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+    static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+    static serializeBinaryToWriter(message: GetMostFollowedArtistsRequest, writer: jspb.BinaryWriter): void;
+    static deserializeBinary(bytes: Uint8Array): GetMostFollowedArtistsRequest;
+    static deserializeBinaryFromReader(message: GetMostFollowedArtistsRequest, reader: jspb.BinaryReader): GetMostFollowedArtistsRequest;
+}
+
+export namespace GetMostFollowedArtistsRequest {
+    export type AsObject = {
+        limit: number,
+        offset: number,
     }
 }
 

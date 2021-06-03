@@ -14,14 +14,16 @@ interface IMusicsService extends grpc.ServiceDefinition<grpc.UntypedServiceImple
     updateMusic: IMusicsService_IUpdateMusic;
     deleteMusic: IMusicsService_IDeleteMusic;
     viewMusic: IMusicsService_IViewMusic;
+    getMostViewedMusics: IMusicsService_IGetMostViewedMusics;
     getAlbum: IMusicsService_IGetAlbum;
     getAlbums: IMusicsService_IGetAlbums;
     createAlbum: IMusicsService_ICreateAlbum;
     updateAlbum: IMusicsService_IUpdateAlbum;
     deleteAlbum: IMusicsService_IDeleteAlbum;
+    getMostRecentAlbums: IMusicsService_IGetMostRecentAlbums;
     getArtist: IMusicsService_IGetArtist;
     getArtists: IMusicsService_IGetArtists;
-    getArtistByGenre: IMusicsService_IGetArtistByGenre;
+    getArtistsByGenre: IMusicsService_IGetArtistsByGenre;
     createArtist: IMusicsService_ICreateArtist;
     updateArtist: IMusicsService_IUpdateArtist;
     deleteArtist: IMusicsService_IDeleteArtist;
@@ -29,6 +31,7 @@ interface IMusicsService extends grpc.ServiceDefinition<grpc.UntypedServiceImple
     unfavoriteArtist: IMusicsService_IUnfavoriteArtist;
     followArtist: IMusicsService_IFollowArtist;
     unfollowArtist: IMusicsService_IUnfollowArtist;
+    getMostFollowedArtists: IMusicsService_IGetMostFollowedArtists;
 }
 
 interface IMusicsService_IGetMusic extends grpc.MethodDefinition<musics_service_pb.Id, musics_service_pb.Music> {
@@ -85,6 +88,15 @@ interface IMusicsService_IViewMusic extends grpc.MethodDefinition<musics_service
     responseSerialize: grpc.serialize<musics_service_pb.Music>;
     responseDeserialize: grpc.deserialize<musics_service_pb.Music>;
 }
+interface IMusicsService_IGetMostViewedMusics extends grpc.MethodDefinition<musics_service_pb.GetMostViewedMusicsRequest, musics_service_pb.MusicsList> {
+    path: "/proto.Musics/GetMostViewedMusics";
+    requestStream: false;
+    responseStream: false;
+    requestSerialize: grpc.serialize<musics_service_pb.GetMostViewedMusicsRequest>;
+    requestDeserialize: grpc.deserialize<musics_service_pb.GetMostViewedMusicsRequest>;
+    responseSerialize: grpc.serialize<musics_service_pb.MusicsList>;
+    responseDeserialize: grpc.deserialize<musics_service_pb.MusicsList>;
+}
 interface IMusicsService_IGetAlbum extends grpc.MethodDefinition<musics_service_pb.Id, musics_service_pb.Album> {
     path: "/proto.Musics/GetAlbum";
     requestStream: false;
@@ -130,6 +142,15 @@ interface IMusicsService_IDeleteAlbum extends grpc.MethodDefinition<musics_servi
     responseSerialize: grpc.serialize<musics_service_pb.Empty>;
     responseDeserialize: grpc.deserialize<musics_service_pb.Empty>;
 }
+interface IMusicsService_IGetMostRecentAlbums extends grpc.MethodDefinition<musics_service_pb.GetMostRecentAlbumsRequest, musics_service_pb.AlbumsList> {
+    path: "/proto.Musics/GetMostRecentAlbums";
+    requestStream: false;
+    responseStream: false;
+    requestSerialize: grpc.serialize<musics_service_pb.GetMostRecentAlbumsRequest>;
+    requestDeserialize: grpc.deserialize<musics_service_pb.GetMostRecentAlbumsRequest>;
+    responseSerialize: grpc.serialize<musics_service_pb.AlbumsList>;
+    responseDeserialize: grpc.deserialize<musics_service_pb.AlbumsList>;
+}
 interface IMusicsService_IGetArtist extends grpc.MethodDefinition<musics_service_pb.Id, musics_service_pb.Artist> {
     path: "/proto.Musics/GetArtist";
     requestStream: false;
@@ -148,12 +169,12 @@ interface IMusicsService_IGetArtists extends grpc.MethodDefinition<musics_servic
     responseSerialize: grpc.serialize<musics_service_pb.ArtistsList>;
     responseDeserialize: grpc.deserialize<musics_service_pb.ArtistsList>;
 }
-interface IMusicsService_IGetArtistByGenre extends grpc.MethodDefinition<musics_service_pb.GetArtistByGenreRequest, musics_service_pb.ArtistsList> {
-    path: "/proto.Musics/GetArtistByGenre";
+interface IMusicsService_IGetArtistsByGenre extends grpc.MethodDefinition<musics_service_pb.GetArtistsByGenreRequest, musics_service_pb.ArtistsList> {
+    path: "/proto.Musics/GetArtistsByGenre";
     requestStream: false;
     responseStream: false;
-    requestSerialize: grpc.serialize<musics_service_pb.GetArtistByGenreRequest>;
-    requestDeserialize: grpc.deserialize<musics_service_pb.GetArtistByGenreRequest>;
+    requestSerialize: grpc.serialize<musics_service_pb.GetArtistsByGenreRequest>;
+    requestDeserialize: grpc.deserialize<musics_service_pb.GetArtistsByGenreRequest>;
     responseSerialize: grpc.serialize<musics_service_pb.ArtistsList>;
     responseDeserialize: grpc.deserialize<musics_service_pb.ArtistsList>;
 }
@@ -220,6 +241,15 @@ interface IMusicsService_IUnfollowArtist extends grpc.MethodDefinition<musics_se
     responseSerialize: grpc.serialize<musics_service_pb.Artist>;
     responseDeserialize: grpc.deserialize<musics_service_pb.Artist>;
 }
+interface IMusicsService_IGetMostFollowedArtists extends grpc.MethodDefinition<musics_service_pb.GetMostFollowedArtistsRequest, musics_service_pb.ArtistsList> {
+    path: "/proto.Musics/GetMostFollowedArtists";
+    requestStream: false;
+    responseStream: false;
+    requestSerialize: grpc.serialize<musics_service_pb.GetMostFollowedArtistsRequest>;
+    requestDeserialize: grpc.deserialize<musics_service_pb.GetMostFollowedArtistsRequest>;
+    responseSerialize: grpc.serialize<musics_service_pb.ArtistsList>;
+    responseDeserialize: grpc.deserialize<musics_service_pb.ArtistsList>;
+}
 
 export const MusicsService: IMusicsService;
 
@@ -230,14 +260,16 @@ export interface IMusicsServer {
     updateMusic: grpc.handleUnaryCall<musics_service_pb.UpdateMusicRequest, musics_service_pb.Music>;
     deleteMusic: grpc.handleUnaryCall<musics_service_pb.Id, musics_service_pb.Empty>;
     viewMusic: grpc.handleUnaryCall<musics_service_pb.Id, musics_service_pb.Music>;
+    getMostViewedMusics: grpc.handleUnaryCall<musics_service_pb.GetMostViewedMusicsRequest, musics_service_pb.MusicsList>;
     getAlbum: grpc.handleUnaryCall<musics_service_pb.Id, musics_service_pb.Album>;
     getAlbums: grpc.handleUnaryCall<musics_service_pb.Empty, musics_service_pb.AlbumsList>;
     createAlbum: grpc.handleUnaryCall<musics_service_pb.CreateAlbumRequest, musics_service_pb.Album>;
     updateAlbum: grpc.handleUnaryCall<musics_service_pb.UpdateAlbumRequest, musics_service_pb.Album>;
     deleteAlbum: grpc.handleUnaryCall<musics_service_pb.Id, musics_service_pb.Empty>;
+    getMostRecentAlbums: grpc.handleUnaryCall<musics_service_pb.GetMostRecentAlbumsRequest, musics_service_pb.AlbumsList>;
     getArtist: grpc.handleUnaryCall<musics_service_pb.Id, musics_service_pb.Artist>;
     getArtists: grpc.handleUnaryCall<musics_service_pb.Empty, musics_service_pb.ArtistsList>;
-    getArtistByGenre: grpc.handleUnaryCall<musics_service_pb.GetArtistByGenreRequest, musics_service_pb.ArtistsList>;
+    getArtistsByGenre: grpc.handleUnaryCall<musics_service_pb.GetArtistsByGenreRequest, musics_service_pb.ArtistsList>;
     createArtist: grpc.handleUnaryCall<musics_service_pb.CreateArtistRequest, musics_service_pb.Artist>;
     updateArtist: grpc.handleUnaryCall<musics_service_pb.UpdateArtistRequest, musics_service_pb.Artist>;
     deleteArtist: grpc.handleUnaryCall<musics_service_pb.Id, musics_service_pb.Empty>;
@@ -245,6 +277,7 @@ export interface IMusicsServer {
     unfavoriteArtist: grpc.handleUnaryCall<musics_service_pb.Id, musics_service_pb.Artist>;
     followArtist: grpc.handleUnaryCall<musics_service_pb.Id, musics_service_pb.Artist>;
     unfollowArtist: grpc.handleUnaryCall<musics_service_pb.Id, musics_service_pb.Artist>;
+    getMostFollowedArtists: grpc.handleUnaryCall<musics_service_pb.GetMostFollowedArtistsRequest, musics_service_pb.ArtistsList>;
 }
 
 export interface IMusicsClient {
@@ -266,6 +299,9 @@ export interface IMusicsClient {
     viewMusic(request: musics_service_pb.Id, callback: (error: grpc.ServiceError | null, response: musics_service_pb.Music) => void): grpc.ClientUnaryCall;
     viewMusic(request: musics_service_pb.Id, metadata: grpc.Metadata, callback: (error: grpc.ServiceError | null, response: musics_service_pb.Music) => void): grpc.ClientUnaryCall;
     viewMusic(request: musics_service_pb.Id, metadata: grpc.Metadata, options: Partial<grpc.CallOptions>, callback: (error: grpc.ServiceError | null, response: musics_service_pb.Music) => void): grpc.ClientUnaryCall;
+    getMostViewedMusics(request: musics_service_pb.GetMostViewedMusicsRequest, callback: (error: grpc.ServiceError | null, response: musics_service_pb.MusicsList) => void): grpc.ClientUnaryCall;
+    getMostViewedMusics(request: musics_service_pb.GetMostViewedMusicsRequest, metadata: grpc.Metadata, callback: (error: grpc.ServiceError | null, response: musics_service_pb.MusicsList) => void): grpc.ClientUnaryCall;
+    getMostViewedMusics(request: musics_service_pb.GetMostViewedMusicsRequest, metadata: grpc.Metadata, options: Partial<grpc.CallOptions>, callback: (error: grpc.ServiceError | null, response: musics_service_pb.MusicsList) => void): grpc.ClientUnaryCall;
     getAlbum(request: musics_service_pb.Id, callback: (error: grpc.ServiceError | null, response: musics_service_pb.Album) => void): grpc.ClientUnaryCall;
     getAlbum(request: musics_service_pb.Id, metadata: grpc.Metadata, callback: (error: grpc.ServiceError | null, response: musics_service_pb.Album) => void): grpc.ClientUnaryCall;
     getAlbum(request: musics_service_pb.Id, metadata: grpc.Metadata, options: Partial<grpc.CallOptions>, callback: (error: grpc.ServiceError | null, response: musics_service_pb.Album) => void): grpc.ClientUnaryCall;
@@ -281,15 +317,18 @@ export interface IMusicsClient {
     deleteAlbum(request: musics_service_pb.Id, callback: (error: grpc.ServiceError | null, response: musics_service_pb.Empty) => void): grpc.ClientUnaryCall;
     deleteAlbum(request: musics_service_pb.Id, metadata: grpc.Metadata, callback: (error: grpc.ServiceError | null, response: musics_service_pb.Empty) => void): grpc.ClientUnaryCall;
     deleteAlbum(request: musics_service_pb.Id, metadata: grpc.Metadata, options: Partial<grpc.CallOptions>, callback: (error: grpc.ServiceError | null, response: musics_service_pb.Empty) => void): grpc.ClientUnaryCall;
+    getMostRecentAlbums(request: musics_service_pb.GetMostRecentAlbumsRequest, callback: (error: grpc.ServiceError | null, response: musics_service_pb.AlbumsList) => void): grpc.ClientUnaryCall;
+    getMostRecentAlbums(request: musics_service_pb.GetMostRecentAlbumsRequest, metadata: grpc.Metadata, callback: (error: grpc.ServiceError | null, response: musics_service_pb.AlbumsList) => void): grpc.ClientUnaryCall;
+    getMostRecentAlbums(request: musics_service_pb.GetMostRecentAlbumsRequest, metadata: grpc.Metadata, options: Partial<grpc.CallOptions>, callback: (error: grpc.ServiceError | null, response: musics_service_pb.AlbumsList) => void): grpc.ClientUnaryCall;
     getArtist(request: musics_service_pb.Id, callback: (error: grpc.ServiceError | null, response: musics_service_pb.Artist) => void): grpc.ClientUnaryCall;
     getArtist(request: musics_service_pb.Id, metadata: grpc.Metadata, callback: (error: grpc.ServiceError | null, response: musics_service_pb.Artist) => void): grpc.ClientUnaryCall;
     getArtist(request: musics_service_pb.Id, metadata: grpc.Metadata, options: Partial<grpc.CallOptions>, callback: (error: grpc.ServiceError | null, response: musics_service_pb.Artist) => void): grpc.ClientUnaryCall;
     getArtists(request: musics_service_pb.Empty, callback: (error: grpc.ServiceError | null, response: musics_service_pb.ArtistsList) => void): grpc.ClientUnaryCall;
     getArtists(request: musics_service_pb.Empty, metadata: grpc.Metadata, callback: (error: grpc.ServiceError | null, response: musics_service_pb.ArtistsList) => void): grpc.ClientUnaryCall;
     getArtists(request: musics_service_pb.Empty, metadata: grpc.Metadata, options: Partial<grpc.CallOptions>, callback: (error: grpc.ServiceError | null, response: musics_service_pb.ArtistsList) => void): grpc.ClientUnaryCall;
-    getArtistByGenre(request: musics_service_pb.GetArtistByGenreRequest, callback: (error: grpc.ServiceError | null, response: musics_service_pb.ArtistsList) => void): grpc.ClientUnaryCall;
-    getArtistByGenre(request: musics_service_pb.GetArtistByGenreRequest, metadata: grpc.Metadata, callback: (error: grpc.ServiceError | null, response: musics_service_pb.ArtistsList) => void): grpc.ClientUnaryCall;
-    getArtistByGenre(request: musics_service_pb.GetArtistByGenreRequest, metadata: grpc.Metadata, options: Partial<grpc.CallOptions>, callback: (error: grpc.ServiceError | null, response: musics_service_pb.ArtistsList) => void): grpc.ClientUnaryCall;
+    getArtistsByGenre(request: musics_service_pb.GetArtistsByGenreRequest, callback: (error: grpc.ServiceError | null, response: musics_service_pb.ArtistsList) => void): grpc.ClientUnaryCall;
+    getArtistsByGenre(request: musics_service_pb.GetArtistsByGenreRequest, metadata: grpc.Metadata, callback: (error: grpc.ServiceError | null, response: musics_service_pb.ArtistsList) => void): grpc.ClientUnaryCall;
+    getArtistsByGenre(request: musics_service_pb.GetArtistsByGenreRequest, metadata: grpc.Metadata, options: Partial<grpc.CallOptions>, callback: (error: grpc.ServiceError | null, response: musics_service_pb.ArtistsList) => void): grpc.ClientUnaryCall;
     createArtist(request: musics_service_pb.CreateArtistRequest, callback: (error: grpc.ServiceError | null, response: musics_service_pb.Artist) => void): grpc.ClientUnaryCall;
     createArtist(request: musics_service_pb.CreateArtistRequest, metadata: grpc.Metadata, callback: (error: grpc.ServiceError | null, response: musics_service_pb.Artist) => void): grpc.ClientUnaryCall;
     createArtist(request: musics_service_pb.CreateArtistRequest, metadata: grpc.Metadata, options: Partial<grpc.CallOptions>, callback: (error: grpc.ServiceError | null, response: musics_service_pb.Artist) => void): grpc.ClientUnaryCall;
@@ -311,6 +350,9 @@ export interface IMusicsClient {
     unfollowArtist(request: musics_service_pb.Id, callback: (error: grpc.ServiceError | null, response: musics_service_pb.Artist) => void): grpc.ClientUnaryCall;
     unfollowArtist(request: musics_service_pb.Id, metadata: grpc.Metadata, callback: (error: grpc.ServiceError | null, response: musics_service_pb.Artist) => void): grpc.ClientUnaryCall;
     unfollowArtist(request: musics_service_pb.Id, metadata: grpc.Metadata, options: Partial<grpc.CallOptions>, callback: (error: grpc.ServiceError | null, response: musics_service_pb.Artist) => void): grpc.ClientUnaryCall;
+    getMostFollowedArtists(request: musics_service_pb.GetMostFollowedArtistsRequest, callback: (error: grpc.ServiceError | null, response: musics_service_pb.ArtistsList) => void): grpc.ClientUnaryCall;
+    getMostFollowedArtists(request: musics_service_pb.GetMostFollowedArtistsRequest, metadata: grpc.Metadata, callback: (error: grpc.ServiceError | null, response: musics_service_pb.ArtistsList) => void): grpc.ClientUnaryCall;
+    getMostFollowedArtists(request: musics_service_pb.GetMostFollowedArtistsRequest, metadata: grpc.Metadata, options: Partial<grpc.CallOptions>, callback: (error: grpc.ServiceError | null, response: musics_service_pb.ArtistsList) => void): grpc.ClientUnaryCall;
 }
 
 export class MusicsClient extends grpc.Client implements IMusicsClient {
@@ -333,6 +375,9 @@ export class MusicsClient extends grpc.Client implements IMusicsClient {
     public viewMusic(request: musics_service_pb.Id, callback: (error: grpc.ServiceError | null, response: musics_service_pb.Music) => void): grpc.ClientUnaryCall;
     public viewMusic(request: musics_service_pb.Id, metadata: grpc.Metadata, callback: (error: grpc.ServiceError | null, response: musics_service_pb.Music) => void): grpc.ClientUnaryCall;
     public viewMusic(request: musics_service_pb.Id, metadata: grpc.Metadata, options: Partial<grpc.CallOptions>, callback: (error: grpc.ServiceError | null, response: musics_service_pb.Music) => void): grpc.ClientUnaryCall;
+    public getMostViewedMusics(request: musics_service_pb.GetMostViewedMusicsRequest, callback: (error: grpc.ServiceError | null, response: musics_service_pb.MusicsList) => void): grpc.ClientUnaryCall;
+    public getMostViewedMusics(request: musics_service_pb.GetMostViewedMusicsRequest, metadata: grpc.Metadata, callback: (error: grpc.ServiceError | null, response: musics_service_pb.MusicsList) => void): grpc.ClientUnaryCall;
+    public getMostViewedMusics(request: musics_service_pb.GetMostViewedMusicsRequest, metadata: grpc.Metadata, options: Partial<grpc.CallOptions>, callback: (error: grpc.ServiceError | null, response: musics_service_pb.MusicsList) => void): grpc.ClientUnaryCall;
     public getAlbum(request: musics_service_pb.Id, callback: (error: grpc.ServiceError | null, response: musics_service_pb.Album) => void): grpc.ClientUnaryCall;
     public getAlbum(request: musics_service_pb.Id, metadata: grpc.Metadata, callback: (error: grpc.ServiceError | null, response: musics_service_pb.Album) => void): grpc.ClientUnaryCall;
     public getAlbum(request: musics_service_pb.Id, metadata: grpc.Metadata, options: Partial<grpc.CallOptions>, callback: (error: grpc.ServiceError | null, response: musics_service_pb.Album) => void): grpc.ClientUnaryCall;
@@ -348,15 +393,18 @@ export class MusicsClient extends grpc.Client implements IMusicsClient {
     public deleteAlbum(request: musics_service_pb.Id, callback: (error: grpc.ServiceError | null, response: musics_service_pb.Empty) => void): grpc.ClientUnaryCall;
     public deleteAlbum(request: musics_service_pb.Id, metadata: grpc.Metadata, callback: (error: grpc.ServiceError | null, response: musics_service_pb.Empty) => void): grpc.ClientUnaryCall;
     public deleteAlbum(request: musics_service_pb.Id, metadata: grpc.Metadata, options: Partial<grpc.CallOptions>, callback: (error: grpc.ServiceError | null, response: musics_service_pb.Empty) => void): grpc.ClientUnaryCall;
+    public getMostRecentAlbums(request: musics_service_pb.GetMostRecentAlbumsRequest, callback: (error: grpc.ServiceError | null, response: musics_service_pb.AlbumsList) => void): grpc.ClientUnaryCall;
+    public getMostRecentAlbums(request: musics_service_pb.GetMostRecentAlbumsRequest, metadata: grpc.Metadata, callback: (error: grpc.ServiceError | null, response: musics_service_pb.AlbumsList) => void): grpc.ClientUnaryCall;
+    public getMostRecentAlbums(request: musics_service_pb.GetMostRecentAlbumsRequest, metadata: grpc.Metadata, options: Partial<grpc.CallOptions>, callback: (error: grpc.ServiceError | null, response: musics_service_pb.AlbumsList) => void): grpc.ClientUnaryCall;
     public getArtist(request: musics_service_pb.Id, callback: (error: grpc.ServiceError | null, response: musics_service_pb.Artist) => void): grpc.ClientUnaryCall;
     public getArtist(request: musics_service_pb.Id, metadata: grpc.Metadata, callback: (error: grpc.ServiceError | null, response: musics_service_pb.Artist) => void): grpc.ClientUnaryCall;
     public getArtist(request: musics_service_pb.Id, metadata: grpc.Metadata, options: Partial<grpc.CallOptions>, callback: (error: grpc.ServiceError | null, response: musics_service_pb.Artist) => void): grpc.ClientUnaryCall;
     public getArtists(request: musics_service_pb.Empty, callback: (error: grpc.ServiceError | null, response: musics_service_pb.ArtistsList) => void): grpc.ClientUnaryCall;
     public getArtists(request: musics_service_pb.Empty, metadata: grpc.Metadata, callback: (error: grpc.ServiceError | null, response: musics_service_pb.ArtistsList) => void): grpc.ClientUnaryCall;
     public getArtists(request: musics_service_pb.Empty, metadata: grpc.Metadata, options: Partial<grpc.CallOptions>, callback: (error: grpc.ServiceError | null, response: musics_service_pb.ArtistsList) => void): grpc.ClientUnaryCall;
-    public getArtistByGenre(request: musics_service_pb.GetArtistByGenreRequest, callback: (error: grpc.ServiceError | null, response: musics_service_pb.ArtistsList) => void): grpc.ClientUnaryCall;
-    public getArtistByGenre(request: musics_service_pb.GetArtistByGenreRequest, metadata: grpc.Metadata, callback: (error: grpc.ServiceError | null, response: musics_service_pb.ArtistsList) => void): grpc.ClientUnaryCall;
-    public getArtistByGenre(request: musics_service_pb.GetArtistByGenreRequest, metadata: grpc.Metadata, options: Partial<grpc.CallOptions>, callback: (error: grpc.ServiceError | null, response: musics_service_pb.ArtistsList) => void): grpc.ClientUnaryCall;
+    public getArtistsByGenre(request: musics_service_pb.GetArtistsByGenreRequest, callback: (error: grpc.ServiceError | null, response: musics_service_pb.ArtistsList) => void): grpc.ClientUnaryCall;
+    public getArtistsByGenre(request: musics_service_pb.GetArtistsByGenreRequest, metadata: grpc.Metadata, callback: (error: grpc.ServiceError | null, response: musics_service_pb.ArtistsList) => void): grpc.ClientUnaryCall;
+    public getArtistsByGenre(request: musics_service_pb.GetArtistsByGenreRequest, metadata: grpc.Metadata, options: Partial<grpc.CallOptions>, callback: (error: grpc.ServiceError | null, response: musics_service_pb.ArtistsList) => void): grpc.ClientUnaryCall;
     public createArtist(request: musics_service_pb.CreateArtistRequest, callback: (error: grpc.ServiceError | null, response: musics_service_pb.Artist) => void): grpc.ClientUnaryCall;
     public createArtist(request: musics_service_pb.CreateArtistRequest, metadata: grpc.Metadata, callback: (error: grpc.ServiceError | null, response: musics_service_pb.Artist) => void): grpc.ClientUnaryCall;
     public createArtist(request: musics_service_pb.CreateArtistRequest, metadata: grpc.Metadata, options: Partial<grpc.CallOptions>, callback: (error: grpc.ServiceError | null, response: musics_service_pb.Artist) => void): grpc.ClientUnaryCall;
@@ -378,4 +426,7 @@ export class MusicsClient extends grpc.Client implements IMusicsClient {
     public unfollowArtist(request: musics_service_pb.Id, callback: (error: grpc.ServiceError | null, response: musics_service_pb.Artist) => void): grpc.ClientUnaryCall;
     public unfollowArtist(request: musics_service_pb.Id, metadata: grpc.Metadata, callback: (error: grpc.ServiceError | null, response: musics_service_pb.Artist) => void): grpc.ClientUnaryCall;
     public unfollowArtist(request: musics_service_pb.Id, metadata: grpc.Metadata, options: Partial<grpc.CallOptions>, callback: (error: grpc.ServiceError | null, response: musics_service_pb.Artist) => void): grpc.ClientUnaryCall;
+    public getMostFollowedArtists(request: musics_service_pb.GetMostFollowedArtistsRequest, callback: (error: grpc.ServiceError | null, response: musics_service_pb.ArtistsList) => void): grpc.ClientUnaryCall;
+    public getMostFollowedArtists(request: musics_service_pb.GetMostFollowedArtistsRequest, metadata: grpc.Metadata, callback: (error: grpc.ServiceError | null, response: musics_service_pb.ArtistsList) => void): grpc.ClientUnaryCall;
+    public getMostFollowedArtists(request: musics_service_pb.GetMostFollowedArtistsRequest, metadata: grpc.Metadata, options: Partial<grpc.CallOptions>, callback: (error: grpc.ServiceError | null, response: musics_service_pb.ArtistsList) => void): grpc.ClientUnaryCall;
 }

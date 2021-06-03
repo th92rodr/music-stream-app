@@ -25,6 +25,7 @@ type artist struct {
 	TwitterUrl     string   `json:"twitter_url,omitempty"`
 	InstagramUrl   string   `json:"instagram_url,omitempty"`
 	WikipediaUrl   string   `json:"wikipedia_url,omitempty"`
+	Font           string   `json:"font,omitempty"`
 	Favorites      int32    `json:"favorites,omitempty"`
 	Followers      int32    `json:"followers,omitempty"`
 }
@@ -47,6 +48,7 @@ type music struct {
 	Composers []string `json:"composers,omitempty"`
 	Lyrics    string   `json:"lyrics,omitempty"`
 	AlbumId   string   `json:"album_id,omitempty"`
+	ArtistId  string   `json:"artist_id,omitempty"`
 	Views     int32    `json:"views,omitempty"`
 }
 

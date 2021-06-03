@@ -1,26 +1,27 @@
-// prettier-ignore
 import {
-  GetArtistRequest,
-  GetArtistByGenreRequest,
   CreateArtistRequest,
-  UpdateArtistRequest,
   DeleteArtistRequest,
-  AddFavoriteRequest,
-  RemoveFavoriteRequest,
-  AddFollowerRequest,
-  RemoveFollowerRequest,
+  FavoriteArtistRequest,
+  FollowArtistRequest,
+  GetArtistsByGenreRequest,
+  GetArtistRequest,
+  GetMostFollowedArtistsRequest,
+  UnfavoriteArtistRequest,
+  UnfollowArtistRequest,
+  UpdateArtistRequest,
 } from './dtos';
 import Artist from '@entities/Artist';
 
 export default interface IArtistsService {
   get(request: GetArtistRequest): Promise<Artist>;
-  getAll(): Promise<Array<Artist>>;
-  getByGenre(request: GetArtistByGenreRequest): Promise<Array<Artist>>;
+  getAll(): Promise<Artist[]>;
+  getByGenre(request: GetArtistsByGenreRequest): Promise<Artist[]>;
   create(request: CreateArtistRequest): Promise<Artist>;
   update(request: UpdateArtistRequest): Promise<Artist>;
   delete(request: DeleteArtistRequest): Promise<void>;
-  addFavorite(request: AddFavoriteRequest): Promise<Artist>;
-  removeFavorite(request: RemoveFavoriteRequest): Promise<Artist>;
-  addFollower(request: AddFollowerRequest): Promise<Artist>;
-  removeFollower(request: RemoveFollowerRequest): Promise<Artist>;
+  favorite(request: FavoriteArtistRequest): Promise<Artist>;
+  unfavorite(request: UnfavoriteArtistRequest): Promise<Artist>;
+  follow(request: FollowArtistRequest): Promise<Artist>;
+  unfollow(request: UnfollowArtistRequest): Promise<Artist>;
+  getMostFollowed(request: GetMostFollowedArtistsRequest): Promise<Artist[]>;
 }

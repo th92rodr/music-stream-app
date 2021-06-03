@@ -11,12 +11,12 @@
   },
   "dependencies": {
     "cors": "^2.8.5",
-    "dotenv": "^9.0.2",
+    "dotenv": "^10.0.0",
     "express": "^4.17.1",
     "express-handlebars": "^5.2.1",
     "express-rate-limit": "^5.2.6",
-    "google-protobuf": "^3.15.5",
-    "grpc": "^1.24.5",
+    "google-protobuf": "^3.17.2",
+    "grpc": "^1.24.10",
     "helmet": "^4.4.1",
     "jsonwebtoken": "^8.5.1",
     "node-sass": "^6.0.0",
@@ -24,18 +24,18 @@
   },
   "devDependencies": {
     "@types/cors": "^2.8.10",
-    "@types/express": "^4.17.11",
-    "@types/express-handlebars": "^3.1.0",
+    "@types/express": "^4.17.12",
+    "@types/express-handlebars": "^5.3.0",
     "@types/express-rate-limit": "^5.1.1",
     "@types/jsonwebtoken": "^8.5.0",
-    "@typescript-eslint/eslint-plugin": "^4.15.2",
-    "@typescript-eslint/parser": "^4.15.2",
-    "eslint": "7.26.0",
+    "@typescript-eslint/eslint-plugin": "^4.26.0",
+    "@typescript-eslint/parser": "^4.26.0",
+    "eslint": "7.27.0",
     "eslint-import-resolver-typescript": "^2.4.0",
-    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-import": "^2.23.4",
     "prettier": "^2.2.1",
     "ts-node-dev": "^1.1.6",
     "tsconfig-paths": "^3.9.0",
-    "typescript": "^4.2.2"
+    "typescript": "^4.3.2"
   }
 }

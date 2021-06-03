@@ -1,4 +1,4 @@
-import express, { Express, Request, Response, Router } from 'express';
+import express, { Express, Response, Router } from 'express';
 import handlebars from 'express-handlebars';
 import * as http from 'http';
 import path from 'path';
@@ -89,13 +89,13 @@ export default class ExpressStaticFilesChannel implements IStaticFilesChannel {
   private initRouter(): void {
     const router = Router();
 
-    router.get('/web/band', this.artistsController.index.bind(this.artistsController));
-    router.get('/web/band/:id', this.artistsController.show.bind(this.artistsController));
+    router.get('/static/artists', this.artistsController.index.bind(this.artistsController));
+    router.get('/static/artists/:id', this.artistsController.show.bind(this.artistsController));
 
-    router.get('/web/files', this.imagesController.files.bind(this.imagesController));
-    router.get('/web/musics', this.musicsController.stream.bind(this.musicsController));
+    router.get('/static/files', this.imagesController.files.bind(this.imagesController));
+    router.get('/static/musics', this.musicsController.stream.bind(this.musicsController));
 
-    router.use('*', (request: Request, response: Response) => {
+    router.use('*', (_, response: Response) => {
       response.status(HttpStatusCode.NOT_FOUND).render('404-page');
     });
 

@@ -14,27 +14,27 @@
     "knex:seed": "knex --knexfile knexfile.ts seed:run"
   },
   "dependencies": {
-    "dotenv": "^9.0.2",
-    "google-protobuf": "^3.17.0",
-    "grpc": "^1.24.9",
-    "knex": "^0.95.5",
+    "dotenv": "^10.0.0",
+    "google-protobuf": "^3.17.2",
+    "grpc": "^1.24.10",
+    "knex": "^0.95.6",
     "pg": "^8.5.1",
     "uuidv4": "^6.2.8",
     "winston": "^3.3.3"
   },
   "devDependencies": {
     "@types/google-protobuf": "^3.15.2",
-    "@types/node": "^15.0.3",
-    "@typescript-eslint/eslint-plugin": "^4.23.0",
-    "@typescript-eslint/parser": "^4.23.0",
-    "eslint": "7.26.0",
+    "@types/node": "^15.6.2",
+    "@typescript-eslint/eslint-plugin": "^4.26.0",
+    "@typescript-eslint/parser": "^4.26.0",
+    "eslint": "7.27.0",
     "eslint-import-resolver-typescript": "^2.4.0",
-    "eslint-plugin-import": "^2.22.1",
-    "grpc-tools": "^1.10.0",
+    "eslint-plugin-import": "^2.23.4",
+    "grpc-tools": "^1.11.1",
     "grpc_tools_node_protoc_ts": "^5.2.2",
     "prettier": "^2.3.0",
     "ts-node-dev": "^1.1.1",
     "tsconfig-paths": "^3.9.0",
-    "typescript": "^4.1.5"
+    "typescript": "^4.3.2"
   }
 }

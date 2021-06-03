@@ -26,12 +26,18 @@ export default class Validator {
     { field: 'description' },
     { field: 'members' },
     { field: 'photos' },
+    { field: 'font' },
     { field: 'foundation_date', validator: this.validateDate, dataType: 'date' },
     { field: 'genre', validator: this.validateGenre, dataType: 'genre' },
     { field: 'facebook_url', validator: this.validateURL, dataType: 'url' },
     { field: 'twitter_url', validator: this.validateURL, dataType: 'url' },
     { field: 'instagram_url', validator: this.validateURL, dataType: 'url' },
     { field: 'wikipedia_url', validator: this.validateURL, dataType: 'url' },
+  ];
+
+  // prettier-ignore
+  private getArtistsByGenreRequest = [
+    { field: 'genre', validator: this.validateGenre, dataType: 'genre' },
   ];
 
   private albumRequest = [
@@ -51,6 +57,7 @@ export default class Validator {
     { field: 'composers' },
     { field: 'lyrics' },
     { field: 'album_id' },
+    { field: 'artist_id' },
   ];
 
   // prettier-ignore
@@ -82,6 +89,10 @@ export default class Validator {
 
   public validateCreateArtistRequest(request: any): Array<string> {
     return this.validate(request, this.artistRequest);
+  }
+
+  public validateGetArtistsByGenreRequest(request: any): Array<string> {
+    return this.validate(request, this.getArtistsByGenreRequest);
   }
 
   public validateUpdateArtistRequest(request: any): Array<string> {

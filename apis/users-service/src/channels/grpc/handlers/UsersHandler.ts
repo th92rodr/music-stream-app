@@ -22,14 +22,14 @@ import IUsersService from '@services/UsersService/interface';
 export { UsersService } from '../proto/users_service_grpc_pb';
 
 export class UsersHandler implements IUsersServer {
-  private usersService: IUsersService;
   private errorHandler: IErrorHandler;
   private loggerProvider: ILoggerProvider;
+  private usersService: IUsersService;
 
   constructor(usersService: IUsersService, errorHandler: IErrorHandler, loggerProvider: ILoggerProvider) {
-    this.usersService = usersService;
     this.errorHandler = errorHandler;
     this.loggerProvider = loggerProvider;
+    this.usersService = usersService;
   }
 
   private async handleError<T>(callback: grpc.sendUnaryData<T>, error: Error): Promise<void> {

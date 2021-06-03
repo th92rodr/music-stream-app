@@ -3,9 +3,7 @@ export interface Artist {
   name: string;
   country: string;
   foundation_date: Date;
-  foundation_date_str: string;
   members: string[];
-  members_str: string;
   description: string;
   genre: string;
   photos: string[];
@@ -16,22 +14,20 @@ export interface Artist {
   twitter_url: string;
   instagram_url: string;
   wikipedia_url: string;
+  font: string;
   favorites: number;
   followers: number;
   albums: Album[];
   popular_tracks: Music[];
-  font: string;
 }
 
 export interface Album {
   id: string;
   name: string;
   release_date: Date;
-  release_date_str: string;
   cover: string;
   studio: string;
   producers: string[];
-  producers_str: string;
   artist_id: string;
   tracks: Music[];
   number_of_tracks: number;
@@ -42,11 +38,10 @@ export interface Music {
   id: string;
   title: string;
   duration: number;
-  duration_str: string;
   file: string;
   composers: string[];
-  composers_str: string;
   lyrics: string;
   album_id: string;
+  artist_id: string;
   views: number;
 }
