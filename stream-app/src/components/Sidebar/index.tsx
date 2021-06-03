@@ -5,8 +5,11 @@ import './styles.scss';
 
 // icons
 import { ReactComponent as IconHome } from '../../assets/icons/icon-home.svg';
+import { ReactComponent as IconGuitar } from '../../assets/icons/icon-guitar.svg';
 import { ReactComponent as IconLibrary } from '../../assets/icons/icon-library.svg';
+import { ReactComponent as IconRecord } from '../../assets/icons/icon-record.svg';
 import { ReactComponent as IconSearch } from '../../assets/icons/icon-search.svg';
+import { ReactComponent as IconSong } from '../../assets/icons/icon-song.svg';
 import { ReactComponent as IconUser } from '../../assets/icons/icon-user.svg';
 
 export const Sidebar: React.FC = () => {
@@ -42,13 +45,22 @@ export const Sidebar: React.FC = () => {
       <ul className='sidebar__music'>
         <h2 className='sidebar__header'>Your Music</h2>
         <li>
-          <a href='#'>Songs</a>
+          <a href='#'>
+            <IconSong />
+            <span>Songs</span>
+          </a>
         </li>
         <li>
-          <a href='#'>Albums</a>
+          <a href='#'>
+            <IconRecord />
+            <span>Albums</span>
+          </a>
         </li>
         <li>
-          <a href='#'>Artists</a>
+          <a href='#'>
+            <IconGuitar />
+            <span>Artists</span>
+          </a>
         </li>
       </ul>
 
