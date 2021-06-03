@@ -5,24 +5,35 @@ section.current__track {
     position: fixed;
     bottom: 0;
     width: 100%;
-    height: 100px;
+    height: 80px;
     padding: 10px 20px;
     border-top: 1px solid $color-border-main;
     z-index: $z-index-footer-0;
     background: $color-background-main;
     display: grid;
-    grid-template-columns: 300px auto 200px;
+    grid-template-columns: 300px auto 300px;
     grid-template-areas: 'name progress lyrics';
   }
 
   .current__track__name {
-    grid-area: name;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: flex-start;
-    color: $color-text-highlight;
-    font-size: $font-size-small-1;
+    & {
+      grid-area: name;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-start;
+      color: $color-text-highlight;
+    }
+
+    .current__track__name__music {
+      font-size: $font-size-small-1;
+      margin-bottom: 5px;
+    }
+
+    .current__track__name__band {
+      font-size: 13px;
+      letter-spacing: 0.5px;
+    }
   }
 
   .current__track__progress__wrapper {
@@ -46,6 +57,7 @@ section.current__track {
       a {
         & {
           margin: 0 10px;
+          transition: all $transition-duration $transition-timing-function;
         }
 
         svg {
@@ -61,15 +73,16 @@ section.current__track {
 
         &.play {
           svg {
-            width: 30px;
-            height: 30px;
+            width: 24px;
+            height: 24px;
           }
         }
 
         &:hover {
+          cursor: pointer;
+
           svg path {
-            color: $color-text-highlight;
-            cursor: pointer;
+            fill: $color-text-highlight;
           }
         }
       }
@@ -77,7 +90,7 @@ section.current__track {
 
     .current__track__progress {
       & {
-        width: 100%;
+        width: 60%;
         padding: 0 10px;
         display: flex;
         flex-flow: row;
@@ -92,7 +105,7 @@ section.current__track {
 
       .current__track__progress__slider {
         flex: 1;
-        margin: 0 15px;
+        margin: 0 20px;
       }
     }
   }
@@ -101,20 +114,43 @@ section.current__track {
     & {
       grid-area: lyrics;
       display: flex;
-      justify-content: center;
+      justify-content: flex-end;
       align-items: center;
     }
 
+    .volume,
     .lyrics {
       & {
-        font-size: $font-size-small-1;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-        transition: color $transition-duration $transition-timing-function;
+        margin-right: 12px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
       }
 
-      &:hover {
-        color: $color-text-highlight;
+      &:last-of-type {
+        margin-right: unset;
+      }
+
+      svg {
+        & {
+          width: 20px;
+          height: 20px;
+        }
+
+        &:hover {
+          path,
+          circle {
+            stroke: $color-text-highlight;
+          }
+        }
+
+        path,
+        circle {
+          & {
+            stroke: $color-text-main;
+            transition: all $transition-duration $transition-timing-function;
+          }
+        }
       }
     }
   }
