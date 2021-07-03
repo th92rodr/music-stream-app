@@ -49,6 +49,10 @@ export function translateAlbum(album: Album): any {
   };
 }
 
+export function translateAlbums(albums: Album[]): any {
+  return albums.map(album => translateAlbum(album));
+}
+
 export function translateMusic(music: Music): any {
   return {
     id: music.id,

@@ -219,6 +219,7 @@ export default class ExpressRestChannel implements IRestChannel {
   private albumsRoutes(): Router {
     const router = Router();
 
+    router.get('/', this.albumsController.index.bind(this.albumsController));
     router.get('/:id', this.albumsController.show.bind(this.albumsController));
     router.post('/', this.albumsController.create.bind(this.albumsController));
     router.patch('/:id', this.albumsController.update.bind(this.albumsController));
