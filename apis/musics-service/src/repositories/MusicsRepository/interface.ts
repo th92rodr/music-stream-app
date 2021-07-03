@@ -8,4 +8,5 @@ export default interface IMusicsRepository {
   update(music: Music): Promise<void>;
   delete(id: string): Promise<void>;
   findMostViewed(request: PaginationRequest): Promise<Music[]>;
+  findMostViewedByArtist(artistId: string, request: PaginationRequest): Promise<Music[]>;
 }

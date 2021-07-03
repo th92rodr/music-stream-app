@@ -7,6 +7,6 @@ import { albumsRepository, artistsRepository, musicsRepository } from '@reposito
 
 export const albumsService = new AlbumsService(albumsRepository, idProvider);
 
-export const artistsService = new ArtistsService(artistsRepository, idProvider);
+export const artistsService = new ArtistsService(artistsRepository, musicsRepository, idProvider);
 
 export const musicsService = new MusicsService(musicsRepository, idProvider);

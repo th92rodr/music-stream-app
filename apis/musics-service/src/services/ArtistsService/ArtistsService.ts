@@ -16,14 +16,17 @@ import { ErrorArtistNotFound } from '@constants/errors';
 import Artist from '@entities/Artist';
 import IIdProvider from '@providers/IdProvider/interface';
 import IArtistsRepository from '@repositories/ArtistsRepository/interface';
+import IMusicsRepository from '@repositories/MusicsRepository/interface';
 
 export default class ArtistsService implements IArtistsService {
   private artistsRepository: IArtistsRepository;
   private idProvider: IIdProvider;
+  private musicsRepository: IMusicsRepository;
 
-  constructor(artistsRepository: IArtistsRepository, idProvider: IIdProvider) {
+  constructor(artistsRepository: IArtistsRepository, musicsRepository: IMusicsRepository, idProvider: IIdProvider) {
     this.artistsRepository = artistsRepository;
     this.idProvider = idProvider;
+    this.musicsRepository = musicsRepository;
   }
 
   public async get({ id }: GetArtistRequest): Promise<Artist> {
@@ -32,6 +35,10 @@ export default class ArtistsService implements IArtistsService {
     if (!artist) {
       throw new ErrorArtistNotFound(id);
     }
+
+    const musics = await this.musicsRepository.findMostViewedByArtist(id, { limit: 5, offset: 0 });
+
+    artist.setPopularTracks(musics);
 
     return artist;
   }

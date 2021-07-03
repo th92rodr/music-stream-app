@@ -66,4 +66,15 @@ export default class SQLMusicsRepository implements IMusicsRepository {
 
     return translateMusicsList(musics);
   }
+
+  public async findMostViewedByArtist(artistId: string, { limit, offset }: PaginationRequest): Promise<Music[]> {
+    // prettier-ignore
+    const musics = await this.databaseConnection<MusicsDb>(MusicsTable)
+      .where({ artist_id: artistId })
+      .offset(offset)
+      .limit(limit)
+      .orderBy('views', DescendingOrder);
+
+    return translateMusicsList(musics);
+  }
 }
