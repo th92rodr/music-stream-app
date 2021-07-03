@@ -137,4 +137,24 @@ header.header {
       }
     }
   }
+
+  .sign__in__button {
+    & {
+      margin-left: auto;
+    }
+
+    button {
+      & {
+        padding: 5px 15px;
+        border-radius: 12px;
+        border: 1px solid $color-border-main;
+        transition: all $transition-duration;
+      }
+
+      &:hover {
+        color: $color-text-highlight;
+        background-color: $color-background-active;
+      }
+    }
+  }
 }

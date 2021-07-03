@@ -1,4 +1,4 @@
-import React, { createRef } from 'react';
+import React, { createRef, useState } from 'react';
 
 // styles
 import './styles.scss';
@@ -9,6 +9,8 @@ import { ReactComponent as IconChevronDown } from '../../assets/icons/icon-chevr
 export const Header: React.FC = () => {
   const dropdownRef = createRef<HTMLDivElement>();
   const dropdownMenuRef = createRef<HTMLUListElement>();
+
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   function ToggleDropdownMenu() {
     if (dropdownRef.current && dropdownMenuRef.current) {
@@ -38,41 +40,43 @@ export const Header: React.FC = () => {
     <header className='header'>
       <div className='search'>
         <div className='search__inactive'>
-          <input
-            className='search__inactive__input'
-            type='text'
-            placeholder='Search'
-          />
+          <input className='search__inactive__input' type='text' placeholder='Search' />
         </div>
       </div>
 
-      <div className='user'>
-        <div className='user__info'>
-          <span className='user__info__img'>
-            <img src='' alt='' loading='lazy' />
-          </span>
-          <span className='user__info__name'>John Doe</span>
-        </div>
+      {isLoggedIn ? (
+        <div className='user'>
+          <div className='user__info'>
+            <span className='user__info__img'>
+              <img src='' alt='' loading='lazy' />
+            </span>
+            <span className='user__info__name'>John Doe</span>
+          </div>
 
-        <div className='user__actions'>
-          <div className='dropdown' ref={dropdownRef}>
-            <button onClick={ToggleDropdownMenu}>
-              <IconChevronDown />
-            </button>
-            <ul className='dropdown__menu' ref={dropdownMenuRef}>
-              <li>
-                <a href='#'>Account</a>
-              </li>
-              <li>
-                <a href='#'>Settings</a>
-              </li>
-              <li>
-                <a href='#'>Logout</a>
-              </li>
-            </ul>
+          <div className='user__actions'>
+            <div className='dropdown' ref={dropdownRef}>
+              <button onClick={ToggleDropdownMenu}>
+                <IconChevronDown />
+              </button>
+              <ul className='dropdown__menu' ref={dropdownMenuRef}>
+                <li>
+                  <a href='#'>Account</a>
+                </li>
+                <li>
+                  <a href='#'>Settings</a>
+                </li>
+                <li>
+                  <a href='#'>Logout</a>
+                </li>
+              </ul>
+            </div>
           </div>
         </div>
-      </div>
+      ) : (
+        <div className='sign__in__button'>
+          <button>Sign In</button>
+        </div>
+      )}
     </header>
   );
 };
