@@ -1,4 +1,4 @@
-import Knex from 'knex';
+import { Knex } from 'knex';
 
 import IUsersRepository from './interface';
 import { translateUser } from './translators';
