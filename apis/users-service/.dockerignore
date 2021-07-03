@@ -1,0 +1,11 @@
+deploy/
+dist/
+node_modules/
+proto/
+scripts/
+.editorconfig
+.eslintignore
+.eslintrc.json
+.gitignore
+.prettierignore
+.prettierrc.json
