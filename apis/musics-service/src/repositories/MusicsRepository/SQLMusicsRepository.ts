@@ -27,20 +27,12 @@ export default class SQLMusicsRepository implements IMusicsRepository {
     return translateMusic(music);
   }
 
-  public async findAll(paginationRequest?: PaginationRequest): Promise<Music[]> {
-    if (paginationRequest) {
-      const { limit, offset } = paginationRequest;
-
-      // prettier-ignore
-      const musics = await this.databaseConnection<MusicsDb>(MusicsTable)
-        .offset(offset)
-        .limit(limit)
-        .orderBy('title', AscendingOrder);
-
-      return translateMusicsList(musics);
-    }
-
-    const musics = await this.databaseConnection<MusicsDb>(MusicsTable);
+  public async findAll({ limit, offset }: PaginationRequest): Promise<Music[]> {
+    // prettier-ignore
+    const musics = await this.databaseConnection<MusicsDb>(MusicsTable)
+      .offset(offset)
+      .limit(limit)
+      .orderBy('title', AscendingOrder);
 
     return translateMusicsList(musics);
   }
