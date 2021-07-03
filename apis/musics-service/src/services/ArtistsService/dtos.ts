@@ -27,12 +27,19 @@ export interface FollowArtistRequest {
   id: string;
 }
 
+export interface GetAllArtistsRequest {
+  limit: number;
+  offset: number;
+}
+
 export interface GetArtistRequest {
   id: string;
 }
 
 export interface GetArtistsByGenreRequest {
   genre: Genre;
+  limit: number;
+  offset: number;
 }
 
 export interface GetMostFollowedArtistsRequest {

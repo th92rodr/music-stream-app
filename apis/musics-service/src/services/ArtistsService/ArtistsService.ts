@@ -3,6 +3,7 @@ import {
   DeleteArtistRequest,
   FavoriteArtistRequest,
   FollowArtistRequest,
+  GetAllArtistsRequest,
   GetArtistsByGenreRequest,
   GetArtistRequest,
   GetMostFollowedArtistsRequest,
@@ -15,14 +16,17 @@ import { ErrorArtistNotFound } from '@constants/errors';
 import Artist from '@entities/Artist';
 import IIdProvider from '@providers/IdProvider/interface';
 import IArtistsRepository from '@repositories/ArtistsRepository/interface';
+import IMusicsRepository from '@repositories/MusicsRepository/interface';
 
 export default class ArtistsService implements IArtistsService {
   private artistsRepository: IArtistsRepository;
   private idProvider: IIdProvider;
+  private musicsRepository: IMusicsRepository;
 
-  constructor(artistsRepository: IArtistsRepository, idProvider: IIdProvider) {
+  constructor(artistsRepository: IArtistsRepository, musicsRepository: IMusicsRepository, idProvider: IIdProvider) {
     this.artistsRepository = artistsRepository;
     this.idProvider = idProvider;
+    this.musicsRepository = musicsRepository;
   }
 
   public async get({ id }: GetArtistRequest): Promise<Artist> {
@@ -32,15 +36,19 @@ export default class ArtistsService implements IArtistsService {
       throw new ErrorArtistNotFound(id);
     }
 
+    const musics = await this.musicsRepository.findMostViewedByArtist(id, { limit: 5, offset: 0 });
+
+    artist.setPopularTracks(musics);
+
     return artist;
   }
 
-  public async getAll(): Promise<Artist[]> {
-    return this.artistsRepository.findAll();
+  public async getAll({ limit, offset }: GetAllArtistsRequest): Promise<Artist[]> {
+    return this.artistsRepository.findAll({ limit, offset });
   }
 
-  public async getByGenre({ genre }: GetArtistsByGenreRequest): Promise<Artist[]> {
-    return this.artistsRepository.findByGenre(genre);
+  public async getByGenre({ genre, limit, offset }: GetArtistsByGenreRequest): Promise<Artist[]> {
+    return this.artistsRepository.findByGenre(genre, { limit, offset });
   }
 
   public async create({ name, country, foundationDate, members, description, genre, photos, facebookUrl, twitterUrl, instagramUrl, wikipediaUrl, font }: CreateArtistRequest): Promise<Artist> {

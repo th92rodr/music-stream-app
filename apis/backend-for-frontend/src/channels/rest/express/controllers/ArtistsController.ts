@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 
 import { translateArtist, translateArtists } from './translators';
 import Validator from '@channels/rest/middlewares/Validator';
+import Config from '@config/index';
 import { Genre, HttpStatusCode } from '@constants/index';
 import BaseError from '@constants/BaseError';
 import { InternalError } from '@constants/errors';
@@ -19,7 +20,7 @@ export default class ArtistsController {
   }
 
   public async index(request: Request, response: Response) {
-    const { genre } = request.query;
+    const { genre, limit, offset } = request.query;
 
     try {
       let artists: Artist[] = [];
@@ -30,9 +31,16 @@ export default class ArtistsController {
           return response.status(HttpStatusCode.BAD_REQUEST).json({ errors });
         }
 
-        artists = await this.musicsIntegration.getArtistsByGenre({ genre: Genre[genre] });
+        artists = await this.musicsIntegration.getArtistsByGenre({
+          genre: Genre[genre],
+          limit: limit ? Number(limit) : Config.query.defaultLimit,
+          offset: offset ? Number(offset) : Config.query.defaultOffset,
+        });
       } else {
-        artists = await this.musicsIntegration.getArtists();
+        artists = await this.musicsIntegration.getArtists({
+          limit: limit ? Number(limit) : Config.query.defaultLimit,
+          offset: offset ? Number(offset) : Config.query.defaultOffset,
+        });
       }
 
       return response.status(HttpStatusCode.OK).json(translateArtists(artists));

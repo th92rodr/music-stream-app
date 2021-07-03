@@ -1,4 +1,4 @@
-import { CreateMusicRequest, DeleteMusicRequest, GetMostViewedMusicsRequest, GetMusicRequest, UpdateMusicRequest, ViewMusicRequest } from './dtos';
+import { CreateMusicRequest, DeleteMusicRequest, GetAllMusicsRequest, GetMostViewedMusicsRequest, GetMusicRequest, UpdateMusicRequest, ViewMusicRequest } from './dtos';
 import IMusicsService from './interface';
 import { ErrorMusicNotFound } from '@constants/errors';
 import Music from '@entities/Music';
@@ -24,8 +24,8 @@ export default class MusicsService implements IMusicsService {
     return music;
   }
 
-  public async getAll(): Promise<Music[]> {
-    return this.musicsRepository.findAll();
+  public async getAll({ limit, offset }: GetAllMusicsRequest): Promise<Music[]> {
+    return this.musicsRepository.findAll({ limit, offset });
   }
 
   public async create({ title, durationInSeconds, file, composers, lyrics, albumId, artistId }: CreateMusicRequest): Promise<Music> {

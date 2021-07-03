@@ -92,6 +92,17 @@ function deserialize_proto_Empty(buffer_arg) {
   return musics_service_pb.Empty.deserializeBinary(new Uint8Array(buffer_arg));
 }
 
+function serialize_proto_GetAlbumsRequest(arg) {
+  if (!(arg instanceof musics_service_pb.GetAlbumsRequest)) {
+    throw new Error('Expected argument of type proto.GetAlbumsRequest');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_proto_GetAlbumsRequest(buffer_arg) {
+  return musics_service_pb.GetAlbumsRequest.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
 function serialize_proto_GetArtistsByGenreRequest(arg) {
   if (!(arg instanceof musics_service_pb.GetArtistsByGenreRequest)) {
     throw new Error('Expected argument of type proto.GetArtistsByGenreRequest');
@@ -101,6 +112,17 @@ function serialize_proto_GetArtistsByGenreRequest(arg) {
 
 function deserialize_proto_GetArtistsByGenreRequest(buffer_arg) {
   return musics_service_pb.GetArtistsByGenreRequest.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
+function serialize_proto_GetArtistsRequest(arg) {
+  if (!(arg instanceof musics_service_pb.GetArtistsRequest)) {
+    throw new Error('Expected argument of type proto.GetArtistsRequest');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_proto_GetArtistsRequest(buffer_arg) {
+  return musics_service_pb.GetArtistsRequest.deserializeBinary(new Uint8Array(buffer_arg));
 }
 
 function serialize_proto_GetMostFollowedArtistsRequest(arg) {
@@ -134,6 +156,17 @@ function serialize_proto_GetMostViewedMusicsRequest(arg) {
 
 function deserialize_proto_GetMostViewedMusicsRequest(buffer_arg) {
   return musics_service_pb.GetMostViewedMusicsRequest.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
+function serialize_proto_GetMusicsRequest(arg) {
+  if (!(arg instanceof musics_service_pb.GetMusicsRequest)) {
+    throw new Error('Expected argument of type proto.GetMusicsRequest');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_proto_GetMusicsRequest(buffer_arg) {
+  return musics_service_pb.GetMusicsRequest.deserializeBinary(new Uint8Array(buffer_arg));
 }
 
 function serialize_proto_Id(arg) {
@@ -219,10 +252,10 @@ var MusicsService = exports.MusicsService = {
     path: '/proto.Musics/GetMusics',
     requestStream: false,
     responseStream: false,
-    requestType: musics_service_pb.Empty,
+    requestType: musics_service_pb.GetMusicsRequest,
     responseType: musics_service_pb.MusicsList,
-    requestSerialize: serialize_proto_Empty,
-    requestDeserialize: deserialize_proto_Empty,
+    requestSerialize: serialize_proto_GetMusicsRequest,
+    requestDeserialize: deserialize_proto_GetMusicsRequest,
     responseSerialize: serialize_proto_MusicsList,
     responseDeserialize: deserialize_proto_MusicsList,
   },
@@ -296,10 +329,10 @@ var MusicsService = exports.MusicsService = {
     path: '/proto.Musics/GetAlbums',
     requestStream: false,
     responseStream: false,
-    requestType: musics_service_pb.Empty,
+    requestType: musics_service_pb.GetAlbumsRequest,
     responseType: musics_service_pb.AlbumsList,
-    requestSerialize: serialize_proto_Empty,
-    requestDeserialize: deserialize_proto_Empty,
+    requestSerialize: serialize_proto_GetAlbumsRequest,
+    requestDeserialize: deserialize_proto_GetAlbumsRequest,
     responseSerialize: serialize_proto_AlbumsList,
     responseDeserialize: deserialize_proto_AlbumsList,
   },
@@ -362,10 +395,10 @@ var MusicsService = exports.MusicsService = {
     path: '/proto.Musics/GetArtists',
     requestStream: false,
     responseStream: false,
-    requestType: musics_service_pb.Empty,
+    requestType: musics_service_pb.GetArtistsRequest,
     responseType: musics_service_pb.ArtistsList,
-    requestSerialize: serialize_proto_Empty,
-    requestDeserialize: deserialize_proto_Empty,
+    requestSerialize: serialize_proto_GetArtistsRequest,
+    requestDeserialize: deserialize_proto_GetArtistsRequest,
     responseSerialize: serialize_proto_ArtistsList,
     responseDeserialize: deserialize_proto_ArtistsList,
   },

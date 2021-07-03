@@ -3,6 +3,7 @@ import {
   DeleteArtistRequest,
   FavoriteArtistRequest,
   FollowArtistRequest,
+  GetAllArtistsRequest,
   GetArtistsByGenreRequest,
   GetArtistRequest,
   GetMostFollowedArtistsRequest,
@@ -14,7 +15,7 @@ import Artist from '@entities/Artist';
 
 export default interface IArtistsService {
   get(request: GetArtistRequest): Promise<Artist>;
-  getAll(): Promise<Artist[]>;
+  getAll(request: GetAllArtistsRequest): Promise<Artist[]>;
   getByGenre(request: GetArtistsByGenreRequest): Promise<Artist[]>;
   create(request: CreateArtistRequest): Promise<Artist>;
   update(request: UpdateArtistRequest): Promise<Artist>;

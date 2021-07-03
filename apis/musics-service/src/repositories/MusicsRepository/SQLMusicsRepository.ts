@@ -1,4 +1,4 @@
-import Knex from 'knex';
+import { Knex } from 'knex';
 
 import { PaginationRequest } from './dtos';
 import IMusicsRepository from './interface';
@@ -27,20 +27,12 @@ export default class SQLMusicsRepository implements IMusicsRepository {
     return translateMusic(music);
   }
 
-  public async findAll(paginationRequest?: PaginationRequest): Promise<Music[]> {
-    if (paginationRequest) {
-      const { limit, offset } = paginationRequest;
-
-      // prettier-ignore
-      const musics = await this.databaseConnection<MusicsDb>(MusicsTable)
-        .offset(offset)
-        .limit(limit)
-        .orderBy('title', AscendingOrder);
-
-      return translateMusicsList(musics);
-    }
-
-    const musics = await this.databaseConnection<MusicsDb>(MusicsTable);
+  public async findAll({ limit, offset }: PaginationRequest): Promise<Music[]> {
+    // prettier-ignore
+    const musics = await this.databaseConnection<MusicsDb>(MusicsTable)
+      .offset(offset)
+      .limit(limit)
+      .orderBy('title', AscendingOrder);
 
     return translateMusicsList(musics);
   }
@@ -68,6 +60,17 @@ export default class SQLMusicsRepository implements IMusicsRepository {
   public async findMostViewed({ limit, offset }: PaginationRequest): Promise<Music[]> {
     // prettier-ignore
     const musics = await this.databaseConnection<MusicsDb>(MusicsTable)
+      .offset(offset)
+      .limit(limit)
+      .orderBy('views', DescendingOrder);
+
+    return translateMusicsList(musics);
+  }
+
+  public async findMostViewedByArtist(artistId: string, { limit, offset }: PaginationRequest): Promise<Music[]> {
+    // prettier-ignore
+    const musics = await this.databaseConnection<MusicsDb>(MusicsTable)
+      .where({ artist_id: artistId })
       .offset(offset)
       .limit(limit)
       .orderBy('views', DescendingOrder);

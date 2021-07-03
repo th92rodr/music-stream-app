@@ -8,12 +8,15 @@ import {
   FavoriteArtist,
   FollowArtist,
   GetAlbum,
+  GetAlbums,
   GetArtist,
+  GetArtists,
   GetArtistsByGenre,
   GetMostFollowedArtists,
   GetMostRecentAlbums,
   GetMostViewedMusics,
   GetMusic,
+  GetMusics,
   UnfavoriteArtist,
   UnfollowArtist,
   UpdateAlbum,
@@ -27,7 +30,7 @@ import Music from '@entities/Music';
 
 export default interface IMusicsIntegration {
   getMusic(request: GetMusic): Promise<Music>;
-  getMusics(): Promise<Music[]>;
+  getMusics(request: GetMusics): Promise<Music[]>;
   createMusic(request: CreateMusic): Promise<Music>;
   updateMusic(request: UpdateMusic): Promise<Music>;
   deleteMusic(request: DeleteMusic): Promise<void>;
@@ -35,14 +38,14 @@ export default interface IMusicsIntegration {
   getMostViewedMusics(request: GetMostViewedMusics): Promise<Music[]>;
 
   getAlbum(request: GetAlbum): Promise<Album>;
-  getAlbums(): Promise<Album[]>;
+  getAlbums(request: GetAlbums): Promise<Album[]>;
   createAlbum(request: CreateAlbum): Promise<Album>;
   updateAlbum(request: UpdateAlbum): Promise<Album>;
   deleteAlbum(request: DeleteAlbum): Promise<void>;
   getMostRecentAlbums(request: GetMostRecentAlbums): Promise<Album[]>;
 
   getArtist(request: GetArtist): Promise<Artist>;
-  getArtists(): Promise<Artist[]>;
+  getArtists(request: GetArtists): Promise<Artist[]>;
   getArtistsByGenre(request: GetArtistsByGenre): Promise<Artist[]>;
   createArtist(request: CreateArtist): Promise<Artist>;
   updateArtist(request: UpdateArtist): Promise<Artist>;

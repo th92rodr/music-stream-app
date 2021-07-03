@@ -10,12 +10,15 @@ import {
   FavoriteArtist,
   FollowArtist,
   GetAlbum,
+  GetAlbums,
   GetArtist,
+  GetArtists,
   GetArtistsByGenre,
   GetMostFollowedArtists,
   GetMostRecentAlbums,
   GetMostViewedMusics,
   GetMusic,
+  GetMusics,
   UnfavoriteArtist,
   UnfollowArtist,
   UpdateAlbum,
@@ -34,10 +37,13 @@ import {
   CreateArtistRequest,
   CreateMusicRequest,
   Empty,
+  GetAlbumsRequest,
+  GetArtistsRequest,
   GetArtistsByGenreRequest,
   GetMostFollowedArtistsRequest,
   GetMostRecentAlbumsRequest,
   GetMostViewedMusicsRequest,
+  GetMusicsRequest,
   Id,
   Music,
   MusicsList,
@@ -74,9 +80,13 @@ export default class MusicsIntegration implements IMusicsIntegration {
     });
   };
 
-  public getMusics = async (): Promise<MusicEntity[]> => {
+  public getMusics = async ({ limit, offset }: GetMusics): Promise<MusicEntity[]> => {
     return new Promise((resolve, reject) => {
-      this.client.getMusics(new Empty(), (error: Error | null, musicsList: MusicsList) => {
+      const getMusicsRequest = new GetMusicsRequest();
+      getMusicsRequest.setLimit(limit);
+      getMusicsRequest.setOffset(offset);
+
+      this.client.getMusics(getMusicsRequest, (error: Error | null, musicsList: MusicsList) => {
         if (error != null) reject(handleError(error));
         else resolve(translateMusicEntityList(musicsList));
       });
@@ -169,9 +179,13 @@ export default class MusicsIntegration implements IMusicsIntegration {
     });
   };
 
-  public getAlbums = async (): Promise<AlbumEntity[]> => {
+  public getAlbums = async ({ limit, offset }: GetAlbums): Promise<AlbumEntity[]> => {
     return new Promise((resolve, reject) => {
-      this.client.getAlbums(new Empty(), (error: Error | null, albumsList: AlbumsList) => {
+      const getAlbumsRequest = new GetAlbumsRequest();
+      getAlbumsRequest.setLimit(limit);
+      getAlbumsRequest.setOffset(offset);
+
+      this.client.getAlbums(getAlbumsRequest, (error: Error | null, albumsList: AlbumsList) => {
         if (error != null) reject(handleError(error));
         else resolve(translateAlbumEntityList(albumsList));
       });
@@ -250,19 +264,25 @@ export default class MusicsIntegration implements IMusicsIntegration {
     });
   };
 
-  public getArtists = async (): Promise<ArtistEntity[]> => {
+  public getArtists = async ({ limit, offset }: GetArtists): Promise<ArtistEntity[]> => {
     return new Promise((resolve, reject) => {
-      this.client.getArtists(new Empty(), (error: Error | null, artistsList: ArtistsList) => {
+      const getArtistsRequest = new GetArtistsRequest();
+      getArtistsRequest.setLimit(limit);
+      getArtistsRequest.setOffset(offset);
+
+      this.client.getArtists(getArtistsRequest, (error: Error | null, artistsList: ArtistsList) => {
         if (error != null) reject(handleError(error));
         else resolve(translateArtistEntityList(artistsList));
       });
     });
   };
 
-  public getArtistsByGenre = async ({ genre }: GetArtistsByGenre): Promise<ArtistEntity[]> => {
+  public getArtistsByGenre = async ({ genre, limit, offset }: GetArtistsByGenre): Promise<ArtistEntity[]> => {
     return new Promise((resolve, reject) => {
       const getArtistsByGenreRequest = new GetArtistsByGenreRequest();
       getArtistsByGenreRequest.setGenre(translateGenreEnum(genre));
+      getArtistsByGenreRequest.setLimit(limit);
+      getArtistsByGenreRequest.setOffset(offset);
 
       this.client.getArtistsByGenre(getArtistsByGenreRequest, (error: Error | null, artistsList: ArtistsList) => {
         if (error != null) reject(handleError(error));

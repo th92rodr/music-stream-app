@@ -1,7 +1,8 @@
 import { Request, Response } from 'express';
 
-import { translateAlbum } from './translators';
+import { translateAlbum, translateAlbums } from './translators';
 import Validator from '@channels/rest/middlewares/Validator';
+import Config from '@config/index';
 import { HttpStatusCode } from '@constants/index';
 import BaseError from '@constants/BaseError';
 import { InternalError } from '@constants/errors';
@@ -15,6 +16,26 @@ export default class AlbumsController {
   constructor(musicsIntegration: IMusicsIntegration, validator: Validator) {
     this.musicsIntegration = musicsIntegration;
     this.validator = validator;
+  }
+
+  public async index(request: Request, response: Response) {
+    const { limit, offset } = request.query;
+
+    try {
+      const albums = await this.musicsIntegration.getMostRecentAlbums({
+        limit: limit ? Number(limit) : Config.query.defaultLimit,
+        offset: offset ? Number(offset) : Config.query.defaultOffset,
+      });
+
+      return response.status(HttpStatusCode.OK).json(translateAlbums(albums));
+    } catch (error) {
+      if (error instanceof BaseError) {
+        return response.status(error.statusCode).json({ error: error.message });
+      }
+
+      const internalError = new InternalError();
+      return response.status(internalError.statusCode).json({ error: internalError.message });
+    }
   }
 
   public async show(request: Request, response: Response) {

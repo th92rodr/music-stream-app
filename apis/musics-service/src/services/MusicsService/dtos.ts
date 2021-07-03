@@ -12,13 +12,18 @@ export interface DeleteMusicRequest {
   id: string;
 }
 
-export interface GetMusicRequest {
-  id: string;
+export interface GetAllMusicsRequest {
+  limit: number;
+  offset: number;
 }
 
 export interface GetMostViewedMusicsRequest {
   limit: number;
   offset: number;
+}
+
+export interface GetMusicRequest {
+  id: string;
 }
 
 export interface UpdateMusicRequest {

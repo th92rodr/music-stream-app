@@ -1,4 +1,4 @@
-import Knex from 'knex';
+import { Knex } from 'knex';
 
 import { PaginationRequest } from './dtos';
 import IArtistsRepository from './interface';
@@ -31,28 +31,23 @@ export default class SQLArtistsRepository implements IArtistsRepository {
     return translateArtist(artist, albums);
   }
 
-  public async findAll(paginationRequest?: PaginationRequest): Promise<Artist[]> {
-    if (paginationRequest) {
-      const { limit, offset } = paginationRequest;
-
-      // prettier-ignore
-      const artists = await this.databaseConnection<ArtistsDb>(ArtistsTable)
-        .offset(offset)
-        .limit(limit)
-        .orderBy('name', AscendingOrder);
-
-      return translateArtistsList(artists);
-    }
-
-    const artists = await this.databaseConnection<ArtistsDb>(ArtistsTable);
+  public async findAll({ limit, offset }: PaginationRequest): Promise<Artist[]> {
+    // prettier-ignore
+    const artists = await this.databaseConnection<ArtistsDb>(ArtistsTable)
+      .offset(offset)
+      .limit(limit)
+      .orderBy('name', AscendingOrder);
 
     return translateArtistsList(artists);
   }
 
-  public async findByGenre(genre: number): Promise<Artist[]> {
+  public async findByGenre(genre: number, { limit, offset }: PaginationRequest): Promise<Artist[]> {
     // prettier-ignore
     const artists = await  this.databaseConnection<ArtistsDb>(ArtistsTable)
-      .where({ genre });
+      .where({ genre })
+      .offset(offset)
+      .limit(limit)
+      .orderBy('name', AscendingOrder);
 
     return translateArtistsList(artists);
   }

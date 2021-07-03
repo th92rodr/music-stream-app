@@ -15,6 +15,11 @@ export interface GetAlbumRequest {
   id: string;
 }
 
+export interface GetAllAlbumsRequest {
+  limit: number;
+  offset: number;
+}
+
 export interface GetMostRecentAlbumsRequest {
   limit: number;
   offset: number;
