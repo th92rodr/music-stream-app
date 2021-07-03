@@ -1,4 +1,4 @@
-import Knex from 'knex';
+import { Knex } from 'knex';
 
 import { PaginationRequest } from './dtos';
 import IArtistsRepository from './interface';

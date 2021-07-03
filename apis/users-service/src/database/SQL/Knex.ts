@@ -1,11 +1,11 @@
-import knex from 'knex';
+import { Knex, knex } from 'knex';
 
 import IDatabase from './interface';
 import Config from '@config/index';
 import ILoggerProvider from '@providers/LoggerProvider/interface';
 
 export default class KnexDatabase implements IDatabase {
-  private connection: knex;
+  private connection: Knex;
   private loggerProvider: ILoggerProvider;
 
   constructor(loggerProvider: ILoggerProvider) {
@@ -22,7 +22,7 @@ export default class KnexDatabase implements IDatabase {
     this.loggerProvider = loggerProvider;
   }
 
-  public getConnection(): knex {
+  public getConnection(): Knex {
     return this.connection;
   }
 
