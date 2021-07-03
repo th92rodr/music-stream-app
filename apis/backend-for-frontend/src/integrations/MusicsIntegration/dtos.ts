@@ -17,6 +17,11 @@ export interface GetAlbum {
   id: string;
 }
 
+export interface GetAlbums {
+  limit: number;
+  offset: number;
+}
+
 export interface GetMostRecentAlbums {
   limit: number;
   offset: number;
@@ -63,8 +68,15 @@ export interface GetArtist {
   id: string;
 }
 
+export interface GetArtists {
+  limit: number;
+  offset: number;
+}
+
 export interface GetArtistsByGenre {
   genre: Genre;
+  limit: number;
+  offset: number;
 }
 
 export interface GetMostFollowedArtists {
@@ -117,6 +129,11 @@ export interface GetMostViewedMusics {
 
 export interface GetMusic {
   id: string;
+}
+
+export interface GetMusics {
+  limit: number;
+  offset: number;
 }
 
 export interface UpdateMusic {
