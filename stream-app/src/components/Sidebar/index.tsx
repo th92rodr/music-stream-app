@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 // styles
 import './styles.scss';
@@ -17,10 +18,10 @@ export const Sidebar: React.FC = () => {
     <aside className='sidebar'>
       <ul className='sidebar__main'>
         <li>
-          <a href='#'>
+          <Link to='/'>
             <IconHome />
             <span>Home</span>
-          </a>
+          </Link>
         </li>
         <li>
           <a href='#'>

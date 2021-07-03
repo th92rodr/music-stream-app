@@ -1,4 +1,5 @@
 export { AlbumModal } from './AlbumModal';
+export { AlbumsList } from './AlbumsList';
 export { BandsList } from './BandsList';
 export { Carousel } from './Carousel';
 export { CurrentTrack } from './CurrentTrack';

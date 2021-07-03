@@ -1,3 +1,16 @@
+export interface Album {
+  id: string;
+  name: string;
+  release_date: Date;
+  cover: string;
+  studio: string;
+  producers: string[];
+  artist_id: string;
+  tracks: Music[];
+  number_of_tracks: number;
+  full_duration: number;
+}
+
 export interface Artist {
   id: string;
   name: string;
@@ -21,19 +34,6 @@ export interface Artist {
   popular_tracks: Music[];
 }
 
-export interface Album {
-  id: string;
-  name: string;
-  release_date: Date;
-  cover: string;
-  studio: string;
-  producers: string[];
-  artist_id: string;
-  tracks: Music[];
-  number_of_tracks: number;
-  full_duration: number;
-}
-
 export interface Music {
   id: string;
   title: string;
@@ -44,4 +44,10 @@ export interface Music {
   album_id: string;
   artist_id: string;
   views: number;
+}
+
+export interface User {
+  id: string;
+  name: string;
+  email: string;
 }

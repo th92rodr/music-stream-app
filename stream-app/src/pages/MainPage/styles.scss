@@ -30,7 +30,7 @@
 
       .main__header {
         margin-bottom: 20px;
-        font-size: $font-size-large-2;
+        font-size: 56px;
         color: $color-text-highlight;
       }
 
@@ -57,7 +57,7 @@
             color: $color-text-highlight;
           }
 
-          &.is-active {
+          &.active {
             color: $color-text-highlight;
             border-bottom: 3px solid $color-border-active;
           }

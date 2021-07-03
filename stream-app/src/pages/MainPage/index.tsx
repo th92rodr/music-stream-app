@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { BandsList, Carousel, CurrentTrack, Header, Sidebar } from '../../components';
+import { AlbumsList, BandsList, Carousel, CurrentTrack, Header, Sidebar } from '../../components';
 
 // styles
 import './styles.scss';
@@ -14,19 +14,19 @@ export const MainPage: React.FC = () => {
         <Sidebar />
 
         <section className='main__page__main'>
-          <header className='main__header'>Browse</header>
+          <header className='main__header'>Home</header>
 
           <nav className='main__nav'>
-            <a className='link is-active' href='#'>
+            <a className='link active' href='#'>
               Overview
             </a>
-            <a className='link' href='#'>
-              Charts
+            <a className='link' href='#artists'>
+              Artists
             </a>
             <a className='link' href='#'>
               Genres and Moods
             </a>
-            <a className='link' href='#'>
+            <a className='link' href='#new__releases'>
               New Releases
             </a>
             <a className='link' href='#'>
@@ -39,7 +39,14 @@ export const MainPage: React.FC = () => {
 
           <section className='main__content'>
             <Carousel />
-            <BandsList />
+
+            <div id='artists'>
+              <BandsList />
+            </div>
+
+            <div id='new__releases'>
+              <AlbumsList />
+            </div>
           </section>
         </section>
       </section>
