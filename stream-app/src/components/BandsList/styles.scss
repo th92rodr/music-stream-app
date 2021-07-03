@@ -15,7 +15,34 @@
     }
 
     h2 {
-      font-size: $font-size-medium-2;
+      font-size: 40px;
+    }
+  }
+
+  .bands__genre__list {
+    & {
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-start;
+      align-items: center;
+      margin-bottom: 30px;
+    }
+
+    .bands__genre__item {
+      & {
+        padding: 3px 12px;
+        margin-right: 10px;
+        border: 1px solid $color-border-main;
+        border-radius: 12px;
+        transition: all $transition-duration-long;
+        font-size: 15px;
+      }
+
+      &:hover,
+      &.active {
+        background: $color-background-active;
+        color: $color-text-highlight;
+      }
     }
   }
 
