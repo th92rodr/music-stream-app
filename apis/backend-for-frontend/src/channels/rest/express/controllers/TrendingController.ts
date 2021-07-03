@@ -14,9 +14,9 @@ export default class TrendingController {
   }
 
   public async show(request: Request, response: Response) {
-    try {
-      const { limit, offset } = request.query;
+    const { limit, offset } = request.query;
 
+    try {
       switch (request.url) {
         case '/musics':
           const musics = await this.musicsIntegration.getMostViewedMusics({
