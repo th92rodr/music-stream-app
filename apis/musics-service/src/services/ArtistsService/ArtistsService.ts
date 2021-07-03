@@ -3,6 +3,7 @@ import {
   DeleteArtistRequest,
   FavoriteArtistRequest,
   FollowArtistRequest,
+  GetAllArtistsRequest,
   GetArtistsByGenreRequest,
   GetArtistRequest,
   GetMostFollowedArtistsRequest,
@@ -35,12 +36,12 @@ export default class ArtistsService implements IArtistsService {
     return artist;
   }
 
-  public async getAll(): Promise<Artist[]> {
-    return this.artistsRepository.findAll();
+  public async getAll({ limit, offset }: GetAllArtistsRequest): Promise<Artist[]> {
+    return this.artistsRepository.findAll({ limit, offset });
   }
 
-  public async getByGenre({ genre }: GetArtistsByGenreRequest): Promise<Artist[]> {
-    return this.artistsRepository.findByGenre(genre);
+  public async getByGenre({ genre, limit, offset }: GetArtistsByGenreRequest): Promise<Artist[]> {
+    return this.artistsRepository.findByGenre(genre, { limit, offset });
   }
 
   public async create({ name, country, foundationDate, members, description, genre, photos, facebookUrl, twitterUrl, instagramUrl, wikipediaUrl, font }: CreateArtistRequest): Promise<Artist> {
