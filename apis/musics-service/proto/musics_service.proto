@@ -4,7 +4,7 @@ package proto;
 
 service Musics {
     rpc GetMusic (Id) returns (Music) {}
-    rpc GetMusics (Empty) returns (MusicsList) {}
+    rpc GetMusics (GetMusicsRequest) returns (MusicsList) {}
     rpc CreateMusic (CreateMusicRequest) returns (Music) {}
     rpc UpdateMusic (UpdateMusicRequest) returns (Music) {}
     rpc DeleteMusic (Id) returns (Empty) {}
@@ -12,14 +12,14 @@ service Musics {
     rpc GetMostViewedMusics (GetMostViewedMusicsRequest) returns (MusicsList) {}
 
     rpc GetAlbum (Id) returns (Album) {}
-    rpc GetAlbums (Empty) returns (AlbumsList) {}
+    rpc GetAlbums (GetAlbumsRequest) returns (AlbumsList) {}
     rpc CreateAlbum (CreateAlbumRequest) returns (Album) {}
     rpc UpdateAlbum (UpdateAlbumRequest) returns (Album) {}
     rpc DeleteAlbum (Id) returns (Empty) {}
     rpc GetMostRecentAlbums (GetMostRecentAlbumsRequest) returns (AlbumsList) {}
 
     rpc GetArtist (Id) returns (Artist) {}
-    rpc GetArtists (Empty) returns (ArtistsList) {}
+    rpc GetArtists (GetArtistsRequest) returns (ArtistsList) {}
     rpc GetArtistsByGenre (GetArtistsByGenreRequest) returns (ArtistsList) {}
     rpc CreateArtist (CreateArtistRequest) returns (Artist) {}
     rpc UpdateArtist (UpdateArtistRequest) returns (Artist) {}
@@ -72,10 +72,17 @@ message UpdateMusicRequest {
     string artist_id = 8;
 }
 
+message GetMusicsRequest {
+    int64 limit = 1;
+    int64 offset = 2;
+}
+
 message GetMostViewedMusicsRequest {
     int64 limit = 1;
     int64 offset = 2;
 }
+
+
 
 message Album {
     string id = 1;
@@ -111,10 +118,17 @@ message UpdateAlbumRequest {
     string artist_id = 7;
 }
 
+message GetAlbumsRequest {
+    int64 limit = 1;
+    int64 offset = 2;
+}
+
 message GetMostRecentAlbumsRequest {
     int64 limit = 1;
     int64 offset = 2;
 }
+
+
 
 message Artist {
     string id = 1;
@@ -138,10 +152,6 @@ message Artist {
 
 message ArtistsList {
     repeated Artist artists = 1;
-}
-
-message GetArtistsByGenreRequest {
-    Genre genre = 1;
 }
 
 message CreateArtistRequest {
@@ -175,10 +185,23 @@ message UpdateArtistRequest {
     string font = 13;
 }
 
+message GetArtistsRequest {
+    int64 limit = 1;
+    int64 offset = 2;
+}
+
+message GetArtistsByGenreRequest {
+    Genre genre = 1;
+    int64 limit = 2;
+    int64 offset = 3;
+}
+
 message GetMostFollowedArtistsRequest {
     int64 limit = 1;
     int64 offset = 2;
 }
+
+
 
 enum Genre {
     Heavy_Metal = 0;
