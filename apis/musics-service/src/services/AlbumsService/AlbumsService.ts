@@ -1,4 +1,4 @@
-import { CreateAlbumRequest, DeleteAlbumRequest, GetAlbumRequest, GetMostRecentAlbumsRequest, UpdateAlbumRequest } from './dtos';
+import { CreateAlbumRequest, DeleteAlbumRequest, GetAlbumRequest, GetAllAlbumsRequest, GetMostRecentAlbumsRequest, UpdateAlbumRequest } from './dtos';
 import IAlbumsService from './interface';
 import { ErrorAlbumNotFound } from '@constants/errors';
 import Album from '@entities/Album';
@@ -24,8 +24,8 @@ export default class AlbumsService implements IAlbumsService {
     return album;
   }
 
-  public async getAll(): Promise<Album[]> {
-    return this.albumsRepository.findAll();
+  public async getAll({ limit, offset }: GetAllAlbumsRequest): Promise<Album[]> {
+    return this.albumsRepository.findAll({ limit, offset });
   }
 
   public async create({ name, releaseDate, cover, studio, producers, artistId }: CreateAlbumRequest): Promise<Album> {
