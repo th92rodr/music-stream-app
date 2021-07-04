@@ -1,0 +1,24 @@
+{
+  "channels": {
+    "grpc": {
+      "port": 6568
+    }
+  },
+
+  "database": {
+    "host": "",
+    // Local "localhost"
+    // Docker <DOCKER_CONTAINER_NAME>
+    "port": "5432",
+    "user": "",
+    "password": "",
+    "name": "",
+    "kind": "postgres"
+  },
+
+  "integrations": {
+    "musics_service_address": ""
+    // Local: "localhost:<PORT>"
+    // Docker: "<DOCKER_CONTAINER_NAME>:<PORT>"
+  }
+}
