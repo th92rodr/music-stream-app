@@ -1,6 +1,8 @@
+# Database Init
+
 - Start database docker container:
 
-```
+```sh
 docker-compose up -d
 ```
 
